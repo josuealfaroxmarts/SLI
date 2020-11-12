@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>	
+
+
+    <record id="view_fleet_mro_order_task_time_filter" model="ir.ui.view">
+	<field name="name">fleet.mro.order.task.time.search</field>
+	<field name="model">fleet.mro.order.task.time</field>
+	<field name="type">search</field>
+	<field name="arch" type="xml">
+	    <search string="Tasks times">
+		<field name="hr_employee_id" select="1"/>
+		<field name="order_id" select="1"/>
+		<field name="vehicle_id" select="1"/>
+		<separator/>
+		<filter string="Draft" domain="[('state','=','draft')]" name="state_draft"/>
+		<filter string="Process" domain="[('state','=','process')]" name="state_process"/>
+		<filter string="Paused" domain="[('state','=','pause')]" name="state_pause"/>
+		<filter string="Ended" domain="[('state','=','end')]"/>
+		<filter string="Cancel" domain="[('state','=','cancel')]"/>
+		<separator/>
+		<filter string="This month" domain="[('date','&gt;=', time.strftime('%%Y-%%m-01'))]" name="this_month" />
+		<group expand="0" string="Group By..." >
+		    <filter string="Service Order" domain="[]" context="{'group_by':'order_id'}" name="groupby_order_id"/>
+		    <filter string="Vehicle" domain="[]" context="{'group_by':'vehicle_id'}" name="groupby_vehicle_id"/>
+		    <filter string="Mechanic" domain="[]" context="{'group_by':'hr_employee_id'}" name="groupby_hr_employee_id"/>
+		    <filter string="Driver" domain="[]" context="{'group_by':'driver_id'}"/>
+		    <separator orientation="vertical"/>
+		    <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+		    <filter string="Period" domain="[]" context="{'group_by':'date'}"/>
+		</group>
+   	    </search>
+	</field>
+    </record>
+
+                            ### FORM ###
+    <record model="ir.ui.view" id="view_fleet_mro_order_task_time_form">
+	<field name="name">fleet.mro.order.task.time.form</field>
+	<field name="model">fleet.mro.order.task.time</field>
+	<field name="type">form</field>
+	<field name="arch" type="xml">
+	    <form string="Tasks times">
+		<header>
+  		    <button string="Start"    name="action_start"   states="draft"    type="object" /> 
+            <button string="Pause" name="%(action_fleet_mro_order_task_time_pause_wizard)d" type="action" 
+                            states="process" context="{'default_control_time_id': active_id}" icon="fa-ticket"/>
+		    <button string="Continue" name="action_process" states="pause"    type="object" /> 
+		    <button string="End"      name="action_done"     states="process" type="object" />
+		    <field name="state" widget="statusbar" statusbar_visible="process,pause,end"/> 
+		</header>
+		<sheet>
+		    <group col="4">
+                <field name="order_id" />
+                <field name="vehicle_id" />
+                <field name="task_id" colspan="4"/>
+                <field name="hr_employee_id"/>
+                <field name="hours_mechanic" widget="float_time"/>
+                <field name="hr_employee_user_id"  invisible="1"/>
+                <field name="price_unit" />
+                <field name="total_duration" widget="float_time" invisible="1"/>
+                <field name="amount" />                
+                
+                
+                <!--<field name="name_order" invisible="1"/>
+                <field name="name_active" invisible="1"/>-->
+		    </group>
+		    <group col="4">
+			<field name="task_time_time_ids" nolabel="1" />
+		    </group>
+		</sheet>
+	    </form><!--### Fin Etiqueta Form ###-->
+	</field>
+    </record>
+        
+############################################################################################################################
+                            ### TREE ###
+        <record model="ir.ui.view" id="view_fleet_mro_order_task_time_tree">
+            <field name="name">fleet.mro.order.task.time.tree</field>
+            <field name="model">fleet.mro.order.task.time</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Tasks times">
+                    <field name="hr_employee_id" />
+                    <field name="order_id" />
+                    <field name="task_id" />
+                    <field name="vehicle_id" />
+                    <field name="date_start" />
+                    <field name="date_end" />
+                    <field name="hours_mechanic" widget="float_time"/>
+                    <field name="hr_employee_user_id" invisible="1" />
+                    <field name="state" />
+                    <button string="Start" name="action_start" states="draft" icon="fa-arrow-right" type="object" />
+					<button string="Pause" name="%(action_fleet_mro_order_task_time_pause_wizard)d" type="action" 
+                            states="process" context="{'default_control_time_id': active_id}" icon="fa-ticket"/>
+                    <!--<button string="Pause"    name="action_pause"   states="process" icon="gtk-media-pause" type="object" /> -->
+                    <button string="Continue" name="action_process" states="pause"   icon="fa-arrow-right"        type="object" /> 
+                    <button string="End"      name="action_done"     states="process" icon="fa-sign-out" type="object" />
+              
+		      </tree>
+	       </field>
+        </record>
+
+############################################################################################################################
+                            ### Calendar View ###
+        <record id="view_tms_kiosk_calendar" model="ir.ui.view">
+            <field name="name">fleet.mro.order.task.time.calendar</field>
+            <field name="model">fleet.mro.order.task.time</field>
+            <field name="arch" type="xml">
+                <calendar string="Task Calendar Times" color="hr_employee_id" date_start="date_start">
+                    <field name="hr_employee_id"/>
+                    <field name="order_id"/>
+                    <field name="task_id"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+############################################################################################################################
+                            ### ACTION ###
+    <record model="ir.actions.act_window" id="fleet_mro_order_task_time_action">
+        <field name="name">Tasks by Mechanics</field>
+        <field name="res_model">fleet.mro.order.task.time</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="context">{'search_default_state_draft': 1,'search_default_state_process': 1,'search_default_state_pause': 1, 'search_default_groupby_hr_employee_id': 1, 'search_default_groupby_vehicle_id': 1}</field>
+    </record>    
+############################################################################################################################
+                            ### MENUS ###
+
+	
+	<menuitem action="fleet_mro_order_task_time_action" id="menu_fleet_mro_order_task_time" name="Tasks by Mechanics" parent="menu_fleet_mro_kiosk" sequence="4" />
+############################################################################################################################
+
+
+
+
+    </data>
+</openerp>

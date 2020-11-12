@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>	
+        <!--
+        ##################################################
+        # fleet.mro.order.analysis                       #
+        ##################################################
+            -->
+    <record model="ir.ui.view" id="fleet_mro_order_analysis_pivot">
+        <field name="name">fleet.mro.order.analysis.pivot</field>
+        <field name="model">fleet.mro.order.analysis</field>
+        <field name="arch" type="xml">
+            <pivot string="Fleet MRO Maintenance Order Analisys" display_quantity="true">
+                <field name="date" type="col"/>
+                <field name="mro_type_id" type="col"/>
+                <field name="partner_id" type="row"/>
+                <field name="vehicle_id" type="row"/>
+                <field name="amount_untaxed" type="measure" />
+                <field name="costs_all" type="measure" />
+                <field name="profit_or_loss" type="measure" />
+             </pivot>
+         </field>
+    </record>
+        
+
+    <record model="ir.ui.view" id="fleet_mro_order_analysis_graph">
+        <field name="name">fleet.mro.order.analysis.graph</field>
+        <field name="model">fleet.mro.order.analysis</field>
+        <field name="arch" type="xml">
+            <graph string="Fleet MRO Order Analisys" type="bar">
+                <field name="date" group="True"/>
+                <field name="mro_type_id" group="True"/>
+                <field name="partner_id" group="True" />
+                <field name="amount_untaxed" type="measure" />
+                <field name="costs_all" type="measure" />
+                <field name="profit_or_loss" type="measure" />
+             </graph>
+         </field>
+    </record>
+
+
+    <record id="view_fleet_mro_order_analysis_search" model="ir.ui.view">
+        <field name="name">fleet.mro.order.analysis.search</field>
+        <field name="model">fleet.mro.order.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Fleet MRO Order Analisys">
+                <field name="name" />
+                <field name="mro_type_id" />
+                <field name="vehicle_id" />
+                <field name="driver_id"/>
+                <field name="user_id" />
+                <filter string="Date in this month" domain="[('date','&gt;=', time.strftime('%%Y-%%m-01'))]" name="this_month" />
+                <filter string="Start Date in this month" domain="[('date_start_real','&gt;=', time.strftime('%%Y-%%m-01'))]" />
+                <filter string="End Date in this month" domain="[('date_end_real','&gt;=', time.strftime('%%Y-%%m-01'))]" />
+                <group expand="1" string="Group By...">
+                    <filter string="Fleet MRO Order"     context="{'group_by':'name'}"/>
+                    <filter string="Service Type"    context="{'group_by':'mro_type_id'}" name="groupby_mro_type_id"/>
+                    <filter string="Vehicle"       context="{'group_by':'vehicle_id'}"/>
+                    <filter string="Driver"       context="{'group_by':'driver_id'}"/>
+                    <filter string="User"       context="{'group_by':'user_id'}"/>
+                    <filter string="Period"     context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="fleet_mro_order_analysis_action" model="ir.actions.act_window">
+        <field name="name">Maintenance Order Analysis</field>
+        <field name="res_model">fleet.mro.order.analysis</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_fleet_mro_order_analysis_search"/>
+        <field name="view_id"        ref="fleet_mro_order_analysis_pivot"/>
+        <field name="context">{'search_default_this_month': 1, 'search_default_groupby_mro_type_id':1}</field>
+    </record>
+	
+	<menuitem action="fleet_mro_order_analysis_action" id="menu_fleet_mro_order_analysis" parent="menu_fleet_mro_analysis" sequence="10"/>
+
+        
+    <!--
+    ##################################################
+    # fleet.mro.order.task.analysis #
+    ##################################################
+    -->
+
+    <record model="ir.ui.view" id="fleet_mro_order_task_analysis_pivot">
+        <field name="name">fleet.mro.order.task.analysis.pivot</field>
+        <field name="model">fleet.mro.order.task.analysis</field>
+        <field name="arch" type="xml">
+            <pivot string="Fleet MRO Service Order Tasks Analisys" display_quantity="true">
+                <field name="date" type="col"/>
+                <field name="mro_type_id" type="col"/>
+                <field name="partner_id" type="row"/>
+                <field name="vehicle_id" type="row"/>
+                <field name="task_id" type="row"/>
+                <field name="income_all" type="measure" />
+                <field name="cost_all" type="measure" />
+                <field name="profit_loss" type="measure" />
+             </pivot>
+         </field>
+    </record>
+        
+##################################################
+                            ### GRAPH ###
+
+    <record model="ir.ui.view" id="fleet_mro_order_task_analysis_graph">
+        <field name="name">fleet.mro.order.task.analysis.graph</field>
+        <field name="model">fleet.mro.order.task.analysis</field>
+        <field name="arch" type="xml">
+            <graph string="Fleet MRO Service Order Tasks Analisys" type="bar">
+                <field name="mro_type_id" group="True"/> 
+                <field name="partner_id" group="True"/> 
+                <field name="vehicle_id" group="True"/>
+                <field name="income_all" type="measure" />
+                <field name="cost_all" type="measure" />
+                <field name="profit_loss" type="measure" />
+             </graph>
+         </field>
+    </record>
+
+##################################################
+                            ### SEARCH ###
+
+    <record id="view_fleet_mro_order_task_analysis_search" model="ir.ui.view">
+        <field name="name">fleet.mro.order.task.analysis.search</field>
+        <field name="model">fleet.mro.order.task.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Fleet MRO Service Order Tasks Analisys">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="task_id" />
+                <field name="vehicle_id" />
+                <field name="driver_id"/>
+                <field name="user_id" />
+                <filter string="This month" domain="[('date','&gt;=', time.strftime('%%Y-%%m-01'))]" name="this_month" />
+                <group expand="1" string="Group By...">
+                    <filter string="Fleet MRO Order"     context="{'group_by':'name'}"/>
+                    <filter string="Task"    context="{'group_by':'task_id'}" name="groupby_task"/>
+                    <filter string="Vehicle"       context="{'group_by':'vehicle_id'}"/>
+                    <filter string="Driver"       context="{'group_by':'driver_id'}"/>
+                    <filter string="User"       context="{'group_by':'user_id'}"/>
+                    <filter string="Period"     context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+##################################################
+                            ### ACTION ###
+
+    <record id="fleet_mro_order_task_analysis_action" model="ir.actions.act_window">
+        <field name="name">Maintenance Tasks Analisys</field>
+        <field name="res_model">fleet.mro.order.task.analysis</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_fleet_mro_order_task_analysis_search"/>
+        <field name="view_id"        ref="fleet_mro_order_task_analysis_pivot"/>
+        <field name="context">{'search_default_this_month': 1, 'search_default_groupby_task':1}</field>
+    </record>
+##################################################
+                            ### MENUS ###
+	
+	<menuitem action="fleet_mro_order_task_analysis_action" id="menu_fleet_mro_order_task_analysis" parent="menu_fleet_mro_analysis" sequence="11"/>
+##################################################
+        
+        
+        
+    <!--    
+    ##################################################
+    #fleet.mro.order.analysis.spare_parts#
+    ##################################################
+    -->
+    <record model="ir.ui.view" id="fleet_mro_order_analysis_spare_parts_pivot">
+        <field name="name">fleet.mro.order.analysis.spare_parts.pivot</field>
+        <field name="model">fleet.mro.order.analysis.spare_parts</field>
+        <field name="arch" type="xml">
+            <pivot string="Fleet MRO Spare Parts Analisys" display_quantity="true">
+                <field name="date" type="col"/>
+                <field name="vehicle_id" type="row"/>
+                <field name="quantity" type="measure"/>
+                <field name="price_unit" type="measure" operator="avg"/>
+                <field name="income_amount" type="measure" />
+                <field name="expense_amount" type="measure" />
+             </pivot>
+         </field>
+    </record>
+        
+
+    <record model="ir.ui.view" id="fleet_mro_order_analysis_spare_parts_graph">
+        <field name="name">fleet.mro.order.analysis.spare_parts.graph</field>
+        <field name="model">fleet.mro.order.analysis.spare_parts</field>
+        <field name="arch" type="xml">
+            <graph string="Fleet MRO Spare Parts Analisys" type="bar">                
+                <field name="vehicle_id" group="True"/>
+                <field name="income_amount" type="measure" />
+                <field name="expense_amount" type="measure" />
+             </graph>
+         </field>
+    </record>
+
+
+    <record id="view_fleet_mro_order_analysis_spare_parts_search" model="ir.ui.view">
+        <field name="name">fleet.mro.order.analysis.spare_parts.search</field>
+        <field name="model">fleet.mro.order.analysis.spare_parts</field>
+        <field name="arch" type="xml">
+            <search string="Fleet MRO Spare Parts Analisys">
+                <field name="name" />
+                <field name="spare_part_id" />
+                <field name="task_id" />
+                <field name="vehicle_id" />
+                <field name="driver_id"/>
+                <field name="user_id" />
+                <filter string="This month" domain="[('date','&gt;=', time.strftime('%%Y-%%m-01'))]" name="this_month" />
+                <group expand="1" string="Group By...">
+                    <filter string="Fleet MRO Order"     context="{'group_by':'name'}"/>
+                    <filter string="Task"    context="{'group_by':'task_id'}" name="groupby_task"/>
+                    <filter string="Spare Part"     context="{'group_by':'spare_part_id'}" name="groupby_spare_part"/>
+                    <filter string="Picking"     context="{'group_by':'picking_id'}" name="groupby_picking"/>
+                    <filter string="Vehicle"       context="{'group_by':'vehicle_id'}"/>
+                    <filter string="Driver"       context="{'group_by':'driver_id'}"/>
+                    <filter string="User"       context="{'group_by':'user_id'}"/>
+                    <filter string="Period"     context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="fleet_mro_order_analysis_spare_parts_action" model="ir.actions.act_window">
+        <field name="name">MRO Spare Parts Analisys</field>
+        <field name="res_model">fleet.mro.order.analysis.spare_parts</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_fleet_mro_order_analysis_spare_parts_search"/>
+        <field name="view_id"        ref="fleet_mro_order_analysis_spare_parts_pivot"/>
+        <field name="context">{'search_default_this_month': 1, 'search_default_groupby_spare_part':1}</field>
+    </record>
+	
+	<menuitem action="fleet_mro_order_analysis_spare_parts_action" id="menu_fleet_mro_order_analysis_spare_parts" parent="menu_fleet_mro_analysis" sequence="11"/>
+        
+
+
+    <!--##################################################
+        # fleet.mro.order.productivity.analysis #
+        ##################################################
+    -->
+    <record model="ir.ui.view" id="fleet_mro_order_analysis_times_pivot">
+        <field name="name">fleet.mro.order.productivity.analysis.pivot</field>
+        <field name="model">fleet.mro.order.productivity.analysis</field>
+        <field name="arch" type="xml">
+            <pivot string="Fleet MRO Productivity Analisys" display_quantity="true">
+                <field name="date" type="col"/>
+                <field name="type" type="row"/>
+                <field name="task_duration_est" type="measure"/>
+                <field name="task_duration_real" type="measure"/>
+                <field name="task_duration_diff" type="measure" />
+             </pivot>
+         </field>
+    </record>
+        
+
+    <record model="ir.ui.view" id="fleet_mro_order_analysis_times_graph">
+        <field name="name">fleet.mro.order.productivity.analysis.graph</field>
+        <field name="model">fleet.mro.order.productivity.analysis</field>
+        <field name="arch" type="xml">
+            <graph string="Fleet MRO Productivity Analisys" type="bar">                
+                <field name="date" group="True"/>
+                <field name="employee_id" group="True"/>
+                <field name="task_duration_est" type="measure"/>
+                <field name="task_duration_real" type="measure"/>
+                <field name="task_duration_diff" type="measure" />
+             </graph>
+         </field>
+    </record>
+
+
+    <record id="view_fleet_mro_order_analysis_times_search" model="ir.ui.view">
+        <field name="name">fleet.mro.order.productivity.analysis.search</field>
+        <field name="model">fleet.mro.order.productivity.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Fleet MRO Productivity Analisys">
+                <field name="name" />
+                <field name="task_id" />
+                <field name="vehicle_id" />
+                <field name="employee_id"/>
+                <filter string="This month" domain="[('date','&gt;=', time.strftime('%%Y-%%m-01'))]" name="this_month" />
+                <group expand="1" string="Group By...">
+                    <filter string="Fleet MRO Order"     context="{'group_by':'name'}"/>
+                    <filter string="Task"    context="{'group_by':'task_id'}" name="groupby_task"/>
+                    <filter string="Mechanic"     context="{'group_by':'employee_id'}" name="groupby_employee"/>
+                    <filter string="Vehicle"       context="{'group_by':'vehicle_id'}"/>
+                    <filter string="Driver"       context="{'group_by':'driver_id'}"/>
+                    <filter string="Period"     context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="fleet_mro_order_analysis_times_action" model="ir.actions.act_window">
+        <field name="name">MRO Times Analisys</field>
+        <field name="res_model">fleet.mro.order.productivity.analysis</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_fleet_mro_order_analysis_times_search"/>
+        <field name="view_id"        ref="fleet_mro_order_analysis_times_pivot"/>
+        <field name="context">{'search_default_this_month': 1, 'search_default_groupby_employee':1}</field>
+    </record>
+	
+	<menuitem action="fleet_mro_order_analysis_times_action" id="menu_fleet_mro_order_analysis_times" parent="menu_fleet_mro_analysis" sequence="13"/>
+        
+        -->
+    </data>        
+        
+</openerp>

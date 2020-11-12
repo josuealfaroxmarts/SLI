@@ -1,0 +1,76 @@
+<odoo>
+    <data>	
+
+        <record model="ir.ui.view" id="fleet_mro_order_task_spare_quotation_tree">
+            <field name="name">fleet.mro.order.task.spares_quotation.tree</field>
+            <field name="model">fleet.mro.order.task.spares_quotation</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="MRO Service Order Spare Parts Quotation" editable="bottom"
+                      colors="blue:quoted and product_uom_qty!=qty_to_invoice;red:not quoted;green:quoted and product_uom_qty==qty_to_invoice;">
+                    <field name="sequence" widget="handle"/>
+                    <field name="order_id" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="task_id" widget="selection" domain="[('order_id','=',order_id)]" options="{'no_create': True}" />
+                    <field name="product_id" options="{'no_create': True}" />
+                    <field name="name" />
+                    <field name="product_uom_qty" />
+                    <field name="qty_to_invoice" />
+                    <field name="product_uom" options="{'no_open': True, 'no_create': True}" string="UoM" groups="product.group_uom"/>
+                    <field name="price_unit" />
+                    <field name="tax_id" widget="many2many_tags" />
+                    <field name="price_subtotal" sum="sum_price_subtotal" /> <!--invisible="context.get('state_not_draft',False)"/>  -->
+                    <!--<field name="price_tax" sum="sum_price_tax" invisible="context.get('state_not_draft',False)"/>  
+                    <field name="price_total" sum="sum_price_total" invisible="context.get('state_not_draft',False)"/>-->
+                    <field name="price_subtotal_2_invoice" sum="sum_price_subtotal_2_invoice" /><!-- invisible="context.get('state_draft',False)"/>  -->
+                    <!--<field name="price_tax_2_invoice" sum="sum_price_tax_2_invoice" invisible="context.get('state_draft',False)"/>  
+                    <field name="price_total_2_invoice" sum="sum_price_total_2_invoice" invisible="context.get('state_draft',False)"/>  -->
+                    <field name="quoted" /> <!-- invisible="context.get('state_draft',False)"/> -->
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="fleet_mro_order_task_spare_quotation_form">
+            <field name="name">fleet.mro.order.task.spares_quotation.form</field>
+            <field name="model">fleet.mro.order.task.spares_quotation</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="MRO Service Order Spare Parts Quotation">
+                    <field name="state" invisible="1"/>
+                    <group col="4">
+                        <field name="order_id" />
+                        <field name="task_id" />
+                        <field name="product_id" options="{'no_create': True}" />
+                        <field name="name" nolabel="1" colspan="4" />
+                        <field name="product_uom_qty" />
+                        <newline />
+                        <field name="qty_to_invoice" />
+                        <newline />
+                        <field name="product_uom" options="{'no_open': True, 'no_create': True}" string="UoM" groups="product.group_uom"/>
+                        <newline />
+                        <field name="price_unit" />
+                        <newline />
+                        <field name="tax_id" widget="many2many_tags" />
+                        <newline />
+                        <field name="price_subtotal" sum="sum_price_subtotal" invisible="context.get('state_draft',False)"/>
+                        <newline />
+                        <field name="price_tax" sum="sum_price_tax" invisible="context.get('state_draft',False)"/>  
+                        <newline />
+                        <field name="price_total" sum="sum_price_total" invisible="context.get('state_draft',False)"/>  
+                        <newline />
+                        <field name="price_subtotal_2_invoice" sum="sum_price_subtotal_2_invoice" invisible="context.get('state_not_draft',False)"/>  
+                        <newline />
+                        <field name="price_tax_2_invoice" sum="sum_price_tax_2_invoice" invisible="context.get('state_not_draft',False)"/>  
+                        <newline />
+                        <field name="price_total_2_invoice" sum="sum_price_total_2_invoice" invisible="context.get('state_not_draft',False)"/>  
+                        <newline />
+                        <field name="quoted" />                    
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
+ 

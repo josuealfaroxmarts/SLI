@@ -1,0 +1,84 @@
+<openerp>
+<data>
+
+
+        <record model="ir.ui.view" id="purchase_order_form_fleet_mro">
+            <field name="name">Purchase - Fleet MRO</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="fleet_mro_related" invisible="1"/>
+                    <field name="mro_order_id" attrs="{'invisible':[('fleet_mro_related','=',False)],'required':[('fleet_mro_related','=',True)]}"
+                                options="{'no_create': True}" widget="selection"/>
+                    <field name="vehicle_id" attrs="{'invisible':[('fleet_mro_related','=',False)]}"/>
+                </field>
+                
+                <field name="order_line" position="replace">
+                    <field name="order_line" attrs="{'readonly': [('state', 'in', ('done', 'cancel'))]}"
+                        context="{'default_mro_order_id': mro_order_id}">
+                        <tree string="Purchase Order Lines" editable="bottom">
+                            <field name="state" invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="mro_order_id" invisible="1"/>
+                            <field name="mro_task_id" invisible="not context.get('default_fleet_mro_related', False)"
+                                    attrs="{'required': [('mro_order_id', '!=', False)]}"
+                                    options="{'no_create': True}" widget="selection"
+                                    domain="[('order_id','=',mro_order_id)]" />
+                            <field name="product_id" attrs="{'readonly': [('state', 'in', ('purchase', 'to approve','done', 'cancel'))]}" context="{'partner_id':parent.partner_id, 'quantity':product_qty,'uom':product_uom, 'company_id': parent.company_id}"/>
+                            <field name="name"/>
+                            <field name="date_planned"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="account_analytic_id" context="{'default_partner_id':parent.partner_id}" groups="purchase.group_analytic_accounting"/>
+                            <field name="analytic_tag_ids" groups="purchase.group_analytic_accounting" widget="many2many_tags"/>
+                            <field name="product_qty"/>
+                            <field name="qty_received" invisible="not context.get('show_purchase', False)"/>
+                            <field name="qty_invoiced" invisible="not context.get('show_purchase', False)"/>
+                            <field name="product_uom" groups="product.group_uom" attrs="{'readonly': [('state', 'in', ('purchase', 'done', 'cancel'))]}"/>
+                            <field name="price_unit"/>
+                            <field name="taxes_id" widget="many2many_tags" domain="[('type_tax_use','=','purchase')]" context="{'default_type_tax_use': 'purchase'}"/>
+                            <field name="price_subtotal" widget="monetary"/>
+                        </tree>
+                    </field>
+                </field>
+            </field>
+        </record>
+
+
+<!--
+<field name="mro_task_id" domain="[('order_id','=',mro_order_id)]"
+                            options="{'no_create': True}" widget="selection"
+                            attrs="{'invisible':[('fleet_mro_related','=',False)],'required':[('fleet_mro_related','=',True)]}"/>
+-->
+
+
+    <record id="fleet_mro_purchase_form_action" model="ir.actions.act_window">
+            <field name="name">External Workshop</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar</field>
+            <field name="context">{'default_fleet_mro_related':True}</field>
+            <field name="domain">[('fleet_mro_related','=',True)]</field>            
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create Purchase Orders for External Worshop.
+              </p><p>
+                Use this menu to keep control of External Workshop related to 
+                MRO Service Order. For each purchase order, you can track the
+                related discussion with the vendor, control the products
+                received and control the vendor bills.
+              </p>
+            </field>
+        </record>
+
+
+        <menuitem action="fleet_mro_purchase_form_action" parent="menu_fleet_mro_orders" 
+                  id="fleet_mro_purchase_form_action_menu" groups="fleet.fleet_group_user" sequence="91"/>
+
+
+</data>
+</openerp>
+

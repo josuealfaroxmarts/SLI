@@ -1,0 +1,153 @@
+<openerp>
+<data>
+
+############################################################################################################################
+### Cambios en la vista de stock.move ###                                                                                                                                                                                                                                   
+                                                                                                          
+
+        <record id="mro_stock_picking_search_view" model="ir.ui.view">
+            <field name="name">fleet_mro.stock.picking.search</field>
+            <field name="model">stock.picking</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="mro_order_id" />
+                    <field name="vehicle_id" />
+                    <field name="mechanic_id" />
+                    <filter icon="terp-dialog-close" name="mro" string="MRO Related" domain="[('mro_order_id','!=',False)]" help="Fleet MRO Related"/>
+                </field>
+                <filter name="picking_type" position="after">
+                    <filter string="Vehicle" icon="terp-folder-orange" domain="[]" context="{'group_by':'vehicle_id'}"/>
+                </filter>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="fleet_mro_vpicktree">
+            <field name="name">fleet_mro.stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="after" >
+                    <field name="mro_order_id" />
+                    <field name="vehicle_id" />
+                    <field name="mechanic_id" invisible="1"/>
+                </field>                
+            </field>
+        </record>
+
+    
+        <record model="ir.ui.view" id="fleet_mro_view_picking_form">
+            <field name="name">fleet_mrostock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="for_fleet_mro_order" />
+                    <field name="mro_order_id" domain="[('state','not in',('cancel','draft','done'))]" options="{'no_create': True}"
+                           attrs="{'readonly':[('for_fleet_mro_order','=',False)],'required':[('for_fleet_mro_order','=',True)],'invisible':[('for_fleet_mro_order','=',False)]}"/>
+                    <field name="mro_order_state" readonly="1" />
+                </field>
+                <field name="origin" position="after">
+                    <field name="vehicle_id" attrs="{'invisible':[('mro_order_id','=',False)]}"/>
+                    <field name="mechanic_id" 
+                           attrs="{'invisible':[('mro_order_id','=',False)],'required':[('mro_order_id','!=',False)]}"/>
+                </field>
+                <field name="move_lines" position="attributes">
+                    <attribute name="context">{'address_in_id': partner_id, 'form_view_ref':'stock.view_move_picking_form', 'tree_view_ref':'stock.view_move_picking_tree', 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_mro_order_id': mro_order_id, 'default_vehicle_id' : vehicle_id ,'default_mro_order_state' : mro_order_state}</attribute>
+                </field>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="mro_view_move_picking_tree">
+            <field name="name">fleet_mro.stock.move.tree</field>
+            <field name="model">stock.move</field>
+            <field name="type">tree</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="before" >
+                    <field name="mro_order_id" invisible="1"/>
+                    <field name="mro_order_state" invisible="1"/>
+                    <field name="vehicle_id"  invisible="1"/> 
+                    <field name="mro_task_id" domain="[('order_id','=',mro_order_id),('state','!=','cancel')]" 
+                        attrs="{'readonly':[('mro_order_id','=',False)], 
+                                'required':[('mro_order_id','!=',False)]}"/>
+                </field>
+            </field>
+        </record>
+    
+
+
+        <record model="ir.ui.view" id="fleet_mro_stock_move_view_form">
+            <field name="name">fleet_mro.stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="type">form</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="before" >
+                    <field name="mro_order_id" />
+                    <field name="mro_order_state" />
+                    <field name="vehicle_id" />
+                    <field name="mro_task_id" 
+                           domain="[('order_id','=',mro_order_id),('state','!=','cancel')]" 
+                           attrs="{'invisible':[('mro_order_id','=',False)], 
+                                   'readonly':[('mro_order_state','in',('cancel','done'))], 
+                                   'required':[('mro_order_id','!=',False)]}"/> 
+              </field>
+            </field>
+        </record>
+    
+        <record model="ir.ui.view" id="fleet_mro_stock_view_move_tree">
+            <field name="name">fleet_mro.stock.move.tree</field>
+            <field name="model">stock.move</field>
+            <field name="type">form</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="before" >
+                    <field name="mro_order_id" invisible="1"/>
+                    <field name="mro_order_state" invisible="1"/>
+                    <field name="vehicle_id" invisible="1"/>
+                    <field name="mro_task_id" 
+                           domain="[('order_id','=',mro_order_id),('state','!=','cancel')]" 
+                           attrs="{'invisible':[('mro_order_id','=',False)], 
+                                   'readonly':[('mro_order_state','in',('cancel','done'))], 
+                                   'required':[('mro_order_id','!=',False)]}" invisible="1"/>
+              </field>
+            </field>
+        </record>
+    
+    
+        <record model="ir.ui.view" id="fleet_mro_stock_view_move_search">
+            <field name="name">fleet_mro.stock.move.search</field>
+            <field name="model">stock.move</field>
+            <field name="type">form</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="stock.view_move_search"/>
+            <field name="arch" type="xml">
+                <field name="date" position="before" >
+                    <field name="mro_order_id" />
+                    <field name="vehicle_id" />
+                    <field name="mro_task_id" />
+                </field>
+                <filter name="groupby_location_id" position="before">
+                    <filter string="MRO Service Order" name="mro_order_id" domain="[]" context="{'group_by':'mro_order_id'}"/>
+                    <filter string="MRO Service Order State" name="mro_order_state" domain="[]" context="{'group_by':'mro_order_state'}"/>
+                    <filter string="Vehicle" name="vehicle_id" domain="[]" context="{'group_by':'vehicle_id'}"/>
+                </filter>
+            </field>
+        </record>    
+    
+    
+    
+
+</data>
+</openerp>

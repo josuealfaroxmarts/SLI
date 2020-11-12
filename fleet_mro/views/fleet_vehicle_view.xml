@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>	
+
+
+
+       <record id="fleet_vehicle_calendar_fleet_mro_program" model="ir.ui.view">
+            <field name="name">fleet.vehicle.fleet_mro.calendar_mro_program</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="priority">99</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+              <calendar string="MRO Program" color="cycle_next_service" date_start="date_next_service">
+                <field name="name" />
+                <field name="odometer_next_service" />
+                <field name="cycle_next_service" />
+              </calendar>
+            </field>
+        </record>
+
+
+<!-- Calendar Action  -->
+    <record model="ir.actions.act_window" id="open_view_fleet_mro_program_calendar">
+        <field name="name">Fleet MRO Program</field>
+        <field name="res_model">fleet.vehicle</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="fleet_vehicle_calendar_fleet_mro_program"/>
+    </record>
+
+
+<!-- Menu for mro.program -->
+        <menuitem name="Calendar" 
+                  parent="menu_fleet_mro_analysis" 
+                  id="menu_fleet_mro_program" 
+                  action="open_view_fleet_mro_program_calendar"
+	              sequence="10"/>
+<!--
+#### TREE view for Vehicles with delayed Preventive Maintenance ####
+       <record id="fleet_vehicle_tree_fleet_mro_program" model="ir.ui.view">
+            <field name="name">fleet.vehicle.fleet_mro.tree_mro_program</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <tree string="Delayed MRO Program" create="false" editable="bottom">
+                    <field name="name" readonly="1"/>
+                    <field name="mro_program_id" readonly="1"/>
+                    <field name="cycle_next_service" readonly="1"/>
+                    <field name="sequence_next_service"  readonly="1"/>
+                    <field name="main_odometer_next_service"  readonly="1"/>
+                    <field name="odometer_next_service"  readonly="1"/>
+                    <field name="date_next_service" />  
+                    
+                    <field name="last_preventive_service" domain="[('vehicle_id','=',id)]" readonly="1"/>
+                    <field name="main_odometer_last_service"  readonly="1"/>
+                    <field name="odometer_last_service"  readonly="1"/>
+                    <field name="date_last_service"  readonly="1"/>
+                    <field name="sequence_last_service"  readonly="1"/>
+                    <field name="cycle_last_service"  readonly="1"/>
+              </tree>
+            </field>
+        </record>
+
+
+#### Search view for Vehicles with delayed Preventive Maintenance ####
+       <record id="fleet_vehicle_search_fleet_mro_program" model="ir.ui.view">
+            <field name="name">fleet.vehicle.fleet_mro.search_mro_program</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="type">search</field>
+            <field name="priority" eval="30"/>
+            <field name="arch" type="xml">
+                <search string="Delayed MRO Program">
+                    <filter string="Delayed" icon="terp-check" domain="[('date_next_service','&lt;', time.strftime('%%Y-%%m-%%d'))]" name="delayed" />
+                    <filter string="Not Supplier Vehicle" icon="terp-check" domain="[('supplier_vehicle', '=', 0)]" name="not_supplier_vehicle" />
+                    <field name="name" />
+                    <field name="mro_program_id" />
+                    <field name="cycle_last_service"  readonly="1"/>
+                </search>
+            </field>
+        </record>
+        
+-->        
+<!-- Delayed MRO Program Action  
+    <record model="ir.actions.act_window" id="open_view_fleet_mro_program_tree">
+        <field name="name">Delayed MRO Program</field>
+        <field name="res_model">fleet.vehicle</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fleet_vehicle_tree_fleet_mro_program"/>
+        <field name="search_view_id" ref="fleet_vehicle_search_fleet_mro_program"/>
+        <field name="context">{"search_default_delayed":True, "default_not_supplier_vehicle" : True}</field>
+    </record>
+-->
+<!-- Menu for mro.program 
+        <menuitem name="Delayed" 
+                  parent="menu_fleet_mro_program" 
+                  id="menu_fleet_mro_program_delayed" 
+                  action="open_view_fleet_mro_program_tree"
+	              sequence="20"/>
+-->
+
+############################################################################################################################
+### Wizard para recalcular el Siguiente Preventivo al Vehiculo según la distancia promedio ###
+
+<!--  fleet.vehicle.mro_program.re_schedule wizard-->
+
+        <record id="view_fleet_vehicle_mro_program_re_schedule" model="ir.ui.view">
+            <field name="name">MRO Program Re-scheduling</field>
+            <field name="model">fleet.vehicle.mro_program.re_schedule</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="MRO Program Re-scheduling" version="7.0">
+                    <group col="4" colspan="4">
+                        <!--<field name="control" colspan="2" /> -->
+                        <separator string="Vehicles with Delayed Preventive Service to Re-Schedule" colspan="4" />
+                        <field name="vehicle_ids" colspan="4" nolabel="1">
+                            <tree create="false">
+                                <field name="vehicle_id" />
+                                <field name="mro_program_id" />
+                                <field name="cycle_next_service" />
+                                <field name="sequence_next_service" />
+                                <field name="odometer" />
+                                <field name="current_odometer" />
+                                <field name="avg_odometer_uom_per_day" />
+                                <field name="date_next_service" />
+                                <field name="next_date" />
+                            </tree>
+                            <form version="7.0">
+                                <group colspan="4" col="4">
+                                    <field name="vehicle_id" />
+                                    <newline />
+                                    <field name="mro_program_id" />
+                                    <field name="cycle_next_service" />
+                                    <field name="sequence_next_service" />
+                                    <newline />
+                                    <field name="odometer" />
+                                    <field name="current_odometer" />
+                                    <field name="avg_odometer_uom_per_day" />
+                                    <field name="date_next_service" />
+                                    <field name="next_date" />
+                                </group>
+                            </form>
+
+                        </field>
+                        <footer>
+                        <button name="do_re_schedule" string="_Re-Schedule" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                        </footer>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+    <act_window name="MRO Program Re-scheduling"		    
+		res_model="fleet.vehicle.mro_program.re_schedule"
+		src_model="fleet.vehicle"
+		view_mode="form"
+		target="new"
+		key2="client_action_multi"    
+		id="action_fleet_vehicle_mro_program_re_schedule"/>	
+
+
+
+
+############################################################################################################################
+### Cambios en la vista del Vehiculo ###
+    
+        <record id="fleet_vehicle_view_kanban_inherit_fleet_mro" model="ir.ui.view">
+            <field name="name">fleet.vehicle.fleet_mro.kanban</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_kanban"/>
+            <field name="arch" type="xml">
+                <field name="license_plate" position="replace">
+                    <field name="name2" />
+                </field>
+            </field>
+        </record>        
+        
+        
+        <record id="fleet_vehicle_view_tree_inherit_fleet_mro" model="ir.ui.view">
+            <field name="name">fleet.vehicle.fleet_mro.tree</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="license_plate" position="before">
+                    <field name="name" />
+                </field>
+            </field>
+        </record>
+        
+        
+        <record id="fleet_vehicle_form_inherit_fleet_mro" model="ir.ui.view">
+            <field name="name">fleet.vehicle.fleet_mro.form</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[2]" position="replace">
+                    <div class="oe_title">
+                        <label for="name2" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name2" class="oe_inline" placeholder="e.g. TR-0214"/><br/>
+                        </h1>
+                        <label for="model_id" class="oe_edit_only"/>
+                        <h2>
+                            <field name="model_id" placeholder="e.g. Model S"/>
+                        </h2>
+                        <label for="license_plate" class="oe_edit_only"/>
+                        <h3>
+                            <field name="license_plate" class="oe_inline" placeholder="e.g. PAE 326"/>
+                        </h3>
+                        <label for="tag_ids" class="oe_edit_only"/>
+                        <field name="tag_ids" widget="many2many_tags"/>
+                        
+                    </div>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <group>
+                        <field name="operating_unit_id" />
+                    </group>
+                </xpath>
+
+                <xpath expr="//group" position="after">
+                    <group col="2" string="MRO Information">
+                        <group colspan="2">
+                            <field name="mro_program_id" />
+                        </group>
+                        <group>
+                            <field name="avg_odometer_uom_per_day" />
+                            <field name="cycle_last_service" />
+                            <field name="date_last_service" />
+                            <!--<field name="main_odometer_last_service" />
+                            <field name="odometer_last_service" />-->
+                            <field name="sequence_last_service" />
+                            <field name="last_preventive_service" />                            
+                        </group>
+                        <group >
+                            <field name="tires_number" />
+                            <field name="tires_extra" />
+                            <field name="cycle_next_service" />
+                            <field name="date_next_service" />
+                            <field name="main_odometer_next_service" />
+                            <field name="odometer_next_service" />
+                            <field name="sequence_next_service" />                            
+                        </group>
+                    </group>
+                    <group col="4">
+                        <separator string="Maintenance Program Sequence" colspan="2" />
+                        <button name="button_create_mro_program" type="object" string="MRO Program" 
+                                confirm="Are you sure you want to create Program Sequence for this vehicle? All previous records will be deleted !!!"
+                                attrs="{'invisible':[('mro_program_id', '=', False)]}" />
+                        <field name="mro_cycle_ids" colspan="4" nolabel="1">
+                            <tree>
+                                <field name="cycle_id" />
+                                <field name="trigger" />
+                                <field name="sequence" />
+                                <field name="order_id" />
+                                <field name="order_date" />
+                                <field name="order_distance" />
+                            </tree>
+                            <form>
+                                <group col="4" colspan="4">
+                                    <field name="cycle_id" colspan="4"/>
+                                    <field name="trigger" />
+                                    <field name="sequence" />
+                                    <field name="order_id" />
+                                    <field name="order_date" />
+                                    <field name="order_distance" />
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </xpath>                
+            </field>
+        </record>
+
+
+
+
+
+        <!--<menuitem id="menu_fleet_mro_config_vehicle" name="Vehicles" parent="menu_fleet_mro_config" sequence="3"/>
+
+
+        
+        <menuitem name="Type of Vehicles" 
+                  parent="menu_fleet_mro_config_vehicle" 
+                  id="menu_fleet_mro_config_vehicle_category_form" 
+                  action="tms.open_view_fleet_vehicle_category_form"
+                  groups="fleet.fleet_group_manager"
+                  sequence="10"/>
+        -->
+        <menuitem action="fleet.fleet_vehicle_model_action" 
+                  parent="menu_fleet_mro_config_vehicle" 
+                  id="fleet_mro_fleet_vehicle_model_menu" 
+                  groups="base.group_no_one"
+                  sequence="11"/>
+        <menuitem action="fleet.fleet_vehicle_model_brand_action" 
+                  parent="menu_fleet_mro_config_vehicle" 
+                  id="fleet_mro_fleet_vehicle_model_brand_menu" 
+                  groups="base.group_no_one"
+                  sequence="12"/>
+        <menuitem action="fleet.fleet_vehicle_state_action" 
+                  parent="menu_fleet_mro_config_vehicle" 
+                  id="fleet_mro_fleet_vehicle_state_menu" 
+                  groups="fleet.fleet_group_manager"
+                  sequence="13"/>
+
+        <menuitem action="fleet.fleet_vehicle_action" 
+                  parent="menu_fleet_mro_config_vehicle" 
+                  id="fleet_mro_fleet_vehicle_menu" 
+                  groups="fleet.fleet_group_user"
+                  sequence="14"/>
+
+        <!--<menuitem action="fleet.fleet_vehicle_action" 
+                  parent="menu_fleet_mro_config_vehicle" 
+                  id="fleet_mro_vehicle_menu" 
+                  groups="fleet.fleet_group_user"
+                  sequence="10"/>
+        -->
+        
+<!-- Menu for fleet.vehicle (Transportation Units) 
+    <menuitem name="Vehicles" 
+              parent="menu_fleet_mro_config_vehicle" 
+              id="menu_fleet_mro_config_vehicle_form" 
+              action="tms.open_view_tms_unit_form"
+	      sequence="21"/>
+-->
+
+
+
+<!-- Menu for tms.vehicle.active_history 
+    <menuitem name="Activate/Inactivate Units" 
+              parent="menu_fleet_mro_config_vehicle" 
+              id="menu_fleet_mro_config_vehicle_active_history_form" 
+              action="tms.open_view_tms_unit_active_history_form"
+		sequence="23"/>
+-->
+<!-- Menu for tms.vehicle.red_tape 
+    <menuitem name="Vehicle Red Tape" 
+              parent="menu_fleet_mro_config_vehicle" 
+              id="menu_fleet_mro_config_vehicle_red_tape_form" 
+              action="tms.open_view_tms_unit_red_tape_form"
+		sequence="24"/>
+-->
+<!-- Take some config menu from Fleet module 
+        <menuitem action="fleet.fleet_vehicle_model_act" parent="menu_fleet_mro_config_vehicle" id="fleet_mro_fleet_vehicle_model_menu" sequence="10"/>
+        <menuitem action="fleet.fleet_vehicle_model_brand_act" parent="menu_fleet_mro_config_vehicle" id="fleet_mro_fleet_vehicle_model_brand_menu" sequence="11"/>
+        <menuitem action="fleet.fleet_vehicle_state_act" parent="menu_fleet_mro_config_vehicle" id="fleet_mro_fleet_vehicle_state_menu" groups="fleet.fleet_group_manager" sequence="12"/>
+-->
+<!-- Menu for fleet.vehicle.odometer.device 
+    <menuitem name="Vehicle Odometer Device" 
+              parent="menu_fleet_mro_config_vehicle" 
+              id="menu_fleet_mro_config_fleet_vehicle_odometer_device_form" 
+              action="tms.open_view_fleet_vehicle_odometer_device_form"
+		sequence="24"/>
+
+-->
+
+
+    </data>
+</openerp>

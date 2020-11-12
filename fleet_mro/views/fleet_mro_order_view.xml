@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>	
+
+          <!--
+                                                        icon="fa-check"
+                                                        icon="fa-sign-out"
+                                                        icon="fa-check text-success"
+                                                        icon="fa-times-circle text-danger"
+                                                        icon="fa-ticket"
+                                                        icon="fa-keyboard-o"
+                                                        icon="fa-table"
+                                                        icon="fa-arrow-right text-success"
+                                                        -->    
+        
+        <!--<menuitem id="menu_fleet_mro" name="TMS MRO" />
+        <menuitem id="menu_fleet_mro_service_orders" name="Repair Orders" parent="menu_fleet_mro" sequence="1"/>-->
+    
+
+############################################################################################################################
+                            ### SEARCH ###
+    <record id="view_fleet_mro_service_order_filter" model="ir.ui.view">
+      <field name="name">fleet.mro.order.search</field>
+      <field name="model">fleet.mro.order</field>
+      <field name="type">search</field>
+      <field name="arch" type="xml">
+        <search string="Search MRO Service Orders">
+          <field name="name" select="1"/>
+	      <field name="vehicle_id" select="1"/>
+	      <field name="mro_type_id" />
+	      <field name="operating_unit_id" />
+          <field name="driver_id" />
+          <separator/>
+          <filter string="Draft" domain="[('state','=','draft')]"/>
+          <filter string="Open" domain="[('state','=','open')]"/>
+          <filter string="Released" domain="[('state','=','released')]"/>
+          <filter string="Done" domain="[('state','=','done')]"/>
+          <filter string="Cancel" domain="[('state','=','cancel')]"/>
+          <separator/>
+          <filter string="This month" domain="[('date','&gt;=', time.strftime('%%Y-%%m-01'))]" name="this_month" />
+          <group expand="0" string="Group By..." >
+            <filter string="Vehicle" domain="[]" context="{'group_by':'vehicle_id'}"/>
+            <filter string="Driver" domain="[]" context="{'group_by':'driver_id'}"/>
+            <filter string="MRO Service Type" domain="[]" context="{'group_by':'mro_type_id'}"/>
+            <filter string="MRO Workshop" domain="[]" context="{'group_by':'operating_unit_id'}"/>
+            <separator orientation="vertical"/>
+            <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+            <filter string="Date" domain="[]" context="{'group_by':'date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+        
+        
+                            ### FORM ###
+        <record model="ir.ui.view" id="fleet_mro_service_order_form">
+            <field name="name">fleet.mro.order.form</field>
+            <field name="model">fleet.mro.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="MRO Service Order">
+                    <header>
+                        <button type="object" class="oe_highlight" string="Schedule" name="action_schedule" states="draft" /> 
+                        <button type="object" class="oe_highlight" string="Check In" name="action_check_in" states="draft,scheduled" /> 
+                        <button type="object" class="oe_highlight" string="Revision" name="action_revision" states="check_in" /> 
+                        <button type="object" class="oe_highlight" string="Send Quotation" name="action_waiting_approval" states="revision" /> 
+                        <button type="object" class="oe_highlight" string="Open Service Order"     name="action_open"     states="draft,waiting_approval,scheduled" /> 
+                        <button type="object" class="oe_highlight" string="Released" name="action_release"  states="open"      /> 
+                        <button type="object" class="oe_highlight" string="Done"     name="action_done"     states="released"  /> 
+                        <button type="object"                      string="Cancel"   name="action_cancel"   states="draft,scheduled,check_in,revision,waiting_approval"     />
+                        <button type="object"                      string="Re-Open"  name="action_reopen"   states="released,done" />
+                        <field  name="state" widget="statusbar" statusbar_visible="scheduled,check_in,revision,waiting_approval,open,released,done"/> 
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_tasks" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                                <field name="task_records_count" widget="statinfo" string="Tasks"/>
+                            </button>                    
+                            <button name="action_view_purchase_orders" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                                <field name="purchase_order_count" widget="statinfo" string="External"/>
+                            </button>
+                            <button name="action_view_task_times" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                                <field name="time_records_count" widget="statinfo" string="Time Sheets"/>
+                            </button>
+                            <button name="action_view_pickings" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                                <field name="stock_pickings_count" widget="statinfo" string="Pickings"/>
+                            </button>
+                            <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o"
+                                attrs="{'invisible': [('invoice_id', '=', False)]}">
+                                <field name="invoice_count" widget="statinfo" string="Invoice"/>
+                            </button>
+                            <button name="action_view_driver_reports" type="object" class="oe_stat_button" icon="fa-pencil-square-o"
+                                attrs="{'invisible': [('driver_report_count', '=', 0)]}">
+                                <field name="driver_report_count" widget="statinfo" string="Driver's Reports"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" class="oe_inline" readonly="1" nolabel="1"/>
+                            </h1>
+                            <label for="internal_repair"/><field name="internal_repair" />
+                        </div>
+                        <group>
+                            <notebook colspan="4">
+                                <page string="Customer Data" attrs="{'invisible':[('internal_repair','=',True)]}">
+                                    <group>
+                                        <group>
+                                            <field name="partner_id" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" 
+                                                    options='{"always_reload": True}'
+                                                    attrs="{'required':[('internal_repair','=',False)]}" />
+                                            <field name="partner_invoice_id" context="{'default_type':'invoice'}" 
+                                                    attrs="{'required':[('internal_repair','=',False)]}" />
+                                            <field name="partner_contact_id" context="{'default_type':'contact'}"
+                                                    attrs="{'required':[('internal_repair','=',False)]}" />
+                                        </group>
+                                        <group>
+                                            <field name="pricelist_id" groups="product.group_sale_pricelist"
+                                                    attrs="{'required':[('internal_repair','=',False)]}" />
+                                            <field name="currency_id" invisible="1"/>
+                                            <field name="payment_term_id" options="{'no_create': True}"
+                                                    attrs="{'required':[('internal_repair','=',False)]}" />
+                                        </group>
+                                    </group>                                    
+                                </page>
+                                <page string="Sales Info" attrs="{'invisible':[('internal_repair','=',True)]}">
+                                    <group>
+                                        <group string="Sales Information" name="sales_person">
+                                            <field name="user_id"/>
+                                            <field name="team_id" options="{'no_create': True}"/>
+                                            <field name="client_order_ref"/>
+                                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                            <field name="project_id" attrs="{'invisible':[('state','=','sale')]}" context="{'default_partner_id':partner_invoice_id, 'default_name':name}" groups="analytic.group_analytic_accounting"/>
+                                            <field name="related_project_id"
+                                                attrs="{'readonly': ['|',('project_id','!=',False),('invoice_count','!=',0),('state','=','sale')],'invisible':[('state','!=','sale')]}"
+                                                context="{'default_partner_id':partner_invoice_id, 'default_name':name}"
+                                                groups="analytic.group_analytic_accounting"/>
+                                        </group>
+                                        <group name="sale_pay" string="Invoicing">
+                                            <field name="fiscal_position_id" options="{'no_create': True}"/>
+                                            <field name="invoice_status"
+                                                attrs="{'invisible': [('state', 'not in', ('sale','done'))]}"/>
+                                            <field name="invoiced" invisible="1"/>
+                                            <field name="invoice_id" />
+                                            <field name="invoice_name" invisible="1"/>
+                                            <field name="invoice_paid" invisible="1"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="MRO Service Order Details">
+                                    <group>
+                                        <group>
+                                            <field name="vehicle_id" options="{'no_create': True}" />
+                                            <field name="accumulated_odometer" />
+                                            <field name="driver_id" options="{'no_create': True}" />
+                                            <field name="mro_type_id" options="{'no_create': True}" />
+                                        </group>
+                                        <group>
+                                            <field name="date" />
+                                            <field name="operating_unit_id" widget="selection"/>
+                                            <field name="warehouse_id" options="{'no_create': True}"/>
+                                            <field name="supervisor_id"  options="{'no_create': True}" domain="[('fleet_mro_mechanic', '=', True)]"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="MRO Program Details">
+                                    <group>
+                                        <group>
+                                            <field name="current_odometer" />
+                                            <field name="program_sequence" />
+                                        </group>
+                                        <group>
+                                            <field name="mro_program_id" options="{'no_create': True}"/>
+                                            <field name="mro_cycle_id" options="{'no_create': True}"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Time Statistics">
+                                    <group col="4">
+                                        <field name="date_start" />
+                                        <field name="date_start_real" />
+                                        <field name="date_end" />
+                                        <field name="date_end_real" />
+                                        <field name="duration" widget="float_time"/>
+                                        <field name="duration_real" widget="float_time" />
+                                    </group>
+                                </page>
+                            </notebook>
+                            <notebook colspan="4">
+                                <page string="Tasks">
+                                    <field name="task_ids" nolabel="1" colspan="4">
+                                        <tree string="Tasks">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="order_id" invisible="1"/>
+                                            <field name="task_id" />
+                                            <field name="name" />
+                                            <field name="product_uom_qty" />
+                                            <field name="product_uom" />
+                                            <field name="price_unit" />
+                                            <field name="price_subtotal" sum="subtotal"/>
+                                            <field name="tax_id" widget="many2many_tags"/>
+                                            <field name="price_total" invisible="1"/>
+                                            <field name="cost_all" sum="all_costs"/>
+                                            <field name="state" />
+                                            <button string="Process"  name="action_process"  states="pending" type="object" class="oe_highlight"
+                                                    icon="fa-arrow-right text-success" />
+                                            <button string="Done"     name="action_done"     states="process"  type="object" class="oe_highlight"
+                                                    icon="fa-ticket text-success"/>
+                                            <button string="Cancel"   name="action_cancel"   states="pending,process"  type="object" 
+                                                    icon="fa-times-circle text-danger"/>
+                                            <button string="External Workshop"   name="action_view_purchase_orders"   states="process"  type="object" 
+                                                    icon="fa-pencil-square-o"/>                                            
+                                        </tree>
+                                    </field>
+                                    <separator string="Spare Parts Quotation" colspan="4" attrs="{'invisible': ['|', ('internal_repair', '=', True),('state','not in',('draft','cancel'))]}"/>
+                                    <separator string="Spare Parts Quoted and Used" colspan="4" attrs="{'invisible': ['|', ('internal_repair', '=', True),('state','in',('draft','scheduled','check_in','cancel'))]}"/>
+                                    <field name="spares_quotation_line_ids" nolabel="1" colspan="4"  
+                                           attrs="{'invisible': [('internal_repair', '=', True)],'readonly': [('state', '!=', 'revision')]}"
+                                           context="{'default_order_id': active_id}" />
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total" attrs="{'invisible': [('internal_repair', '=', True)]}">
+                                        <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label for="amount_total" />
+                                        </div>
+                                        <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <field name="note" class="oe_inline" placeholder="Terms and conditions..."/>
+                                    <div class="oe_clear"/>
+                                </page>
+                                <page string="Spare Parts"> <!--attrs="{'invisible': [('internal_repair', '=', False)]}">-->
+                                    <field name="stock_move_ids" readonly="1">
+                                        <tree>
+                                            <!--<field name="date_expected" invisible="context.get('scrap_move')"/> --> 
+                                            <field name="date" groups="base.group_no_one"/>
+                                            <field name="mro_task_id" />
+                                            <field name="picking_id" string="Reference"/>
+                                            <!--<field name="name"/>-->
+                                            <field name="product_id"/>
+                                            <field name="product_uom_qty"/>
+                                            <field name="product_uom" options="{'no_open': True, 'no_create': True}" string="UoM" groups="product.group_uom"/>
+                                            <!--<field name="location_id" groups="stock.group_stock_multi_locations"/>-->
+                                            <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
+                                            
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </page>                                
+                                <page string="External Workshop Detailed">
+                                    <field name="purchase_order_line_ids" readonly="1">
+                                        <tree>
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="mro_task_id" />
+                                            <field name="partner_id" />
+                                            <field name="order_id" />
+                                            <field name="name" />
+                                            <field name="product_id" invisible="1"/>
+                                            <field name="product_qty" />
+                                            <!--<field name="qty_received" />
+                                            <field name="qty_invoiced" />-->
+                                            <field name="product_uom" />
+                                            <field name="price_unit" />
+                                            <field name="price_subtotal" sum="ySubTotal"/>
+                                            <field name="price_tax" sum="yTaxes"/>
+                                            <field name="price_total" Sum="yTotal"/>
+                                            <field name="state" />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Attended Reports of Vehicle Failure">
+                                    <field name="fleet_mro_driver_report_ids" nolabel="1" 
+                                        domain="[('order_id','=',False),('state','=','confirmed'),('vehicle_id','=',vehicle_id)]"
+                                        context="{'default_vehicle_id': vehicle_id,'default_employee_id':driver_id,'default_operating_unit_id':operating_unit_id}" >
+                                        <tree>
+                                            <field name="name" />
+                                            <field name="date" />
+                                            <field name="vehicle_id" />
+                                            <field name="employee_id" />
+                                            <field name="notes" />
+                                            <field name="state" />
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                            <field name="stock_origin_id" context="{'default_usage':'internal'}" domain="[('usage', '=', 'internal')]" invisible="1"/>
+                            <field name="stock_dest_id" context="{'default_usage':'production'}" domain="[('usage', '=', 'production')]" invisible="1"/>
+                            <field name="spare_parts" invisible="1"/> 
+                            <field name="manpower" invisible="1"/> 
+                            <field name="spare_parts_external" invisible="1"/> 
+                            <field name="manpower_external" invisible="1"/>                                     
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fleet_mro_service_order_tree">
+            <field name="name">fleet.mro.order.tree</field>
+            <field name="model">fleet.mro.order</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="MRO Service Order" colors="gray:state=='cancel';red:state=='draft';green:state=='released';blue:state=='open';">
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="partner_invoice_id" />
+                    <field name="vehicle_id" />
+                    <field name="accumulated_odometer" />
+                    <field name="mro_type_id" />                    
+                    <field name="internal_repair" invisible="1"/>
+                    <field name="date_start" invisible="1"/>
+                    <field name="date_end" invisible="1"/>
+                    <field name="amount_untaxed" sum="Amount Untaxed"/> 
+                    <field name="spare_parts" sum="Spare Parts"/> 
+                    <field name="manpower" sum="Manpower"/>
+                    <field name="spare_parts_external" sum="Spare Parts Ext"/> 
+                    <field name="manpower_external" sum="Manpower Ext."/>
+                    <field name="costs_all" sum="All Costs"/>
+                    <field name="state" />
+                    <field name="invoice_status" />
+                </tree>
+            </field>
+        </record>
+
+        
+        
+    <record id="view_fleet_mro_order_pivot" model="ir.ui.view">
+        <field name="name">fleet.mro.order.pivot</field>
+        <field name="model">fleet.mro.order</field>
+        <field name="arch" type="xml">
+            <pivot string="MRO Orders" display_quantity="true">
+                <field name="mro_type_id" type="row"/>
+                <field name="date" type="col"/>
+                <field name="spare_parts" type="measure"/>
+                <field name="manpower" type="measure"/>
+                <field name="spare_parts_external" type="measure"/>
+                <field name="manpower_external" type="measure"/>
+            </pivot>
+        </field>
+    </record>        
+############################################################################################################################
+                            ### Graph View ###
+        
+        <record id="view_fleet_mro_order_graph" model="ir.ui.view">
+            <field name="name">fleet.mro.order.graph</field>
+            <field name="model">fleet.mro.order</field>
+            <field name="arch" type="xml">
+                <graph string="MRO Service Orders" >
+                    <field name="date"/>
+                    <field name="mro_type_id"/>
+                    <field name="spare_parts" type="measure"/>
+                    <field name="manpower" type="measure"/>
+                    <field name="spare_parts_external" type="measure"/>
+                    <field name="manpower_external" type="measure"/>
+                </graph>
+            </field>
+        </record>        
+
+############################################################################################################################
+                            ### Calendar View ###
+        <record id="view_fleet_mro_order_calendar" model="ir.ui.view">
+            <field name="name">fleet.mro.order.calendar</field>
+            <field name="model">fleet.mro.order</field>
+            <field name="arch" type="xml">
+                <calendar string="MRO Service Order" color="state" date_start="date">
+                    <field name="name"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+        
+        <record id="view_fleet_mro_order_kanban" model="ir.ui.view">
+            <field name="name">fleet.mro.order.kanban.view</field>
+            <field name="model">fleet.mro.order</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_small_column" quick_create="false">
+                    <field name="state" />
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="date_start" />
+                    <field name="date_end" />
+                    <field name="mro_type_id" />
+                    <field name="vehicle_id" />
+                    <field name="internal_repair" />
+                    <field name="partner_id"/>
+                    <field name="partner_invoice_id"/>
+                    <field name="partner_contact_id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="row">
+                                    <table width="95%" align="center" style="padding:2px;">
+                                        <tr style="text-align: center;">
+                                            <td width="50%" style="font-weight: bold;"><t t-esc="record.name.value"/></td>
+                                            <td width="50%"><t t-esc="record.date.value"/></td>
+                                        </tr>
+                                        <tr style="text-align: center;font-weight: bold;">
+                                            <td colspan="2" ><strong><span><t t-esc="record.vehicle_id.value"/></span></strong></td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td colspan="2"><span><t t-esc="record.partner_contact_id.value"/></span></td>
+                                        </tr>                                    
+                                        <tr style="text-align: center;">
+                                            <td colspan="2"><span t-if="record.internal_repair.value">Internal Repair</span>.</td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td colspan="2" style="font-weight: bold;"><t t-esc="record.mro_type_id.value"/></td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td colspan="2">From: <t t-esc="record.date_start.value"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">To: <t t-esc="record.date_end.value"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>        
+        
+############################################################################################################################
+                            ### ACTION ###
+    <record model="ir.actions.act_window" id="fleet_mro_service_order_action">
+        <field name="name">MRO Service Order</field>
+        <field name="res_model">fleet.mro.order</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,calendar,kanban,pivot,graph</field>
+        <field name="domain">[('state','in',('revision','waiting_aproval','open','released','done'))]</field>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>    
+############################################################################################################################	
+	<menuitem action="fleet_mro_service_order_action" id="menu_fleet_mro_service_order_line" name="Repair Orders"
+              parent="menu_fleet_mro_orders" sequence="1" />
+    
+############################################################################################################################
+        
+    <record model="ir.actions.act_window" id="fleet_mro_service_order_schedule_action">
+        <field name="name">Schedule Service Order</field>
+        <field name="res_model">fleet.mro.order</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="domain">[('state','in',('draft','scheduled','check_in','cancel'))]</field>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>    
+############################################################################################################################	
+	<menuitem action="fleet_mro_service_order_schedule_action" 
+              id="menu_fleet_mro_service_order_schedule_action" 
+              name="Work Agenda"
+              parent="menu_fleet_mro_preorders" sequence="1" />
+
+        
+        
+        
+        
+        <record id="fleet_mro_order_invoice_wizard_view" model="ir.ui.view">
+            <field name="name">Create Customer Invoice</field>
+            <field name="model">fleet.mro.order.invoice_wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Customer Invoice">
+                    <separator colspan="4" string="Are you sure you want to create Curstomer Invoice from selected MRO Service Orders?" />
+                    <group colspan="4" col="4">
+                    </group>
+                    <footer>
+                        <button name="button_create_invoices" string="Create Invoice" colspan="1" type="object"  class="oe_highlight" />
+                        or
+                        <button special="cancel" string="Cancel" class="oe_link"/>
+
+                    </footer>
+                </form>
+            </field>
+    </record>
+
+                            ### ACTION ###
+    <act_window name="Create Customer Invoice"
+		res_model="fleet.mro.order.invoice_wizard"
+		src_model="fleet.mro.order"
+		view_mode="form"
+		target="new"
+		key2="client_action_multi"    
+		id="fleet_mro_order_invoice_wizard_view_action"/>	
+        
+        
+    </data>
+</odoo>

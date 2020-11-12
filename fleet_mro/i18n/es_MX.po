@@ -1,0 +1,3683 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fleet_mro
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-03 02:34+0000\n"
+"PO-Revision-Date: 2017-05-02 21:35-0500\n"
+"Last-Translator: Israel Cruz Argil <israel.cruz@argil.mx>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_MX\n"
+"X-Generator: Poedit 2.0.1\n"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_purchase_order_count
+msgid "# of External Workshop"
+msgstr "Trabajos Externos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_count
+msgid "# of Invoices"
+msgstr "Nº de facturas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_stock_pickings_count
+msgid "# of Pickings"
+msgstr "Pickings"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_records_count
+msgid "# of Tasks"
+msgstr "Tareas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_time_records_count
+msgid "# of Time Records"
+msgstr "Hojas de Tiempos"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_base.py:50
+#: code:addons/fleet_mro/models/fleet_mro_base.py:115
+#: code:addons/fleet_mro/models/fleet_mro_base.py:175
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (copia)"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "<strong>Partner Contact:</strong>"
+msgstr "<strong>Contacto:</strong>"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "<strong>Partner Invoice:</strong>"
+msgstr "<strong>Empresa Facturación:</strong>"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "<strong>Partner:</strong>"
+msgstr "<strong>Empresa:</strong>"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "<strong>Subtotal (All Tasks): </strong>"
+msgstr "<strong>Subtotal (Todas las Tareas): </strong>"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "<strong>Sum: </strong>"
+msgstr "<strong>Suma: </strong>"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "<strong>Taxes: </strong>"
+msgstr "<strong>Impuestos: </strong>"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "<strong>Total: </strong>"
+msgstr "<strong>Total: </strong>"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_spares_quotation.py:154
+#, python-format
+msgid ">> Spare >> "
+msgstr ">> Refacc. >> "
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_accumulated_odometer
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_odometer
+msgid "Accumulated Odometer"
+msgstr "Odómetro Acumulado"
+
+#. module: fleet_mro
+#: selection:fleet.vehicle.odometer.device,state:0
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_active
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_active
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_active
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_active
+msgid "Active"
+msgstr "Activo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_active_odometer_id
+msgid "Active Odometer"
+msgstr "Active Odometer"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_avg_odometer_uom_per_day
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_next_service
+msgid "Active Odometer Next Serv."
+msgstr "Próx, Servicio Odómetro Activo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_costs_all
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_cost_all
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_cost_all
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_tree
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "All Costs"
+msgstr "Todos los Costos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_costs_external
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_costs_external
+msgid "All External Costs"
+msgstr "Todos Costos Externos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_costs_internal
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_costs_internal
+msgid "All Internal Costs"
+msgstr "Todos Costos Internos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_amount
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Amount"
+msgstr "Importe"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_amount_untaxed
+msgid "Amount Task"
+msgstr "Monto Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_tree
+msgid "Amount Untaxed"
+msgstr "SubTotal"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_project_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_related_project_id
+msgid "Analytic Account"
+msgstr "Cuenta analítica"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_date_appointment
+msgid "Appointment"
+msgstr "Citas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_invoice_wizard_view
+msgid "Are you sure you want to create Curstomer Invoice from selected MRO Service Orders?"
+msgstr "Está seguro que desea crear una Factura de Cliente de las Ordenes de Servicio de Mantenimiento seleccionadas ?"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_form_inherit_fleet_mro
+msgid "Are you sure you want to create Program Sequence for this vehicle? All previous records will be deleted !!!"
+msgstr "Está seguro que desea crear la Secuencia de Programa de Preventivos para este Vehículo? Todos los registros anteriores serán eliminados !!!"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_assing_manpower
+msgid "Assign Manpower"
+msgstr "Asignar Mano de Obra"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.action_fleet_mro_order_task_assing_manpower
+msgid "Assign Manpower to Selected Tasks"
+msgstr "Asignar Mano de Obra a las Tareas seleccionadas"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_task_assing_manpower
+msgid "Assign internal Manpower to several Tasks"
+msgstr "Asignar Mano de Obra a varias Tareas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Attended Reports of Vehicle Failure"
+msgstr "Atender Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_avg_odometer_uom_per_day
+msgid "Avg Distance/Time per day"
+msgstr "Promedio diario de Distancia/Tiempo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_breakdown
+msgid "Breakdown"
+msgstr "Desglose"
+
+#. module: fleet_mro
+#: selection:hr.employee.mro_productive.type,type:0
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_search
+msgid "Busy"
+msgstr "Productivo"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_program
+msgid "Calendar"
+msgstr "Calendario"
+
+#. module: fleet_mro
+#: model:res.groups,name:fleet_mro.group_report_cancel
+msgid "Can Cancel Driver Report of Vehicle Failures"
+msgstr "Cancela Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:res.groups,name:fleet_mro.group_report_confirm
+msgid "Can Confirm Driver Report of Vehicle Failure"
+msgstr "Confirma Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:res.groups,name:fleet_mro.group_report_setdraft
+msgid "Can Set to Draft Driver Report of Vehicle Failure"
+msgstr "Regresa a Borrador Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order.task.time,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_invoice_wizard_view
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_time_pause_wizard
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_assing_manpower
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_vehicle_mro_program_re_schedule
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: fleet_mro
+#: selection:fleet.mro.driver_report,state:0 selection:fleet.mro.order,state:0
+#: selection:fleet.mro.order.task,state:0
+#: selection:fleet.vehicle.odometer.device,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Check In"
+msgstr "Recibir Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_order_task_external_workshop
+msgid "Check if this task is going to be done by an external supplier"
+msgstr "Active si esta tarea va a ser realizada en un Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_type_preventive
+msgid ""
+"Check this if this MRO Type is a Preventive Maintenance.\n"
+"                                    If this is checked then when opening new Maintenance Service Order\n"
+"                                    'all Tasks related to Maintenance Cycle in Maintenance PRogram will be added automatically"
+msgstr ""
+"Active si este Tipo de Mantenimiento es Preventivo.\n"
+"                                    Si se activa la casilla entonces al Abrir una Orden de Servicio de Mantenimiento\n"
+"                                    entonces TODAS las tareas definidas en cada Ciclo del Programa de mantenimiento se agregarán automáticamente"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_product_template_child_ids
+msgid "Child Tasks"
+msgstr "Tareas Hijo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_product_template_duration_childs
+msgid "Childs Duration"
+msgstr "Duración Hijas"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.fleet_mro_purchase_form_action
+msgid "Click to create Purchase Orders for External Worshop."
+msgstr "Clic para crear registro de Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.fleet_mro_task_product_normal_action
+msgid "Click to define a new Tasks."
+msgstr "Clic para definir nuevas Tareas"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.fleet_mro_product_normal_action
+msgid "Click to define a new product."
+msgstr "Haga clic para definir un nuevo producto."
+
+#. module: fleet_mro
+#: selection:fleet.mro.driver_report,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_code
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_code
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_code
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_code
+msgid "Code"
+msgstr "Código"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_program_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_form
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_form
+msgid "Code..."
+msgstr "Código…"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_company_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_company_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_company_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_company_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_company_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_company_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_complete
+msgid "Complete"
+msgstr "Completo"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_config
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_tree
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: fleet_mro
+#: selection:fleet.mro.driver_report,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_partner_contact_id
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_order_partner_contact_id
+msgid "Contact that will receive vehicle."
+msgstr "Nombre del contacto que va a recibir el vehículo."
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_tree
+msgid "Continue"
+msgstr "Continuar"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_control
+msgid "Control"
+msgstr "Control"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_cost_external
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_cost_external
+msgid "Cost External"
+msgstr "Costo Externo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_cost_internal
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_cost_internal
+msgid "Cost Internal"
+msgstr "Costo Interno"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Cost Unit"
+msgstr "Costo Unitario"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_cost_per_unit
+msgid "Cost per Unit"
+msgstr "Costo Unitario"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_order_invoice_wizard_view_action
+msgid "Create Customer Invoice"
+msgstr "Crear Factura de Cliente"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_hr_employee_mro_productive_type
+msgid "Create HR MRO Task Productivity Types."
+msgstr "Cree Tipos de Productividad en Tareas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_invoice_wizard_view
+msgid "Create Invoice"
+msgstr "Crear Factura"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_invoice_wizard
+msgid "Create Invoices for Customer"
+msgstr "Crear Facturas de Clientes"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_fleet_mro_cycle
+msgid "Create Maintenance Cycles."
+msgstr "Crear Ciclos de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_fleet_mro_type
+msgid "Create Maintenance Service Types."
+msgstr "Crear Tipos de Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_operating_unit_fleet_mro
+msgid "Create Operating Units, the first step to start managing Fleet MRO Workshop."
+msgstr "Crear Unidades Operativas, el primer paso para empezar a utilizar Taller de Mantenimiento de Flota."
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_fleet_mro_program
+msgid "Create Preventive Maintenance Program."
+msgstr "Crear Programa de Mantenimiento Preventivo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_wizard_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_assing_manpower_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_create_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_wizard_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_assing_manpower_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_create_date
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_currency_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_currency_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_current_odometer
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_current_odometer
+msgid "Current Odometer"
+msgstr "Odómetro actual"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_current_odometer
+msgid "Current Read"
+msgstr "Lectura Actual"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_partner_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Customer Data"
+msgstr "Datos de Cliente"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_invoice_wizard_view
+msgid "Customer Invoice"
+msgstr "Factura de Cliente"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_client_order_ref
+msgid "Customer Reference"
+msgstr "Referencia cliente"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_name
+msgid "Cycle"
+msgstr "Ciclo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_cycle_last_service
+msgid "Cycle Last Serv."
+msgstr "Ultimo Servicio del Ciclo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_sequence_next_service
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_sequence_next_service
+msgid "Cycle Seq. Next Serv."
+msgstr "Próximo Servicio del Ciclo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_cycle_frequency
+msgid "Cycle frequency based on default vehicle/machine counter, it could be Hours / Distance (Kms / mi) / Other"
+msgstr "Frecuencia del Ciclo basado en el contador del Vehículo/Máquina, puede ser Horas, Distancia (Kms / mi) / Otro"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_form
+msgid "Cycle name, Example: Preventive every 20k kms"
+msgstr "Nombre del Ciclo,Ejemplo: Preventivo de los 20mil Kms"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_cycle_ids
+msgid "Cycles Included"
+msgstr "Ciclos incluidos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_program_form
+msgid "Cycles in this Maintenance Program"
+msgstr "Ciclos en este Programa de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_form
+msgid "Cycles included in this Cycle"
+msgstr "Ciclos incluidos en este Ciclo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_date_order
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_order_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_date
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Date"
+msgstr "Fecha"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_date_end_real
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_date_end_real
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_date_end_real
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_date_end
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_date_end
+msgid "Date End"
+msgstr "Fecha Fin"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_date_end_real
+msgid "Date End Real"
+msgstr "Fin Real"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_date_last_service
+msgid "Date Last Serv."
+msgstr "Fecha Último Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_date_next_service
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_date_next_service
+msgid "Date Next Serv."
+msgstr "Fecha Próximo Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_next_date
+msgid "Date Next Service"
+msgstr "Fecha Próximo Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_date
+msgid "Date Opened"
+msgstr "Fecha Apertura"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_date_end_real
+msgid "Date Solved"
+msgstr "Fecha atendido"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_date_start_real
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_date_start_real
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_date_start_real
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_date_start
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_date_start
+msgid "Date Start"
+msgstr "Fecha Inicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_date_start_real
+msgid "Date Start Real"
+msgstr "Inicio Real"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+msgid "Date in this month"
+msgstr "Fecha en este mes"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_default_for_busy
+msgid "Default for Busy"
+msgstr "Por defecto para Ocupado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_description
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_name
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_form
+msgid "Description"
+msgstr "Descripción"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_wizard_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_assing_manpower_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_display_name
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_distance
+msgid "Distance"
+msgstr "Distancia"
+
+#. module: fleet_mro
+#: selection:fleet.vehicle,odometer_uom:0
+msgid "Distance (mi./km)"
+msgstr "Distancia (mi./km)"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_diference
+msgid "Distance in between"
+msgstr "Distancia entre Servicios"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,state:0 selection:fleet.mro.order.task,state:0
+#: selection:fleet.mro.order.task.time,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Done"
+msgstr "Hecho"
+
+#. module: fleet_mro
+#: selection:fleet.mro.driver_report,state:0 selection:fleet.mro.order,state:0
+#: selection:fleet.vehicle.odometer.device,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_employee_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_driver_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_driver_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_driver_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_driver_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_driver_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Driver"
+msgstr "Conductor"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_driver_report.py:58
+#, python-format
+msgid "Driver Failure Report Error !"
+msgstr "Error de Reporte de Falla de Vehículo !"
+
+#. module: fleet_mro
+#: sql_constraint:fleet.mro.driver_report:0
+msgid "Driver Report number must be unique per Operating Unit !"
+msgstr "El número del Reporte de Falla de Vehículo debe ser único por Unidad Operativa !"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_operating_unit_fleet_mro_driver_report_seq
+msgid "Driver Report of Failure Sequence"
+msgstr "Error de Secuencia para Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_fleet_mro_driver_report_ids
+msgid "Driver Report of Failures"
+msgstr "Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_driver_report
+msgid "Driver Report of Vehicle Failure"
+msgstr "Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_dropship_picking_type
+msgid "Dropshipping Operation Type"
+msgstr "Tipo Operación Dropship"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_dummy_field
+msgid "Dummy"
+msgstr "Dummy"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_product_template_duration
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Duration"
+msgstr "Duración"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_duration
+msgid "Duration (Hrs)"
+msgstr "Duración (Hrs)"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_duration_diff
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_task_duration_diff
+msgid "Duration Diff"
+msgstr "Duración Diff"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_duration_real
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_duration_real
+msgid "Duration Real"
+msgstr "Duración Real"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_hr_employee
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_date_end
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_tree
+msgid "End"
+msgstr "Fin"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "End Date"
+msgstr "Fecha finalización"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+msgid "End Date in this month"
+msgstr "Fecha Final en este mes"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_odometer_end
+msgid "End count"
+msgstr "Conteo Final"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+msgid "Ended"
+msgstr "Finalizado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_vehicle_current_odometer_read
+#: model:ir.model.fields,help:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_current_odometer
+#: model:ir.model.fields,help:fleet_mro.field_fleet_vehicle_odometer_device_odometer_end
+msgid "Ending counter from device"
+msgstr "Conteo Final del Dispositivo"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:73
+#, python-format
+msgid "Error ! Next service Cycle and Sequence was not found in Vehicles Program..."
+msgstr "Error ! El próximo Servicio correspondiente al Ciclón fue encontrado en el Programa de Mantenimiento del Vehículo…"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:201
+#, python-format
+msgid "Error ! You can not create Duplicate Tasks, please delete any Task recently added to be able to save changes"
+msgstr "Error ! No puede crear Tareas duplicadas en la misma Orden de Servicio, por favor elimine la Tarea  que agregó recientemente para poder salvar los cambios"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:195
+#, python-format
+msgid "Error ! You can not create Tasks in MRO Service Order if it's in Released State, please delete any Task recently added to be able to save changes"
+msgstr "Error ! No puede crear Tareas si la Orden de Servicio está Liberada, por favor elimine cualquier Tarea que haya agregado para poder salvar los cambios"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/hr_employee.py:48
+#, python-format
+msgid "Error ! You can not have more than one Type defined as Default for Busy"
+msgstr "Error ! No puede tener mas de un registro definido como “Por defecto para Ocupado”"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_task_duration_est
+msgid "Est. Task Duration"
+msgstr "Tarea Duración Estimada"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_control_time_id
+msgid "Event Record"
+msgstr "Registro de Eventos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_type
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_type
+msgid "Event Type"
+msgstr "Tipo de Evento"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_expense_amount
+msgid "Expense Amount"
+msgstr "Monto Gastos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "External"
+msgstr "Externo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_manpower_external
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_manpower_external
+msgid "External Manpower"
+msgstr "Mano de Obra T.E."
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_external
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_spare_parts_external
+msgid "External Spare Parts"
+msgstr "Refacciones T.E."
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_purchase_form_action
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_purchase_order_ids
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_external_workshop
+#: model:ir.ui.menu,name:fleet_mro.fleet_mro_purchase_form_action_menu
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "External Workshop"
+msgstr "Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_purchase_order_line_ids
+msgid "External Workshop Detail"
+msgstr "Detalles del Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_purchase_order_line_ids
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "External Workshop Detailed"
+msgstr "Detalles del Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_purchase_picking_type
+msgid "External Workshop Operation Type"
+msgstr "Tipo Operación para Taller Externo"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:540
+#, python-format
+msgid "External Workshop for MRO Service Order %s"
+msgstr "Taller Externo para Orden de Servicio %s"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:293
+#, python-format
+msgid "External Workshop for MRO Service Order %s including Task: %s"
+msgstr "Taller Externo para Orden de Servicio %s incluyendo la Tarea: %s"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_fiscal_position_id
+msgid "Fiscal Position"
+msgstr "Posición fiscal"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro
+msgid "Fleet MRO"
+msgstr "Mantenimiento de Flota"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.open_view_fleet_mro_driver_report_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_tree
+msgid "Fleet MRO Driver Report of Vehicle Failure"
+msgstr "Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_analysis_pivot
+msgid "Fleet MRO Maintenance Order Analisys"
+msgstr "Análisis de Ordenes de Mantenimiento"
+
+#. module: fleet_mro
+#: model:res.groups,name:fleet_mro.fleet_mro_admin
+msgid "Fleet MRO Manager"
+msgstr "Fleet MRO Manager"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_fleet_mro_mechanic
+msgid "Fleet MRO Mechanic"
+msgstr "Fleet MRO Mecánico"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+msgid "Fleet MRO Order"
+msgstr "Orden de Servicio de Mtto"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_analysis
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_analysis_graph
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+msgid "Fleet MRO Order Analisys"
+msgstr "Análisis de Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_analysis_spare_parts
+msgid "Fleet MRO Order Analisys Spare Parts"
+msgstr "Análisis de Consumo de Refacciones"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_productivity_analysis
+msgid "Fleet MRO Order Productivity Analisys"
+msgstr "Análisis de Productividad de Personal"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_task_analysis
+msgid "Fleet MRO Order Task Analisys"
+msgstr "Análisis de Tareas en Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_analysis_times_graph
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_analysis_times_pivot
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+msgid "Fleet MRO Productivity Analisys"
+msgstr "Análisis de Productividad de Personal"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.open_view_fleet_mro_program_calendar
+msgid "Fleet MRO Program"
+msgstr "Programa de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.mro_stock_picking_search_view
+msgid "Fleet MRO Related"
+msgstr "Relacionado a Fleet MRO"
+
+#. module: fleet_mro
+#: model:ir.module.category,description:fleet_mro.fleet_mro_category
+#: model:ir.module.category,name:fleet_mro.fleet_mro_category
+msgid "Fleet MRO Security"
+msgstr "Fleet MRO Seguridad"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_task_time
+msgid "Fleet MRO Service Order Task Control Time"
+msgstr "Hoja de Tiempos de Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_analysis_graph
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_analysis_pivot
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+msgid "Fleet MRO Service Order Tasks Analisys"
+msgstr "Análisis de Tareas en Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_analysis_spare_parts_graph
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_analysis_spare_parts_pivot
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+msgid "Fleet MRO Spare Parts Analisys"
+msgstr "Análisis de Consumo de Refacciones"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_product_template_fleet_mro_task
+msgid "Fleet MRO Task"
+msgstr "Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_product_template_form_view
+msgid "Fleet MRO Task Details"
+msgstr "Detalles de la Tarea"
+
+#. module: fleet_mro
+#: model:res.groups,name:fleet_mro.fleet_mro_user
+msgid "Fleet MRO User"
+msgstr "Fleet MRO Usuario"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_vehicle_mro_program
+msgid "Fleet Vehicle MRO Preventive Maintenance Program"
+msgstr "Programa de Mantenimiento Preventivo Flota"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_vehicle_odometer_device
+msgid "Fleet Vehicle Odometer Device"
+msgstr "Odómetro del Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_picking_for_fleet_mro_order
+msgid "For MRO Service Order"
+msgstr "Para Orden de Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_frequency
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_search
+msgid "Frequency"
+msgstr "Frecuencia"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+msgid "From this month"
+msgstr "Este mes"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_kanban
+msgid "From:"
+msgstr "De:"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_search
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_search
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+msgid "Group by..."
+msgstr "Agrupar por..."
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_config_hr
+msgid "HR Config"
+msgstr "HR Config"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_form
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_search
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_tree
+msgid "HR MRO Task Productivity Types"
+msgstr "Tipos de No Productividad"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_wage_per_hour
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_job_wage_per_hour
+msgid "Hourly Salary"
+msgstr "Salario por Hora"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_hours_estimated
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_hours_estimated
+msgid "Hours Est."
+msgstr "Horas Est."
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_hours_real
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_hours_real
+msgid "Hours Real"
+msgstr "Horas Real"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_hours_mechanic
+msgid "Hours Work"
+msgstr "Horas Trabajadas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_wizard_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_assing_manpower_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_id_5529
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_id
+msgid "ID"
+msgstr "ID"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order.task,state:0
+msgid "In Process"
+msgstr "En Proceso"
+
+#. module: fleet_mro
+#: selection:fleet.vehicle.odometer.device,state:0
+msgid "Inactive"
+msgstr "Inactivo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Income"
+msgstr "Ingreso"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_income_amount
+msgid "Income Amount"
+msgstr "Monto Ingreso"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_income_manpower
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_income_manpower
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_income_manpower
+msgid "Income Manpower"
+msgstr "Ingreso Mano de Obra"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_income_spares
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_income_spares
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_income_spares
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_income_spares
+msgid "Income Spares"
+msgstr "Ingreso Refacciones"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_vehicle
+msgid "Information on a vehicle"
+msgstr "Información en un vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_vehicle_odometer_device_odometer_start
+msgid "Initial counter from device"
+msgstr "Initial counter from device"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_internal_repair
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_internal_repair
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_internal_repair
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_internal_repair
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_internal_repair
+msgid "Internal"
+msgstr "Interno"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_internal_repair
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_kanban
+msgid "Internal Repair"
+msgstr "Reparación de Vehículo de la Compañía"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_name
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_partner_invoice_id
+msgid "Invoice Address"
+msgstr "Dirección de factura"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_status
+msgid "Invoice Status"
+msgstr "Estado factura"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_order_partner_invoice_id
+msgid "Invoice address for current MRO Service Order."
+msgstr "Dirección de facturación para la Orden de Servicio"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,invoice_status:0
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoiced
+msgid "Invoiced"
+msgstr "Facturado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_ids
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Invoicing"
+msgstr "Facturación"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_hr_job
+msgid "Job Position"
+msgstr "Puesto de trabajo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_vehicle_odometer_device_accumulated_start
+msgid "Kms /Miles Accumulated from vehicle at the moment of activation of this odometer"
+msgstr "Kms /Miles Accumulated from vehicle at the moment of activation of this odometer"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_last_preventive_service
+msgid "Last Maintenance Service"
+msgstr "Ultimo Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_wizard___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_assing_manpower___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type___last_update
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_current_odometer_read
+msgid "Last Odometer Read"
+msgstr "Ultima Lectura de Odómetro"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_last_odometer
+msgid "Last Read"
+msgstr "Ultima Lectura"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_last_service
+msgid "Last Serv. Active Odometer"
+msgstr "Odómetro en Ultimo Servicio de Mtto"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_main_odometer_last_service
+msgid "Last Serv. Odometer"
+msgstr "Odómetro en Ultimo Servicio de Mtto"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_wizard_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_assing_manpower_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_write_uid
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_wizard_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_assing_manpower_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_write_date
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_purchase_order_fleet_mro_related
+msgid "Linked to Fleet MRO Service Order"
+msgstr "Ligado a Orden de Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_analysis
+msgid "MRO Analisys"
+msgstr "Análisis"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_cycle_id
+msgid "MRO Cycle"
+msgstr "Ciclo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_cycle_ids
+msgid "MRO Cycles Included"
+msgstr "Ciclos incluidos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_form_inherit_fleet_mro
+msgid "MRO Information"
+msgstr "Información"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_name
+msgid "MRO Order"
+msgstr "Orden"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_move_mro_order_state
+msgid "MRO Order State"
+msgstr "Estado de Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+msgid "MRO Order Task"
+msgstr "Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_pivot
+msgid "MRO Orders"
+msgstr "Ordenes"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_calendar_fleet_mro_program
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_form_inherit_fleet_mro
+msgid "MRO Program"
+msgstr "Programa"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "MRO Program Details"
+msgstr "Detalle de Programa"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.action_fleet_vehicle_mro_program_re_schedule
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_vehicle_mro_program_re_schedule
+msgid "MRO Program Re-scheduling"
+msgstr "Re-programación de Preventivo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.mro_stock_picking_search_view
+msgid "MRO Related"
+msgstr "Relacionado a MRO"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_model_view_form_fleet_mro
+msgid "MRO Related Tasks"
+msgstr "Tareas relacionadas"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:481
+#, python-format
+msgid "MRO Sequence Error ! You have not defined MRO Service Order Sequence for Operating Unit "
+msgstr "Error de Secuencia ! No ha definido Secuencia de Ordenes de Servicio de Mantenimiento para la Unidad Operativa"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_view_operating_unit_form
+msgid "MRO Sequences"
+msgstr "Sequencias"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_service_order_action
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_purchase_order_line_mro_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_purchase_order_mro_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_move_mro_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_picking_mro_order_id
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_tree
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_stock_view_move_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_calendar
+msgid "MRO Service Order"
+msgstr "Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "MRO Service Order Details"
+msgstr "Detalle de Orden de Servicio"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:910
+#, python-format
+msgid "MRO Service Order Invoices"
+msgstr "Facturas de Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_tree
+msgid "MRO Service Order Spare Parts Quotation"
+msgstr "Cotización de Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_stock_view_move_search
+msgid "MRO Service Order State"
+msgstr "Estado de Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_task
+msgid "MRO Service Order Task"
+msgstr "Tarea de Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_graph
+msgid "MRO Service Orders"
+msgstr "Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "MRO Service Type"
+msgstr "Tipo de Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_form
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_form
+msgid "MRO Service name, Example: Preventive Maintenance"
+msgstr "Descripción del Tipo de Mantenimiento, Ejemplo: Mantenimiento Preventivo"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_order_analysis_spare_parts_action
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_order_analysis_spare_parts
+msgid "MRO Spare Parts Analisys"
+msgstr "Análisis de Consumo de Refacciones"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_purchase_order_line_mro_task_id
+msgid "MRO Task"
+msgstr "Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_graph
+msgid "MRO Tasks"
+msgstr "Tareas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_model_task_ids
+msgid "MRO Tasks Related"
+msgstr "Relacionado a Tareas"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_order_analysis_times_action
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_order_analysis_times
+msgid "MRO Times Analisys"
+msgstr "Análisis de Productividad"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_search
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_search
+msgid "MRO Type"
+msgstr "Tipo de Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_model_mro_type_ids
+msgid "MRO Types Related"
+msgstr "Relacionado a Tipos de Servicio de Mtto"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "MRO Workshop"
+msgstr "Taller"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_cycle_ids
+msgid "MRP Program"
+msgstr "Programa"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_mro_type_id
+msgid "Main Service Type"
+msgstr "Main Service Type"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_mro_cycle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_mro_cycle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_mro_cycle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_mro_cycle_id
+msgid "Maint. Cycle"
+msgstr "Ciclo Mtto"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_name
+msgid "Maint. Order"
+msgstr "Orden Mtto"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_orders
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_config_product
+msgid "Maintenance Config"
+msgstr "Configuración Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.action_fleet_mro_cycle
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_cycles
+msgid "Maintenance Cycles"
+msgstr "Ciclos de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_order_analysis_action
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_order_analysis
+msgid "Maintenance Order Analysis"
+msgstr "Análisis de Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_operating_unit_fleet_mro_service_order_seq
+msgid "Maintenance Order Sequence"
+msgstr "Secuencia de Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_mro_program_id
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_program_search
+msgid "Maintenance Program"
+msgstr "Programa de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_form_inherit_fleet_mro
+msgid "Maintenance Program Sequence"
+msgstr "Secuencia de Programa de Mtto"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.action_fleet_mro_program
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_programs
+msgid "Maintenance Programs"
+msgstr "Programas de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_search
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_tree
+msgid "Maintenance Service Type"
+msgstr "Tipo de Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_order_task_analysis_action
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_order_task_analysis
+msgid "Maintenance Tasks Analisys"
+msgstr "Análisis de Tareas de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_operating_unit_id
+msgid "Maintenance Workshop"
+msgstr "Taller de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_search
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_tree
+msgid "Maintentance Cycles"
+msgstr "Ciclos de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_purchase_order_mro_manpower
+msgid "ManPower"
+msgstr "Mano de Obra"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_manpower
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_manpower
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_cost_service
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_cost_service
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_tree
+msgid "Manpower"
+msgstr "Mano de Obra"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Manpower Detailed"
+msgstr "Detalle Mano de Obra"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_tree
+msgid "Manpower Ext."
+msgstr "Mano de Obra Ext."
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Manpower Sum:"
+msgstr "Mano de Obra Suma:"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Manpower from External Workshop Detailed"
+msgstr "Detalle de Mano de Obra de Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Manpower from External Workshop Sum:"
+msgstr "Mano de Obra de Taller Externo Suma:"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_employee_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_hr_employee_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_employee_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+msgid "Mechanic"
+msgstr "Mecánico"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_assing_manpower_mechanic_ids
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_mechanic_ids
+msgid "Mechanics"
+msgstr "Mecánicos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_assing_manpower
+msgid "Mechanics or Thecnical Staff"
+msgstr "Mecánicos o Personal Técnico"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.fleet_mro_fleet_vehicle_model_brand_menu
+msgid "Model make of Vehicle"
+msgstr "Marca del Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_vehicle_model
+msgid "Model of a vehicle"
+msgstr "Modelo de un vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_next_date
+msgid "NEW Next Service"
+msgstr "Próximo Servicio NUEVO"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_name
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_name
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_cycle_next_service
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_cycle_next_service
+msgid "Next Maintenance Service"
+msgstr "Próximo Servicio de Mtto"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "No Manpower Detailed"
+msgstr "Sin Detalle de Mano de Obra"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "No Manpower from External Workshop"
+msgstr "Sin Mano de Obra de Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "No Spare Parts"
+msgstr "Sin Refacciones"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "No Spare Parts from External Workshop"
+msgstr "Sin Refacciones de Taller Externo"
+
+#. module: fleet_mro
+#: selection:hr.employee.mro_productive.type,type:0
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_search
+msgid "Not Busy"
+msgstr "No Productivo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+msgid "Not Cancelled"
+msgstr "No Cancelado"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+msgid "Not Closed"
+msgstr "No Cerrado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_notes
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_notes
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_note
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_program_notes
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_notes
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_note
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_notes
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_note
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_program_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_form
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_form
+msgid "Notes"
+msgstr "Notas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_note
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_time_pause_wizard
+msgid "Notes..."
+msgstr "Notas..."
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,invoice_status:0
+msgid "Nothing to Invoice"
+msgstr "Nada por Facturar"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_tires_extra
+msgid "Number of Extra Tires"
+msgstr "No. Llantas Extras"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_tires_number
+msgid "Number of Tires"
+msgstr "No. Llantas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_active_odometer
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_odometer_id
+#: model:ir.model.fields,help:fleet_mro.field_fleet_vehicle_active_odometer
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Odometer"
+msgstr "Odómetro"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_main_odometer_next_service
+msgid "Odometer Next Serv."
+msgstr "Odómetro Próx. Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_odometer_reading_ids
+msgid "Odometer Readings"
+msgstr "Odometer Readings"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_uom
+#: model:ir.model.fields,help:fleet_mro.field_fleet_vehicle_odometer_uom
+msgid "Odometer UoM"
+msgstr "Odometer UoM"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_vehicle_odometer
+msgid "Odometer log for a vehicle"
+msgstr "Registro del odómetro para un vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_odometer
+msgid "Odometer measure of the vehicle at the moment of this log"
+msgstr "Medida del odómetro del vehículo en el momento de registro"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Open"
+msgstr "Abierta"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Open Service Order"
+msgstr "Abrir Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_operating_unit
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_operating_unit_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_operating_unit_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_operating_unit_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_operating_unit_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Operating Unit"
+msgstr "Unidad Operativa"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.action_operating_unit_fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_operating_unit
+msgid "Operating Units"
+msgstr "Unidades Operativas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_order_id
+msgid "Order"
+msgstr "Orden"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_accumulated_start
+msgid "Original Accumulated"
+msgstr "Acumulado Original"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_invoice_paid
+msgid "Paid"
+msgstr "Pagado"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,invoice_status:0
+msgid "Partially Invoiced"
+msgstr "Parcialmente Facturado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_partner_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_partner_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_partner_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_partner_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_tree
+msgid "Pause"
+msgstr "Pausa"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.action_fleet_mro_order_task_time_pause_wizard
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_time_pause_wizard
+msgid "Pause Task"
+msgstr "Pausar Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_time_pause_wizard
+msgid "Pause Task?"
+msgstr "Pausar Tarea?"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order.task.time,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+msgid "Paused"
+msgstr "En Pausa"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_payment_term_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Payment Terms"
+msgstr "Términos de pago"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order.task,state:0
+#: selection:fleet.mro.order.task.time,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+msgid "Period"
+msgstr "Período"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+msgid "Picking"
+msgstr "Albarán"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Pickings"
+msgstr "Albaranes"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:802
+#, python-format
+msgid "Please define an accounting sale journal for this company."
+msgstr "Por favor defina un Diario de Tipo Ventas para esta Compaía"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_spares_quotation.py:146
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:398
+#, python-format
+msgid "Please define income account for this product: \"%s\" (id:%d) - or for its category: \"%s\"."
+msgstr "Por favor defina la cuenta de ingresos para este producto: \"%s\" (id:%d) - o para su categoría: \"%s\"."
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_assing_manpower
+msgid ""
+"Please note that:<br/> \n"
+"* Selected Tasks must be in Pending and Process State<br/>\n"
+"* If selected manpower is already assign to Task, it will not be assigned double.<br/>"
+msgstr ""
+"Por favor tome en cuenta  que:<br/> \n"
+"* Las Tareas seleccionadas deben estar en Estado “Por Hacer” o “En Proceso”<br/>\n"
+"* Si la Mano de obra ya se encontraba asignada no duplicará el registro.<br/>"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_assing_manpower
+msgid "Please select Mechanic or Thecnical Staff to assign to selected Tasks"
+msgstr "Seleccione el Mecánico o Personal Técnico a asignar a las Tareas seleccionadas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_product_template_duration
+msgid "Please set duration in Hours"
+msgstr "Ponga la duración en Horas"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_preorders
+msgid "Preliminar"
+msgstr "Preliminar"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_search
+msgid "Preventive"
+msgstr "Preventivo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_mro_cycle_id
+msgid "Preventive Cycle"
+msgstr "Ciclo Preventivo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_preventive
+msgid "Preventive Maintenance"
+msgstr "Mantenimiento Preventivo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_program_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_program_search
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_program_tree
+msgid "Preventive Maintentance Program"
+msgstr "Programa de Mantenimiento Preventivo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_mro_program_id
+msgid "Preventive Program"
+msgstr "Programa Preventivo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_program_sequence
+msgid "Preventive Program Seq."
+msgstr "Sec. Programa Preventivo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_search
+msgid "Preventive Service"
+msgstr "Servicio Preventivo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_price_unit
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Price Unit"
+msgstr "Precio Unitario"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_pricelist_id
+msgid "Pricelist"
+msgstr "Tarifa"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_order_pricelist_id
+msgid "Pricelist for current sales order."
+msgstr "Tarifa para el pedido de venta actual."
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+msgid "Process"
+msgstr "En Proceso"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_config_product_product_category
+msgid "Product Categories"
+msgstr "Categorías de productos"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_profit_or_loss
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_profit_or_loss
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_profit_loss
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_profit_loss
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Profit/Loss"
+msgstr "Utilidad/Pérdida"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_profit_or_loss_percent
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_profit_or_loss_percent
+msgid "Profit/Loss %"
+msgstr "Utilidad/Pérdida %"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_sequence_last_service
+msgid "Program Seq. Last Serv."
+msgstr "Sec. Ultimo Serv. Programa"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_program_form
+msgid "Program name, Example: Cargo Vehicle Preventive Program"
+msgstr "Nombre del Programa, Ejemplo: Programa de Mantenimiento Preventivo para Planas"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.purchase_order_form_fleet_mro
+msgid "Purchase Order Lines"
+msgstr "Líneas pedido de compra"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Qty"
+msgstr "Cant."
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_quantity
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_product_uom_qty
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_qty_to_invoice
+msgid "Quantity to Invoice"
+msgstr "Cantidad a Facturar"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_quoted
+msgid "Quoted"
+msgstr "Cotizado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_product_uom_qty
+msgid "Quoted Quantity"
+msgstr "Cant. Cotizada"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Re-Open"
+msgstr "Re-Abrir"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_date_end_real
+msgid "Real End"
+msgstr "Fin Real"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_date_start_real
+msgid "Real Start"
+msgstr "Inicio Real"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_task_duration_real
+msgid "Real Task Duration"
+msgstr "Duración Real de Tarea"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_order_duration_real
+msgid "Real duration in hours"
+msgstr "Duración Real en Horas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+msgid "Real_Time"
+msgstr "Tiempo_Real"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Released"
+msgstr "Liberada"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_service_order_line
+msgid "Repair Orders"
+msgstr "Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_replacement_of
+msgid "Replacement of"
+msgstr "Reemplazo de"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_name
+msgid "Report"
+msgstr "Reporte"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_form
+msgid "Report of Vehicle Failure"
+msgstr "Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_form
+msgid "Restrict Service Type to the following Vehicle Models"
+msgstr "Restringir Tipo de Servicio para los siguientes Modelos de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_stock_return_picking
+msgid "Return Picking"
+msgstr "Devolver albarán"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,state:0
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Revision"
+msgstr "Revisión Preliminar"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Sales Info"
+msgstr "Info de Ventas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Sales Information"
+msgstr "Información de ventas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_team_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_team_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Sales Team"
+msgstr "Equipo de ventas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Salesperson"
+msgstr "Comercial"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+msgid "Sched_Time"
+msgstr "Hora Programada"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Schedule"
+msgstr "Agendar"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_service_order_schedule_action
+msgid "Schedule Service Order"
+msgstr "Programar Orden de Servicio"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,state:0
+msgid "Scheduled"
+msgstr "Cita Programada"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_date_end
+msgid "Scheduled Date End"
+msgstr "Fin Programado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_date_start
+msgid "Scheduled Date Start"
+msgstr "Inicio Programado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_duration
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_duration
+msgid "Scheduled Duration"
+msgstr "Duración Programada"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_date_end
+msgid "Scheduled End"
+msgstr "Final Programado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_date_most_recent_end_mechanic_task
+msgid "Scheduled Most Recent Task End of Mechanic"
+msgstr "Programar Tareas finalizadas mas recientes del Mecánico"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_date_start
+msgid "Scheduled Start"
+msgstr "Inicio Programado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_trigger
+msgid "Scheduled at"
+msgstr "Programado para"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_order_duration
+msgid "Scheduled duration in hours"
+msgstr "Duración Programada Horas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Search MRO Service Orders"
+msgstr "Búsqueda MRO Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+msgid "Search Service Order Tasks"
+msgstr "Búsqueda Tareas de Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_tms_order_manager
+msgid "Security for Menu Fleet MRO Order Manager"
+msgstr "Seguridad para el Menu Fleet MRO Order Manager"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Send Quotation"
+msgstr "Enviar Cotización"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_sequence
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_sequence
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_cost_service_external
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_cost_service_external
+msgid "Service Cost External"
+msgstr "Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_order_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_order_id
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+msgid "Service Order"
+msgstr "Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.actions.report.xml,name:fleet_mro.report_mro_order_detail_x
+msgid "Service Order (Detail)"
+msgstr "Orden de Servicio (Detalle)"
+
+#. module: fleet_mro
+#: model:ir.actions.report.xml,name:fleet_mro.report_mro_order_summary_x
+msgid "Service Order (Summary)"
+msgstr "Orden de Servicio (Resumen)"
+
+#. module: fleet_mro
+#: model:ir.actions.report.xml,name:fleet_mro.report_mro_order_final_quotation_x
+msgid "Service Order Final Quotation"
+msgstr "Cotización Final de Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.actions.report.xml,name:fleet_mro.report_mro_order_quotation_x
+msgid "Service Order Quotation"
+msgstr "Cotización de Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Service Order Quotation:"
+msgstr "Cotización de Orden de Servicio:"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_order_task_action
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_order_task
+msgid "Service Order Tasks"
+msgstr "Tareas de Ordenes de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Service Order:"
+msgstr "Orden de Servicio:"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_mro_type_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_mro_type_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_mro_type_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_mro_type_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+msgid "Service Type"
+msgstr "Tipo de Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.action_fleet_mro_type
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_types
+msgid "Service Types"
+msgstr "Tipo de servicios"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_form
+msgid "Set to Draft"
+msgstr "Cambiar a borrador"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_form
+msgid "Share a message..."
+msgstr "Compartir Mensaje…"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_solved
+msgid "Solved"
+msgstr "Atendido"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_spare_part_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+msgid "Spare Part"
+msgstr "Refacción"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_categ_id
+msgid "Spare Part Category"
+msgstr "Categoría de Refacción"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_product_normal_action
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_spare_parts
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_parts_cost
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_parts_cost
+#: model:ir.model.fields,field_description:fleet_mro.field_purchase_order_mro_spare_parts
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_config_product_product
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_tree
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Spare Parts"
+msgstr "Refacciones"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Spare Parts Detailed"
+msgstr "Detalles de Refacciones usadas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_tree
+msgid "Spare Parts Ext"
+msgstr "Refacciones Taller Ext."
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Spare Parts Ext."
+msgstr "Refacciones Taller Ext."
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_parts_cost_external
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_parts_cost_external
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+msgid "Spare Parts External"
+msgstr "Refacciones Taller Ext."
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_spares_quotation_line_ids
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_line_ids
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Spare Parts Quotation"
+msgstr "Cotización Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Spare Parts Quoted and Used"
+msgstr "Refacciones Cotizadas vs. Usadas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Spare Parts Sum:"
+msgstr "Refacciones Suma:"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Spare Parts from External Workshop Detailed"
+msgstr "Refacciones de Taller Externo Detallado"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Spare Parts from External Workshop Sum:"
+msgstr "Refacciones de Taller Externo Suma:"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_order_task_spares_quotation
+msgid "Spares Quotation for Fleet MRO Customer"
+msgstr "Refacciones Cotizadas vs. Usadas para Clientes en Fleet MRO"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_date_start
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_tree
+msgid "Start"
+msgstr "Iniciar"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+msgid "Start Date in this month"
+msgstr "Fecha de Inicio en este mes"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_odometer_start
+msgid "Start count"
+msgstr "Conteo inicial"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_state
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_state
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_state
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_state
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_state
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_state
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_picking_mro_order_state
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "State"
+msgstr "Estado"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_state_order
+msgid "State Order"
+msgstr "Estado Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_form
+msgid "Stock Configuration for Spare Parts Warehouse"
+msgstr "Configuración de Stock para Almacén de Refacciones"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_stock_dest_id
+msgid "Stock Location Dest"
+msgstr "Ubicación de Stock de Destino"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Stock Location Destiny"
+msgstr "Ubicación de Stock de Destino"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_stock_origin_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+msgid "Stock Location Origin"
+msgstr "Ubicación de Stock de Origen"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_stock_move_ids
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_stock_move_ids
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_stock_move_ids
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+msgid "Stock Moves"
+msgstr "Movimientos de existencias"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_stock_picking_type
+msgid "Stock Operation Type"
+msgstr "Tipo de Operación de Stock"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_type_purchase_picking_type
+msgid "Stock Operation Type used in Purchase Orders for External Workshop"
+msgstr "Tipo de Operación para Ordenes de Compra de Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_form
+msgid "Stock Operations Types for External Workshop"
+msgstr "Tipo de Operación para Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_type_search
+msgid "Stock Picking Type"
+msgstr "Tipo de Picking"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_stock_picking_ids
+msgid "Stock Pickings"
+msgstr "Transferencias"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:569
+#, python-format
+msgid "Stock Pickings related to MRO Service Order %s"
+msgstr "Transferencias relacionadas a la Orden de Servicio de Mtto %s"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_product_template_sub_tasks
+msgid "Sub Tasks"
+msgstr "Sub Tareas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "SubTotal"
+msgstr "SubTotal"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_amount_untaxed
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_price_subtotal
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_price_subtotal
+msgid "Subtotal Quoted"
+msgstr "Subtotal (Cotizado)"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_price_subtotal_2_invoice
+msgid "Subtotal Real"
+msgstr "Subtotal (Real)"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Subtotal:"
+msgstr "Subtotal:"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_supervisor_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_supervisor_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_supervisor_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_supervisor_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_supervisor_id
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_picking_mechanic_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Supervisor"
+msgstr "Supervisor"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_task_id
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_move_mro_task_id
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_search
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+msgid "Task"
+msgstr "Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_tms_kiosk_calendar
+msgid "Task Calendar Times"
+msgstr "Hojas de Tiempo de Tareas"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_hr_employee_mro_productive
+msgid "Task Control Time"
+msgstr "Hojas de Tiempo de Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+msgid "Task Costs"
+msgstr "Costos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_date
+msgid "Task End Date"
+msgstr "Fecha Final Tarea"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_hr_employee_mro_productive_tree
+msgid "Task Event"
+msgstr "Eventos"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_hr_employee_mro_productive_types
+msgid "Task Productive Categs"
+msgstr "Categorías de No Productividad"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.action_hr_employee_mro_productive_type
+msgid "Task Productivity Types"
+msgstr "Categorías de No Productividad"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_move_mro_task_spare_id
+msgid "Task Spare Line"
+msgstr "Línea de Refacción de Tarea"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_hr_employee_mro_productive_wizard
+msgid "Task Time Sheet Pauses"
+msgstr "Pausas en Hojas de Tiempos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_wizard_control_time_id
+msgid "Task TimeSheet"
+msgstr "Hojas de Tiempo de Tarea"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_task_time_time_ids
+msgid "Task time time ids"
+msgstr "Hojas de Tiempo de Tareas"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Task:"
+msgstr "Tarea:"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:406
+#, python-format
+msgid "Task: "
+msgstr "Tarea:"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_task_product_normal_action
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_cycle_task_ids
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_ids
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_tasks
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_mro_order_task_calendar
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:623
+#, python-format
+msgid "Tasks Time Sheets related to MRO Service Order %s"
+msgstr "Hojas de Tiempo de Tareas de la Orden de Servicio de Mtto %s"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+msgid "Tasks and Times by Mechanic"
+msgstr "Tareas y Hojas de Tiempo por Mecánico"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,name:fleet_mro.fleet_mro_order_task_time_action
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_kiosk
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_order_task_time
+msgid "Tasks by Mechanics"
+msgstr "Tareas por Mecánico"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_cycle_form
+msgid "Tasks in this Cycle"
+msgstr "Tareas en este Ciclo"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:596
+#, python-format
+msgid "Tasks related to MRO Service Order %s"
+msgstr "Tareas de la Orden de Servicio %s"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_form
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_tree
+msgid "Tasks times"
+msgstr "Hojas de Tiempo de Tareas"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_amount_tax
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_amount_tax
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_price_tax
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_tax_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_tax_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_price_tax
+msgid "Taxes Quoted"
+msgstr "Impuestos (Cotizados)"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_price_tax_2_invoice
+msgid "Taxes Real"
+msgstr "Impuestos (Real)"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Terms and conditions..."
+msgstr "Términos y condiciones..."
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_order_project_id
+msgid "The analytic account related to a MRO Service Order."
+msgstr "La cuenta Analítica relacionada a la Orden de Servicio"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_order_related_project_id
+msgid "The analytic account related to a sales order."
+msgstr "La cuenta analítica relacionada con un pedido de venta."
+
+#. module: fleet_mro
+#: sql_constraint:fleet.mro.cycle:0 sql_constraint:fleet.mro.program:0
+#: sql_constraint:fleet.mro.type:0
+#: sql_constraint:hr.employee.mro_productive.type:0
+msgid "The code of the record must be unique per company !"
+msgstr "El código del registro debe ser único por Compañía !!!"
+
+#. module: fleet_mro
+#: model:res.groups,comment:fleet_mro.fleet_mro_admin
+msgid "The user is Fleet MRO Manager."
+msgstr "El usuario es Manager de Fleet MRO"
+
+#. module: fleet_mro
+#: model:res.groups,comment:fleet_mro.fleet_mro_user
+msgid "The user is Fleet MRO User."
+msgstr "El usuario es asistente en Fleet MRO"
+
+#. module: fleet_mro
+#: model:res.groups,comment:fleet_mro.group_report_cancel
+msgid "The user will be able to Cancel Driver Report of Vehicle Failure."
+msgstr "Cancela Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:res.groups,comment:fleet_mro.group_report_confirm
+msgid "The user will be able to Confirm Driver Report of Vehicle Failure."
+msgstr "Confirma Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:res.groups,comment:fleet_mro.group_report_setdraft
+msgid "The user will be able to Set to Draft Driver Report of Vehicle Failure."
+msgstr "Regresa a Borrador Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:872
+#: code:addons/fleet_mro/models/fleet_mro_order.py:876
+#, python-format
+msgid "There is no invoicable line."
+msgstr "No hay nada que facturar"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_operating_unit_fleet_mro
+msgid "These Operating Units will be used in ALL records so you can have information for each Branch Operating Unit and Central Headquarters"
+msgstr "Estas Unidades Operativas serán usadas en TODOS los registros de manera que puede separa información de cada Sucursal."
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_fleet_mro_cycle
+msgid "These will be used to define Preventive Maintenance Program"
+msgstr "Estas serán usadas para definir Programa de Mantenimiento Preventivo"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_fleet_mro_program
+msgid "These will be used to define Preventive Maintenance Programs to use with our vehicles."
+msgstr "Estas serán usadas para definir Programa de Mantenimiento Preventivo a usar con los vehículos"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_fleet_mro_type
+msgid "These will be used to define why a Service Mainenance Order is open."
+msgstr "Estas serán usadas para definir la causa de apertura de una Orden de Servicio de Mantenimiento."
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.action_hr_employee_mro_productive_type
+msgid "These will be used to define why a Service Task is Paused."
+msgstr "Estas serán usadas para definir la causa por la cual una Tasa es Pausada."
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "This month"
+msgstr "Este mes"
+
+#. module: fleet_mro
+#: selection:fleet.vehicle,odometer_uom:0
+msgid "Time (Days)"
+msgstr "Tiempo (Días)"
+
+#. module: fleet_mro
+#: selection:fleet.vehicle,odometer_uom:0
+msgid "Time (Hours)"
+msgstr "Tiempo (Horas)"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_control_time_ids
+msgid "Time Sheet"
+msgstr "Hoja de Tiempo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Time Sheets"
+msgstr "Hoja de Tiempos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "Time Statistics"
+msgstr "Estadísticas"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order.task,state:0
+msgid "To Do"
+msgstr "Por Hacer"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,invoice_status:0
+msgid "To Invoice"
+msgstr "A Facturar"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_kanban
+msgid "To:"
+msgstr "To:"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_amount_total
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_amount_total
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_price_total
+msgid "Total"
+msgstr "Total"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_costs_all
+msgid "Total Costs"
+msgstr "Costos Totales"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_total_duration
+#: model:ir.model.fields,field_description:fleet_mro.field_product_template_duration_total
+msgid "Total Duration"
+msgstr "Duración Total"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_amount_untaxed
+msgid "Total Income"
+msgstr "Total Ingresos"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_income_all
+msgid "Total Income Task"
+msgstr "Total Ingresos de Tarea"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_price_total
+msgid "Total Quoted"
+msgstr "Total (Cotizado)"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_price_total_2_invoice
+msgid "Total Real"
+msgstr "Total (Real)"
+
+#. module: fleet_mro
+#: model:ir.model.fields,help:fleet_mro.field_fleet_mro_driver_report_vehicle_id
+msgid "Tractor, Trailer, Camion, Van, Cargo Unit, etc..."
+msgstr "Tractor, Trailer, Camión, Van, etc..."
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_productivity_type
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_productivity_type
+#: model:ir.model.fields,field_description:fleet_mro.field_hr_employee_mro_productive_type_type
+#: model:ir.ui.view,arch_db:fleet_mro.hr_employee_mro_productive_type_search
+msgid "Type"
+msgstr "Tipo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_price_unit
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_price_unit
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_price_unit
+msgid "Unit Price"
+msgstr "Precio unitario"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_product_uom
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_spares_quotation_product_uom
+msgid "Unit of Measure"
+msgstr "Unidad de medida"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_product_uom_id
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_tree
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "UoM"
+msgstr "UdM"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_dummy
+msgid "Usado para vista Kanban"
+msgstr "Usado para vista Kanban"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.fleet_mro_purchase_form_action
+msgid ""
+"Use this menu to keep control of External Workshop related to \n"
+"                MRO Service Order. For each purchase order, you can track the\n"
+"                related discussion with the vendor, control the products\n"
+"                received and control the vendor bills."
+msgstr ""
+"Use este menú para llevar el control de los Talleres Externos relacionados \n"
+"                A Ordenes de Servicio de Mantenimiento. Para cada Orden de Compra\n"
+"ttpuede dar seguimiento a cada comunicación con el Proveedor, controlar\n"
+"ttla recepción de productos y llevar el control de las Facturas del Proveedor."
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_user_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_user_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_user_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_hr_employee_user_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_user_id
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+msgid "User"
+msgstr "Usuario"
+
+#. module: fleet_mro
+#: model:res.groups,name:fleet_mro.fleet_mro_kiosk
+msgid "User Mechanics Fleet MRO"
+msgstr "Usuario Mecánico para Fleet MRO"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "VAT:"
+msgstr "CIF/NIF:"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_driver_report_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_spare_parts_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_analysis_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_productivity_analysis_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_analysis_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_time_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_task_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_name2
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_odometer_device_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_purchase_order_line_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_purchase_order_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_move_vehicle_id
+#: model:ir.model.fields,field_description:fleet_mro.field_stock_picking_vehicle_id
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_stock_view_move_search
+#: model:ir.ui.view,arch_db:fleet_mro.mro_stock_picking_search_view
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_driver_report_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_spare_parts_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_analysis_times_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_analysis_search
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_time_filter
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_service_order_filter
+msgid "Vehicle"
+msgstr "Vehículo"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_driver_report_form
+msgid "Vehicle Failure Report"
+msgstr "Reporte de Falla de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_vehicle_mro_program_re_schedule_line
+msgid "Vehicle MRO Program re-schedule line"
+msgstr "Re-programación de línea de Programa de Mantenimiento de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_vehicle_mro_program_re_schedule
+msgid "Vehicle MRO Program re-schedule on avg distance/time per day"
+msgstr "Re-programación de distancia/tiempo promedio diario de Vehículo"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.fleet_mro_fleet_vehicle_model_menu
+msgid "Vehicle Model"
+msgstr "Modelo del vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_fleet_vehicle_model_ids
+#: model:ir.model.fields,field_description:fleet_mro.field_product_template_fleet_vehicle_model_ids
+msgid "Vehicle Model Related"
+msgstr "Relacionado a Modelo del vehículo"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.fleet_mro_fleet_vehicle_state_menu
+msgid "Vehicle Status"
+msgstr "Estado del vehículo"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_vehicle_ids
+#: model:ir.ui.menu,name:fleet_mro.fleet_mro_fleet_vehicle_menu
+msgid "Vehicles"
+msgstr "Vehículos"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_config_vehicle
+msgid "Vehicles Configuration"
+msgstr "Configuración Vehículos"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.fleet_mro_fleet_vehicle_odometer_menu
+msgid "Vehicles Odometer"
+msgstr "Odómetro de los vehículos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_vehicle_mro_program_re_schedule
+msgid "Vehicles with Delayed Preventive Service to Re-Schedule"
+msgstr "Vehículos con Servicio Preventivo retrasado a Re-programar"
+
+#. module: fleet_mro
+#: selection:fleet.mro.order,state:0
+msgid "Waiting Approval"
+msgstr "Esperando Aprobación"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_order_warehouse_id
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_mro_type_warehouse_id
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:291
+#, python-format
+msgid ""
+"Warning !\n"
+"Could not create Odometer Record! \n"
+"There is no Active Odometer for Vehicle %s"
+msgstr ""
+"Advertencia !\n"
+"No se pudo crear el registro del Odómetro! \n"
+"No hay Odómetro activo para el Vehículo %s"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:442
+#, python-format
+msgid ""
+"Warning !\n"
+"Please select at least one Mechanic or Technical Staff to assign manpower to selected Tasks"
+msgstr ""
+"Advertencia !\n"
+"Por favor seleccione por lo menos un Mecánico para asignarlo a las Tareas seleccionadas"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:439
+#, python-format
+msgid ""
+"Warning !\n"
+"Please select at least one Task in Pending state to assign manpower"
+msgstr ""
+"Advertencia !\n"
+"Por favor seleccione por lo menos una Tarea “Por Hacer” para asignarle Mano de Obra"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:252
+#, python-format
+msgid ""
+"Warning !\n"
+"There is no Active Odometer for vehicle %s"
+msgstr ""
+"Advertencia !\n"
+"El Vehículo %s no tiene un Odómetro Activo"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:245
+#, python-format
+msgid ""
+"Warning !\n"
+"You can not have Current Reading <= Last Reading !"
+msgstr ""
+"Advertencia !\n"
+"No puede tener la Lectura Actual  <= Ultima Lectura !"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:187
+#, python-format
+msgid ""
+"Warning !\n"
+"You can not have Ending Date (%s) less than Starting Date (%s)"
+msgstr ""
+"Advertencia !\n"
+"La Fecha final (%s) ni puede ser menor a la Fecha de Inicio (%s)"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:179
+#, python-format
+msgid ""
+"Warning !\n"
+"You can not have Odometer End less than Odometer Start"
+msgstr ""
+"Advertencia !\n"
+"No puede tener el valor de Odómetro final menor al Odómetro inicial"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:190
+#, python-format
+msgid ""
+"Warning !\n"
+"You can not have this Star Date because is overlaping with another record"
+msgstr ""
+"Advertencia !\n"
+"No puede tener esta Fecha de Inicio porque se traslapa con otro registro"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:172
+#, python-format
+msgid ""
+"Warning !\n"
+"You can not have two Odometer Devices with the same State (Draft / Active) !"
+msgstr ""
+"Advertencia !\n"
+"No puede tener dos Odómetros con el mismo Estado (Borrador / Activo)"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task_time.py:66
+#, python-format
+msgid ""
+"Warning !!!\n"
+"\n"
+"Could not find any Task Productivity Type marked as Default for Busy"
+msgstr ""
+"Advertencia !!!\n"
+"\n"
+"No pude encontrar el registro para definir asociar con Tiempo Productivo"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_driver_report.py:70
+#, python-format
+msgid ""
+"Warning !!!\n"
+"Could not cancel Report ! This Driver Report of Vehicles Failure is already linked to MRO Service Order"
+msgstr ""
+"Advertencia !!!\n"
+"No se pudo Cancelar el Reporte de Falla de Vehículo porque ya se encuentra atendido en una Orden de Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:735
+#, python-format
+msgid ""
+"Warning !!!\n"
+"You can not Re-Open this record because is already invoiced, You have to Cancel Invoice record so you can re-open it."
+msgstr ""
+"Advertencia !!!\n"
+"No puede Re-Abrir la Orden de Servicio porque ya se encuentra Facturada, Tendría que Cancelar primero la Factura para poder Re-Abrirla"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/stock_picking.py:37
+#, python-format
+msgid ""
+"Warning !!!\n"
+"You canno create Return Picking if the MRO Service Order related to this Picking is in Done State.\n"
+"If you need to return this Producto you have to create it manually."
+msgstr ""
+"Advertencia !!!\n"
+"No puede crear el Picking de Retorno si está ligado a una Orden de Servicio de Mantenimiento y ésta se encuentra en estado Finalizada.\n"
+"Si necesita devolver el producto debe crear el Picking manualmente."
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:793
+#, python-format
+msgid "Warning !!! You can not change Service Order from Kanban View"
+msgstr "Warning !!! You can not change Service Order from Kanban View"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_spares_quotation.py:113
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:260
+#, python-format
+msgid "Warning for %s"
+msgstr "Advertencia para %s"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:355
+#, python-format
+msgid ""
+"Warning!\n"
+"\n"
+"You can not cancel Task if there are Stock Moves related to task %s"
+msgstr ""
+"Advertencia!\n"
+"\n"
+"No puede Cancelar la Tarea “%s” si ya tiene Movimientos de Almacén relacionados"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:369
+#, python-format
+msgid ""
+"Warning!\n"
+"All Mechanics Tasks must be Ended"
+msgstr ""
+"Advertencia!\n"
+"Todas las Hojas de Tiempo de los Mecánicos asociadas a las Tareas deben estar Finalizadas"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:366
+#, python-format
+msgid ""
+"Warning!\n"
+"All Purchase Order for External Workshop must be Confirmed"
+msgstr ""
+"Advertencia!\n"
+"Todas las Ordenes de Compra de Taller Externo deben estar Confirmadas"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/purchase_order.py:41
+#, python-format
+msgid ""
+"Warning!\n"
+"You can not cancel Purchase Order for External Workshop because MRO Service Order is Done or Task is in Done State"
+msgstr ""
+"Advertencia!\n"
+"No puede Cancelar el Pedido de Compra para Taller Externo porque la Orden de Servicio de Mantenimiento ya se encuentra Realizada o la Tarea se encuentra Realizada"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:319
+#, python-format
+msgid ""
+"Warning!\n"
+"You can not delete Tasks unless they are Cancelled"
+msgstr ""
+"Advertencia!\n"
+"No puede Eliminar Tareas a menos que se encuentren Canceladas."
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:327
+#, python-format
+msgid ""
+"Warning!\n"
+"You can only change Task to Process State when MRO Service Order is in Open State"
+msgstr ""
+"Advertencia!\n"
+"Solo puede poner las Tareas en Estado “En Proceso” si la Orden de Servicio de Mantenimiento se encuentra en estado “Abierta”"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:331
+#, python-format
+msgid ""
+"Warning!\n"
+"You can only change Task to Process State when it has assigned Mechanic"
+msgstr ""
+"Advertencia!\n"
+"Solo puede poner la Tarea en estado “En Proceso” si ya tiene asignada Mecánico(s)"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order_task.py:353
+#, python-format
+msgid ""
+"Warning! \n"
+"\n"
+"You can not Cancel a MRO Service Order with Tasks in Done State"
+msgstr ""
+"Advertencia! \n"
+"\n"
+"No puede Cancelar una Orden de Servicio de Mantenimiento con Tareas que ya fueron Realizadas"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:697
+#, python-format
+msgid ""
+"Warning! \n"
+"\n"
+"You can not set to Open State a MRO Service Order without Tasks"
+msgstr ""
+"Advertencia! \n"
+"\n"
+"No puede Abrir una Orden de Servicio de Mantenimiento sin Tareas"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:119
+#, python-format
+msgid ""
+"Warning! \n"
+"I can not calculate Next Preventive Service Date because this Vehicle (%s) has no record for Last Preventive Service"
+msgstr ""
+"Advertencia! \n"
+"No se puede calcular la fecha para el Siguiente Mantenimiento Preventivo porque este Vehículo (%s) no tiene registro del Ultimo Servicio Preventivo"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:122
+#, python-format
+msgid ""
+"Warning! \n"
+"I can not calculate Next Preventive Service Date because you have not defined Average distance/time per day for vehicle: %s"
+msgstr ""
+"Advertencia! \n"
+"No puedo calcular la Fecha del Siguiente Mantenimiento Preventivo porque no ha definido la Distancia/Tiempo promedio diario para el Vehículo: %s"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_vehicle.py:89
+#, python-format
+msgid ""
+"Warning! \n"
+"You have not define Preventive Maintenance Program for this vehicle"
+msgstr ""
+"Advertencia! \n"
+"No le ha asignado el Programa de Mantenimiento Preventivo para este Vehículo"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:561
+#, python-format
+msgid ""
+"Warning!!! \n"
+"\n"
+"You cannot create Pickings on MRO Service Order in Draft or Cancel State"
+msgstr ""
+"Advertencia!!! \n"
+"\n"
+"No puede crear Transferencias de Inventario en Ordenes de Servicio de Mantenimiento en estado Borrador o Cancelada"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_order.py:532
+#, python-format
+msgid ""
+"Warning!!! \n"
+"\n"
+"You cannot create Purchase Orders for External Workshop on MRO Service Order in Draft or Cancel State"
+msgstr ""
+"Advertencia!!! \n"
+"\n"
+"No puede crear Pedidos de Compra de Taller Externo en Ordenes de Servicio de Mantenimiento en Borrador o Cancelada"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+msgid "With External Workshop"
+msgstr "Con Taller Externo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+msgid "Without Workhand Assigned"
+msgstr "Sin Mano de Obra asignada"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_re_schedule_line_wizard_id
+msgid "Wizard"
+msgstr "Asistente"
+
+#. module: fleet_mro
+#: model:ir.ui.menu,name:fleet_mro.menu_fleet_mro_service_order_schedule_action
+msgid "Work Agenda"
+msgstr "Agenda de Trabajo"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+msgid "Work Hand"
+msgstr "Mano de Obra"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+msgid "Work Hand External"
+msgstr "Mano de Obra Externa"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "WorkHand"
+msgstr "Mano de Obra"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_detail_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_summary_document
+msgid "WorkHand Ext."
+msgstr "Mano de Obra Ext."
+
+#. module: fleet_mro
+#: selection:fleet.mro.order.task.time,state:0
+msgid "Working on it"
+msgstr "Trabajando en ella"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_filter
+msgid "Workshop"
+msgstr "Taller"
+
+#. module: fleet_mro
+#: code:addons/fleet_mro/models/fleet_mro_driver_report.py:58
+#, python-format
+msgid "You have not defined Driver Failure Report Sequence for Operating Unit "
+msgstr "No ha definido Secuencia de Reporte de Falla de Vehículo para esta Unidad Operativa"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.fleet_mro_task_product_normal_action
+msgid "You must define Tasks to be used in MRO Fleet Service Orders."
+msgstr "Debe definir Tareas para ser usadas en Ordenes de Servicio de Mantenimiento"
+
+#. module: fleet_mro
+#: model:ir.actions.act_window,help:fleet_mro.fleet_mro_product_normal_action
+msgid "You must define a product to be used in MRO."
+msgstr "Debe definir producto a usarse en Mantenimiento de Vehículos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_final_quotation_document
+#: model:ir.ui.view,arch_db:fleet_mro.report_mro_order_quotation_document
+msgid "Your Reference"
+msgstr "Su Referencia"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_vehicle_mro_program_re_schedule
+msgid "_Re-Schedule"
+msgstr "Re-Programar"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "all_costs"
+msgstr "Costos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+msgid "costs"
+msgstr "Costos"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_form_inherit_fleet_mro
+msgid "e.g. Model S"
+msgstr "ej. Model S"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_form_inherit_fleet_mro
+msgid "e.g. PAE 326"
+msgstr "ej. PAE 326"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_vehicle_form_inherit_fleet_mro
+msgid "e.g. TR-0214"
+msgstr "e.j. TR-0214"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_cycle
+msgid "fleet.mro.cycle"
+msgstr "fleet.mro.cycle"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_program
+msgid "fleet.mro.program"
+msgstr "fleet.mro.program"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_fleet_mro_type
+msgid "fleet.mro.type"
+msgstr "fleet.mro.type"
+
+#. module: fleet_mro
+#: model:ir.model,name:fleet_mro.model_hr_employee_mro_productive_type
+msgid "hr.employee.mro_productive.type"
+msgstr "hr.employee.mro_productive.type"
+
+#. module: fleet_mro
+#: model:ir.model.fields,field_description:fleet_mro.field_fleet_vehicle_mro_program_order_distance
+msgid "mi/km"
+msgstr "mi/km"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_invoice_wizard_view
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_mro_order_task_assing_manpower
+#: model:ir.ui.view,arch_db:fleet_mro.view_fleet_vehicle_mro_program_re_schedule
+msgid "or"
+msgstr "o"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_tree_general
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "subtotal"
+msgstr "subtotal"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_tree
+msgid "sum_price_subtotal"
+msgstr "sum_price_subtotal"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_form
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_tree
+msgid "sum_price_subtotal_2_invoice"
+msgstr "sum_price_subtotal_2_invoice"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_form
+msgid "sum_price_tax"
+msgstr "sum_price_tax"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_form
+msgid "sum_price_tax_2_invoice"
+msgstr "sum_price_tax_2_invoice"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_form
+msgid "sum_price_total"
+msgstr "sum_price_total"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_spare_quotation_form
+msgid "sum_price_total_2_invoice"
+msgstr "sum_price_total_2_invoice"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+msgid "xSubTotal"
+msgstr "xSubTotal"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_order_task_form
+msgid "xTaxes"
+msgstr "xTaxes"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "ySubTotal"
+msgstr "ySubTotal"
+
+#. module: fleet_mro
+#: model:ir.ui.view,arch_db:fleet_mro.fleet_mro_service_order_form
+msgid "yTaxes"
+msgstr "yTaxes"

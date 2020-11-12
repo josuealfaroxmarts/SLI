@@ -1,0 +1,143 @@
+<openerp>
+<data>
+
+
+        <record model="ir.ui.view" id="view_employee_form_fleet_mro">
+            <field name="name">Employee - Fleet MRO</field>
+            <field name="model">hr.employee</field>
+            <field name="type">form</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">                
+                    <attribute name="attrs">{'required':[('fleet_mro_mechanic','=',True)]}</attribute>
+                </field>
+                <field name="job_id" position="after">
+                    <field name="fleet_mro_mechanic" />
+                    <field name="wage_per_hour" />
+                </field>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="view_hr_job_form_fleet_mro">
+            <field name="name">Jobs - Fleet MRO</field>
+            <field name="model">hr.job</field>
+            <field name="type">form</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <field name="no_of_recruitment" position="after">
+                    <field name="wage_per_hour"/>
+                </field>
+            </field>
+        </record>
+
+
+    #####################################################################################
+    #### HR MRO Task Productivity Types
+    #####################################################################################
+    <record model="ir.ui.view" id="hr_employee_mro_productive_type_form">
+        <field name="name">hr.employee.mro_productive.type.form</field>
+        <field name="model">hr.employee.mro_productive.type</field>
+        <field name="type">form</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <form string="HR MRO Task Productivity Types">
+               <sheet>
+                   <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" groups="base.group_user"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group col="4">
+                        <group colspan="1" col="1">
+                            <div>
+                                <h1>
+                                    <label for="code" class="oe_edit_only" />
+                                    <field name="code" placeholder="Code..." nolabel="1" />
+                                </h1>
+                            </div>
+                        </group>
+                        <group colspan="3" col="2">
+                            <div>
+                                <h1>
+                                    <label for="name" class="oe_edit_only"/>
+                                    <field name="name" placeholder="MRO Service name, Example: Preventive Maintenance"  nolabel="1" />
+                                </h1>
+                            </div>
+                        </group>
+                    </group>
+                    <group colspan="4" col="4">
+                        <field name="type"/>
+                        <field name="default_for_busy"/>
+                        <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        <newline />
+                        <field name="notes" nolabel="1" placeholder="Notes" colspan="4"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+
+    <record model="ir.ui.view" id="hr_employee_mro_productive_type_tree">
+        <field name="name">hr.employee.mro_productive.type.tree</field>
+        <field name="model">hr.employee.mro_productive.type</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <tree string="HR MRO Task Productivity Types">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="type" />
+                <field name="default_for_busy" />
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>    
+
+    
+    <record model="ir.ui.view" id="hr_employee_mro_productive_type_search">
+        <field name="name">hr.employee.mro_productive.type.search</field>
+        <field name="model">hr.employee.mro_productive.type</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <search string="HR MRO Task Productivity Types">
+                <filter string="Busy" domain="[('type','=','busy')]"/>
+                <filter string="Not Busy" domain="[('type','=','not_busy')]"/>
+                <field name="name" filter_domain="['|', ('name','ilike',self), ('code','=like',str(self)+'%')]" string="MRO Type"/>
+                <group expand="0" string="Group By...">
+                    <filter string="Type" domain="[]" context="{'group_by':'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    
+    <record id="action_hr_employee_mro_productive_type" model="ir.actions.act_window">
+        <field name="name">Task Productivity Types</field>
+        <field name="res_model">hr.employee.mro_productive.type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="fleet_mro.hr_employee_mro_productive_type_search"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Create HR MRO Task Productivity Types.
+          </p>
+          <p>
+            These will be used to define why a Service Task is Paused.
+          </p>
+        </field>
+    </record>        
+
+
+</data>
+</openerp>
+
