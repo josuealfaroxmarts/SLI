@@ -3,6 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#VSCode
+sli_trafitec/.idea
+fletex_api_connect/.vscode
+
+#GIT
+sli_trafitec/.git
+
 # C extensions
 *.so
 
