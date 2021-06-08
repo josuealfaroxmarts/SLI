@@ -18,7 +18,6 @@ class SyncDataFletex(models.Model):
         """Start data sync with fletex"""
 
         token = self.login_to_fletex() #Login to fletex to get token API
-        _logger.debug('##########################################################################################################################DATA##########################################################################################################################DATA')
         
         #A header is created with the authentication token
         headers = {
@@ -89,7 +88,6 @@ class SyncDataFletex(models.Model):
         pass
 
     def res_partner_manager(self, user, headers) :
-        _logger.debug('##########################################################################################################################DATA##########################################################################################################################USER')
 
         record = self.env['res.partner'].search([
             ('email','=',user['account_email'])])
