@@ -1,0 +1,49 @@
+<openerp>
+    <data>
+		<record model="ir.ui.view" id="view_from_fletex_form">
+		    <field name="name">view.fletex.form</field>
+		    <field name="model">invoice.from.fletex</field>
+		    <field name="arch" type="xml">
+		        <form string="description">
+		            <header>
+		            </header>
+		            <sheet>
+		                <group>
+		                	<group string="Datos">
+			                    <field name="clientId"/>
+			                    <field name="shipmentId"/>
+			                    <field name="fletexProjectReference"/>
+			                    <field name="fletexShipmentReference"/>
+			                </group>
+			                <group string="Adjuntos">
+			                    <field name="invoiceXmlName" invisible="1"/>
+			                    <field name="invoiceXml" filename="invoiceXmlName"/>
+			                    <field name="invoicePdfName" invisible="1"/>
+			                    <field name="invoicePdf" filename="invoicePdfName"/>
+			                </group>
+		                </group>
+		            </sheet>
+		        </form>
+		    </field>
+		</record>
+		<record id="view_fletex_tree" model="ir.ui.view">
+            <field name="name">view.fletex.tree</field>
+            <field name="model">invoice.from.fletex</field>
+            <field name="arch" type="xml">
+                <tree string="Facturas Fletex" duplicate="false" delete="false">
+                    <field name="id"/>
+                    <field name="clientId"/>
+                    <field name="shipmentId"/>
+                    <field name="fletexProjectReference"/>
+                    <field name="fletexShipmentReference"/>
+                </tree>
+            </field>
+        </record>
+		<record id="action_invoice_fletex" model="ir.actions.act_window">
+            <field name="name">Recibos XML y PDF Fletex</field>
+            <field name="res_model">invoice.from.fletex</field>
+            <field name="view_id" ref="view_fletex_tree"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+	</data>
+</openerp>

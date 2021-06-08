@@ -1,0 +1,28 @@
+<openerp>
+  <data>
+
+        <record id="sli_trafitec_reportes_viajes_tree" model="ir.ui.view">
+            <field name="name">sli.trafitec.reportes.viajes.tree</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <tree>
+                            <field name="id"/>
+                            <field name="name"/>
+                            <field name="flete_cliente"/>
+                            <field name="flete_asociado"/>
+                </tree>
+            </field>
+        </record>
+
+  
+       <record id="sli_trafitec_reportes_viajes" model="ir.actions.act_window">
+            <field name="name">Viajes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes</field>
+            <field name="view_mode">tree</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+            <field name="view_id" ref="sli_trafitec_reportes_viajes_tree"/>
+        </record>
+  </data>
+</openerp>

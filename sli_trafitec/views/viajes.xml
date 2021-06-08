@@ -1,0 +1,1045 @@
+<openerp>
+    <data>
+        <record id="sequences_travels" model="ir.sequence">
+            <field name="name">Folio Viajes</field>
+            <field name="code">trafitec.viajes</field>
+            <field name="active">TRUE</field>
+            <field name="prefix"></field>
+            <field name="padding">10</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id='sli_trafitec_viajes_vista_pivot' model='ir.ui.view'>
+            <field name='name'>sli.trafitec.viajes.vista.pivot</field>
+            <field name='model'>trafitec.viajes</field>
+            <field name='arch' type='xml'>
+                <pivot string="Viajes" display_quantity="True" display_sum="True" display_avg="True">
+                    <field name="sucursal_id" type="row"/>
+                    <field name="cliente_id" type="row"/>
+                    <field name="create_date" type="col" interval="month"/>
+                    <field name="peso_origen_total" type="measure"/>
+                    <field name="peso_destino_total" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+
+        <record id='sli_trafitec_viajes_vista_graph' model='ir.ui.view'>
+            <field name='name'>sli.trafitec.viajes.vista.graph</field>
+            <field name='model'>trafitec.viajes</field>
+            <field name='arch' type='xml'>
+                <graph type="pivot" display_quantity="True" display_sum="True" display_avg="True">
+                    <field name="sucursal_id" type="row"/>
+                    <field name="cliente_id" type="row"/>
+                    <field name="create_uid" type="col"/>
+                    <field name="flete_asociado" type="measure"/>
+                    <field name="flete_cliente" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+        <!-- Viajes -->
+        <record id="siniestrado_wizard_view" model="ir.ui.view">
+            <field name="name">Motivo de siniestro</field>
+            <field name="model">trafitec.viaje.sinestrado.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Motivo de siniestro">
+                    <field name="viaje_id" invisible="1"/>
+                    <label string="Motivo de siniestro"/>
+                    <field name="motivo"/>
+                    <footer>
+                        <button string="Aceptar" name="siniestrado_button" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="siniestrado_wizard_action"
+                    name="Motivo de siniestro"
+                    src_model="trafitec.viajes"
+                    res_model="trafitec.viaje.sinestrado.wizard"
+                    view_type="form" view_mode="form"
+                    key2="client_action_multi" target="new"
+                    groups="base.group_erp_manager"/>
+
+        <!--Cambiar tarifa-->
+        <!--
+                <record id="cambiartarifa_wizard_tree" model="ir.ui.view">
+                    <field name="name">Cambiar tarifa</field>
+                    <field name="model">trafitec.viaje.cambiartarifa.wizard</field>
+                    <field name="arch" type="xml">
+                        <form string="Cambiar tarifa">
+                            <field name="viaje_id" invisible="1"/>
+                            <label string="Tarifa"/>
+                            <field name="tarifa"/>
+                            <footer>
+                                <button string="Aceptar" name="action_cambiartarifa" type="object" class="btn-primary"/>
+                                <button string="Cancel" class="btn-default" special="cancel" />
+                            </footer>
+                        </form>
+                    </field>
+                </record>
+
+
+                <act_window id="cambiartarifa_wizard_action"
+                    name="Cambiar tarifa"
+                    src_model="trafitec.viajes"
+                    res_model="trafitec.viaje.cambiartarifa.wizard"
+                    view_type="form" view_mode="form"
+                    key2="client_action_multi" target="new"
+                    groups="base.group_erp_manager"/>
+                 -->
+
+        <record id="cancelar_wizard_view" model="ir.ui.view">
+            <field name="name">Motivo de cancelación</field>
+            <field name="model">trafitec.viaje.cancelar.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Motivo de cancelación">
+                    <field name="viaje_id" invisible="1"/>
+                    <label string="Motivo de cancelación"/>
+                    <field name="motivo"/>
+                    <footer>
+                        <button string="Aceptar" name="cancelacion_button" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="cancelar_wizard_action"
+                    name="Motivo de cancelación"
+                    src_model="trafitec.viajes"
+                    res_model="trafitec.viaje.cancelar.wizard"
+                    view_type="form"
+                    view_mode="form"
+                    key2="client_action_multi"
+                    target="new"
+                    groups="base.group_erp_manager"
+        />
+
+        <record id="view_viajes_search" model="ir.ui.view">
+            <field name="name">view.viajes.search</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <search string="Nombre">
+                    <!--FILTRO RAPIDO-->
+                    <filter name="misviajes" string="Mis viajes" domain="[('create_uid','=',uid)]"/>
+                    <separator/>
+                    <filter name="hoy" string="Viajes de hoy" domain="[('create_date','>=',current_date)]"/>
+                    <filter name="siete_dias" string="Viajes recientes" domain="[('create_date','&gt;=',(context_today()+relativedelta(days=-3)).strftime('%%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="concontrarecibo" string="Con contra recibo" domain="[('en_contrarecibo','=',True)]"/>
+                    <filter name="concontrarecibo" string="Sin contra recibo" domain="[('en_contrarecibo','=',False)]"/>
+
+                    <separator/>
+                    <filter name="confactura" string="Con factura" domain="[('en_factura','=',True)]"/>
+                    <filter name="confactura" string="Sin factura" domain="[('en_factura','=',False)]"/>
+
+                    <separator/>
+                    <filter name="conpsf" string="Es PSF" domain="[('psf','=',True)]"/>
+                    <filter name="sinpsf" string="No es PSF" domain="[('psf','=',False)]"/>
+
+                    <separator/>
+                    <filter name="concsf" string="Es CSF" domain="[('csf','=',True)]"/>
+                    <filter name="sincsf" string="No es CSF" domain="[('csf','=',False)]"/>
+
+                    <separator/>
+                    <filter name="conpesoo" string="Con peso origen" domain="['|',('peso_origen_remolque_1','>',0),('peso_origen_remolque_2','>',0)]"/>
+                    <separator/>
+                    <filter name="conpesod" string="Con peso destino" domain="['|',('peso_destino_remolque_1','>',0),('peso_destino_remolque_2','>',0)]"/>
+                    <separator/>
+                    <filter name="sinpesoo" string="Sin peso origen" domain="['&amp;',('peso_origen_remolque_1','&lt;=',0),('peso_origen_remolque_2','&lt;=',0)]"/>
+                    <separator/>
+                    <filter name="sinpesob" string="Sin peso destino" domain="['&amp;',('peso_destino_remolque_1','&lt;=',0),('peso_destino_remolque_2','&lt;=',0)]"/>
+                    <separator/>
+                    <filter name="esflotilla" string="Es flotilla" domain="[('no_economico','!=',False)]"/>
+                    <separator/>
+                    <filter name="noesflotilla" string="No es flotilla" domain="[('no_economico','=',False)]"/>
+
+                    <!--BUSQUEDA RAPIDA-->
+                    <field name="name"/>
+                    <field name="x_folio_trafitecw" string="Folio de trafitec windows"/>
+                    <field name="cliente_id"/>
+                    <field name="asociado_id"/>
+                    <field name="operador_id"/>
+                    <field name="placas_id" string="Vehículo"/>
+                    <field name="linea_id" invisible='1'/>
+                    <field name="origen"/>
+                    <field name="destino"/>
+                    <field name="product"/>
+                    <field name="tipo_remolque" string="Tipo de remolque"/>
+                    <field name="lineanegocio" string="Línea de negocio"/>
+                    <field name="sucursal_id" string="Sucursal"/>
+                    <field name="tipo_viaje" string="Tipo"/>
+                    <field name="create_uid" string="Creado por"/>
+                    <field name="asignadoa_id"/>
+                    <field name="tipo_viaje"/>
+                    <field name="estado_viaje"/>
+                    <field name="state"/>
+
+
+                    <!--AGRUPADORES-->
+                    <group expand="0" string="Agrupar por">
+                        <filter name="agrupar_por_cliente" string="Cliente" domain="[]" context="{'group_by':'cliente_id'}" help="Agrupar por cliente"/>
+                        <filter name="agrupar_por_asociado" string="Asociado" domain="[]" context="{'group_by':'asociado_id'}" help="Agrupar por asociado"/>
+                        <filter name="agrupar_por_sucursal" string="Sucursal" domain="[]" context="{'group_by':'sucursal_id'}" help="Agrupar por sucursal"/>
+                        <filter name="agrupar_por_noe" string="NOE" domain="[]" context="{'group_by':'no_economico'}" help="Agrupar por número economico"/>
+                        <separator/>
+                        <filter name="agrupar_por_ano" context="{'group_by': 'create_date:year'}" string="Año" help="Agrupar por año" />
+                        <filter name="agrupar_por_mes" context="{'group_by': 'create_date:month'}" string="Mes" help="Agrupar por mes"/>
+                        <separator/>
+                        <filter name="agrupar_por_usuario" context="{'group_by': 'create_uid'}" string="Usuario" help="Agrupar por usuario"/>
+                        <filter name="agrupar_por_asignadoa" context="{'group_by': 'asignadoa_id'}" string="Aignado a" help="Agrupar por asignado a"/>
+                        <separator/>
+                        <filter name="agrupar_por_cotizacion" context="{'group_by': 'linea_id'}" string="Cotización" help="Agrupar por cotización"/>
+                        <filter name="agrupar_por_origen" context="{'group_by': 'origen'}" string="Origen" help="Agrupar por origen"/>
+                        <filter name="agrupar_por_destino" context="{'group_by': 'destino'}" string="Destino" help="Agrupar por destino"/>
+                        <separator/>
+                        <filter name="agrupar_por_lineanegocio" context="{'group_by': 'lineanegocio'}" string="Línea de negocio" help="Agrupar por línea de negocio"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_viajes_form" model="ir.ui.view">
+            <field name="name">view.viajes.form</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <form string="Viajes" delete="false" copy="false" duplicate="false">
+                    <header>
+                        <!--button string="Viaje siniestrado" type="action" name="%(sli_trafitec.siniestrado_wizard_action)d" states="Nueva" help="Asigna el estado de siniestrado al viaje."  confirm="¿Esta seguro que desea marcar como siniestrado?"/-->
+                        <!--button string="Cancelar viaje" type="action" name="%(sli_trafitec.cancelar_wizard_action)d" states="Nueva" help="Asigna el estado de cancelado al viaje."  confirm="¿Esta seguro que desea cancelar?"/-->
+                        <!--button string="Scan" name="action_scan" type="object" help="Iniciar o terminar scan." states="Nueva"/-->
+                        <button string="Restablecer" name="action_nueva" type="object" help="Restablecer a Nueva." states="Cancelado" groups="sli_trafitec.sli_trafitec_viajes_restablecer"  confirm="¿Esta seguro que desea restablecer?"/>
+                        <button string="Solicitar vale de combustible" name="action_descuento_combustible" type="object" class="oe_link"  attrs="{'invisible':[('descuento_combustible_id','!=',False)]}" confirm="¿Solicitar vale de combustible?"></button>
+
+                        <field name="state" widget="statusbar" statusbar_visible="Nueva,Siniestrado,Cancelado"/>
+                    </header>
+                    <field name="cliente_bloqueado" invisible="1"/>
+                    <div attrs="{'invisible':[('cliente_bloqueado','=',False)]}" style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
+                        <label string="CLIENTE BLOQUEADO"></label>
+                    </div>
+
+                    <sheet>
+                        <!--div style="color:silver;"><field name="info"></field></div-->
+                        <notebook>
+                            <page name="general" string="General">
+                                <group name="subpedido" string="Origen/Destino" >
+                                    <group>
+
+                                        <field name="name"/>
+                                        <field name="fecha_viaje" invisible="0" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="linea_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="moneda" attrs="{'invisible': [('name', '=', 'Nuevo')]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                        <field name="cliente_id" domain="[('company_id', '=', context.get('company_id',False)),('customer','=',True),('company_type2','in',['company','physical_person'])]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': ['|',('en_factura', '=', True),('state','!=','Nueva')]}"  style="color:black;background-color:#dddddd;padding:5px;font-weight:bold;border-radius:5px;"/>
+                                        <field name="origen" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),'&amp;',('en_contrarecibo', '=', True),('en_factura','=',True)]}" style="color:green;font-weight:bold;text-decoration:none;"/>
+                                        <field name="destino" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),'&amp;',('en_contrarecibo', '=', True),('en_factura','=',True)]}" style="color:blue;font-weight:bold;text-decoration:none;"/>
+                                        <field name="psf" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="csf" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="flete_cliente" invisible="0"  groups="sli_trafitec.sli_trafitec_ver_tc" style="color:black;font-weight:bold;background-color:#eeeeee;padding:5px;border-radius:5px;"/>
+                                        <field name="flete_asociado" invisible="0" style="color:black;font-weight:bold;background-color:#eeeeee;padding:5px;border-radius:5px;"/>
+                                        <field name="flete_diferencia" invisible="0"  groups="sli_trafitec.sli_trafitec_ver_tc" style="color:black;font-weight:bold;background-color:#eeeeee;padding:5px;border-radius:5px;"/>
+                                    </group>
+                                    <group>
+                                        <field name="tarifa_asociado" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}" style="color:black;font-weight:bold;"/>
+                                        <field name="tarifa_cliente" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_factura', '=', True)]}" groups="sli_trafitec.sli_trafitec_ver_tc" style="color:black;font-weight:bold;"/>
+                                        <field name="product"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                        <field name="costo_producto" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)], 'required':[('seguro_id','!=',False)]}"/>
+
+                                        <field name="lineanegocio" invisible="1" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                        <field name="tipo_lineanegocio" invisible="0" readonly="1" string="Línea de negocio"/>
+
+                                        <field name="x_folio_trafitecw" invisible="1" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="sucursal_id"  invisible="1" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+
+                                        <field name="motivo_siniestrado" attrs="{'invisible': [('state', 'in', ('Cancelado','Nueva'))]}" readonly="1"/>
+                                        <field name="motivo_cancelacion" attrs="{'invisible': [('state', 'in', ('Nueva','Siniestrado'))]}" readonly="1"/>
+                                        <field name="fecha_cambio_estado" attrs="{'invisible': [('state', 'in', ('Nueva'))]}" readonly="1"/>
+                                        <field name="estado_viaje" attrs="{'readonly': [('state','!=','Nueva')]}"/>
+                                        <field name="proyecto_referenciado"/>
+                                        <field name="referencia_asociado"/>
+                                        <field name="referencia_cliente"/>
+
+                                    </group>
+                                </group>
+                                <group name="transporte" string="Transporte">
+                                    <group>
+                                        <field name="placas_id" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" />
+                                        <field name="vehiculo" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                        <field name="asociado_id" domain="[('company_id', '=', context.get('company_id',False)),('asociado','=',True)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}" style="color:black;font-weight:bold;"/>
+                                        <field name="porcentaje_comision"/>
+                                        <field name="usar_porcentaje"/>
+                                        <field name="creditocomision"/>
+                                    </group>
+                                    <group>
+                                        <field name="operador_id"  domain="[('company_id', '=', context.get('company_id',False)),('operador','=',True)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('en_contrarecibo', '=', True),('en_factura','=',True)]}"/>
+                                        <field name="no_economico"/>
+                                        <field name="celular_asociado" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="tipo_camion"/>
+                                        <field name="tipo_remolque" invisible="1"/>
+                                        <field name="tipo" invisible="1"/>
+                                        <field name="nombre_remolque" invisible="1"/>
+                                        <field name="capacidad" invisible="1"/>
+                                        <field name="celular_operador" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="tipo_viaje" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="pesos_merma" string="Pesos">
+                                <group>
+                                    <group string="Peso origen" attrs="{'invisible':[('lineanegocio','in',(2,3))]}">
+                                        <field name="peso_origen_remolque_1_ver" invisible="1" attrs="{'invisible':[('lineanegocio','=',1)]}"/>
+                                        <field name="peso_origen_remolque_2_ver" invisible="1" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','=',1)]}"/>
+
+                                        <field name="peso_origen_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_origen_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_origen_total" style="color:black;font-weight:bold;"/>
+                                    </group>
+                                    <group string="Peso destino" attrs="{'invisible':[('lineanegocio','in',(2,3))]}">
+                                        <field name="peso_destino_remolque_1_ver" invisible="1" attrs="{'invisible':[('lineanegocio','=',1)]}"/>
+                                        <field name="peso_destino_remolque_2_ver" invisible="1" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','=',1)]}"/>
+
+                                        <field name="peso_destino_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_destino_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_destino_total" style="color:black;font-weight:bold;"/>
+                                    </group>
+                                    <group string="Peso convenido" attrs="{'invisible':[('lineanegocio','in',(2,3))]}">
+                                        <field name="peso_convenido_remolque_1_ver" invisible="1" attrs="{'invisible':[('lineanegocio','=',1)]}"/>
+                                        <field name="peso_convenido_remolque_2_ver" invisible="1" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','=',1)]}"/>
+
+                                        <field name="peso_convenido_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('facturar_con','=','Peso convenido'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso convenido'),('en_contrarecibo','=',True),'&amp;',('en_factura','=',True),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_convenido_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('lineanegocio','=',33),'&amp;',('facturar_con','=','Peso convenido'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso convenido'),('en_contrarecibo','=',True),'&amp;',('en_factura','=',True),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_convenido_total" style="color:black;font-weight:bold;"/>
+                                    </group>
+                                    <group>
+                                        <field name="peso_autorizado" attrs="{'readonly': ['|','&amp;',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group name="merma" string="Merma" attrs="{'invisible':[('lineanegocio','in',(2,3))]}">
+                                        <field name="facturar_con" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}"/>
+                                        <field name="facturar_con_cliente" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_factura', '=', True)]}"/>
+                                        <field name="excedente_merma" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="merma_kg"/>
+                                        <field name="merma_permitida_kg"/>
+                                        <field name="merma_cobrar_kg"/>
+
+                                        <field name="merma_pesos"/>
+                                        <field name="merma_permitida_pesos"/>
+                                        <field name="merma_cobrar_pesos"/>
+                                    </group>
+                                    <group name="comision" string="Comisión" >
+                                        <field name="comision_linea" invisible="1"/>
+                                        <field name="regla_comision" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="comision_calculada"/>
+                                        <field name="porcent_comision" attrs="{'readonly': [('regla_comision', 'not in', ('Con % especifico y peso origen','Con % especifico y peso destino','Con % especifico y peso convenido','Con % especifico y capacidad de remolque'))]}"/>
+                                        <field name="cant_especifica" attrs="{'readonly': [('regla_comision', 'not in', ('Cobrar cantidad especifica'))]}"/>
+                                        <field name="motivo" attrs="{'readonly': [('regla_comision', 'not in', ('No cobrar'))]}"/>
+                                        <field name="maniobras" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="regla_maniobra" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="pronto_pago" invisible="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="evidencia_id" string="Evidencias">
+                                <group>
+                                    <field name="evidencia_id" widget="one2many_list"  attrs="{'readonly': [('state','!=','Nueva')]}">
+                                        <tree editable="bottom">
+                                            <field name = "name"/>
+                                            <field name = "image_filename" attrs="{'invisible': [('image_filename', '=', False)]}"/>
+                                            <field widget="binary" height="64" name="evidencia_file" filename="image_filename" />
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group>
+                                    <!--label string="Documentación completa" /-->
+                                    <field name="documentacion_completa" attrs="{'readonly': [('state', 'in', ('Cancelado','Siniestrado'))]}"/>
+                                    <!--label string="Asignado a"/-->
+                                    <field name="asignadoa_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': [('state','!=','Nueva')]}"/>
+                                </group>
+                            </page>
+                            <page name="boletas_id" string="Boletas">
+                                <field name="boletas_id" widget="one2many_list"  attrs="{'readonly': [('state','!=','Nueva')]}">
+                                    <tree editable="bottom">
+                                        <field name = "name"/>
+                                        <field name = "tipo_boleta"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="contenedores" string="Contenedores" attrs="{'invisible': [('lineanegocio','!=',3)]}">
+                                <group>
+                                    <field name="no_pedimento" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="tipo_mov" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                </group>
+                                <group string="Contenedor 1">
+                                    <field name="no_contenedor_uno" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="no_sello_uno" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="tipo_contenedor_uno" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="tamano_contenedor_uno" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                </group>
+                                <group string="Contenedor 2" attrs="{'invisible': [('nombre_remolque','not in',('full'))]}">
+                                    <field name="no_contenedor_dos" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)], 'invisible': [('nombre_remolque','not in',('full'))]}"/>
+                                    <field name="no_sello_dos" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)], 'invisible': [('nombre_remolque','not in',('full'))]}"/>
+                                    <field name="tipo_contenedor_dos" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)], 'invisible': [('nombre_remolque','not in',('full'))]}"/>
+                                    <field name="tamano_contenedor_dos" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)], 'invisible': [('nombre_remolque','not in',('full'))]}"/>
+                                </group>
+                            </page>
+                            <page name="carta" string="Carta de instrucción">
+                                <group>
+                                    <field name="detalle_asociado" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="detalle_destino" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                </group>
+                            </page>
+                            <page name="cita" string="Cita">
+                                <group>
+                                    <field name="fecha_hora_carga" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="fecha_hora_descarga" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="detalles_cita" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                </group>
+                            </page>
+                            <page name="seguro" string="Seguro de carga">
+                                <group>
+                                    <!--Poliza de seguro-->
+                                    <field name="seguro_id" attrs="{'readonly':['|',('en_factura','=',True),('state','in',('Siniestrado','Cancelado'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}" invisible='1'></field>
+                                    <field name="seguro" attrs="{'readonly':['|',('en_factura','=',True),('state','in',('Siniestrado','Cancelado'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                    <field name="seguro_pcliente"  attrs="{'readonly':['|',('en_factura','=',True),('state','in',('Siniestrado','Cancelado'))]}"></field>
+                                    <field name="seguro_total"></field>
+                                    <field name="seguro_entarifa" invisible='1'></field>
+                                </group>
+                            </page>
+                            <!--CARGOS ADICIONALES-->
+                            <page name="cargo_id" string="Cargos adicionales" >
+                                <label string="Cargos adicionales al cliente." style="color:silver;"></label>
+                                <field name="cargo_id" widget="one2many_list" attrs="{'readonly': ['|',('state','!=','Nueva'),'|',('en_factura', '=',True),('en_contrarecibo', '=',True)]}">
+                                    <tree editable="bottom">
+                                        <field name = "name" attrs="{'readonly':[('sistema','=',True)]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                        <field name = "valor" attrs="{'readonly':[('sistema','=',True)]}"/>
+                                        <field name = "validar_en_cr" readonly="1"/>
+                                        <field name = "tipo"/>
+                                        <field name = "sistema" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="otros" string="Otros" groups="sli_trafitec.sli_trafitec_viajes_ver_otros">
+                                <group>
+                                    <field name="tarifa_cliente_colaborador" attrs="{'readonly': [('state','!=','Nueva')]}"/>
+                                </group>
+                            </page>
+
+                            <page name="calificaciones_id" string="Calificaciones" >
+                                <field name="calificaiones"  widget="one2many_list"  attrs="{'readonly': [('state','!=','Nueva')]}">
+                                    <tree editable="bottom">
+                                        <field name="clasificacion_id" domain="[('aplica_viajes','=',True),('state','=','activo')]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="slitrack_tab" string="SLITrack" groups="sli_trafitec.sli_trafitec_slitrack">
+                                <br/>
+                                <div>
+                                    <button string="Generar código" name="action_slitrack_codigo" type="object" class="oe_inline oe_stat_button" confirm="¿Generar código?"/>
+                                    <span style="width:100%;"></span><span style="color:white;">|</span>
+                                    <button string="Activar" name="action_slitrack_activa" type="object" class="oe_inline oe_stat_button" confirm="¿Activar viaje?"/>
+                                </div>
+                                <hr/>
+                                <group>
+                                    <group>
+                                    </group>
+                                    <group></group>
+                                    <group name="slitrack_gps" string="GPS">
+                                        <field name='slitrack_gps_fechahorar' readonly="0"></field>
+                                        <field name='slitrack_gps_latitud' readonly="0"></field>
+                                        <field name='slitrack_gps_longitud' readonly="0"></field>
+                                        <field name='slitrack_gps_velocidad' readonly="0"></field>
+                                        <field name='slitrack_gps_contador' readonly="0"></field>
+
+                                    </group>
+                                    <group name="slitrack_control" string="Control">
+                                        <field name="slitrack_proveedor"/>
+                                        <field name='slitrack_estado'/>
+                                        <field name='slitrack_codigo' readonly="1"/>
+                                        <field name='slitrack_st'/>
+                                        <field name='slitrack_comentarios'/>
+                                    </group>
+
+
+                                    <group colspan="2">
+                                        <field name="slitrack_registro" readonly="0">
+                                            <tree create="true" delete="true">
+                                                <field name="fechahorag"/>
+                                                <field name="latitud"/>
+                                                <field name="longitud"/>
+                                                <field name="velocidad"/>
+                                                <field name="proveedor"/>
+                                                <button string="Ver en mapa" name="action_vermapa" type="object" class="oe_inline oe_stat_button"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Costos transferencia" attrs="{'invisible':[('no_economico','=',False)]}">
+                                <group>
+                                    <field name="costo_km_vacio"></field>
+                                    <field name="costo_km_cargado"></field>
+                                </group>
+                            </page>
+                            <page name="detalles" string="Detalles">
+                                <group>
+                                    <field name="observaciones" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="especificaciones" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                    <field name="folio_cliente" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_factura', '=', True)]}"/>
+                                    <field name="suger_pago" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}"/>
+                                </group>
+                            </page>
+                            <page name="routers" string="Ruta">
+                                <group>
+                                    <field name="router" widget="url"/>
+                                </group>
+                            </page>
+                        </notebook>
+                        <group string="Documentos relacionados">
+                            <group>
+                                <field name="en_cp" readonly="1"/>
+                                <field name="en_contrarecibo" readonly="1"/>
+                                <field name="en_factura" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="factura_proveedor_id" readonly="1" groups="sli_trafitec.sli_trafitec_ver_link_documentos_viaje"/>
+                                <field name="contrarecibo_id" readonly="1" groups="sli_trafitec.sli_trafitec_ver_link_documentos_viaje"/>
+                                <field name="factura_cliente_id" readonly="1" groups="sli_trafitec.sli_trafitec_ver_link_documentos_viaje"/>
+                            </group>
+                            <group>
+                                <field name="descuento_combustible_id" readonly="1" attrs="{'invisible':[('descuento_combustible_id','=',False)]}" options="{'no_create_edit': True,'no_open': False,'no_create':True,'no_quick_create ':True}"></field>
+                            </group>
+                        </group>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_viajes_tree" model="ir.ui.view">
+            <field name="name">view.viajes.tree</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <tree string="Viajes" copy="false" duplicate="false" colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                    <field name="id"/>
+                    <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
+                    <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
+                    <field name="name"/>
+                    <!--field name="x_folio_trafitecw"/-->
+
+                    <field name="fecha_viaje" string="Fecha viaje" widget="date" colspan="10"/>
+                    <field name="linea_id"/>
+                    <field name="referencia_asociado"/>
+                    <field name="referencia_fletex" invisible="1"/>
+                    <field name="referencia_cliente"/>
+                    <field name="proyecto_referenciado"/>
+                    <field name="cotizacion_asegurado"/>
+                    <field name="cliente_id" string="Cliente"/>
+                    <field name="product" string="Producto"/>
+                    <field name="asociado_id" string="Asociado"/>
+                    <field name="operador_id" string="Operador"/>
+                    <field name="no_economico" string="NOE"/>
+                    <field name="vehiculo" string="Vehículo"/>
+                    <field name="tipo_remolque" string="Remolque"/>
+
+                    <field name="origen" string="Origen"/>
+                    <field name="destino" string="Destino"/>
+                    <field name="flete_cliente" string="Flete cliente" sum="Total flete cliente" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="flete_asociado" string="Flete asociado" sum="Total flete asociado"/>
+                    <field name="flete_diferencia" string="Flete diferencia" sum="Total de diferencia de flete" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="tarifa_asociado" string="Tarifa asociado" avg="Promedio tarifa asociado"/>
+                    <field name="tarifa_cliente" string="Tarifa cliente" avg="Promedio tarifa cliente" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="peso_origen_remolque_1" string="Peso origen remolque 1" sum="Total peso origen remolque 1"/>
+                    <field name="peso_origen_remolque_2" string="Peso origen remolque 2" sum="Total peso origen remolque 2"/>
+                    <field name="peso_destino_remolque_1" string="Peso destino remolque 1" sum="Total peso destino remolque 1"/>
+                    <field name="peso_destino_remolque_2" string="Peso destino remolque 2" sum="Total peso destino remolque 2"/>
+                    <field name="peso_convenido_remolque_1" string="Peso convenido remolque 1" sum="Total peso convenido remolque 1"/>
+                    <field name="peso_convenido_remolque_2" string="Peso convenido remolque 2" sum="Total peso convenido remolque 2"/>
+
+
+                    <field name="peso_origen_total" string="Peso origen total" sum="Total de peso origen"/>
+                    <field name="peso_destino_total" string="Peso destino total" sum="Total de peso destino"/>
+                    <field name="peso_convenido_total" string="Peso convenido total" sum="Total de peso convenido"/>
+
+
+                    <field name="company_id" string="Empresa"/>
+                    <field name="user_id" string="Usuario"/>
+                    <field name="asignadoa_id" string="Asignado a"/>
+                    <field name="excedente_merma" string="Regla merma"/>
+                    <field name="regla_comision" string="Regla comision"/>
+                    <field name="psf"/>
+                    <field name="csf"/>
+
+                    <field name="documentacion_completa" string="Documentacion completa"/>
+
+                    <field name="en_contrarecibo" string="En contrarecibo"/>
+                    <field name="contrarecibo_id" string="Contra recibo"/>
+                    <field name="contrarecibo_fecha" string="Fecha contra recibo"/>
+                    <field name="en_cp" string="En carta porte"/>
+                    <field name="factura_proveedor_folio" string="Factura proveedor"/>
+                    <field name="factura_proveedor_fecha" string="Fecha factura proveedor"/>
+
+                    <field name="en_factura" string="En factura"/>
+                    <field name="factura_cliente_folio" string="Factura cliente"/>
+                    <field name="factura_cliente_fecha" string="Fecha factura cliente"/>
+
+                    <field name="folio_cliente"/>
+                    <field name="no_pedimento"/>
+                    <field name="no_contenedor_uno"/>
+                    <field name="no_contenedor_dos"/>
+                    <field name="no_sello_uno"/>
+                    <field name="no_sello_dos"/>
+
+
+                    <field name="lineanegocio" string="Linea de negocio"/>
+                    <field name="sucursal_id" string="Sucursal" />
+                    <field name="tipo_viaje" string="Tipo"/>
+                    <field name="estado_viaje" string="Estado del viaje"/>
+
+                    <field name="calificaiones"/>
+                    <field name="utilidad_txt"/>
+                    <field name="cargo_total"></field>
+
+                    <field name="info" groups="sli_trafitec.sli_trafitec_ver_link_documentos_viaje"></field>
+                    <field name="state" string="Estado"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_viajes_tree_granel" model="ir.ui.view">
+            <field name="name">view.viajes.tree.granel</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <tree string="Viajes" copy="false" duplicate="false" colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                    <field name="id"/>
+                    <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
+                    <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
+                    <field name="name"/>
+                    <!--field name="x_folio_trafitecw"/-->
+                    <field name="fecha_viaje" string="Fecha viaje" widget="date" colspan="10"/>
+
+
+                    
+                    <field name="linea_id"/>
+                    <field name="cotizacion_asegurado"/>
+                    <field name="cliente_id" string="Cliente"/>
+                    <field name="product" string="Producto"/>
+                    <field name="asociado_id" string="Asociado"/>
+                    <field name="operador_id" string="Operador"/>
+                    <field name="no_economico" string="NOE"/>
+                    <field name="vehiculo" string="Vehículo"/>
+                    <field name="tipo_remolque" string="Remolque"/>
+
+                    <field name="origen" string="Origen"/>
+                    <field name="destino" string="Destino"/>
+                    <field name="flete_cliente" string="Flete cliente" sum="Total flete cliente" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="flete_asociado" string="Flete asociado" sum="Total flete asociado"/>
+                    <field name="flete_diferencia" string="Flete diferencia" sum="Total de diferencia de flete" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="tarifa_asociado" string="Tarifa asociado" avg="Promedio tarifa asociado"/>
+                    <field name="tarifa_cliente" string="Tarifa cliente" avg="Promedio tarifa cliente" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+
+                    <field name="peso_origen_remolque_1" string="Peso origen remolque 1" sum="Total peso origen remolque 1"/>
+                    <field name="peso_origen_remolque_2" string="Peso origen remolque 2" sum="Total peso origen remolque 2"/>
+                    <field name="peso_destino_remolque_1" string="Peso destino remolque 1" sum="Total peso destino remolque 1"/>
+                    <field name="peso_destino_remolque_2" string="Peso destino remolque 2" sum="Total peso destino remolque 2"/>
+                    <field name="peso_convenido_remolque_1" string="Peso convenido remolque 1" sum="Total peso convenido remolque 1"/>
+                    <field name="peso_convenido_remolque_2" string="Peso convenido remolque 2" sum="Total peso convenido remolque 2"/>
+
+
+                    <field name="peso_origen_total" string="Peso origen total" sum="Total de peso origen"/>
+                    <field name="peso_destino_total" string="Peso destino total" sum="Total de peso destino"/>
+                    <field name="peso_convenido_total" string="Peso convenido total" sum="Total de peso convenido"/>
+
+
+                    <field name="company_id" string="Empresa"/>
+                    <field name="user_id" string="Usuario"/>
+                    <field name="asignadoa_id" string="Asignado a"/>
+                    <field name="excedente_merma" string="Regla merma"/>
+                    <field name="regla_comision" string="Regla comision"/>
+                    <field name="psf"/>
+                    <field name="csf"/>
+
+                    <field name="documentacion_completa" string="Documentacion completa"/>
+
+                    <field name="en_contrarecibo" string="En contrarecibo"/>
+                    <field name="contrarecibo_id" string="Contra recibo"/>
+                    <field name="contrarecibo_fecha" string="Fecha contra recibo"/>
+                    <field name="en_cp" string="En carta porte"/>
+                    <field name="factura_proveedor_folio" string="Factura proveedor"/>
+                    <field name="factura_proveedor_fecha" string="Fecha factura proveedor"/>
+
+                    <field name="en_factura" string="En factura"/>
+                    <field name="factura_cliente_folio" string="Factura cliente"/>
+                    <field name="factura_cliente_fecha" string="Fecha factura cliente"/>
+
+                    <field name="lineanegocio" string="Linea de negocio"/>
+                    <field name="sucursal_id" string="Sucursal" />
+                    <field name="tipo_viaje" string="Tipo"/>
+                    <field name="estado_viaje" string="Estado del viaje"/>
+
+                    <field name="calificaiones"/>
+                    <field name="utilidad_txt"/>
+
+                    <field name="state" string="Estado"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_viajes_tree_flete" model="ir.ui.view">
+            <field name="name">view.viajes.tree.flete</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <tree string="Viajes" copy="false" duplicate="false" colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                    <field name="id"/>
+                    <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
+                    <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
+                    <field name="name"/>
+                    <!--field name="x_folio_trafitecw"/-->
+
+                    <field name="fecha_viaje" string="Fecha viaje" widget="date" colspan="10"/>
+
+
+                    
+                    <field name="linea_id" string="Cotización"/>
+                    <field name="cotizacion_asegurado"/>
+                    <field name="cliente_id" string="Cliente"/>
+                    <field name="product" string="Producto"/>
+                    <field name="asociado_id" string="Asociado"/>
+                    <field name="operador_id" string="Operador"/>
+                    <field name="no_economico" string="NOE"/>
+                    <field name="vehiculo" string="Vehículo"/>
+                    <field name="tipo_remolque" string="Remolque"/>
+
+                    <field name="origen" string="Origen"/>
+                    <field name="destino" string="Destino"/>
+                    <field name="flete_cliente" string="Flete cliente" sum="Total flete cliente" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="flete_asociado" string="Flete asociado" sum="Total flete asociado"/>
+                    <field name="flete_diferencia" string="Flete diferencia" sum="Total de diferencia de flete" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="tarifa_asociado" string="Tarifa asociado" avg="Promedio tarifa asociado"/>
+                    <field name="tarifa_cliente" string="Tarifa cliente" avg="Promedio tarifa cliente" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+
+                    <field name="company_id" string="Empresa"/>
+                    <field name="user_id" string="Usuario"/>
+                    <field name="asignadoa_id" string="Asignado a"/>
+                    <field name="excedente_merma" string="Regla merma"/>
+                    <field name="regla_comision" string="Regla comision"/>
+                    <field name="psf"/>
+                    <field name="csf"/>
+
+                    <field name="documentacion_completa" string="Documentacion completa"/>
+
+                    <field name="en_contrarecibo" string="En contrarecibo"/>
+                    <field name="contrarecibo_id" string="Contra recibo"/>
+                    <field name="contrarecibo_fecha" string="Fecha contra recibo"/>
+                    <field name="en_cp" string="En carta porte"/>
+                    <field name="factura_proveedor_folio" string="Factura proveedor"/>
+                    <field name="factura_proveedor_fecha" string="Fecha factura proveedor"/>
+
+                    <field name="en_factura" string="En factura"/>
+                    <field name="factura_cliente_folio" string="Factura cliente"/>
+                    <field name="factura_cliente_fecha" string="Fecha factura cliente"/>
+
+                    <field name="lineanegocio" string="Linea de negocio"/>
+                    <field name="sucursal_id" string="Sucursal" />
+                    <field name="tipo_viaje" string="Tipo"/>
+                    <field name="estado_viaje" string="Estado del viaje"/>
+
+                    <field name="calificaiones"/>
+                    <field name="utilidad_txt"/>
+
+                    <field name="state" string="Estado"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_viajes_tree_contenedores" model="ir.ui.view">
+            <field name="name">view.viajes.tree.contenedores</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <tree string="Viajes" copy="false" duplicate="false" colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                    <field name="id"/>
+                    <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
+                    <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
+                    <field name="name"/>
+                    <!--field name="x_folio_trafitecw"/-->
+
+                    <field name="folio_cliente"/>
+                    <field name="no_pedimento"/>
+                    <field name="no_contenedor_uno"/>
+                    <field name="no_contenedor_dos"/>
+                    <field name="no_sello_uno"/>
+                    <field name="no_sello_dos"/>
+
+                    <field name="fecha_viaje" string="Fecha viaje" widget="date" colspan="10"/>
+
+
+                    <field name="linea_id" string="Cotización"/>
+                    <field name="cotizacion_asegurado"/>
+                    <field name="cliente_id" string="Cliente"/>
+                    <field name="product" string="Producto"/>
+                    <field name="asociado_id" string="Asociado"/>
+                    <field name="operador_id" string="Operador"/>
+                    <field name="no_economico" string="NOE"/>
+                    <field name="vehiculo" string="Vehículo"/>
+                    <field name="tipo_remolque" string="Remolque"/>
+
+                    <field name="origen" string="Origen"/>
+                    <field name="destino" string="Destino"/>
+                    <field name="flete_cliente" string="Flete cliente" sum="Total flete cliente" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="flete_asociado" string="Flete asociado" sum="Total flete asociado"/>
+                    <field name="flete_diferencia" string="Flete diferencia" sum="Total de diferencia de flete" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+                    <field name="tarifa_asociado" string="Tarifa asociado" avg="Promedio tarifa asociado"/>
+                    <field name="tarifa_cliente" string="Tarifa cliente" avg="Promedio tarifa cliente" groups="sli_trafitec.sli_trafitec_ver_tc"/>
+
+                    <field name="company_id" string="Empresa"/>
+                    <field name="user_id" string="Usuario"/>
+                    <field name="asignadoa_id" string="Asignado a"/>
+                    <field name="excedente_merma" string="Regla merma"/>
+                    <field name="regla_comision" string="Regla comision"/>
+                    <field name="psf"/>
+                    <field name="csf"/>
+
+                    <field name="documentacion_completa" string="Documentacion completa"/>
+
+                    <field name="en_contrarecibo" string="En contrarecibo"/>
+                    <field name="contrarecibo_id" string="Contra recibo"/>
+                    <field name="contrarecibo_fecha" string="Fecha contra recibo"/>
+                    <field name="en_cp" string="En carta porte"/>
+                    <field name="factura_proveedor_folio" string="Factura proveedor"/>
+                    <field name="factura_proveedor_fecha" string="Fecha factura proveedor"/>
+
+                    <field name="en_factura" string="En factura"/>
+                    <field name="factura_cliente_folio" string="Factura cliente"/>
+                    <field name="factura_cliente_fecha" string="Fecha factura cliente"/>
+
+                    <field name="lineanegocio" string="Linea de negocio"/>
+                    <field name="sucursal_id" string="Sucursal" />
+                    <field name="tipo_viaje" string="Tipo"/>
+                    <field name="estado_viaje" string="Estado del viaje"/>
+
+                    <field name="calificaiones"/>
+                    <field name="utilidad_txt"/>
+
+                    <field name="state" string="Estado"/>                </tree>
+            </field>
+        </record>
+
+        <record id="view_viajes_calendar" model="ir.ui.view">
+            <field name="name">view.viajes.calendar</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <calendar create="false" color="create_uid" date_start="fecha_viaje" date_stop="fecha_viaje" string="Viajes">
+                    <field name="name"/>
+                    <field name="cliente_id"/>
+                    <field name="origen"/>
+                    <field name="destino"/>
+                    <field name="create_uid"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_viajes_boletas" model="ir.ui.view">
+            <field name="name">view.viajes.boletas</field>
+            <field name="model">trafitec.viajes.boletas</field>
+            <field name="arch" type="xml">
+                <tree string="Boletas" create="false" delete="false" default_order="id desc">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="linea_id" string="Folio de viaje"/>
+                    <field name="fecha"/>
+                    <field name="cliente"/>
+                    <field name="origen"/>
+                    <field name="destino"/>
+                    <field name="tipo_viaje"/>
+                    <field name="tipo_boleta"/>
+                    <field name="factura_id"/>
+                    <field name="state"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_viajes_boletas_buscar" model="ir.ui.view">
+            <field name="name">view.viajes.boletas.buscar</field>
+            <field name="model">trafitec.viajes.boletas</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="linea_id"/>
+                    <field name="factura_id"/>
+                    <field name="cliente"/>
+                    <field name="origen"/>
+                    <field name="destino"/>
+                    <field name="tipo_viaje"/>
+                    <field name="state"/>
+                    <field name="tipo_boleta"/>
+
+                    <group extend="0" string="Agrupar por">
+                        <filter name="agrupar_por_viaje_folio" string="Folio de viaje" context="{'group_by':'linea_id'}"/>
+                        <filter name="agrupar_por_factura_folio" string="Folio de factura" context="{'group_by':'factura_id'}"/>
+                        <filter name="agrupar_por_cliente_nombre" string="Cliente" context="{'group_by':'cliente'}"/>
+                        <filter name="agrupar_por_origen" string="Origen" context="{'group_by':'origen'}"/>
+                        <filter name="agrupar_por_destino" string="Destino" context="{'group_by':'destino'}"/>
+                        <filter name="agrupar_por_tipo_boleta" string="Tipo de boleta" context="{'group_by':'tipo_boleta'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--ASIGNACIONES-->
+        <record id="view_asignaciones" model="ir.ui.view">
+            <field name="name">view.asignaciones</field>
+            <field name="model">trafitec.asignaciones</field>
+            <field name="arch" type="xml">
+                <tree string="Asignaciones" create="false" delete="false" default_order="id desc">
+                    <field name="viaje_id"/>
+                    <field name="create_uid" string="Asigno"/>
+                    <field name="create_date" string="Fecha y hora de asignación"/>
+                    <field name="asignadoa_id" string="Asignado a"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_asignaciones_buscar" model="ir.ui.view">
+            <field name="name">view.asignaciones.buscar</field>
+            <field name="model">trafitec.asignaciones</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="viaje_id"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                    <field name="asignadoa_id"/>
+                    <field name="tipo"/>
+                </search>
+            </field>
+        </record>
+
+        <!---->
+
+
+        <record id="viajes_action_generic" model="ir.actions.act_window">
+            <field name="name">Viajes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes</field>
+            <field name="context">{'search_default_statex':True}</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_viajes_tree"/>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+
+        <record id="viajes_action_generic_granel" model="ir.actions.act_window">
+            <field name="name">Viajes (Vista granel)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes</field>
+            <field name="context">{'search_default_statex':True}</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <field name="view_id" ref="view_viajes_tree_granel"/>
+            <field name="auto_search">true</field>
+            <field name="domain">[('lineanegocio','=',1)]</field>
+            <field name="limit">10</field>
+        </record>
+
+
+        <record id="viajes_action_generic_flete" model="ir.actions.act_window">
+            <field name="name">Viajes (Vista flete)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes</field>
+            <field name="context">{'search_default_statex':True}</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_viajes_tree_flete"/>
+            <field name="auto_search">true</field>
+            <field name="domain">[('lineanegocio','=',2)]</field>
+            <field name="limit">10</field>
+        </record>
+
+        <record id="viajes_action_generic_contenedores" model="ir.actions.act_window">
+            <field name="name">Viajes (Vista contenedores)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes</field>
+            <field name="context">{'search_default_statex':True}</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_viajes_tree_contenedores"/>
+            <field name="auto_search">true</field>
+            <field name="domain">[('lineanegocio','=',3)]</field>
+            <field name="limit">10</field>
+        </record>
+
+        <record id="viajes_action_generic_nuevo" model="ir.actions.act_window">
+            <field name="name">Nuevo viaje</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes</field>
+            <field name="context">{'search_default_statex':True}</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_viajes_form"/>
+        </record>
+
+        <record id="viajes_action_generic_pivot" model="ir.actions.act_window">
+            <field name="name">Viajes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes</field>
+            <field name="context">{'search_default_statex':True}</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">pivot,graph</field>
+            <field name="view_id" ref="sli_trafitec_viajes_vista_pivot"/>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+            <field name="domain">[('state','=','Nueva')]</field>
+        </record>
+
+        <record id="boletas_action_generic" model="ir.actions.act_window">
+            <field name="name">Boletas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes.boletas</field>
+            <field name="view_mode">tree</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+
+
+        <record id="asignaciones_action_generic" model="ir.actions.act_window">
+            <field name="name">Asignaciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.asignaciones</field>
+            <field name="view_mode">tree</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+
+
+        <record id="trafitec_slitrack_registro_form" model="ir.ui.view">
+            <field name="name">Registro</field>
+            <field name="model">trafitec.slitrack.registro</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="viaje_id" readonly="1" options="{'no_open': True}"/>
+                        <field name="fechahorag" string="Fecha y hora de registro" />
+                        <field name="latitud" />
+                        <field name="longitud" />/>
+                        <field name="velocidad" />/>
+                        <field name="proveedor" />/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

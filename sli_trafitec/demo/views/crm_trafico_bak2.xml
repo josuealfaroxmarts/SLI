@@ -1,0 +1,361 @@
+<openerp>
+    <data>
+		
+	
+	
+		<record id="trafitec_crm_trafico_view" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.view</field>
+            <field name="model">trafitec.crm.trafico</field>
+            <field name="arch" type="xml">
+                <tree string="Buscar viajes">
+								  <field name="id"></field>
+								  <field name="name"></field>
+								  <field name="create_date"></field>
+                </tree>
+            </field>
+    </record>
+		
+		<record id="trafitec_crm_trafico_asociados_kanban" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.asociados.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban string="Contactos" create="false" delete="false" class="oe_background_grey o_kanban_dashboard o_salesteam_kanban">
+								  <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><button class="trafitec_borde" type="object" name="action_abrir_contacto"><field name="name"/></button></div>
+                                </div>
+																<div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">Mas <i class="fa fa-caret-down"/></a>
+                                </div>
+                            </div>
+														
+                            <div class="container o_kanban_card_content o_visible">
+															<div class="row">
+																		<div style="padding:5px;">
+																		<table width="100%" border="0">
+																		  <tr>
+																			   <td>Teléfono celular</td><td><field name="mobile"/></td>
+																			</tr>
+																			<tr>
+																			   <td>Teléfono fijo</td><td><field name="phone"/></td>
+																			</tr>
+																			<tr>
+																			   <td>Correo electrónico</td><td><field name="email"/></td>
+																			</tr>
+																			<tr>
+																			   <td>Número de unidades</td><td><field name="crm_trafico_numerounidades"/></td>
+																			</tr>
+																			<tr>
+																			   <td>Saldo de facturas</td><td><field name="crm_trafico_saldo"/></td><td><button string="Ver facturas" name="action_abrir_facturas_asociado" type="object" class="trafitec_button">Ver facturas</button></td>
+																			</tr>
+																			<!--tr>
+																			   <td>Tarifa minima</td><td><field name="crm_trafico_tarifa_minima"/></td>
+																			</tr-->
+																			<tr>
+																			   <td>Info</td><td><field name="crm_trafico_info"/></td>
+																			</tr>
+																		</table>
+																		</div>
+															</div>
+                            </div>
+																										
+														<div class="container o_kanban_card_manage_pane o_invisible">
+															<div class="row">
+																		<div style="border-style:dashed;border-color:silver;border-width:1px;padding:5px;">
+																		<font color="silver">ULTIMO CONTACTO</font><br/>
+																		Fecha y hora:<field name="crm_trafico_ultimocontacto_fechahora"/><br/>
+																		Usuario:<field name="crm_trafico_ultimocontacto_usuario_id"/><br/>
+																		Dias:<field name="crm_trafico_ultimocontacto_dias_transcurridos"/><br/>
+																		</div>
+																		<div style="padding:5px;">
+																				<span style="padding:5px;"><button string="Marca como contactado" name="action_marcar_contactado" type="object" class="trafitec_button">Marcar como contactado</button></span>
+																				<span style="padding:5px;"><button string="Ver calendario" name="action_vercalendario" type="object" class="trafitec_button">Ver calendario</button></span>
+																				<span style="padding:5px;"><button string="Ver viajes" name="action_abrir_viajes_asociado" type="object" class="trafitec_button">Ver viajes</button></span>
+																				<span style="padding:5px;"><button string="Ver contactos" name="action_abrir_contactos" type="object" class="trafitec_button">Ver contactos</button></span>
+																		</div>
+															</div>
+                            </div>
+                        </div>
+                    </t>
+                  </templates>
+                </kanban>
+            </field>
+    </record>
+		
+		<!--
+		-->
+		<record id="trafitec_crm_trafico_form" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.form</field>
+            <field name="model">trafitec.crm.trafico</field>
+            <field name="arch" type="xml">
+                <form string="CRM Trafico">
+								<group>
+								  <field name="name"/>
+								</group>
+								<notebook>
+									<page string="Cotizaciones disponibles">
+									<b style="padding:5px;"><font color="silver">En esta ventana se muestran solo las cotizaciones disponibles.</font></b>
+									  <hr/>
+										<button string="Buscar" name="action_buscar_cotizaciones" type="object" class="btn-primary"/>
+										<field name="cotizaciones_abiertas_id"  context="{'group_by': 'cotizacion_id'}">
+									   <tree create="false" widget="one2many_list" edit="false" delete="false" context="{'group_by': 'cotizacion_id'}">
+										    <field name="id"/>
+										    <field name="cotizacion_id"/>
+										    <field name="cotizacion_linea_id"/>
+										    <field name="fecha"/>
+										    <field name="origen"/>
+										    <field name="destino"/>
+										    <field name="producto"/>
+										    <field name="tarifa_a" avg="Promedio de tarifa"/>
+										    <field name="cliente"/>
+										    <field name="peso" sum="Total"/>
+										    <field name="peso_viajes" sum="Total viajes"/>
+										    <field name="avance" widget="progressbar"/>
+										    <field name="estado"/>
+										 		<button string="Ver asociados recomendados" type="object" name="action_asociados_recomendados" class="btn-primary">
+												</button>
+										 </tree>
+									</field>
+
+									</page>
+								  <page string="Buscar viajes">
+								  <group>
+								<group colspan="2">
+								  <group>
+										<field name="buscar_folio"/>
+										<field name="buscar_producto"/>
+										<field name="buscar_origen"/>
+										<field name="buscar_destino"/>
+								</group>
+									<group>
+										<field name="buscar_cliente"/>
+										<field name="buscar_asociado"/>
+										<field name="buscar_fechai"/>
+										<field name="buscar_fechaf"/>
+										<button string="Buscar" name="action_buscar_viajes" type="object" class="btn-primary"/>
+								  </group>
+									</group>
+								<hr/>
+								<group colspan="2">
+								  <field name="resultados_id">
+									   <tree create="false" edit="false" delete="false">
+										 		<field name="id"/>
+										 		<field name="viaje_id"/>
+										    <field name="fecha"/>
+										    <field name="origen" widget="template_name"/>
+										    <field name="destino"/>
+										    <field name="producto"/>
+										    <field name="asociado"/>
+										    <field name="tarifa_a" avg="Promedio de tarifa"/>
+										    <field name="cliente"/>
+										    <field name="peso" sum="Total movido"/>
+										    <field name="estado"/>
+										 </tree>
+									</field>
+								  </group>
+								</group>
+								  </page>
+								  
+								</notebook>
+                </form>
+            </field>
+    </record>
+		
+		
+		
+		
+		
+		<record id="trafitec_crm_trafico_action" model="ir.actions.act_window">
+            <field name="name">CRM Trafico</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.crm.trafico</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+		</record>
+		<!--*********************************************************
+		CRM TRAFICO REGISTRO
+		*********************************************************-->
+		<record id="trafitec_crm_trafico_registro_tree" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.tree</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <tree string="Buscar registro" create="false" edit="false" delete="false" copy="false">
+								  <field name="id"></field>
+								  <field name="tipo"></field>
+								  <field name="create_uid" string="Usuario"></field>
+								  <field name="create_date" string="Fecha y hora de registro"></field>
+								  <field name="asociado_id"></field>
+								  <field name="detalles"></field>
+								  <field name="viajes_n"></field>
+								  <field name="state"></field>
+                </tree>
+            </field>
+    </record>
+
+		<record id="trafitec_crm_trafico_registro_pivot" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.pivot</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <pivot string="Tabla registro">
+								  <field name="create_uid" string="Usuario" type="row"></field>
+								  <field name="tipo" type="col"></field>
+                </pivot>
+            </field>
+    </record>
+		<record id="trafitec_crm_trafico_registro_graph" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.graph</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <graph string="Grafico registro">
+								  <field name="create_uid" string="Usuario" type="row"></field>
+								  <field name="tipo" type="col"></field>
+                </graph>
+            </field>
+    </record>
+		
+		<record id="trafitec_crm_trafico_registro_form" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.form</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <form string="Nuevo registro de contacto" create="false" delete="false" copy="false">
+								  <sheet>
+									<group>
+									  <group>
+								      <field name="tipo" attrs="{'readonly': [('seg_modificar', '=', False)]}"></field>
+								      <field name="detalles" attrs="{'readonly': [('seg_modificar', '=', False)]}"></field>
+										</group>
+										<group>
+								      <field name="generar_evento_st" attrs="{'readonly': [('seg_modificar', '=', False)]}"></field>
+								      <field name="generar_evento_dias" attrs="{'invisible': [('generar_evento_st', '=', False)]}"></field>
+									  </group>
+										<group colspan="2">
+								      <field name="state" attrs="{'readonly': [('seg_modificar', '=', False)]}"></field>
+								      <field name="viajes_id" widget="one2many_list" attrs="{'readonly': [('seg_modificar', '=', False)]}">
+											    <tree editable="bottom" options="">
+													   <field name="viaje_id" domain="[('crm_trafico_registro_id','=',False)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"></field>
+													</tree>
+											</field>
+									  </group>
+										<group colspan="2">
+												<hr class="trafitec_hr"></hr><br/>
+										    <field name="seg_modificar" groups="sli_trafitec.sli_trafitec_crm_trafico_administrador"></field>
+										</group>
+									</group>
+								  </sheet>
+								  <div class="oe_chatter">
+                      <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                      <field name="message_ids" widget="mail_thread"/>
+                  </div>
+                </form>
+            </field>
+    </record>
+		
+		<record id="trafitec_crm_trafico_registro_search" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.search</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <search string="Buscar registro">
+								  <field name="id"></field>
+								  <field name="create_date"></field>
+								  <field name="tipo"></field>
+								  <field name="detalles"></field>
+								  <field name="create_uid"></field>
+                </search>
+            </field>
+    </record>
+		
+		<record id="trafitec_crm_trafico_action_registro" model="ir.actions.act_window">
+            <field name="name">CRM Trafico registro</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.crm.trafico.registro</field>
+            <field name="view_mode">tree,pivot,graph,form</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+		</record>
+		
+	<record id="trafitec_crm_trafico_tablero_kanban" model="ir.ui.view">
+  <field name="name">trafitec.crm.trafico.tablero.kanban</field>
+  <field name="model">trafitec.crm.trafico.tablero</field>
+  <field name="arch" type="xml">
+    <kanban create="0">
+       <templates>
+          <div t-name="kanban-box"> <!-- Use <t> tag instead of <span> for color change -->
+						<div style="border-style:dashed;border-color:silver;border-width:1px;background-color:black;border-radius:5px;color:white;">
+					    <field name="name"/>
+					  </div>
+					  <div style="padding:10px;">
+          	  <table border="1" >
+						     <tr>
+							     <td>COTIZACIONES DISPONIBLES</td><td><font size="60"><field name="cotizaciones_disponibles_n"/></font></td>
+							   </tr>
+						  </table>
+						</div>
+						
+					</div>
+        </templates>
+    </kanban>
+  </field>
+</record>
+	
+	<record id="trafitec_crm_trafico_tablero_form" model="ir.ui.view">
+  <field name="name">trafitec.crm.trafico.tablero.form</field>
+  <field name="model">trafitec.crm.trafico.tablero</field>
+  <field name="arch" type="xml">
+    <form create="false" edit="false" delete="false">
+          <div> <!-- Use <t> tag instead of <span> for color change -->
+						<template>
+						   <span class="trafitec_titulo"><t t-esc="misviajeshoy_n"/></span>
+						</template>
+						<div>
+						  <button string="CRM" name="action_abrir_crm_cotizaciones" type="object" class="trafitec_button"/>
+						  <!--button string="Mis cotizaciones" name="action_abrir_cotizaciones" type="object" class="trafitec_button"/-->
+						  <!--button string="Nueva cotización" name="%(sli_trafitec.cotizacion_action_generic_nuevo)d" type="action" class="trafitec_button"/-->
+						  <button string="Mis viajes" name="action_abrir_viajes" type="object" class="trafitec_button"/>
+						  <button string="Nuevo viaje" name="%(sli_trafitec.viajes_action_generic_nuevo)d" type="action" class="trafitec_button"/>
+						    <!--button class="oe_inline oe_stat_button" type="action" string="Opportunities" name="..." context="..."/-->
+						</div>
+						<hr class="trafitec_hr"/>
+					  <div style="padding:10px;">
+          	  <table border="0">
+						     <tr>
+								 <td rowspan="3"><img src='/sli_trafitec/static/image/indicadores_logo6.png'/></td><td><div class="trafitec_indicador_titulo">COTIZACIONES DISPONIBLES</div></td><td><div class="trafitec_indicador_conteo"><field name="cotizaciones_disponibles_n"/></div></td>
+								 </tr>
+								 <tr>
+								 <td><div class="trafitec_indicador_titulo">MIS VIAJES RECIENTES</div></td><td><div class="trafitec_indicador_conteo"><field name="misviajes_n"/><span><field name="misviajesc_n" class="pequeno"/></span></div></td>
+							   </tr>
+								 <tr>
+								 <td><div class="trafitec_indicador_titulo">MIS VIAJES HOY</div></td><td><div class="trafitec_indicador_conteo"><field name="misviajeshoy_n"/></div></td>
+							   </tr>
+						  </table>
+						</div>
+					  <hr class="trafitec_hr"/>
+					 	<div>
+						  <field name="misviajes_n" widget="percentpie"/>
+						  <field name="misviajeshoy_n" widget="percentpie"/>
+						</div>
+						
+					</div>
+    </form>
+  </field>
+</record>
+		
+ 
+		
+		<record id="trafitec_crm_trafico_tablero_action" model="ir.actions.act_window">
+    <field name="name">CRM Trafico Tablero</field>
+    <field name="res_model">trafitec.crm.trafico.tablero</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="view_type">form</field>
+    <field name="context">{}</field>
+    <field name="view_mode">form,kanban</field>
+		<field name="target">current</field>
+		<field name="res_id">1</field>
+</record>
+		
+		</data>
+</openerp>

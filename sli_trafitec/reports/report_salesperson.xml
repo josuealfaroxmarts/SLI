@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_salesperson">
+<t t-call="report.html_container">
+<t t-foreach="docs" t-as="o">
+<t t-call="report.internal_layout">
+<div class="page">                       <!--  report design code goes here -->
+</div>
+</t>
+</t>
+</t>
+</template>
+</odoo>

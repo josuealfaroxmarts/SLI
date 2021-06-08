@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<templates id="template" xml:space="preserve">
+     <t t-name="template_name">
+        <div class="myclass">
+            <!--design your template here-->
+        <div class="class_ex">
+            <!--//body-->
+        </div>
+            <div class="class_ex1">
+                <!--//body-->
+            </div>
+        </div>
+    </t>
+</templates>

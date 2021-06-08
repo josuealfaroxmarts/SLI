@@ -1,0 +1,60 @@
+## -*- coding: utf-8 -*-
+from openerp import models, fields, api, _, tools
+from openerp.exceptions import UserError, RedirectWarning, ValidationError
+import logging
+import datetime
+_logger = logging.getLogger(__name__)
+
+class trafitec_pagosmasivosx(models.TransientModel):
+	_inherit = 'account.register.payments'
+	
+	facturas_id=fields.Many2many('account.invoice', 'account_invoice_payment_pagosmasivosx_rel', 'payment_id', 'invoice_id', string="Invoices")
+	detalles=fields.Char(string='Detalles')
+	
+	@api.model
+	def default_get(self, fields):
+		rec = super(trafitec_pagosmasivosx, self).default_get(fields)
+		#rec['amount'] = 77
+		return rec
+	
+	def _get_invoices(self):
+		self.Abonar(500)
+		
+		self.facturas_id = None
+		ids=self._context.get('active_ids')
+		lasfacturas = []
+		#lasfacturas = self.env['account.invoice'].browse(ids)
+		
+		nuevas=[]
+		for x in ids:
+			f=self.env['account.invoice'].browse(x)
+			print("***FACK:***"+str(f))
+			n = {
+			  'id' : f.invoice_id ,
+			  'number' : f.number ,
+			  'name' : f.name ,
+			  'pay_method_id' : f.pay_method_id ,
+			  'date_invoice' : f.date_invoice ,
+			  'partner_id' : f.partner_id ,
+			  'company_id' : f.company_id ,
+			  'journal_id' : f.journal_id ,
+			  'residual' : 666 ,
+		      'currency_id' : f.currency_id ,
+				'residual_company_signed': 666 ,
+				'residual_signed': 666
+			}
+			nuevas.append(n)
+		
+		print("Las facturas:"+str(lasfacturas))
+		self.facturas_id = nuevas
+		return nuevas
+	                                                  
+	@api.onchange('journal_id')
+	def _onchange_journal(self):
+		self._get_invoices()
+		#self._compute_total_invoices_amount()
+	
+	
+	
+	
+

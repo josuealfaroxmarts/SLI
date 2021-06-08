@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!--CATEGORIAS-->
+        <record id="sli_trafitec_categoria_trafitec" model="ir.module.category">
+            <field name="name">SLI TrafitecX</field>
+            <field name="description">SLI TrafitecX categoria general</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!--GRUPOS GENERALES-->
+        <record id="sli_trafitec_approved_users" model="res.groups">
+            <field name="name">SLI Aprobacion de usuarios</field>
+            <field name="comment">Seguridad para el grupo de aprovacion de usuario.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_trafico" model="res.groups">
+            <field name="name">SLI Seguridad Trafico</field>
+            <field name="comment">Seguridad para el grupo de Trafico.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_comercial" model="res.groups">
+            <field name="name">SLI Seguridad Comercial</field>
+            <field name="comment">Seguridad para el grupo de Comercial.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_contrarecibos" model="res.groups">
+            <field name="name">SLI Seguridad Contrarecibos</field>
+            <field name="comment">Seguridad para el grupo de Contra recibos.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_facturacion" model="res.groups">
+            <field name="name">SLI Seguridad Facturacion</field>
+            <field name="comment">Seguridad para el grupo de Facturacion.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_administracion" model="res.groups">
+            <field name="name">SLI Seguridad Administracion</field>
+            <field name="comment">Seguridad para el grupo de Administracion.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_solo_ver" model="res.groups">
+            <field name="name">SLI Solo ver</field>
+            <field name="comment">Seguridad solo ver.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_sistemas" model="res.groups">
+            <field name="name">SLI Sistemas</field>
+            <field name="comment">Sistemas.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+
+        <record id="sli_trafitec_slitrack" model="res.groups">
+            <field name="name">SLI Track</field>
+            <field name="comment">SLI Track.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_crm_trafico_administrador" model="res.groups">
+            <field name="name">SLI CRM Trafico Administrador</field>
+            <field name="comment">SLI CRM Trafico Administrador</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+
+        <!--ESPECIFICOS-->
+        <record id="sli_trafitec_ver_tc" model="res.groups">
+            <field name="name">SLI Ver TC y FLETEC</field>
+            <field name="comment">Seguridad ver TC y FLETEC de los viajes.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_cotizaciones_permitir_ver_ta_mayor_tc" model="res.groups">
+            <field name="name">SLI Cotizaciones: Permitir ver y modificar Ta > tc</field>
+            <field name="comment">SLI Cotizaciones: Permitir ver y modificar ta mayor a tc en cotizaciones.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+
+        <record id="sli_trafitec_viajes_ver_otros" model="res.groups">
+            <field name="name">SLI Ver otras opciones en viajes</field>
+            <field name="comment">SLI Ver otras opciones en viajes.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_viajes_restablecer" model="res.groups">
+            <field name="name">SLI Restablecer viaje</field>
+            <field name="comment">SLI Restablecer viaje a Nuevo.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <!--Cotizaciones-->
+        <record id="sli_trafitec_cotizaciones_autorizar" model="res.groups">
+            <field name="name">SLI autorizar cotizaciones</field>
+            <field name="comment">SLI autorizar cotizaciones.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_cotizaciones_disponible" model="res.groups">
+            <field name="name">SLI disponible cotizaciones</field>
+            <field name="comment">SLI disponible cotizaciones.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_cotizaciones_cancelar" model="res.groups">
+            <field name="name">SLI cancelar cotizaciones</field>
+            <field name="comment">SLI cancelar cotizaciones.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_cotizaciones_reactivar" model="res.groups">
+            <field name="name">SLI reactivar cotizaciones</field>
+            <field name="comment">SLI reactivar cotizaciones.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_cotizaciones_espera" model="res.groups">
+            <field name="name">SLI espera cotizaciones</field>
+            <field name="comment">SLI espera cotizaciones.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_cotizaciones_cerrar" model="res.groups">
+            <field name="name">SLI cerrar cotizaciones</field>
+            <field name="comment">SLI cerrar cotizaciones.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_cotizaciones_negociacion_ver" model="res.groups">
+            <field name="name">SLI Cotizaciones: Ver negociaciones</field>
+            <field name="comment">SLI Cotizaciones: Ver negociaciones.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+
+        <record id="sli_trafitec_cotizaciones_negociacion_autorizar" model="res.groups">
+            <field name="name">SLI Cotizaciones: Autorizar negociación</field>
+            <field name="comment">SLI Cotizaciones: Autorizar negociación.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_bloqueo_ver" model="res.groups">
+            <field name="name">SLI Personas: Ver pestaña de bloqueo</field>
+            <field name="comment">Permitir ver la pestaña de bloqueo en contactos.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+
+        <record id="sli_trafitec_bloqueo_clientes" model="res.groups">
+            <field name="name">SLI Clientes: Bloquear cliente</field>
+            <field name="comment">Permitir bloquear cliente.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <!--record id="sli_trafitec_bloqueo_asociado" model="res.groups">
+            <field name="name">SLI Asociados: Bloquear asociado</field>
+            <field name="comment">Este derecho no ha sido implementado.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record-->
+
+        <!--********************-->
+
+
+        <!--GRUPOS NIVEL 2-->
+        <record id="sli_trafitec_reportes_nivel2" model="res.groups">
+            <field name="name">SLI Seguridad Reportes Nivel2</field>
+            <field name="comment">Seguridad para el grupo de Reportes Nivel2.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <!--REPORTES-->
+        <record id="sli_trafitec_reportes_generales" model="res.groups">
+            <field name="name">SLI Seguridad reportes generales</field>
+            <field name="comment">Seguridad para el grupo de reportes generales.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_reportes_especiales" model="res.groups">
+            <field name="name">SLI Seguridad reportes especiales</field>
+            <field name="comment">Seguridad para el grupo de reportes especiales.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <record id="sli_trafitec_ver_link_documentos_viaje" model="res.groups">
+            <field name="name">SLI Ver link de documentos en viaje</field>
+            <field name="comment">Seguridad ver link de documentos en viaje.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+        <!--*************************************************************************-->
+        <!--Decuentos-->
+        <!--*************************************************************************-->
+        <record id="sli_trafitec_descuentos_aprobar" model="res.groups">
+            <field name="name">SLI Descuentos Aprobar</field>
+            <field name="comment">Permitir aprobar descuentos.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+        <record id="sli_trafitec_descuentos_cancelar" model="res.groups">
+            <field name="name">SLI Descuentos Cancelar</field>
+            <field name="comment">Permitir cancelar descuentos.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+        <record id="sli_trafitec_descuentos_restablecer" model="res.groups">
+            <field name="name">SLI Descuentos Restablecer</field>
+            <field name="comment">Permitir restablecer (Cambiar a borrador) descuentos.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+        <record id="sli_trafitec_descuentos_admin" model="res.groups">
+            <field name="name">SLI Descuentos Administrador</field>
+            <field name="comment">Permitir todo sobre descuentos.</field>
+            <field name="category_id" ref="sli_trafitec_categoria_trafitec"/>
+        </record>
+
+
+    </data>
+</openerp>
+
+

@@ -1,0 +1,90 @@
+.trafitec_titulo{
+  border-style:none;
+  border-color:red;
+  border-width:1px;
+  background-color:black;
+  border-radius:5px;
+  color:white;
+  padding:5px;
+}
+
+.trafitec_indicador_conteo{
+  border-style:none;
+  border-color:red;
+  border-width:1px;
+  background-color:blue;
+  border-radius:5px;
+  color:white;
+  padding:5px;
+  margin:5px;
+  font-size:30px;
+  border-spacing:2px;
+
+  text-align: center;
+}
+
+.trafitec_indicador_titulo{
+  border-style:none;
+  border-color:red;
+  border-width:1px;
+  background-color:silver;
+  border-radius:5px;
+  color:white;
+  padding:5px;
+  margin:5px;
+  font-size:30px;
+  border-spacing:2px;
+}
+
+.trafitec_button{
+  border-style:none none dotted none;
+  border-color:silver;
+  border-width:1px;
+  background-color:white;
+  border-radius:5px;
+  color:gray;
+  padding:2px;
+  margin:2px;
+  font-size:14px;
+  border-spacing:2px;
+}
+
+.trafitec_borde{
+  border-style:dotted;
+  border-color:silver;
+  border-width:1px;
+  #background-color:white;
+  border-radius:5px;
+  #color:silver;
+  padding:5px;
+  margin:5px;
+  #font-size:10px;
+  #border-spacing:2px;
+}
+
+.trafitec_borde{
+  border-style:dotted;
+  border-color:silver;
+  border-width:1px;
+  #background-color:white;
+  border-radius:5px;
+  #color:silver;
+  padding:5px;
+  margin:5px;
+  #font-size:10px;
+  #border-spacing:2px;
+}
+
+.pequeno{
+  background-color:white;
+  border-radius:2px;
+  color:gray;
+  padding:2px;
+  margin:2px;
+  font-size:10px;
+}
+
+.trafitec_hr{
+  border-style:dashed;
+  background-color:#eeeeee;
+}

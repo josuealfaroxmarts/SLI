@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+<!--SUCURSALES-->
+<record id="1" model="trafitec.sucursal">
+    <field name="name">Guadalajara</field>
+</record>
+<record id="2" model="trafitec.sucursal">
+    <field name="name">Manzanillo</field>
+</record>
+<record id="3" model="trafitec.sucursal">
+    <field name="name">Veracruz</field>
+</record>
+
+
+<!--LINEAS DE NEGOCIO-->
+<record id="1" model="trafitec.lineanegocio">
+    <field name="name">Granel</field>
+    <field name="porcentaje">4</field>
+</record>
+<record id="2" model="trafitec.lineanegocio">
+    <field name="name">Flete</field>
+    <field name="porcentaje">4</field>
+</record>
+<record id="3" model="trafitec.lineanegocio">
+    <field name="name">Contenedores</field>
+    <field name="porcentaje">15</field>
+</record>
+    
+    
+    </data>
+</openerp>

@@ -1,0 +1,466 @@
+<openerp>
+    <data>
+
+        <record id="trafitec_argil_factura_cancelar" model="ir.ui.view">
+            <field name="name">trafitec.argil.factura.cancelar</field>
+            <field name="model">account_invoice.cancel_wizard</field>
+            <field name="inherit_id" ref="argil_invoice_cancel.wiz_view_invoice_cancel_argil"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="cancelacion_detalles" required="True"></field>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sli_trafitec_buscar_facturas_proveedor" model="ir.ui.view">
+            <field name="name">sli.trafitec.buscar.facturas.proveedor</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter name="es_cartaporte" string="Es carta porte" domain="[('es_cartaporte','=',True)]"/>
+                    <separator/>
+                    <filter name="no_es_cartaporte" string="No es carta porte" domain="[('es_cartaporte','=',False)]"/>
+                    <separator/>
+                    <filter name="en_contrarecibo" string="En contra recibo" domain="[('factura_encontrarecibo','=',True)]"/>
+                    <separator/>
+                    <filter name="no_en_contrarecibo" string="No en contra recibo" domain="[('factura_encontrarecibo','=',False)]"/>
+                    <separator/>
+                    <filter name="por_pagar" string="Por pagar" domain="[('state','=','open'),('residual','>',0)]"/>
+                    <separator/>
+                    <filter name="es_provision" string="Es provisión" domain="[('es_provision','=',True)]"/>
+
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Es provisión" icon="terp-partner" domain="[]" context="{'group_by':'es_provision'}"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="new_factura_manual_fields" model="ir.ui.view">
+            <field name="name">factura_manual.form.add.text.field</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <!--CAMPOS GENERALES DE TRAFITEC EN FACTURA-->
+                <xpath expr="//sheet/group/group/div" position="after">
+                    <field name="es_facturamanual" invisible="1"/>
+                    <field name = "x_folio_trafitecw"/>
+                    <field name="lineanegocio"  attrs="{'readonly': [('state','not in',('draft'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                    <field name="tipo"  attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                </xpath>
+
+                <!--INSERTA CAMPO DE SISTEMA-->
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='currency_id']" position="after">
+                    <field name="sistema" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+                    <attribute name="attrs">{'delete':[('tipo','!=','automatica')]}</attribute>
+                </xpath>
+
+                <!--CAMPOS DE LA LINEA DE CONCEPTOS-->
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="attributes">
+                    <!--attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute-->
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="attributes">
+                    <!--attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute-->
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='uom_id']" position="attributes">
+                    <!--attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute-->
+                </xpath>
+
+
+                <!--PAGINA DE LISTA DE VIAJES-->
+                <xpath expr="//sheet/notebook/page[@name='other_info']" position="before">
+                    <page string="Viajes factura cliente" name="trafitec_factura_viajes" attrs="{'invisible': [('tipo', 'not in', ['manual','automatica'])]}">
+                        <group>
+                            <field name="viajes_id" attrs="{'readonly': [('state','not in',['draft']),('tipo','=','automatica')]}" domain="[('state','=','Nueva'),('tipo_viaje','=','Normal'),('documentacion_completa','=',True),('moneda','=',currency_id),('cliente_id','=',partner_id)]">
+                                <tree>
+                                    <field name="id"></field>
+                                    <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
+                                    <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
+                                    <field name="name"></field>
+                                    <field name="fecha_viaje"></field>
+                                    <field name="origen"></field>
+                                    <field name="destino"></field>
+                                    <field name="cliente_id"></field>
+                                    <field name="asociado_id"></field>
+                                    <field name="placas_id"></field>
+                                    <field name="tarifa_cliente"></field>
+                                    <field name="flete_cliente"></field>
+                                    <field name="peso_origen_total" string="Peso origen"></field>
+                                    <field name="peso_destino_total" string="Peso destino"></field>
+                                    <field name="en_contrarecibo"></field>
+                                    <field name="en_cp"></field>
+                                    <field name="en_factura"></field>
+                                    <field name="state"></field>
+                                </tree>
+                            </field>
+                            <group>
+                                <button name="action_relacionar_viajes" string="Relacionar viajes" type="object" confirm="¿Esta seguro que desea relacionar los viajes?" states="open,paid"/>
+                                <button name="action_liberar_viajes" string="Liberar viajes" type="object" confirm="¿Esta seguro que desea liberar los viajes?" states="open,paid,cancel"/>
+                            </group>
+                            <group>
+                                <field name="total_fletes"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+                <!--PAGINAS DE FACTURA DATOS ADICIONALES-->
+                <xpath expr="//sheet/notebook/page[@name='other_info']" position="before">
+                    <page string="Informacion trafitec" name="info_trafitec" attrs="{'invisible': [('tipo', 'not in', ['manual','automatica'])]}">
+                        <group>
+                            <group>
+                                <field name="cliente_origen_id"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="domicilio_origen_id"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="cliente_destino_id"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="domicilio_destino_id"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            </group>
+                            <group>
+                                <field name="origen"/>
+                                <field name="destino"/>
+                                <field name="placas_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="operador_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="contiene"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//field[@name='has_outstanding']" position="before">
+                    <field name="cliente_bloqueado" invisible="1"/>
+                    <div attrs="{'invisible':[('cliente_bloqueado','=',False)]}" style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
+                        <label string="CLIENTE BLOQUEADO"></label>
+                    </div>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sli_trafitec_factura_cartaporte_form" model="ir.ui.view">
+            <field name="name">sli_trafitec_factura_cp</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <!--CAMPOS GENERALES DE TRAFITEC EN FACTURA-->
+                <xpath expr="//sheet/group/group[1]/field[@name='partner_id']" position="after">
+                    <field name="invoice_xml" invisible="0" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                </xpath>
+                <xpath expr="//sheet/group/group[2]/field[@name='currency_id']" position="after">
+                    <field name="es_cartaporte" invisible="0" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                    <field name="es_provision" invisible="0"/>
+                </xpath>
+
+                <!--CARTA PORTE-->
+                <xpath expr="//sheet/notebook/page[2]" position="after">
+                    <page string="Documentos (SLI Asociados)" name="trafitec_facturas_documentos">
+                        <group>
+
+                            <group string="PDF">
+
+                                <field name="documentos_tiene_pdf"/>
+                                <field name="documentos_anexado_pdf" groups="base.group_no_one"/>
+                                <field name="documentos_nombre_pdf" invisible="1"/>
+                                <field name="documentos_archivo_pdf" filename="documentos_nombre_pdf"/>
+                                <button string="Adjuntar pdf" name="action_adjuntar_pdf" type="object" class="oe_inline oe_stat_button" attrs="{'invisible': [('documentos_tiene_pdf', '=', False)]}"/>
+                            </group>
+
+
+                            <group string="XML">
+                                <field name="documentos_tiene_xml"/>
+                                <field name="documentos_anexado_xml" groups="base.group_no_one"/>
+                                <field name="documentos_nombre_xml" invisible="1"/>
+                                <field name="documentos_archivo_xml" filename="documentos_nombre_xml"/>
+                                <button string="Adjuntar xml" name="action_adjuntar_xml" type="object" class="oe_inline oe_stat_button" attrs="{'invisible': [('documentos_tiene_xml', '=', False)]}"/>
+
+                            </group>
+
+                            <!--<field name="documentos_id" widget="one2many_list" >
+                                    <tree editable="bottom">
+                                         <field name = "name"/>
+                                         <field name = "documento_nombre" invisible="1"/>
+                                         <field name = "documento_archivo" filename="documento_nombre"/>
+                                    </tree>
+                            </field>-->
+                        </group>
+                    </page>
+                </xpath>
+
+                <!--PAGINA DE LISTA DE VIAJES-->
+                <xpath expr="//sheet/notebook/page[1]" position="after">
+                    <page string="Viajes de carta porte" name="trafitec_factura_viajescp" attrs="{'invisible': [('es_cartaporte', '=',False)]}">
+                        <group>
+                            <field name="viajescp_id" attrs="{'readonly': [('state','not in',['draft'])]}" domain="[('state','=','Nueva'),('tipo_viaje','=','Normal'),('documentacion_completa','=',True),('moneda','=',currency_id),('en_contrarecibo','=',False),('en_cp','=',False),('asociado_id','=',partner_id)]">
+                                <tree>
+                                    <field name="id"></field>
+                                    <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
+                                    <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
+                                    <field name="name"></field>
+                                    <field name="fecha_viaje"></field>
+                                    <field name="origen"></field>
+                                    <field name="destino"></field>
+                                    <field name="cliente_id"></field>
+                                    <field name="asociado_id"></field>
+                                    <field name="placas_id"></field>
+                                    <field name="tarifa_asociado"></field>
+                                    <field name="flete_asociado"></field>
+                                    <field name="peso_origen_total" string="Peso origen"></field>
+                                    <field name="peso_destino_total" string="Peso destino"></field>
+                                    <field name="en_contrarecibo"></field>
+                                    <field name="en_cp"></field>
+                                    <field name="en_factura"></field>
+                                    <field name="state"></field>
+                                </tree>
+                            </field>
+                            <group colspan="2">
+                                <button name="action_liberar_viajescp" string="Liberar viajes" type="object" confirm="¿Esta seguro que desea liberar los viajes?" states="cancel"/>
+                            </group>
+                            <group colspan="2">
+                                <field name="total_fletescp"/>
+                            </group>
+
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="sli_trafitec_factura_cartaporte_tree" model="ir.ui.view">
+            <field name="name">sli_trafitec_factura_cp</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='company_currency_id']" position="after">
+                    <field name="es_provision" invisible="0"/>
+                    <field name="es_cartaporte" invisible="0"/>
+                    <field name="factura_encontrarecibo" invisible="0"/>
+                    <field name="contrarecibo_id" invisible="0"/>
+                </xpath>
+                <xpath expr="//tree/field[@name='number']" position="after">
+                    <field name="sat_uuid" invisible="0"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_facturas_agregar_quitar_search" model="ir.ui.view">
+            <field name="name">view.facturas_agregar_quitar.search</field>
+            <field name="model">trafitec.agregar.quitar</field>
+            <field name="arch" type="xml">
+                <search string="Nombre">
+                    <field name="name"/>
+                    <field name="cliente_id"/>
+                    <field name="fecha" />
+                    <field name="placas_id"/>
+                    <field name="operador_id" />
+                    <field name="currency_id" />
+                    <field name="lineanegocio"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_facturas_agregar_quitar_form" model="ir.ui.view">
+            <field name="name">view.facturas_agregar_quitar.form</field>
+            <field name="model">trafitec.agregar.quitar</field>
+            <field name="arch" type="xml">
+                <form string="Agregar / quitar viajes a facturas manuales">
+                    <header>
+                        <!--button name="action_available" string="Validar" type="object" states="Nueva" class="btn-primary"/>-->
+                        <!--button name="action_cancel" string="Cancelar" type="object" confirm="¿Esta seguro que desea cancelar?" states="Validada"/>-->
+                        <field name="state" widget="statusbar" statusbar_visible="Nueva,Validada,Cancelada"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Factura"/>
+                            <h3>
+                                <field name="factura_id" domain="[('type','=','out_invoice'),('state','=','open')]" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            </h3>
+                        </div>
+                        <group >
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="cliente_id" />
+                                <field name="domicilio_id" />
+                                <field name="placas_id"/>
+                                <field name="operador_id" />
+                                <field name="currency_id" />
+                                <field name="lineanegocio"/>
+                            </group>
+                            <group>
+                                <field name="total" />
+                                <field name="abonado"/>
+                                <field name="saldo"/>
+                                <field name="fecha" />
+                                <field name="contiene" />
+                                <field name="invoice_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="viajes_id" string="Viajes">
+                                <tree editable="bottom">
+                                    <field name = "viaje_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </tree>
+                                <group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="fletes" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="maniobras" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="subtotal_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="r_iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label string="Total" />
+                                        </div>
+                                        <field name="total_g" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="facturados_viajes" string="Viajes facturados">
+                                <tree editable="bottom">
+                                    <field name = "viajes_cobrados_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </tree>
+                            </page>
+                            <page name="observaciones" string="Observaciones">
+                                <group>
+                                    <field name="observaciones" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_facturas_agregar_quitar_tree" model="ir.ui.view">
+            <field name="name">view.facturas_agregar_quitar.tree</field>
+            <field name="model">trafitec.agregar.quitar</field>
+            <field name="arch" type="xml">
+                <tree string="Agregar / quitar viajes a facturas manuales">
+                    <field name="name"/>
+                    <field name="cliente_id"/>
+                    <field name="fecha" />
+                    <field name="operador_id" />
+                    <field name="subtotal_g"/>
+                    <field name="iva_g"/>
+                    <field name="r_iva_g"/>
+                    <field name="total_g"/>
+                    <field name="currency_id" />
+                    <field name="lineanegocio"/>
+                    <field name="placas_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="facturas_agregar_quitar_action_generic" model="ir.actions.act_window">
+            <field name="name">Agregar / quitar viajes a facturas manuales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.agregar.quitar</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="msj_factura_form" model="ir.ui.view">
+            <field name="name">msj.factura.form</field>
+            <field name="model">trafitec.agregar.quitar</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+
+                <form>
+                    <group>
+                        <h3>Se creara una factura por excedente, ya que el monto de los viajes supera a la factura inicial.</h3>
+                    </group>
+                    <footer>
+                        <button string="Aceptar" name="confirmation_button" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+
+
+
+        <record id="account.invoice_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoice">
+                    <field name="id"/>
+                    <field name="number"/>
+                    <field name="sat_uuid"/>
+                    <field name="x_folio_trafitecw"/>
+                    <field name="date_invoice"/>
+                    <field name="partner_id" groups="base.group_user" string="Customer"/>
+                    <field name="commercial_partner_id" invisible="1"/>
+                    <field name="reference" invisible="1"/>
+                    <field name="name" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    <field name="user_id"/>
+                    <field name="date_due"/>
+                    <field name="origin"/>
+                    <field name="amount_untaxed"/>
+                    <field name="amount_tax"/>
+                    <field name="amount_total_signed" string="Total" sum="Total"/>
+                    <!--TODO Abonos en lista de facturas y completar reglas de negociacion-->
+                    <field name="abonos" string="Abonos" sum="Abonos"/>
+                    <field name="residual_signed" string="Saldo" sum="Amount Due"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="lineanegocio"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="tipo"/>
+                    <field name="folios_boletas"/>
+                    <field name="cancelacion_detalles"></field>
+                    <field name="state"/>
+                    <field name="type" invisible="context.get('type',True)"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="sli_trafitec_facturas_cancelar" model="ir.ui.view">
+            <field name="name">sli.trafitec.facturas.cancelar</field>
+            <field name="model">trafitec.facturas.cancelar</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="factura_id"  required="True" readonly="1" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"></field>
+                            <field name="detalles" required="True"></field>
+                        </group>
+                        <footer>
+                            <button string="Aceptar" name="cancelar"  type="object" class="oe_highlight" />
+                            <button string="Cancelar" special="cancel" class="oe_highlight"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+    </data>
+</openerp>

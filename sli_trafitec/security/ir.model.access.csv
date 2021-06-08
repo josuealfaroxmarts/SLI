@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_trafitec_tipodoc,SLI Tipos de documentos,model_trafitec_tipodoc,,1,0,0,0
+access_trafitec_cotizaciones_documentos,SLI Documentos de cotizacion,model_trafitec_cotizaciones_documentos,,1,1,1,1
+access_trafitec_trafico_viajes,SLI Viajes trafico,model_trafitec_viajes,sli_trafitec.sli_trafitec_trafico,1,1,1,0
+access_trafitec_remolques_trafico,SLI Remolques trafico,model_trafitec_remolques,sli_trafitec.sli_trafitec_trafico,1,1,1,0
+access_trafitec_remolques_general,SLI Remolques general,model_trafitec_remolques,,1,0,0,0
+access_trafitec_crm_trafico_asociados,SLI CRM Tafico asociados,model_trafitec_crm_asociados,,1,1,1,1

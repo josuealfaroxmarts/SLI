@@ -1,0 +1,2457 @@
+<openerp>
+    <data>
+        <record id="view_municipios_search" model="ir.ui.view">
+            <field name="name">view.municipios.search</field>
+            <field name="model">trafitec.municipios</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_municipios_form" model="ir.ui.view">
+            <field name="name">view.municipios.form</field>
+            <field name="model">trafitec.municipios</field>
+            <field name="arch" type="xml">
+                <form string="Municipios">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name_value"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="estado"/>
+                                <field name="pais"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_municipios_tree" model="ir.ui.view">
+            <field name="name">view.municipios.tree</field>
+            <field name="model">trafitec.municipios</field>
+            <field name="arch" type="xml">
+                <tree string="Municipios">
+                    <field name="name_value"/>
+                    <field name="estado"/>
+                    <field name="pais"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="municipios_action_generic" model="ir.actions.act_window">
+            <field name="name">Municipios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.municipios</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de la ventana de  localidad -->
+
+        <record id="view_localidades_search" model="ir.ui.view">
+            <field name="name">view.localidades.search</field>
+            <field name="model">trafitec.localidad</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_localidades_form" model="ir.ui.view">
+            <field name="name">view.localidades.form</field>
+            <field name="model">trafitec.localidad</field>
+            <field name="arch" type="xml">
+                <form string="Localidades">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name_value"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="codigopostal"/>
+                                <field name="municipio"/>
+                            </group>
+                            <group>
+                                <field name="comentarios"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_localidades_tree" model="ir.ui.view">
+            <field name="name">view.localidades.tree</field>
+            <field name="model">trafitec.localidad</field>
+            <field name="arch" type="xml">
+                <tree string="Localidades">
+                    <field name="name_value"/>
+                    <field name="codigopostal"/>
+                    <field name="municipio"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="localidades_action_generic" model="ir.actions.act_window">
+            <field name="name">Localidades</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.localidad</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de etiquetas -->
+
+
+        <record id="view_etiquetas_search" model="ir.ui.view">
+            <field name="name">view.etiquetas.search</field>
+            <field name="model">trafitec.etiquetas</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_etiquetas_form" model="ir.ui.view">
+            <field name="name">view.etiquetas.form</field>
+            <field name="model">trafitec.etiquetas</field>
+            <field name="arch" type="xml">
+                <form string="Tipos de etiquetas">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="tipovalor"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_etiquetas_tree" model="ir.ui.view">
+            <field name="name">view.etiquetas.tree</field>
+            <field name="model">trafitec.etiquetas</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Tipos de etiquetas">
+                    <field name="name"/>
+                    <field name="tipovalor"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="etiquetas_action_generic" model="ir.actions.act_window">
+            <field name="name">Tipos de etiquetas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.etiquetas</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de ubicaciones -->
+
+        <record id="view_ubicacion_search" model="ir.ui.view">
+            <field name="name">view.ubicacion.search</field>
+            <field name="model">trafitec.ubicacion</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Tipo de ubicación" icon="terp-partner" domain="[]"
+                                context="{'group_by':'tipo_ubicacion'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_ubicacion_form" model="ir.ui.view">
+            <field name="name">view.ubicacion.form</field>
+            <field name="model">trafitec.ubicacion</field>
+            <field name="arch" type="xml">
+                <form string="Almacenes y puertos">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="calle"/>
+                                <field name="estado"/>
+                                <field name="noexterior"/>
+                                <field name="nointerior"/>
+                                <field name="localidad"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="colonia"/>
+                                <field name="codigo_postal"/>
+                                <field name="ciudad"/>
+                            </group>
+                            <group>
+                                <field name="tipo_ubicacion"/>
+                                <field name="tipo_carga"/>
+                                <field name="comentarios"/>
+                                <field name="cliente_ubicacion"/>
+                            </group>
+                            <!-- INICIO MODIFICACION RECIENTE ALTA UBICACIONES-->
+                            <group>
+                                <field name="cruce" invisible="1"/>
+                                <field name="responsable" invisible="1"/>
+                                <field name="coberturacelular" invisible="1"/>
+                                <field name="bodega_prob" invisible="1"/>
+                            </group>
+                            <notebook colspan="2">
+                                <page name="other_information" string="Otra información">
+                                    <group>
+                                        <group>
+                                            <field name="latitud" digits="[5,4]"/>
+                                            <field name="longitud" digits="[5,4]"/>
+                                        </group>
+                                        <group>
+                                            <field name="cap_carga"/>
+                                            <field name="cap_descarga"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <!-- FIN MODIFICACION RECIENTE ALTA UBICACIONES-->
+                                <page name="contact" string="responsables">
+                                    <field name="responsable_id" widget="one2many_list">
+                                        <tree editable="bottom">
+                                            <field name="nombre_responsable"/>
+                                            <field name="email_responsable"/>
+                                            <field name="telefono_responsable"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_ubicacion_tree" model="ir.ui.view">
+            <field name="name">view.ubicacion.tree</field>
+            <field name="model">trafitec.ubicacion</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Almacenes y puertos">
+                    <field name="name"/>
+                    <field name="calle"/>
+                    <field name="noexterior"/>
+                    <field name="nointerior"/>
+                    <field name="localidad"/>
+                    <field name="colonia"/>
+                    <field name="estado"/>
+                    <field name="codigo_postal"/>
+                    <field name="ciudad"/>
+                    <field name="cliente_ubicacion"/>
+                    <field name="responsable" invisible="1"/>
+                    <field name="coberturacelular" invisible="1"/>
+                    <field name="bodega_prob" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ubicacion_action_generic" model="ir.actions.act_window">
+            <field name="name">Almacenes y puertos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.ubicacion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="remolques_action_generic" model="ir.actions.act_window">
+            <field name="name">Remolques</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.remolques</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de muelles -->
+
+        <record id="view_muelles_search" model="ir.ui.view">
+            <field name="name">view.muelles.search</field>
+            <field name="model">trafitec.muelles</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Tipo de ubicación" icon="terp-partner" domain="[]"
+                                context="{'group_by':'tipo_ubicacion'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_muelles_form" model="ir.ui.view">
+            <field name="name">view.muelles.form</field>
+            <field name="model">trafitec.muelles</field>
+            <field name="arch" type="xml">
+                <form string="Muelles">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="ubicacion"/>
+                            </group>
+                            <group>
+                                <field name="detalles"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_muelles_tree" model="ir.ui.view">
+            <field name="name">view.muelles.tree</field>
+            <field name="model">trafitec.muelles</field>
+            <field name="arch" type="xml">
+                <tree string="Muelles">
+                    <field name="name"/>
+                    <field name="ubicacion"/>
+                    <field name="detalles"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="muelles_action_generic" model="ir.actions.act_window">
+            <field name="name">Muelles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.muelles</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de buques -->
+
+        <record id="view_buques_search" model="ir.ui.view">
+            <field name="name">view.buques.search</field>
+            <field name="model">trafitec.buques</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_buques_form" model="ir.ui.view">
+            <field name="name">view.buques.form</field>
+            <field name="model">trafitec.buques</field>
+            <field name="arch" type="xml">
+                <form string="Buques">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="detalles"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_buques_tree" model="ir.ui.view">
+            <field name="name">view.buques.tree</field>
+            <field name="model">trafitec.buques</field>
+            <field name="arch" type="xml">
+                <tree string="Buques">
+                    <field name="name"/>
+                    <field name="detalles"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="buques_action_generic" model="ir.actions.act_window">
+            <field name="name">Buques</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.buques</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de Tipo de documento -->
+
+        <record id="view_tipodoc_search" model="ir.ui.view">
+            <field name="name">view.tipodoc.search</field>
+            <field name="model">trafitec.tipodoc</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_tipodoc_form" model="ir.ui.view">
+            <field name="name">view.tipodoc.form</field>
+            <field name="model">trafitec.tipodoc</field>
+            <field name="arch" type="xml">
+                <form string="Tipos de documento">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="tipo"/>
+                            </group>
+                            <group>
+                                <field name="evidencia"/>
+                                <field name="dmc"/>
+                            </group>
+                        </group>
+                        <group colspan="2">
+                            <field name="detalles"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tipodoc_tree" model="ir.ui.view">
+            <field name="name">view.tipodoc.tree</field>
+            <field name="model">trafitec.tipodoc</field>
+            <field name="arch" type="xml">
+                <tree string="Tipos de documento">
+                    <field name="name"/>
+                    <field name="tipo"/>
+                    <field name="evidencia"/>
+                    <field name="dmc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tipodoc_action_generic" model="ir.actions.act_window">
+            <field name="name">Tipos de documento</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.tipodoc</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de Tipo de móvil -->
+
+        <record id="view_moviles_search" model="ir.ui.view">
+            <field name="name">view.moviles.search</field>
+            <field name="model">trafitec.moviles</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_moviles_form" model="ir.ui.view">
+            <field name="name">view.moviles.form</field>
+            <field name="model">trafitec.moviles</field>
+            <field name="arch" type="xml">
+                <form string="Tipos de móvil">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="tipomovil"/>
+                                <field name="tipo" attrs="{'invisible': [('tipomovil', '!=', 'remolque')]}"/>
+                            </group>
+                            <group>
+                                <field name="capacidad"/>
+                                <field name="unidadmedida"/>
+                                <field name="lineanegocio"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--TREE-->
+        <record id="view_moviles_tree" model="ir.ui.view">
+            <field name="name">view.moviles.tree</field>
+            <field name="model">trafitec.moviles</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Tipos de móvil">
+                    <field name="name"/>
+                    <field name="tipomovil"/>
+                    <field name="tipo" attrs="{'invisible': [('tipomovil', '!=', 'remolque')]}"/>
+                    <field name="capacidad"/>
+                    <field name="unidadmedida"/>
+                    <field name="lineanegocio"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="moviles_action_generic" model="ir.actions.act_window">
+            <field name="name">Tipos de móvil</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.moviles</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de Tipo de lineanegocio -->
+
+        <record id="view_lineanegocio_search" model="ir.ui.view">
+            <field name="name">view.lineanegocio.search</field>
+            <field name="model">trafitec.lineanegocio</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_lineanegocio_form" model="ir.ui.view">
+            <field name="name">view.lineanegocio.form</field>
+            <field name="model">trafitec.lineanegocio</field>
+            <field name="arch" type="xml">
+                <form string="Línea de negocios" create="false" delete="false">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="porcentaje"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_lineanegocio_tree" model="ir.ui.view">
+            <field name="name">view.lineanegocio.tree</field>
+            <field name="model">trafitec.lineanegocio</field>
+            <field name="arch" type="xml">
+                <tree string="Línea de negocios" create="false" delete="false">
+                    <field name="name"/>
+                    <field name="porcentaje"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="lineanegocio_action_generic" model="ir.actions.act_window">
+            <field name="name">Línea de negocios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.lineanegocio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de Tipo de Tipo presentacion -->
+
+        <record id="view_tipopresentacion_search" model="ir.ui.view">
+            <field name="name">view.tipopresentacion.search</field>
+            <field name="model">trafitec.tipopresentacion</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_tipopresentacion_form" model="ir.ui.view">
+            <field name="name">view.tipopresentacion.form</field>
+            <field name="model">trafitec.tipopresentacion</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de presentación">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tipopresentacion_tree" model="ir.ui.view">
+            <field name="name">view.tipopresentacion.tree</field>
+            <field name="model">trafitec.tipopresentacion</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo de presentación">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tipopresentacion_action_generic" model="ir.actions.act_window">
+            <field name="name">Tipo de presentación</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.tipopresentacion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Parte de Tipo de Tipo cargos adicionales -->
+
+        <record id="view_tipocargosadicionales_search" model="ir.ui.view">
+            <field name="name">view.tipocargosadicionales.search</field>
+            <field name="model">trafitec.tipocargosadicionales</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_tipocargosadicionales_form" model="ir.ui.view">
+            <field name="name">view.tipocargosadicionales.form</field>
+            <field name="model">trafitec.tipocargosadicionales</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de cargos adicionales">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="validar_en_cr"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tipocargosadicionales_tree" model="ir.ui.view">
+            <field name="name">view.tipocargosadicionales.tree</field>
+            <field name="model">trafitec.tipocargosadicionales</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Tipo de cargos adicionales">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="validar_en_cr"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tipocargosadicionales_action_generic" model="ir.actions.act_window">
+            <field name="name">Tipo de cargos adicionales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.tipocargosadicionales</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Aseguradora -->
+        <!-- MODIFICACIONES ALTA CLIENTES -->
+
+        <record id="new_aseguradora_field" model="ir.ui.view">
+            <field name="name">aseguradora.form.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button string="Aprobar Documentos" name="approve_documents" state="Aprobado" type="object" help="Aprobar Documentos" confirm="¿Esta seguro que desea aprobar los documentos de este usuario?" class="oe_highlight" attrs="{'invisible':[('status_document', '!=', False)]}" groups="sli_trafitec.sli_trafitec_approved_users"/>
+                        <button string="Rechazar" name="refuse_status" state="Rechazado" type="object" help="Rechazar usuario" confirm="¿Esta seguro que desea rechazar de este usuario?" class="oe_highlight" groups="sli_trafitec.sli_trafitec_approved_users"/>
+                        <button string="Aprobar usuario" name="approve_status" state="Aprobado" type="object" help="Aprobar formulario" confirm="¿Esta seguro que desea aprobar este formulario?" class="oe_highlight" attrs="{'invisible':['|',('status_client', '=', 'Aprobado'),('status_document', '=', False)]}" groups="sli_trafitec.sli_trafitec_approved_users"/>
+                        <field name="status_document" invisible="1"/>
+                    </header>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='website']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='lang']" position="after">
+                    <field name="aseguradora" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='lang']" position="after">
+                    <field name="razon_social" attrs="{'invisible':[('company_type2', '!=', 'company')]}"/>
+                    <field name="status_client_fletex"/>
+                    <field name="status_client" readonly="1"/>
+                    <field name="motive_refuse" attrs="{'invisible':[('status_client', '!=', 'Rechazado')]}"/>
+                    <field name="progress_fletex" widget="percentpie" attrs="{'invisible':[('operador', '!=', False)]}"/>
+                    <field name="step_one" attrs="{'invisible':[('operador', '!=', False)]}"/>
+                    <field name="step_three" attrs="{'invisible':[('operador', '!=', False)]}"/>
+                    <field name="step_two" attrs="{'invisible':['|',('operador', '!=', False),('supplier', '=', True)]}"/>
+                    <field name="step_operator" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
+                    <field name="step_truck" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
+                    <field name="changes_history" attrs="{'invisible':['|',('customer', '!=', False),('asociado', '!=', False)]}"/>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='email']" position="after">
+                    <field name="crmt_logistico_correo"/>
+                    <field name="crmt_unidades_txt" attrs="{'invisible':True}"/>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='phone']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='fax']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='website']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='function']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='lang']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='category_id']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/label[@for='street']" position="attributes">
+                     <attribute name="attrs">{'invisible': [('operador','!=',False)]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/div" position="attributes">
+                     <attribute name="attrs">{'invisible': [('operador','!=',False)]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/div" position="after">
+                     <field name="fecha_nacimiento" attrs="{'invisible': [('operador', '!=', True)]}"/>
+                </xpath>
+                <xpath expr="//notebook/page[@name='internal_notes']" position="attributes">
+                     <attribute name="attrs">{'invisible': [('operador','!=',False)]}</attribute>
+                </xpath>  
+            </field>
+        </record>
+        <record id="alta_choferes" model="ir.ui.view">
+            <field name="name">alta.choferes.form.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_mx_sat_models.form_res_partner_address_fields_3_3"/>
+            <field name="arch" type="xml">
+                <field name="num_reg_trib" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="website" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        <record id="nif_mod" model="ir.ui.view">
+            <field name="name">nif.mod.form.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_mx_einvoice.view_partner_form_inh_xml22"/>
+            <field name="arch" type="xml">
+                <field name="envio_manual_cfdi" position="after">
+                    <field name="nombre_vat_copia" invisible='1'/>
+                    <field name="vat_copia" filename="nombre_vat_copia"/>
+                    <field name='vat_info' invisible='1'/>
+                </field>
+            </field>
+        </record>
+        <!--<record id="nif_mod" model="ir.ui.view">
+            <field name="name">nif.mod.form.add.text.field</field>
+            <field name="model">sales.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>-->
+
+        <!-- Parte de Polizas de seguo -->
+
+        <!--<record id="view_polizas_search" model="ir.ui.view">
+            <field name="name">view.polizas.search</field>
+            <field name="model">trafitec.polizas</field>
+            <field name="arch" type="xml">
+            <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>-->
+
+        <record id="view_polizas_form" model="ir.ui.view">
+            <field name="name">view.polizas.form</field>
+            <field name="model">trafitec.polizas</field>
+            <field name="arch" type="xml">
+                <form string="Pólizas de seguro de carga">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="aseguradora_id"/>
+                                    <field name="porcentaje_aseg" digits="[5,4]"/>
+                                    <field name="porcentaje_clie" digits="[5,4]"/>
+                                    <field name="vigencia_desde"/>
+                                </group>
+                                <group>
+                                    <field name="vigencia_hasta"/>
+                                    <field name="estado_poliza"/>
+                                    <field name="activo"/>
+                                    <field name="detalles"/>
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_polizas_tree" model="ir.ui.view">
+            <field name="name">view.polizas.tree</field>
+            <field name="model">trafitec.polizas</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Pólizas de seguro de carga">
+                    <field name="name"/>
+                    <field name="aseguradora_id"/>
+                    <field name="porcentaje_aseg"/>
+                    <field name="porcentaje_clie"/>
+                    <field name="vigencia_desde"/>
+                    <field name="vigencia_hasta"/>
+                    <field name="estado_poliza"/>
+                    <field name="activo"/>
+                    <field name="detalles"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="polizas_action_generic" model="ir.actions.act_window">
+            <field name="name">Pólizas de seguro de carga</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.polizas</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Producto -->
+
+        <record id="new_product_tab" model="ir.ui.view">
+            <field name="name">product.form.add.text.field</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[@name='notes']" position="after">
+                    <page name="presentacion" string="Presentación por producto">
+                        <field name="trafi_product_id" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="etiqueta_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="trafitec_opciones" string="Opciones trafitec"
+                          groups="sli_trafitec.sli_trafitec_sistemas">
+                        <group>
+                            <field name="es_flete"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Asociado, operador -->
+
+        <record id="new_asociado_tab" model="ir.ui.view">
+            <field name="name">res.partner.form.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group/field[@name='lang']" position="after">
+                    <field name="asociado"/>
+                    <field name="operador"/>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[1]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
+                    <page name="asociado" string="Información asociado"
+                          attrs="{'invisible': [('asociado', '!=', True)]}">
+                        <group>
+                            <group>
+                                <field name="tipoasociado"/>
+                                <field name="notificar_contrarecido"/>
+                                <field name="notificar_pago"/>
+                                <field name="porcentaje_comision"/>
+                                <field name="usar_porcentaje"/>
+
+                            </group>
+                            <group>
+                                <field name="creditocomision"/>
+                                <field name="calificacion"/>
+                                <field name="info_completa"/>
+                                <field name="doc_completa"/>
+                                <field name="validado"/>
+                            </group>
+                            <group string="Combustible" groups="sli_trafitec.sli_trafitec_descuentos_admin">
+                                <field name="combustible_convenio_st"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page name="rutas" string="Rutas a cubrir" attrs="{'invisible': [('asociado', '!=', True)]}">
+                        <field name="trafitec_rutas_id" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="estado"/>
+                                <field name="vigente"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="movil" string="Unidades de asociado" invisible="1">
+                        <field name="trafitec_unidades_id" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="movil"/>
+                                <field name="cantidad"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="operador" string="Información operador"
+                          attrs="{'invisible': [('operador', '!=', True)]}">
+                        <group>
+                            <group>
+                                <field name="nolicencia_nombre" invisible="1"/>
+                                <field name="nolicencia" filename="nolicencia_nombre"/>
+                                <field name="asociado_operador"/>
+                                <field name="imei"/>
+                                <field name="celular_enlazado"/>
+                                <field name="numero_medicina"/>
+                                <field name="name_medicina_ad" invisible="1"/>
+                                <field name="numero_medicina_ad" filename="name_medicina_ad"/>
+                            </group>
+                            <group>
+                                <field name="activo_slitrack"/>
+                                <field name="noviajes"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
+                    <page name="representante_moral" string="Representante Legal" attrs="{'invisible': ['|', ('company_type2', '!=', 'company'), ('operador', '!=', False)]}">
+                        <group>
+                            <group>
+                                <field name="nombres_moral"/>
+                                <field name="apellidos_moral"/>
+                                <field name="correo_moral"/>
+                                <field name="telefono_moral"/>
+                                <field name="name_identificacion_representante_moral" invisible="1"/>
+                                <field name="identificacion_representante_moral" filename="name_identificacion_representante_moral"/>
+                                <field name="rfc_moral"/>
+<!--                            <field name="qr_rfc_moral_nombre" invisible="1"/>
+                                <field name="qr_rfc_moral" filename="qr_rfc_moral_nombre"  invisible="1"/> -->
+                                <field name="name_acta_moral" invisible="1"/>
+                                <field name="acta_moral" filename="name_acta_moral"/>
+                                <field name="name_domicilio_moral" invisible="1"/>
+                                <field name="domicilio_moral" filename="name_domicilio_moral"/>
+                                <field name="name_estado_cuenta_moral" invisible="1" />
+                                <field name="estado_cuenta_moral" filename="name_estado_cuenta_moral" attrs="{'invisible': [('asociado', '!=', True)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
+                    <page name="representante_fisica" string="Representante Legal" attrs="{'invisible': ['|', ('company_type2', '!=', 'physical_person'), ('operador', '!=', False)]}">
+                        <group>
+                            <group>
+                                <field name="nombres_fisica"/>
+                                <field name="apellidos_fisica"/>
+                                <field name="correo_fisica"/>
+                                <field name="telefono_fisica"/>
+                                <field name="name_identificacion_representante_fisica" invisible="1"/>
+                                <field name="identificacion_representante_fisica" filename="name_identificacion_representante_fisica"/>
+                                <field name="rfc_fisica"/>
+<!--                            <field name="qr_rfc_fisica_nombre" invisible="1"/>
+                                <field name="qr_rfc_fisica" filename="qr_rfc_fisica_nombre"  invisible="1"/> -->
+                                <field name="name_comprobante_fisica" invisible="1"/>
+                                <field name="comprobante_domicilio_fisica" filename="name_comprobante_fisica"/>
+                                <field name="name_estado_cuenta_fisica" invisible="1" />
+<!--                            <field name="estado_cuenta_fisica" filename="name_estado_cuenta_fisica" attrs="{'invisible': [('asociado', '!=', True)]}"/> -->
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Unidad medida -->
+
+        <record id="new_unidadmedida_tab" model="ir.ui.view">
+            <field name="name">product.uom.add.text.field</field>
+            <field name="model">product.uom</field>
+            <field name="inherit_id" ref="product.product_uom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group/field[@name='rounding']" position="after">
+                    <field name="trafitec"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vehiculo -->
+
+        <record id="new_vehiculo_tab" model="ir.ui.view">
+            <field name="name">vehiculo.add.text.field</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="priority" eval="2000"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//sheet/div[2]/h1/field" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/h1/field" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="required">False</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/h2/field" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="required">False</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/h1/field" position="after">
+                    <field name="vehicle_model" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet/group/group[2]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group[1]/field[@name='location']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group[2]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group[1]" position="after">
+                    <hr/>
+                    <group string="Trafitec" col="2" name="sli_trafitec_vehiculo">
+                        <group string="General">
+                            <field name="color_vehicle"/>
+                            <field name="ejes_tracktocamion"/>
+                            <field name="tiposervicio"/>
+                            <field name="es_utilitario" invisible="1"/>
+
+                            <field name="asociado_id" attrs="{'invisible': [('es_utilitario', '=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            <field name="operador_id" attrs="{'invisible': [('es_utilitario', '=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            <field name="es_flotilla"/>
+                            <field name="status_vehicle"/>
+                        </group>
+
+                        <group string="Flotilla" attrs="{'invisible': [('es_flotilla', '!=', True)]}">
+                            <field name="no_economico" attrs="{'invisible': [('es_flotilla', '!=', True)]}"/>
+
+                            <field name="remolque_1_id" attrs="{'invisible': [('es_flotilla', '!=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            <field name="dolly_id" attrs="{'invisible': [('es_flotilla', '!=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            <field name="remolque_2_id" attrs="{'invisible': [('es_flotilla', '!=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                        </group>
+
+                    </group>
+                    <hr/>
+                </xpath>
+                <xpath expr="//sheet/group[1]/group[1]" position="after">
+                    <group col="2">
+                        <field name="numero_economico"/>
+                        <field name="tipo_vehiculo"/>
+                    </group>
+                </xpath>
+                <xpath expr="//sheet/group[1]" position="after">
+                    <hr/>
+                    <group string="Legal" col="2" name="sli_trafitec_vehiculo_new">
+                        <field name="nombre_circulacion" invisible='1'/>
+                        <field name="ext_circulacion" invisible='1'/>
+                        <field name="nombre_circulacion" invisible='1'/>
+                        <field name="nombre_poliza_seguro" invisible='1'/>
+                        <field name="ext_poliza_seguro" invisible='1'/>
+                        <field name="circulacion" filename="nombre_circulacion"/>
+                        <field name="poliza_seguro" filename="nombre_poliza_seguro"/>
+                        <field name="fecha_poliza" />
+                    </group>
+                </xpath>
+                <xpath expr="//form/sheet/group[4]/group[1]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group[4]/group[2]/label[@for='co2']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': [('tipo_vehiculo','==', 'dolly')]}</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group[4]/group[2]/div" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': [('tipo_vehiculo','==', 'dolly')]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='car_value']" position="after">
+                </xpath>
+
+                <xpath expr="//field[@name='license_plate']" position="after">
+                    <!--field name="info_alertas" readonly="1" style="color:red;"></field-->
+                </xpath>
+            </field>
+        </record>
+
+        <record id="trafitec_remolques_search" model="ir.ui.view">
+            <field name="name">trafitec.remolques.search</field>
+            <field name="model">trafitec.remolques</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"></field>
+                    <field name="placas"></field>
+                    <field name="tipo"></field>
+                    <field name="active"></field>
+                </search>
+            </field>
+        </record>
+        <record id="trafitec_remolques_tree" model="ir.ui.view">
+            <field name="name">trafitec.remolques.tree</field>
+            <field name="model">trafitec.remolques</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                    <field name="placas"></field>
+                    <field name="ejes" widget="integer"></field>
+                    <field name="descripcion"></field>
+                    <field name="tipo"></field>
+                    <field name="active"></field>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="trafitec_remolques_form" model="ir.ui.view">
+            <field name="name">trafitec.remolques.form</field>
+            <field name="model">trafitec.remolques</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"></field>
+                            <field name="placas"></field>
+                            <field name="ejes"></field>
+                            <field name="descripcion"></field>
+                            <field name="tipo"></field>
+                            <field name="active"></field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="new_bank_exportar" model="ir.ui.view">
+            <field name="name">bank.add.text.field.exportar</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bic']" position="after">
+                    <field name="no_institucion"/>
+                    <field name="clave_institucion"/>
+                    <field name="exportar"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Parte de plazas banxico -->
+
+        <record id="view_plazas_banxico_search" model="ir.ui.view">
+            <field name="name">view.plazas_banxico.search</field>
+            <field name="model">trafitec.plazas.banxico</field>
+            <field name="arch" type="xml">
+                <search string="Nombre">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_plazas_banxico_form" model="ir.ui.view">
+            <field name="name">view.plazas_banxico.form</field>
+            <field name="model">trafitec.plazas.banxico</field>
+            <field name="arch" type="xml">
+                <form string="Plazas banxico">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="numero_plaza"/>
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_plazas_banxico_tree" model="ir.ui.view">
+            <field name="name">view.plazas_banxico.tree</field>
+            <field name="model">trafitec.plazas.banxico</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Plazas banxico">
+                    <field name="name"/>
+                    <field name="numero_plaza"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="plazas_banxico_action_generic" model="ir.actions.act_window">
+            <field name="name">Plazas banxico</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.plazas.banxico</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Cuentas bancarias -->
+
+        <record id="new_cuentas_banc_tab" model="ir.ui.view">
+            <field name="name">cuentas_banc.add.text.field</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_bank_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group" position="after">
+                    <group string="Plazas banxico" name="plazas_banxico">
+                        <field name="plazas_ban_id"/>
+                        <field name="no_sucursal"/>
+
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Parte de concepto anticipo -->
+
+        <record id="view_concepto_anti_search" model="ir.ui.view">
+            <field name="name">view.concepto_anti.search</field>
+            <field name="model">trafitec.concepto.anticipo</field>
+            <field name="arch" type="xml">
+                <search string="Nombre">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_concepto_anti_form" model="ir.ui.view">
+            <field name="name">view.concepto_anti.form</field>
+            <field name="model">trafitec.concepto.anticipo</field>
+            <field name="arch" type="xml">
+                <form string="Conceptos de descuentos">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="requiere_orden"/>
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_concepto_anti_tree" model="ir.ui.view">
+            <field name="name">view.concepto_anti.tree</field>
+            <field name="model">trafitec.concepto.anticipo</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Conceptos de descuentos">
+                    <field name="name"/>
+                    <field name="requiere_orden"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="concepto_anti_action_generic" model="ir.actions.act_window">
+            <field name="name">Conceptos de descuentos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.concepto.anticipo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Clientes -->
+
+        <record id="new_clientes_tab" model="ir.ui.view">
+            <field name="name">clientes.add.tab.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
+                    <page name="cliente" string="Información cliente" attrs="{'invisible': ['|',('status_client', '==', 'Rechazado'),('asociado', '==', True)]}">
+                        <group>
+                            <group>
+                                <field name="excedente_merma"/>
+                                <field name="facturar_con"/>
+                                <field name="clasificacion"/>
+                                <field name="facturar_ordenes"/>
+                            </group>
+                            <group>
+                                <field name="merma_permitida_por" digits="[5,5]"/>
+                                <field name="merma_permitida_kg"/>
+                                <field name="permitir_diferente"/>
+                                <field name="permitir_ta_mayor_tc"/>
+                                <field name="equipoventa_id"/>
+
+                                <field name="moroso_prorroga_st"/>
+                                <field name="moroso_prorroga_fecha"
+                                       attrs="{'invisible':[('moroso_prorroga_st','=',False)]}"/>
+
+                            </group>
+
+                        </group>
+                    </page>
+                    <page string="Bloqueo" name="trafitec_bloqqueo" groups="sli_trafitec.sli_trafitec_bloqueo_ver" attrs="{'invisible': ['|',('status_client', '==', 'Rechazado'),('operador', '==', True)]}">
+                        <group string="Cliente" groups="sli_trafitec.sli_trafitec_bloqueo_clientes">
+                            <field name="bloqueado_cliente_bloqueado"></field>
+                            <field name="bloqueado_cliente_clasificacion_id"
+                                   domain="[('aplica_clasificacion_bloqueo_cliente','=',True)]"
+                                   options="{'no_open': True, 'no_create': True}"></field>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='purchase']/field[@name='supplier']"
+                       position="after">
+                    <field name="limite_credito_fletex"/>
+                    <field name="saldo_facturas"/>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='user_id']"
+                       position="after">
+                    <field name="prorroga"/>
+                    <field name="fecha_prorroga" attrs="{'invisible': [('prorroga', '!=', True)]}"/>
+                    <field name="limite_credito"/>
+                </xpath>
+                <!--xpath expr="//div[@name='button_box']" position="after"-->
+                <xpath expr="//sheet" position="before">
+                    <div attrs="{'invisible':[('bloqueado_cliente_bloqueado','=',False)]}"
+                         style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
+                        <label string="CLIENTE BLOQUEADO"></label>
+                    </div>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <record id="new_proveedores_tab" model="ir.ui.view">
+            <field name="name">proveedores.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='purchase']/field[@name='supplier']"
+                       position="after">
+                    <field name="plazas_ban_id"/>
+                    <field name="no_sucursal"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Documentos clientes -->
+
+        <record id="new_doc_clientes_tab" model="ir.ui.view">
+            <field name="name">doc_clientes.add.tab.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']" position="after">
+                    <page name="documentos_id" string="Documentos requeridos"
+                          attrs="{'invisible': [('customer', '!=', True)]}">
+                        <field name="documentos_id" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="name"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="tipo_tipo" readonly="1"/>
+                                <field name="tipo_evidencia" readonly="1"/>
+                                <field name="tipo_dmc" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_vehiculos_search" model="ir.ui.view">
+            <field name="name">vehiculos.check.printing.search</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='groupby_status']" position="before">
+                    <field name="no_economico"/>
+                    <field name="asociado_id"/>
+                    <field name="operador_id"/>
+                    <filter string="No. economico" domain="[]" context="{'group_by':'no_economico'}"/>
+                    <separator orientation="vertical"/>
+                </xpath>
+            </field>
+        </record>
+        <record id='fleet.fleet_vehicle_view_tree' model='ir.ui.view'>
+            <field name="name">fleet.vehicle.tree</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Vehicle"
+                      decoration-warning="contract_renewal_due_soon and not contract_renewal_overdue"
+                      decoration-danger="contract_renewal_overdue">
+                    <field name="active" invisible="1"/>
+                    <field name="license_plate"/>
+                    <field name="model_id"/>
+                    <field name="no_economico"/>
+                    <field name="asociado_id"/>
+                    <field name="operador_id"/>
+                    <field name="acquisition_date"/>
+                    <field name="state_id"/>
+                    <field name="odometer"/>
+                    <field name="odometer_unit"/>
+                    <field name="contract_renewal_due_soon" invisible="1"/>
+                    <field name="contract_renewal_overdue" invisible="1"/>
+                    <field name="contract_renewal_total" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_partner_asociados_form" model="ir.actions.act_window">
+            <field name="name">Asociados</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('asociado','=',True)]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="filter" eval="True"/>
+        </record>
+        <record id="action_partner_operadores_form" model="ir.actions.act_window">
+            <field name="name">Operadores</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('operador','=',True)]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="filter" eval="True"/>
+        </record>
+
+        <!-- Paramteros -->
+        <record id="view_parametros_form" model="ir.ui.view">
+            <field name="name">view.parametros.form</field>
+            <field name="model">trafitec.parametros</field>
+            <field name="arch" type="xml">
+                <form string="Parametros">
+                    <sheet>
+                        <group colspan="2">
+                            <notebook>
+                                <page string="Generales">
+                                    <group string="Generales">
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="company_id"/>
+                                            <field name="pronto_pago"/>
+                                        </group>
+                                    </group>
+                                </page>
+
+                                <page string="Contra recibo">
+                                    <group string="Parametros para contra recibos">
+                                        <group>
+
+                                            <!--field name="metodo_pago_id"/-->
+                                            <field name="payment_term_id"/>
+
+                                            <field name="cr_moneda_id"/>
+                                            <field name="cr_lineanegocio_id"/>
+
+                                        </group>
+                                    </group>
+                                </page>
+
+                                <page string="Facturas de clientes">
+                                    <group string="Parametros para facturas cliente">
+                                        <group>
+                                            <field name="journal_id_invoice"/>
+                                            <field name="account_id_invoice"/>
+                                            <field name="product_invoice"/>
+                                        </group>
+                                    </group>
+                                </page>
+
+                                <page string="Notas de cargo">
+                                    <group string="Notas de cargo">
+                                        <group string="Documento">
+                                            <field name="product"/>
+                                            <field name="iva"/>
+                                            <field name="retencion"/>
+                                            <field name="cr_plancontable_id"/>
+                                            <field name="cr_diario_id"/>
+                                            <field name="metodo_pago_id"/>
+
+                                        </group>
+                                        <group string="Pago y cobro">
+                                            <field name="nca_diario_pagos_id"/>
+                                            <field name="nca_diario_cobros_id"/>
+                                        </group>
+
+                                    </group>
+                                </page>
+                                <page string="Cotizaciones">
+                                    <group string="Cotizaciones">
+                                        <field name="cot_producto_id"/>
+                                    </group>
+                                    <group string="Avance">
+                                        <field name="cot_envio_avance_pruebas_st"/>
+                                        <field name="cot_envio_avance_pruebas_correo"/>
+                                    </group>
+                                </page>
+                                <page string="Seguro de carga">
+                                    <group>
+                                        <field name="seguro_cargo_adicional_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                    </group>
+                                </page>
+                                <page string="Descuentos">
+                                    <group>
+                                        <field name="descuento_combustible_externo_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                        <field name="descuento_combustible_interno_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                        <field name="descuento_combustible_proveedor_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                        <field name="descuento_concepto_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                        <field name="descuento_combustible_pfactor"></field>
+                                        <field name="descuento_combustible_pcomision"></field>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_parametros_tree" model="ir.ui.view">
+            <field name="name">view.parametros.tree</field>
+            <field name="model">trafitec.parametros</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Parametros">
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <field name="product"/>
+                    <field name="metodo_pago_id"/>
+                    <field name="payment_term_id"/>
+                    <field name="iva"/>
+                    <field name="retencion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="parametros_action_generic" model="ir.actions.act_window">
+            <field name="name">Parametros</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.parametros</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Sucursal -->
+        <record id="view_sucursal_form" model="ir.ui.view">
+            <field name="name">view.sucursal.form</field>
+            <field name="model">trafitec.sucursal</field>
+            <field name="arch" type="xml">
+                <form string="Sucursal">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                        </div>
+                        <group>
+                            <div class="oe_title">
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                    </group>
+                                </group>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_sucursal_tree" model="ir.ui.view">
+            <field name="name">view.sucursal.tree</field>
+            <field name="model">trafitec.sucursal</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Sucursal">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sucursal_action_generic" model="ir.actions.act_window">
+            <field name="name">Sucursal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.sucursal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="sli_view_personas_tree" model="ir.ui.view">
+            <field name="name">sli.view.personas.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Personas" create="false" edit="false" delete="false" default_order="id desc">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="display_name"/>
+                    <field name="vat"/>
+                    <field name="customer"/>
+                    <field name="asociado"/>
+                    <field name="operador"/>
+                    <field name="supplier"/>
+                    <field name="aseguradora"/>
+                    <!--field name="employee"/-->
+                    <field name="company_type2"/>
+                    <field name="company_id"/>
+
+                    <field name="create_date"/>
+                    <field name="create_uid"/>
+                    <field name="active"/>
+                </tree>
+
+
+            </field>
+        </record>
+
+        <record id="sli_personas_action_generic" model="ir.actions.act_window">
+            <field name="name">Personas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('employee','=',False)]</field>
+            <field name="view_id" ref="sli_view_personas_tree"/>
+            <field name="limit">10</field>
+        </record>
+
+        <record id="view_trafitec_perfiles" model="ir.ui.view">
+            <field name="name">view.trafitec.perfiles</field>
+            <field name="model">trafitec.seguridad.perfiles</field>
+            <field name="arch" type="xml">
+                <form string="Perfil">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="name"></field>
+                            <field name="detalles"></field>
+                            <field name="state"></field>
+                        </group>
+                        <group colspan="2">
+                            <notebook>
+                                <page string="Derechos">
+                                    <field name="derechos">
+                                        <tree editable="bottom">
+                                            <field name="derecho"
+                                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                            <field name="permitir"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Usuarios">
+                                    <field name="usuarios">
+                                        <tree>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="sli_trafitec_seguridad_perfiles" model="ir.actions.act_window">
+            <field name="name">Perfiles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.seguridad.perfiles</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">10</field>
+        </record>
+
+
+        <!--CANCELACION DE CUENTAS-->
+        <record id="view_trafitec_cancelacioncuentas_sarch" model="ir.ui.view">
+            <field name="name">view.trafitec.cancelacioncuentas.search</field>
+            <field name="model">trafitec.cancelacioncuentas</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="persona_id"/>
+                    <field name="total"/>
+                    <field name="detalles"/>
+                    <field name="persona_cobranza"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_trafitec_cancelacioncuentas_tree" model="ir.ui.view">
+            <field name="name">view.trafitec.cancelacioncuentas.tree</field>
+            <field name="model">trafitec.cancelacioncuentas</field>
+            <field name="arch" type="xml">
+                <tree delete="false" duplicate="false" colors="red:state in('cancelado');green:state in('validado')">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="persona_id"/>
+                    <field name="moneda_id"/>
+                    <field name="total"/>
+                    <field name="detalles"/>
+                    <field name="persona_cobranza"/>
+                    <field name="diario_pago_cliente"/>
+                    <field name="diario_pago_proveedor"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_trafitec_cancelacioncuentas_form" model="ir.ui.view">
+            <field name="name">view.trafitec.cancelacioncuentas.form</field>
+            <field name="model">trafitec.cancelacioncuentas</field>
+            <field name="arch" type="xml">
+                <form delete="false" duplicate="false">
+                    <header>
+                        <button string="Validar" name="action_validar" type="object" class="btn-primary"
+                                confirm="¿Validar documento?" states="nuevo"/>
+
+                        <button string="" name="action_cancelar" type="object" class="btn-default"
+                                confirm="¿Cancelar documento?" states="nuevo,validado">
+                            <font color="red">
+                                <bold>Cancelar</bold>
+                            </font>
+                            <!--br/>
+                            <font color="silver">Cancelar documento.</font-->
+                        </button>
+                        <!--button string="Saldar" name="action_saldar" type="object" class="btn-default" states="nuevo"/-->
+                        <!--button string="Cero" name="action_ceros" type="object" class="btn-default" states="nuevo"/-->
+                        <button string="Distribuir" name="action_distribuir" type="object" class="btn-default"
+                                states="nuevo"/>
+                        <field name="state" widget="statusbar" statusbar_visible="nuevo,validado,cancelado"/>
+                        <!--button name="action_cancel" string="Cancelar contra recibo" type="object" confirm="¿Esta seguro que desea cancelar?" states="Nueva,Validada"/-->
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1" invisible="1"/>
+                                <field name="persona_id"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="total" attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="total_txt" invisible="1"/>
+                                <field name="total_txt_ver" readonly="1"/>
+                                <field name="persona_cobranza"/>
+                                <field name="referencia"/>
+                                <field name="detalles"/>
+                            </group>
+                            <group>
+                                <field name="fecha" attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="moneda_id"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="diario_pago_cliente"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="diario_pago_proveedor"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                            </group>
+
+                            <notebook colspan="2">
+
+                                <page string="Facturas de cliente">
+                                    <field name="facturas_cliente_id" widget="one2many_list">
+                                        <tree editable="bottom" create="false">
+                                            <field name="factura_cliente_id" readonly="1"/>
+                                            <field name="factura_cliente_fecha" readonly="1"/>
+                                            <field name="factura_cliente_total" widget='monetary'/>
+                                            <field name="factura_cliente_saldo" widget='monetary'
+                                                   sum="Total saldo cliente"/>
+                                            <field name="abono" sum="Total abonos"/>
+
+                                        </tree>
+                                    </field>
+                                </page>
+
+                                <page string="Facturas de proveedor">
+                                    <field name="facturas_proveedor_id" widget="one2many_list">
+                                        <tree editable="bottom" create="false">
+                                            <field name="factura_proveedor_id" readonly="1"/>
+                                            <field name="factura_proveedor_fecha" readonly="1"/>
+                                            <field name="factura_proveedor_total" widget='monetary'/>
+                                            <field name="factura_proveedor_saldo" widget='monetary'
+                                                   sum="Total saldo proveedor"/>
+                                            <field name="abono" sum="Total abonos"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Relación">
+
+                                    <field name="facturas_relacion_id" widget="one2many_list"
+                                           attrs="{'readonly': [('state', '=', 'validado' )]}">
+                                        <tree editable="bottom" create="false" delete="false">
+                                            <field name="factura_cliente_id" readonly="1"/>
+                                            <field name="factura_proveedor_id" readonly="1"/>
+                                            <field name="abono" widget='monetary' readonly="1" sum="Total de abonos"/>
+                                        </tree>
+                                    </field>
+                                </page>
+
+
+                            </notebook>
+                        </group>
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="sli_trafitec_cancelacioncuentas" model="ir.actions.act_window">
+            <field name="name">Cancelación de cuentas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.cancelacioncuentas</field>
+            <field name="view_mode">tree,form</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+
+        <!--*************************************************************************************************************************************-->
+        <!--PAGOS MASIVOS************************************************************************************************************************-->
+        <!--*************************************************************************************************************************************-->
+
+        <record id="view_trafitec_pagosmasivos_form" model="ir.ui.view">
+            <field name="name">view.trafitec.pagosmasivos.form</field>
+            <field name="model">trafitec.pagosmasivos</field>
+            <field name="arch" type="xml">
+                <form delete="false" duplicate="false">
+                    <header>
+                        <button string="Validar" name="action_validar" type="object" class="btn-primary"
+                                confirm="¿Validar documento?" states="nuevo">
+                            <!--br/-->
+                            <!--font color="silver">Validar</font-->
+                        </button>
+                        <button string="" name="action_cancelar" type="object" class="btn-default"
+                                confirm="¿Cancelar documento?" states="nuevo,validado">
+                            <font color="red">
+                                <bold>Cancelar</bold>
+                            </font>
+                        </button>
+                        <button string="Distribuir" name="action_distribuir" type="object" class="btn-default"
+                                confirm="¿Distribuir?" states="nuevo"/>
+                        <button string="Saldar" name="action_saldar" type="object" class="btn-default"
+                                confirm="¿Saldar?" states="nuevo"/>
+                        <button string="A cero" name="action_cero" type="object" class="btn-default"
+                                confirm="¿Por a cero?" states="nuevo"/>
+                        <button string="Llamar a batch payment" name="LlamarABatch" type="object"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="nuevo,validado,cancelado"/>
+                        <!--button name="action_cancel" string="Cancelar contra recibo" type="object" confirm="¿Esta seguro que desea cancelar?" states="Nueva,Validada"/-->
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1" invisible="1"/>
+                                <field name="persona_id"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="total" attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="total_txt" invisible="1"/>
+                                <field name="total_txt_ver" readonly="1"/>
+                                <field name="referencia"/>
+                                <field name="detalles"/>
+                            </group>
+                            <group>
+                                <field name="fecha" attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="moneda_id"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="diario_id"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="tipo"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="busqueda_fecha_inicial"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="busqueda_fecha_final" attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                            </group>
+
+                            <notebook colspan="2">
+                                <page string="Facturas">
+                                    <field name="facturas_id" widget="one2many_list"
+                                           attrs="{'readonly': [('state', 'in', ('validado','cancelado'))]}">
+                                        <tree editable="bottom" create="false">
+                                            <!--field name="pagomasivo_id" readonly="1"/-->
+                                            <field name="factura_id" readonly="1"/>
+                                            <field name="moneda_id" readonly="1"/>
+                                            <field name="factura_fecha" readonly="1"/>
+                                            <field name="factura_total" widget='monetary'/>
+                                            <field name="factura_saldo" widget='monetary' sum="Total saldo cliente"/>
+                                            <field name="abono" sum="Total abonos"/>
+
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_trafitec_pagosmasivos_tree" model="ir.ui.view">
+            <field name="name">view.trafitec.pagosmasivos.tree</field>
+            <field name="model">trafitec.pagosmasivos</field>
+            <field name="arch" type="xml">
+                <tree delete="false" colors="red:state in ('cancelado');green:state=='validado'">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="persona_id"/>
+                    <field name="total"/>
+                    <field name="referencia"/>
+                    <field name="detalles"/>
+                    <field name="moneda_id"/>
+                    <field name="diario_id"/>
+                    <field name="facturas_id"/>
+                    <field name="tipo"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_trafitec_pagosmasivos_search" model="ir.ui.view">
+            <field name="name">view.trafitec.pagosmasivos.search</field>
+            <field name="model">trafitec.pagosmasivos</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="persona_id"/>
+                    <field name="referencia"/>
+                    <field name="tipo"/>
+                    <field name="fecha"/>
+                    <separator/>
+                    <filter name="statex" string="Nuevo" domain="[('state','=','nuevo')]"/>
+                    <filter name="statex" string="Validado" domain="[('state','=','validado')]"/>
+                    <filter name="statex" string="Cancelado" domain="[('state','=','cancelado')]"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Persona" icon="terp-partner" domain="[]" context="{'group_by':'persona_id'}"/>
+                        <filter string="Tipo" icon="terp-partner" domain="[]" context="{'group_by':'tipo'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <!--CANCELACION DE CUENTAS************************************************************************************************************************-->
+        <record id="sli_trafitec_pagosmasivos" model="ir.actions.act_window">
+            <field name="name">Pagos masivos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.pagosmasivos</field>
+            <field name="view_mode">tree,form</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+
+
+        <!--CLASIFICACIONESG-->
+        <record id="view_clasificacionesg_form" model="ir.ui.view">
+            <field name="name">view.clasificacionesg.form</field>
+            <field name="model">trafitec.clasificacionesg</field>
+            <field name="arch" type="xml">
+                <form string="Clasificaciones">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="aplica_viajes"/>
+                            <field name="aplica_crm_trafico_rechazo"/>
+                            <field name="aplica_clasificacion_bloqueo_cliente"/>
+                            <field name="considerar"/>
+                            <field name="state"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_clasificacionesg_tree" model="ir.ui.view">
+            <field name="name">view.clasificacionesg.tree</field>
+            <field name="model">trafitec.clasificacionesg</field>
+            <field name="arch" type="xml">
+                <tree string="Clasificaciones">
+                    <field name="name"/>
+                    <field name="aplica_viajes"/>
+                    <field name="aplica_crm_trafico_rechazo"/>
+                    <field name="aplica_clasificacion_bloqueo_cliente"/>
+                    <field name="considerar"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="sli_clasificacionesg" model="ir.actions.act_window">
+            <field name="name">Clasificaciones generales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.clasificacionesg</field>
+            <field name="view_mode">tree,form</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+
+        <record id="view_clasificacionesgxviaje_pivot" model="ir.ui.view">
+            <field name="name">view.clasificacionesgxviaje.pivot</field>
+            <field name="model">trafitec.clasificacionesgxviaje</field>
+            <field name="arch" type="xml">
+                <pivot string="Clasificaciones" display_quantity="True">
+                    <!--field name="viaje_folio"/-->
+                    <field name="operador_nombre" type="row"/>
+                    <!--field name="asociado_nombre"/-->
+                    <field name="clasificacion_id" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+
+        <record id="view_clasificacionesgxviaje_graph" model="ir.ui.view">
+            <field name="name">view.clasificacionesgxviaje.graph</field>
+            <field name="model">trafitec.clasificacionesgxviaje</field>
+            <field name="arch" type="xml">
+                <graph string="Clasificaciones" display_quantity="True">
+                    <!--field name="viaje_folio"/-->
+                    <field name="clasificacion_id" type="col" group="True"/>
+                    <field name="operador_nombre" type="row"/>
+                    <!--field name="asociado_nombre"/-->
+
+                </graph>
+            </field>
+        </record>
+
+
+        <record id="sli_clasificacionesgxviaje" model="ir.actions.act_window">
+            <field name="name">Calificaciones de viaje</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.clasificacionesgxviaje</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+
+        <!--**********************************************************************************************************************************************-->
+        <!--**********************************************************************************************************************************************-->
+        <record id="custom_pop_message_view" model="ir.ui.view">
+            <field name="name">custom.pop.message</field>
+            <field name="model">custom.pop.message</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Warning" version="7.0">
+                    <group>
+                        <img src='/sli_trafitec/static/image/icon.png'/>
+                        <h2>
+                            <field name="name" nolabel="1"/>
+                        </h2>
+                    </group>
+                    <footer>
+                        <button string="Aceptar" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="custom_pop_message_action">
+            <field name="name">Alerta</field>
+            <field name="res_model">custom.pop.message</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="custom_pop_message_view"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <!--*************************************************************************************************-->
+        <!--REPORTE DE VENTAS-->
+        <!--*************************************************************************************************-->
+        <record id="trafitec_reportes_venta_margen_vendedor_pivot" model="ir.ui.view">
+            <field name="name">trafitec.reportes.venta.margen.vendedor.pivot</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="arch" type="xml">
+                <pivot string="Venta y margen por vendedor" display_quantity="True" disable_linking="True">
+                    <!--field name="viaje_folio"/-->
+                    <field name="fecha_viaje" type="row" interval="month"/>
+                    <field name="vendedor_id" type="row"/>
+
+                    <field name="flete_cliente" type="measure"/>
+                    <field name="flete_diferencia" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="trafitec_reportes_venta_margen_vendedor_action">
+            <field name="name">Reporte venta y margen por vendedor</field>
+            <field name="res_model">trafitec.viajes</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="trafitec_reportes_venta_margen_vendedor_pivot"/>
+            <field name="domain">[('state','=','Nueva')]</field>
+        </record>
+
+
+        <!--**********************************************************************************************************************************************-->
+        <!--*************************************************************************************************-->
+        <!--TAREAS-->
+        <!--*************************************************************************************************-->
+        <record id="trafitec_tareas_action" model="ir.actions.act_window">
+            <field name="name">Tareas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.tareas</field>
+            <field name="view_mode">tree,form</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+
+        <record id="trafitec_tareas_form" model="ir.ui.view">
+            <field name="name">trafitec.tareas</field>
+            <field name="model">trafitec.tareas</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Tareas">
+                    <header>
+                        <button string="Revisar" name="action_revisar" type="object" class="btn-primary"
+                                confirm="¿Marcar como revisado?" states='nuevo'/>
+                        <button string="Validar" name="action_validar" type="object" class="btn-primary"
+                                confirm="¿Marcar como validado?" states='revisado'/>
+                        <button string="Cerrar" name="action_cerrar" type="object" class="btn-primary"
+                                confirm="¿Marcar como cerrado?" states='validado'/>
+                        <button string="Cancelar" name="action_cancelar" type="object" class="btn-primary"
+                                confirm="¿Cancelar?" states='nuevo,revisado,validado'/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="detalles" widget="template_name"/>
+                            <field name="asignado_usuario_id"/>
+                            <field name="clasificacion_principal_id"/>
+                            <field name="clasificacion_secundaria_id"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_trafitec_tareas_tree" model="ir.ui.view">
+            <field name="name">trafitec.tareas.tree</field>
+            <field name="model">trafitec.tareas</field>
+            <field name="arch" type="xml">
+                <tree string="Tareas">
+                    <field name="name"/>
+                    <!--field name="detalles"/-->
+                    <field name="asignado_usuario_id"/>
+                    <field name="revision_usuario_id"/>
+                    <field name="revision_fechahora"/>
+                    <field name="validado_usuario_id"/>
+                    <field name="validado_fechahora"/>
+                    <field name="cerrado_usuario_id"/>
+                    <field name="cerrado_fechahora"/>
+                    <field name="clasificacion_principal_id"/>
+                    <field name="clasificacion_secundaria_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="template_id" model="ir.actions.client">
+            <field name="name">template_name</field>
+            <field name="tag">template_name</field>
+            <field name="target">new</field>
+        </record>
+
+        <!--*****************************************************************-->
+        <!--AVANCE DE PEDIDOS-->
+        <!--*****************************************************************-->
+        <record id="trafitec_reportes_generales_pedidos_avance_buscar_search" model="ir.ui.view">
+            <field name="name">trafitec.reportes.generales.pedidos.avance.buscar.search</field>
+            <field name="model">trafitec.reportes.generales.pedidos.avance.buscar</field>
+            <field name="arch" type="xml">
+                <search string="Avance de cotizaciones">
+                    <field name="name"/>
+                    <!--field name="buscar_tipo"/-->
+                    <field name="buscar_cliente"/>
+                    <field name="buscar_folio"/>
+                    <!--field name="buscar_origen"/-->
+                    <!--field name="buscar_destino"/-->
+                    <field name="buscar_fecha_inicial"/>
+                    <field name="buscar_fecha_final"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_reportes_generales_pedidos_avance_buscar_tree" model="ir.ui.view">
+            <field name="name">trafitec.reportes.generales.pedidos.avance.buscar.tree</field>
+            <field name="model">trafitec.reportes.generales.pedidos.avance.buscar</field>
+            <field name="arch" type="xml">
+                <tree string="Avance de cotizaciones">
+                    <field name="name"/>
+                    <!--field name="buscar_tipo"/-->
+                    <field name="buscar_cliente"/>
+                    <field name="buscar_folio"/>
+                    <!--field name="buscar_origen"/-->
+                    <!--field name="buscar_destino"/-->
+                    <field name="buscar_fecha_inicial"/>
+                    <field name="buscar_fecha_final"/>
+                    <field name="porcentaje_general" readonly="1"/>
+                    <field name="porcentaje_detalles" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_reportes_generales_pedidos_avance_buscar_form" model="ir.ui.view">
+            <field name="name">trafitec.reportes.generales.pedidos.avance.buscar.form</field>
+            <field name="model">trafitec.reportes.generales.pedidos.avance.buscar</field>
+            <field name="arch" type="xml">
+                <form string="Avance de cotizaciones">
+                    <sheet>
+                        <notebook>
+                            <page string="Opciones de busqueda">
+                                <group string="Opciones de busqueda">
+                                    <group>
+                                        <!--field name="buscar_tipo"/-->
+                                        <field name="name"/>
+                                        <field name="buscar_cliente"/>
+                                        <field name="buscar_folio"/>
+                                        <field name="buscar_usuario"/>
+                                    </group>
+                                    <group>
+                                        <!--field name="buscar_origen"/-->
+                                        <!--field name="buscar_destino"/-->
+                                        <field name="buscar_fecha_inicial"/>
+                                        <field name="buscar_fecha_final"/>
+                                        <button string="Buscar" name="action_buscar" type="object"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                        <div>
+                            <hr/>
+                        </div>
+                        <group>
+                            <field name="porcentaje_general" readonly="1"/>
+                            <field name="porcentaje_detalles" readonly="1"/>
+                        </group>
+                        <group string="Avance general">
+                            <field name="resultados_id" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="cotizacion_folio"/>
+                                    <field name="cotizacion_cliente"/>
+                                    <field name="cotizacion_numeroviajes"/>
+                                    <field name="cotizacion_peso_actual"/>
+                                    <field name="cotizacion_peso_total"/>
+                                    <field name="cotizacion_porcentaje"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Avance detalles">
+                            <field name="detalles_id" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="cotizacion_folio"/>
+                                    <field name="cotizacion_linea"/>
+                                    <field name="cotizacion_cliente"/>
+                                    <field name="cotizacion_origen"/>
+                                    <field name="cotizacion_destino"/>
+                                    <field name="cotizacion_numeroviajes"/>
+                                    <field name="cotizacion_peso_actual"/>
+                                    <field name="cotizacion_peso_total"/>
+                                    <field name="cotizacion_porcentaje"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Por mes">
+                            <field name="detalles_xmes_id" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="cotizacion"/>
+                                    <field name="cliente"/>
+                                    <field name="ano"/>
+                                    <field name="mes"/>
+                                    <field name="viajes"/>
+                                    <field name="peso"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Por dia">
+                            <field name="detalles_xdia_id" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="cotizacion"/>
+                                    <field name="cliente"/>
+                                    <field name="ano"/>
+                                    <field name="mes"/>
+                                    <field name="dia"/>
+                                    <field name="viajes"/>
+                                    <field name="peso"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--record id="fee_report_tree" model="ir.ui.view">
+            <field name="name">Fee List2</field>
+            <field name="model">fee.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <field name="number"/>
+                </tree>
+            </field>
+        </record-->
+
+        <record id="trafitec_reportes_generales_pedidos_avance_buscar_action" model="ir.actions.act_window">
+            <field name="name">Avance de cotizaciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.reportes.generales.pedidos.avance.buscar</field>
+            <field name="view_mode">tree,form</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+        </record>
+    </data>
+</openerp>

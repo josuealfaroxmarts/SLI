@@ -1,0 +1,163 @@
+<openerp>
+    <data>
+		
+	
+	
+		<record id="trafitec_crm_trafico_view" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.view</field>
+            <field name="model">trafitec.crm.trafico</field>
+            <field name="arch" type="xml">
+                <tree string="Buscar viajes">
+								  <field name="id"></field>
+								  <field name="name"></field>
+								  <field name="create_date"></field>
+                </tree>
+            </field>
+    </record>
+		
+			<record id="trafitec_crm_trafico_kanban" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.kanban</field>
+            <field name="model">trafitec.crm.trafico</field>
+            <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_salesteam_kanban" create="0" js_class="sales_team_dashboard">
+                <field name="name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="name"/></div>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                </div>
+                            </div>
+														
+                            <div class="container o_kanban_card_content o_visible">
+                                <div class="row">
+                                    <div class="col-xs-6 o_kanban_primary_left" name="to_replace_in_sale_crm">
+                                    </div>
+                                    <div class="col-xs-6 o_kanban_primary_right">
+                                    </div>
+                                </div>
+                            </div>
+														
+														<div class="container o_kanban_card_manage_pane o_invisible">
+                                <div class="row">
+                                    <div class="col-xs-4 o_kanban_card_manage_section o_kanban_manage_view">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>Ver</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4 o_kanban_card_manage_section o_kanban_manage_new">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>Crear</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4 o_kanban_card_manage_section o_kanban_manage_reports">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>Reportes</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row" groups="sales_team.group_sale_manager">
+                                    <div class="col-xs-8">
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                    <div class="col-xs-4 text-right">
+                                        <a type="edit">Opciones</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>            </field>
+    </record>
+		<!--
+		
+		
+		
+		-->
+		<record id="trafitec_crm_trafico_form" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.form</field>
+            <field name="model">trafitec.crm.trafico</field>
+            <field name="arch" type="xml">
+                <form string="CRM Trafico">
+								<group>
+								  <field name="name"/>
+								</group>
+								<notebook>
+									<page string="Cotizaciones disponibles">
+									  <b>En esta ventana se muestran las cotizaciones abiertos.</b>
+									  <hr/>
+										<button string="Buscar" name="action_buscar_cotizaciones2" type="object" class="btn-primary"/>
+										<field name="cotizaciones_abiertas_id">
+									   <tree create="false" edit="false" delete="false" context="{'group_by': 'folio'}">
+										    <field name="folio" count="Cantidad"/>
+										    <field name="fecha"/>
+										    <field name="origen"/>
+										    <field name="destino"/>
+										    <field name="producto"/>
+										    <field name="tarifa_a" avg="Promedio de tarifa"/>
+										    <field name="cliente"/>
+										    <field name="peso" sum="Total"/>
+										    <field name="estado"/>
+										 </tree>
+									</field>
+
+									</page>
+								  <page string="Buscar viajes">
+								  <group>
+								<group colspan="2">
+								  <group>
+										<field name="buscar_folio"/>
+										<field name="buscar_producto"/>
+										<field name="buscar_origen"/>
+										<field name="buscar_destino"/>
+								</group>
+									<group>
+										<field name="buscar_cliente"/>
+										<field name="buscar_asociado"/>
+										<field name="buscar_fechai"/>
+										<field name="buscar_fechaf"/>
+										<button string="Buscar" name="action_buscar_viajes" type="object" class="btn-primary"/>
+								  </group>
+									</group>
+								<hr/>
+								<group colspan="2">
+								  <field name="resultados_id">
+									   <tree create="false" edit="false" delete="false">
+										    <field name="folio"/>
+										    <field name="fecha"/>
+										    <field name="origen"/>
+										    <field name="destino"/>
+										    <field name="producto"/>
+										    <field name="asociado"/>
+										    <field name="tarifa_a" avg="Promedio de tarifa"/>
+										    <field name="cliente"/>
+										    <field name="peso" sum="Total movido"/>
+										 </tree>
+									</field>
+								  </group>
+								</group>
+								  </page>
+								  
+								</notebook>
+                </form>
+            </field>
+    </record>
+		
+		<record id="trafitec_crm_trafico_action" model="ir.actions.act_window">
+            <field name="name">CRM Trafico</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.crm.trafico</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="auto_search">true</field>
+            <field name="limit">10</field>
+		</record>
+  
+		
+		</data>
+</openerp>
