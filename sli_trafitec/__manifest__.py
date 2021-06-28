@@ -20,6 +20,7 @@
     # any module necessary for this one to work correctly
     'depends': [
         'base',
+        'account_accountant',
         'fleet',
         'product',
         #'l10n_mx_sat_models',
