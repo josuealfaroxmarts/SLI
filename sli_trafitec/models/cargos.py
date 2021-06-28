@@ -92,11 +92,11 @@ class trafitec_descuentos(models.Model):
     folio_nota = fields.Char(string='Folio nota', track_visibility='onchange')
     comentarios = fields.Text(string='Comentarios', track_visibility='onchange')
     company_id = fields.Many2one('res.company', 'Company',
-                                 default=lambda self: self.env['res.company']._company_default_get(
-                                     'trafitec.descuentos'), track_visibility='onchange')
+                                default=lambda self: self.env['res.company']._company_default_get(
+                                'trafitec.descuentos'), track_visibility='onchange')
     abono_id = fields.One2many('trafitec.descuentos.abono','abonos_id', track_visibility='onchange')
     fecha = fields.Date(string='Fecha', readonly=True, index=True, copy=False,
-                              default=fields.Datetime.now, track_visibility='onchange')
+                            default=fields.Datetime.now, track_visibility='onchange')
 
     @api.depends('es_combustible_litros', 'es_combustible_costoxlt')
     def compute_es_combustible_total(self):
@@ -120,9 +120,9 @@ class trafitec_descuentos(models.Model):
     
     es_combustible_pcomision = fields.Float(string='Porcentaje comisión (%)', default=0, track_visibility='onchange')
     es_combustible_comision = fields.Float(string='Comisión', default=0,
-                                           compute='compute_es_combustible_comision',
-                                           store=True,
-                                           track_visibility='onchange')
+                                        compute='compute_es_combustible_comision',
+                                        store=True,
+                                        track_visibility='onchange')
     es_combustible_totalcomision = fields.Float(string='Total', default=0,
                                                 compute='compute_es_combustible_totalcomision',
                                                 store=True,
@@ -137,16 +137,16 @@ class trafitec_descuentos(models.Model):
         errores = ''
 
         if self.monto <= 0:
-           error = True
-           errores += 'Debe especificar el monto.\n'
+            error = True
+            errores += 'Debe especificar el monto.\n'
 
         if not self.proveedor:
-           error = True
-           errores += 'Debe especificar el proveedor.\n'
+            error = True
+            errores += 'Debe especificar el proveedor.\n'
 
         if not self.folio_nota:
-           error = True
-           errores += 'Debe especificar el folio de la nota.\n'
+            error = True
+            errores += 'Debe especificar el folio de la nota.\n'
 
         if error:
             raise UserError(errores)
@@ -228,7 +228,7 @@ class trafitec_descuentos(models.Model):
             valores = {'viaje_id': vals['viaje_id'], 'monto': vals['monto'], 'tipo_cargo': 'descuentos','asociado_id' : vals['asociado_id'], 'descuento_id' : v_id.id}
         else:
             valores = {'monto': vals['monto'], 'tipo_cargo': 'descuentos',
-                       'asociado_id': vals['asociado_id'], 'descuento_id' : v_id.id}
+                        'asociado_id': vals['asociado_id'], 'descuento_id' : v_id.id}
         self.env['trafitec.cargos'].create(valores)
         return v_id
 
@@ -252,7 +252,7 @@ class trafitec_descuentos(models.Model):
             asociado_id = self.asociado_id.id
 
         valores = {'viaje_id': viaje_id, 'monto': monto, 'tipo_cargo': 'descuentos',
-                   'asociado_id': asociado_id, 'descuento_id': self.id}
+                    'asociado_id': asociado_id, 'descuento_id': self.id}
 
         obc_cargos = self.env['trafitec.cargos'].search(
             ['&', ('descuento_id', '=', self.id), ('tipo_cargo', '=', 'descuentos')])

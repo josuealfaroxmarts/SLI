@@ -19,11 +19,11 @@ class trafitec_account_invoice(models.Model):
 	cliente_origen_id = fields.Many2one('res.partner', string="Cliente origen",
 										domain="[('customer','=',True), ('parent_id', '=', False)]")
 	domicilio_origen_id = fields.Many2one('res.partner', string="Domicilio origen",
-										  domain="['|',('parent_id', '=', cliente_origen_id),('id','=',cliente_origen_id)]")
+										domain="['|',('parent_id', '=', cliente_origen_id),('id','=',cliente_origen_id)]")
 	cliente_destino_id = fields.Many2one('res.partner', string="Cliente destino",
-										 domain="[('customer','=',True), ('parent_id', '=', False)]")
+										domain="[('customer','=',True), ('parent_id', '=', False)]")
 	domicilio_destino_id = fields.Many2one('res.partner', string="Domicilio destino",
-										   domain="['|',('parent_id', '=', cliente_destino_id),('id','=',cliente_destino_id)]")
+										domain="['|',('parent_id', '=', cliente_destino_id),('id','=',cliente_destino_id)]")
 	contiene = fields.Text(string='Contiene')
 	lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios')
 	placas_id = fields.Char(string='Vehiculo')
@@ -535,102 +535,102 @@ class trafitec_account_invoice(models.Model):
 		c = 0
 
 		if self.tipo == 'automatica':
-		   for v in self.viajes_id:
-			   c+=1
-			   tarifa_ac=v.tarifa_cliente or 0
-			   origen_ac=v.origen or ''
-			   destino_ac=v.destino or ''
-			   producto_ac=v.product.name or ''
-			   operadores_ac=v.operador_id.name or ''
-			   placas_ac=v.placas_id.license_plate or ''
+			for v in self.viajes_id:
+				c+=1
+				tarifa_ac=v.tarifa_cliente or 0
+				origen_ac=v.origen or ''
+				destino_ac=v.destino or ''
+				producto_ac=v.product.name or ''
+				operadores_ac=v.operador_id.name or ''
+				placas_ac=v.placas_id.license_plate or ''
 
-			   if c==1:
-				  tarifa_an=tarifa_ac or 0
-				  origen_an=origen_ac or ''
-				  destino_an=destino_ac or ''
-				  producto_an=producto_ac or ''
-				  operadores_an=operadores_ac or ''
-				  placas_an=placas_ac or ''
-
-
-			   tarifas='{:.2f}'.format(tarifa_ac)
-			   if tarifa_an!=tarifa_ac:
-				  tarifas='Varias'
-			   
-			   if origen_an!=origen_ac:
-				  origen_diferente=True
-			   
-			   if destino_an!=destino_ac:
-				  destino_diferente=True
-			   
-			   if producto_an!=producto_ac:
-				  producto_diferente=True
-
-			   if operadores_an!=operadores_ac:
-				  operadores_diferente=True
-
-			   if placas_an!=placas_ac:
-				  placas_diferente=True
-
-			   origenes=v.origen.name
-			   destinos=v.destino.name
-
-			   placas = v.placas_id.license_plate or ''
-			   operadores = v.operador_id.name or ''
-
-			   productos=v.product.name
-			   tons+=(v.peso_origen_remolque_1+v.peso_origen_remolque_2)/1000
-
-			   tarifa_an=v.tarifa_cliente or 0
-			   origen_an=v.origen or ''
-			   destino_an=v.destino or ''
-			   producto_an=v.product.name or ''
-			   operadores_an=v.operador_id.name or ''
-			   placas_an=v.placas_id.license_plate or ''
+				if c==1:
+					tarifa_an=tarifa_ac or 0
+					origen_an=origen_ac or ''
+					destino_an=destino_ac or ''
+					producto_an=producto_ac or ''
+					operadores_an=operadores_ac or ''
+					placas_an=placas_ac or ''
 
 
-		   if origen_diferente:
-			  origenes="Varios"
-		   
-		   if destino_diferente:
-			  destinos="Varios"
-		   
-		   if producto_diferente:
-			  productos="Varios"
+				tarifas='{:.2f}'.format(tarifa_ac)
+				if tarifa_an!=tarifa_ac:
+					tarifas='Varias'
+				
+				if origen_an!=origen_ac:
+					origen_diferente=True
+				
+				if destino_an!=destino_ac:
+					destino_diferente=True
+				
+				if producto_an!=producto_ac:
+					producto_diferente=True
 
-		   if operadores_diferente:
-			  operadores="Varios"
+				if operadores_an!=operadores_ac:
+					operadores_diferente=True
 
-		   if placas_diferente:
-			  placas="Varios"
+				if placas_an!=placas_ac:
+					placas_diferente=True
 
-		   self.origen=origenes
-		   self.destino=destinos
-		   self.operador_id = operadores
-		   self.placas_id = placas
-		   
-		   if tons>0:
-			 contiene += 'Flete con: {:.3f} toneladas del producto(s): {}, con la tarifa: {} '.format(tons,productos,tarifas)
-			 self.contiene=contiene
+				origenes=v.origen.name
+				destinos=v.destino.name
 
-		   conceptos=[]
-		   viajes=[]
-		   cargos=[]
-		   sistema=[]
+				placas = v.placas_id.license_plate or ''
+				operadores = v.operador_id.name or ''
 
-		   #self.invoice_line_ids = []
-		   sistema=self._agrega_conceptos_sistema()
-		   viajes=self._agrega_conceptos_viaje(self._origin.id,self.total_fletes)
-		   cargos=self._agrega_conceptos_cargos_viajes(self._origin.id)
+				productos=v.product.name
+				tons+=(v.peso_origen_remolque_1+v.peso_origen_remolque_2)/1000
 
-		   self.invoice_line_ids=[] #Vaciar.
-		   conceptos.extend(viajes)
-		   conceptos.extend(cargos)
-		   conceptos.extend(sistema)
+				tarifa_an=v.tarifa_cliente or 0
+				origen_an=v.origen or ''
+				destino_an=v.destino or ''
+				producto_an=v.product.name or ''
+				operadores_an=v.operador_id.name or ''
+				placas_an=v.placas_id.license_plate or ''
 
-		   print("****Cargos:"+str(conceptos))
 
-		   self.invoice_line_ids = conceptos
+			if origen_diferente:
+				origenes="Varios"
+			
+			if destino_diferente:
+				destinos="Varios"
+			
+			if producto_diferente:
+				productos="Varios"
+
+			if operadores_diferente:
+				operadores="Varios"
+
+			if placas_diferente:
+				placas="Varios"
+
+			self.origen=origenes
+			self.destino=destinos
+			self.operador_id = operadores
+			self.placas_id = placas
+			
+			if tons>0:
+				contiene += 'Flete con: {:.3f} toneladas del producto(s): {}, con la tarifa: {} '.format(tons,productos,tarifas)
+				self.contiene=contiene
+
+			conceptos=[]
+			viajes=[]
+			cargos=[]
+			sistema=[]
+
+			#self.invoice_line_ids = []
+			sistema=self._agrega_conceptos_sistema()
+			viajes=self._agrega_conceptos_viaje(self._origin.id,self.total_fletes)
+			cargos=self._agrega_conceptos_cargos_viajes(self._origin.id)
+
+			self.invoice_line_ids=[] #Vaciar.
+			conceptos.extend(viajes)
+			conceptos.extend(cargos)
+			conceptos.extend(sistema)
+
+			print("****Cargos:"+str(conceptos))
+
+			self.invoice_line_ids = conceptos
 
 		if self.tipo == 'manual' or self.tipo == 'automatica':
 			if self.viajes_id and len(self.viajes_id) > 0:
@@ -796,18 +796,18 @@ class trafitec_account_invoice(models.Model):
 
 	def _viajes_actualizaestado(self,factura_id):
 		#BD-----------------------------------------------------------------------------------------------------
-		  #Todos los viajes de la bd:
-		  #viajes=self.env['trafitec.viajes'].search([])
+			#Todos los viajes de la bd:
+			#viajes=self.env['trafitec.viajes'].search([])
 
-		  #Todos los viajes (Ids) de la bd:
-		  #viajes_ids=self.env['trafitec.viajes'].search([]).ids
+			#Todos los viajes (Ids) de la bd:
+			#viajes_ids=self.env['trafitec.viajes'].search([]).ids
 
-		#MEMORIA-----------------------------------------------------------------------------------------------------
-		  #Todos los viajes de memoria:
-		  #viajes=self.viajes_id
+			#MEMORIA-----------------------------------------------------------------------------------------------------
+			#Todos los viajes de memoria:
+			#viajes=self.viajes_id
 
-		  #Todos los viajes (Ids) en memoria:
-		  #viajes_ids=self.viajes_id.ids
+			#Todos los viajes (Ids) en memoria:
+			#viajes_ids=self.viajes_id.ids
 
 		#Todos los ids relacionados del documento actual.
 		#print(">>>>>>Ids de viajes"+str(self.viajes_id.ids))
@@ -845,7 +845,7 @@ class trafitec_account_invoice(models.Model):
 					if vd not in antes:
 						vo = self.env['trafitec.viajes'].search([('id', '=', vd)])
 						vo.write({'factura_cliente_id': invoice.id, 'en_factura': True})
-		    """
+			"""
 		return factura
 
 	
@@ -1048,19 +1048,19 @@ class trafitec_account_invoice(models.Model):
 		if self._context.get('type', 'out_invoice') == 'out_invoice':
 			view_id = self.env.ref('sli_trafitec.sli_trafitec_facturas_cancelar').id
 			return {
-	            'name': _('Cancelar factura de cliente'),
-	            'type': 'ir.actions.act_window',
-	            'view_type': 'form',
-	            'view_mode': 'form',
-	            'res_model': 'trafitec.facturas.cancelar',
-	            'views': [(view_id, 'form')],
-	            'view_id': view_id,
-	            'target': 'new',
-	            #'res_id': self.ids[0],
-	            'context': {
-		            'default_factura_id': self.id
-	            }
-	        }
+				'name': _('Cancelar factura de cliente'),
+				'type': 'ir.actions.act_window',
+				'view_type': 'form',
+				'view_mode': 'form',
+				'res_model': 'trafitec.facturas.cancelar',
+				'views': [(view_id, 'form')],
+				'view_id': view_id,
+				'target': 'new',
+				#'res_id': self.ids[0],
+				'context': {
+					'default_factura_id': self.id
+				}
+			}
 
 		#Factura de proveedor.
 		else:# Factura de proveedor.
@@ -1252,7 +1252,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	cliente_id = fields.Many2one('res.partner', string="Cliente",
 										domain="[('customer','=',True), ('parent_id', '=', False)]", related='factura_id.partner_id', store=True)
 	domicilio_id = fields.Many2one('res.partner', string="Domicilio",
-										  domain="['|',('parent_id', '=', cliente_origen_id),('id','=',cliente_origen_id)]", related='factura_id.partner_shipping_id', store=True)
+									domain="['|',('parent_id', '=', cliente_origen_id),('id','=',cliente_origen_id)]", related='factura_id.partner_shipping_id', store=True)
 	placas_id = fields.Many2one('fleet.vehicle', string='Vehiculo',
 								domain="['&',('asociado_id','!=',False),('operador_id','!=',False)]", store=True,readonly=True)
 	operador_id = fields.Many2one('res.partner', string="Operador", domain="[('operador','=',True)]", store=True,readonly=True)
@@ -1262,8 +1262,8 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	total = fields.Monetary(string='Total', store=True, related='factura_id.amount_total',readonly=True)
 	fecha = fields.Date(string='Fecha', store=True, related='factura_id.date_invoice',readonly=True)
 	state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
-							  ('Cancelada', 'Cancelada')], string='Estado',
-							 default='Nueva')
+							('Cancelada', 'Cancelada')], string='Estado',
+							default='Nueva')
 	viaje_id = fields.Many2many('trafitec.viajes', 'facturas_viaje', 'facturas_id', 'viajes_id',
 								string='Viajes',
 								domain="[('cliente_id','=',cliente_id),('lineanegocio','=',lineanegocio),('state','=','Nueva'),('tipo_viaje','=','Normal'),('en_factura','=',False),('csf','=',False)]")
@@ -1271,7 +1271,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 								string='Viajes')
 	observaciones = fields.Text(string='Observaciones')
 	company_id = fields.Many2one('res.company', 'Company',
-								 default=lambda self: self.env['res.company']._company_default_get(
+								default=lambda self: self.env['res.company']._company_default_get(
 									'trafitec.agregar.quitar'))
 	invoice_id = fields.Many2one('account.invoice', string='Factura excedente',readonly=True)
 
@@ -1423,7 +1423,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	def action_available(self):
 		apag = False
 		if self.saldo > self.total_g:
-		   self.factura_id.write({'abonado':(self.total_g + self.factura_id.abonado)})
+			self.factura_id.write({'abonado':(self.total_g + self.factura_id.abonado)})
 		else:
 			apag = True
 			self.factura_id.write({'pagada': True, 'abonado':(self.factura_id.abonado + self.total_g)})

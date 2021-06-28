@@ -16,21 +16,21 @@ class trafitec_facturas_automaticas(models.Model):
     lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', required=True)
     csf = fields.Boolean(string='CSF', default=False)
     company_id = fields.Many2one('res.company', 'Company',
-                                 default=lambda self: self.env['res.company']._company_default_get(
-                                     'trafitec.facturas.automaticas'))
+                                    default=lambda self: self.env['res.company']._company_default_get(
+                                        'trafitec.facturas.automaticas'))
     viaje_id = fields.Many2many('trafitec.viajes', 'facturas_viaje_relation', 'facturas_id', 'viajes_id',
                                 string='Viajes',
                                 domain="[('cliente_id','=',cliente_id),('lineanegocio','=',lineanegocio),('state','=','Nueva'),('tipo_viaje','=','Normal'),('en_factura','=',False)]")
     payment_term_id = fields.Many2one('account.payment.term', string='Forma de pago', required=True)
     metodo_pago_id = fields.Many2one('sat.metodo.pago', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
-                                     required=True)
+                                        required=True)
     uso_cfdi_id = fields.Many2one('sat.uso.cfdi', 'Uso CFDI', required=True, help='Define el motivo de la compra.')
     cargo_id = fields.One2many('trafitec.fact.aut.cargo', 'line_cargo_id')
     state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
-                              ('Cancelada', 'Cancelada')], string='Estado',
-                             default='Nueva')
+                                ('Cancelada', 'Cancelada')], string='Estado',
+                                default='Nueva')
     invoice_id = fields.Many2one('account.invoice', string='Factura cliente',
-                                 domain="[('type','=','out_invoice'),('partner_id','=',cliente_id)]")
+                                    domain="[('type','=','out_invoice'),('partner_id','=',cliente_id)]")
 
     
     def unlink(self):
@@ -72,8 +72,8 @@ class trafitec_facturas_automaticas(models.Model):
             return {
                 'domain': {
                     'viaje_id': [('cliente_id', '=', self.cliente_id.id), ('moneda', '=', self.currency_id.id),
-                                 ('lineanegocio', '=', self.lineanegocio.id), ('state', '=', 'Nueva'),
-                                 ('tipo_viaje', '=', 'Normal'),('en_factura','=',False)]
+                                    ('lineanegocio', '=', self.lineanegocio.id), ('state', '=', 'Nueva'),
+                                    ('tipo_viaje', '=', 'Normal'),('en_factura','=',False)]
                 }
             }
 
@@ -227,15 +227,15 @@ class trafitec_facturas_automaticas(models.Model):
             account_tax_obj = self.env['account.account'].search([('name', '=', 'IVA Retenido Efectivamente Cobrado')])
 
             if account_tax_obj:
-              inv_tax = {
-                  'invoice_id': invoice_id.id,
-                  'name': 'Impuestos',
-                  'account_id': account_tax_obj.id,
-                  'amount': self.iva_g + self.r_iva_g,
-                  'sequence': '0'
-              }
-              print("**************Valores Tax:" + str(inv_tax))
-              self.env['account.invoice.tax'].create(inv_tax)
+                inv_tax = {
+                    'invoice_id': invoice_id.id,
+                    'name': 'Impuestos',
+                    'account_id': account_tax_obj.id,
+                    'amount': self.iva_g + self.r_iva_g,
+                    'sequence': '0'
+                }
+                print("**************Valores Tax:" + str(inv_tax))
+                self.env['account.invoice.tax'].create(inv_tax)
 
             self.invoice_id = invoice_id
 
@@ -268,7 +268,7 @@ class trafitec_facturas_automaticas(models.Model):
     domicilio_origen_id = fields.Many2one('res.partner', string="Domicilio origen", domain="['|',('parent_id', '=', cliente_origen_id),('id','=',cliente_origen_id)]",required=True)
     cliente_destino_id = fields.Many2one('res.partner', string="Cliente destino", domain="[('customer','=',True), ('parent_id', '=', False)]",required=True)
     domicilio_destino_id = fields.Many2one('res.partner', string="Domicilio destino",
-                                          domain="['|',('parent_id', '=', cliente_destino_id),('id','=',cliente_destino_id)]",required=True)
+                                            domain="['|',('parent_id', '=', cliente_destino_id),('id','=',cliente_destino_id)]",required=True)
     usar_origen_destino = fields.Boolean(string='Usar origen y destino del viaje',default=False)
 
     #contiene

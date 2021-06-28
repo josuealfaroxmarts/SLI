@@ -61,8 +61,8 @@ class trafitec_crm_trafico(models.TransientModel):
 
         tarifa_promedio = tarifa_total / len(self.resultados_id)
         info = "<b>Tarifa mínima:</b>{0:.2f} Tarifa máxima:{0:.2f} Tarifa promedio:{0:.2f}".format(tarifa_minima,
-                                                                                                   tarifa_maxima,
-                                                                                                   tarifa_promedio)
+                                                                                                    tarifa_maxima,
+                                                                                                    tarifa_promedio)
         return info
 
     
@@ -119,7 +119,7 @@ class trafitec_crm_trafico(models.TransientModel):
     resultados_id = fields.One2many(string="Resultado", comodel_name="trafitec.crm.trafico.resultado",
                                     inverse_name="crm_trafico_id")
     cotizaciones_abiertas_id = fields.One2many(string="Cotizaciones", comodel_name="trafitec.crm.trafico.pedidos",
-                                               inverse_name="crm_trafico_id")
+                                                inverse_name="crm_trafico_id")
 
     
     def action_buscar_viajes(self):
@@ -206,10 +206,10 @@ class trafitec_crm_trafico(models.TransientModel):
     def retrieve_sales_dashboard(self):
         """ Fetch data to setup Sales Dashboard """
         result = {'meeting': {'today': 0, 'next_7_days': 4.5, },
-                  'activity': {'today': 0, 'overdue': 0, 'next_7_days': 4, },
-                  'closing': {'today': 0, 'overdue': 0, 'next_7_days': 5, },
-                  'done': {'this_month': 0, 'last_month': 0, },
-                  'won': {'this_month': 0, 'last_month': 0, }, 'nb_opportunities': 0, }
+                    'activity': {'today': 0, 'overdue': 0, 'next_7_days': 4, },
+                    'closing': {'today': 0, 'overdue': 0, 'next_7_days': 5, },
+                    'done': {'this_month': 0, 'last_month': 0, },
+                    'won': {'this_month': 0, 'last_month': 0, }, 'nb_opportunities': 0, }
 
         return result
 
@@ -414,7 +414,7 @@ class trafitec_crm_trafico_asociados(models.Model):
                 'view_type': 'form',
                 'view_mode': 'form',
                 'res_model': 'trafitec.crm.asociados',
-                 'views': [(view_id, 'form')],
+                'views': [(view_id, 'form')],
                 # 'form_view_ref': 'base.res_partner_kanban_view',
                 # 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
                 # 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
@@ -446,7 +446,7 @@ class trafitec_crm_trafico_registro(models.Model):
     detalles = fields.Char(string='Detalles', default='', required=True, track_visibility='onchange')
     tipo = fields.Selection(string='Tipo',
                             selection=[('llamada_telefonica', 'Llamada telefónica'), ('email', 'Correo electrónico'),
-                                       ('mensajero_instataneo', 'Mensajero instantaneo')], default='llamada_telefonica',
+                                        ('mensajero_instataneo', 'Mensajero instantaneo')], default='llamada_telefonica',
                             required=True, track_visibility='onchange')
     generar_evento_st = fields.Boolean(string='Registrar evento en calendario', default=False)
     generar_evento_dias = fields.Integer(string='Dias para nuevo evento', default=3)
@@ -468,8 +468,8 @@ class trafitec_crm_trafico_registro(models.Model):
                                         track_visibility='onchange')
     tarifa = fields.Float(string='Tarifa', default=0)
     state = fields.Selection(string='Estado',
-                             selection=[('nuevo', 'Nuevo'), ('aceptado', 'Aceptado'), ('rechazado', 'Rechazado')],
-                             default='nuevo', track_visibility='onchange', required=True)
+                                selection=[('nuevo', 'Nuevo'), ('aceptado', 'Aceptado'), ('rechazado', 'Rechazado')],
+                                default='nuevo', track_visibility='onchange', required=True)
 
     @api.model
     def default_get(self, fields):
@@ -717,7 +717,7 @@ class trafitec_crm_trafico_tablero(models.Model):
     
     def _compute_misviajeshoy_n(self):
         n = self.env['trafitec.viajes'].search_count([('state', '=', 'Nueva'), ('create_uid', '=', self.env.user.id),
-                                                      ('create_date', '>=', str(datetime.datetime.today().date()))])
+                                                        ('create_date', '>=', str(datetime.datetime.today().date()))])
         self.misviajeshoy_n = n
 
     
