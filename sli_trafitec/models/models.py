@@ -109,7 +109,7 @@ class trafitec_ubicaciones(models.Model):
 	calle = fields.Char(string="Calle", required=True)
 	noexterior = fields.Char(string="No. Exterior", required=True)
 	nointerior = fields.Char(string="No. Interior")
-	localidad = fields.Many2one('res.colonia.zip.sat.code', string='Localidad', required=True)
+	localidad = fields.Many2one('res.colonia.zip.sat.code', string='Localidad')
 	colonia = fields.Char(string="Colonia", required=True)
 	estado = fields.Char(string="Estado", required=True)
 	codigo_postal = fields.Char(string="Codigo Postal", required=True)
@@ -225,7 +225,6 @@ class trafitec_respartner(models.Model):
 	_inherit = 'res.partner'
 	# Clientes
 	status = fields.Char(string="Status")
-	motive_refuse = fields.Text(string="Motivo del rechazo")
 	nueva_clasificacion = fields.Many2one(string="Clasificación")
 	aseguradora = fields.Boolean(string="Es aseguradorados")
 	excedente_merma = fields.Selection(
@@ -243,9 +242,6 @@ class trafitec_respartner(models.Model):
 	merma_permitida_kg = fields.Float(string='Merma permitida (KG)')
 	permitir_diferente = fields.Boolean(string='Permitir diferente pedido al facturar')
 	facturar_ordenes = fields.Boolean(string='Facturar ordenes de carga sin documentos')
-	limite_credito = fields.Float(string='Limite de credito')
-	saldo_facturas = fields.Float(string='Saldo facturas')
-	limite_credito_fletex = fields.Float(string='Limite de credito en FLETEX')
 	prorroga = fields.Boolean(string='Prorroga')
 	fecha_prorroga = fields.Date(string='Fecha prorroga')
 
@@ -264,15 +260,22 @@ class trafitec_respartner(models.Model):
 	bloqueado_cliente_clasificacion_id = fields.Many2one(string='Motivo de bloqueo', comodel_name='trafitec.clasificacionesg', default=False, help='Clasificación del bloqueo.')
 	
 
+	name_license_driver = fields.Char(string="Licencia",
+									compute='change_name')
+	ext_license_driver = fields.Char()
+	license_driver = fields.Binary(string='Licencia')
+	healthcare_number = fields.Char(string="Número de seguro social")
+	adj_healthcare_number = fields.Binary(string='Adjunto Número de seguro social')
+	name_healthcare_number = fields.Char(compute='change_name')
+	ext_healthcare_number = fields.Char()
+	
 	#bloqueado_clasificacion_id = fields.Many2one(string='Motivo de bloqueo', comodel_name='trafitec.clasificacionesg', default=False, help='Clasificación del bloque.')
 	# Aprobacion.
 	# asociado_aprobado = fields.Boolean(string='Asociado aprobado', default=False, help='Indica si el asociado fue aprobado.')
 	# cliente_aprobado = fields.Boolean(string='Cliente aprobado', default=False, help='Indica si el cliente fue aprobado.')
 	# operador_aprobado = fields.Boolean(string='Cliente aprobado', default=False, help='Indica si el cliente fue aprobado.')
 
-	@api.onchange('limite_credito')
-	def change_limits(self):
-		self.limite_credito_fletex = self.limite_credito - self.saldo_facturas
+	
 
 	@api.constrains('moroso_prorroga_st', 'moroso_prorroga_fecha')
 	def _check_moroso(self):
@@ -467,56 +470,7 @@ and f.partner_id={}
 	crm_trafico_ultimos_registros_info2 = fields.Text(string="Último registros",
 													  compute=_compute_crm_ultimosregistros_info2)
 
-	def approve_status_email(self):		
-		if self.status_client == 'Aprobado' and self.customer == True:
-			for rec in self :
-				rec.status_client = 'Aprobado'
-				template_id = self.env.ref('sli_trafitec.account_approve').id
-				self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
-		elif self.status_client == 'Rechazado':
-			for rec in self :
-				rec.status_client = 'Rechazado'
-				template_id = self.env.ref('sli_trafitec.account_refuse').id
-				self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
-		elif self.status_client == 'Aprobado' and self.supplier == True:
-			for rec in self :
-				template_id = self.env.ref('sli_trafitec.account_approve').id
-				self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
-		elif self.operador == True:
-			for rec in self:
-				rec.status_client = 'Aprobado'
-		else :
-			for rec in self :
-				rec.status_client = 'Borrador'
-
-	def approve_documents(self):
-		self.status_document = True
-
-
-
-	def refuse_status(self):
-		self.status_user = True
-		self.status_client = "Rechazado"
-		self.approve_status_email()
-
-
-	def approve_status(self):
-		if self.status_document:		
-			if self.limite_credito <= 0 and self.customer == True :
-				raise UserError(_('Aviso !\n El límite de crédito debe ser mayor a 0.'))
-			else :
-				self.status_client = "Aprobado"
-				self.approve_status_email()
-		else :
-			raise UserError(_('Aviso !\n Debe aprobar los documentos primero.'))
-
-	@api.onchange('status_client')
-	def _verify_limit_credit(self):
-		if self.operador == False:
-			if self.status_client == 'Aprobado' and self.customer == True:
-				if self.limite_credito <= 0:
-					raise UserError(
-                _('Aviso !\n El limite de credito debe ser mayor a 0.'))
+	
 
 	@api.one
 	def _compute_unidades_txt(self):
@@ -527,32 +481,10 @@ and f.partner_id={}
 			total += str(u.movil.name or '')+' (' +str(u.cantidad or 0)+') '
 		self.crmt_unidades_txt = total
 
-	razon_social = fields.Char(string='Nombre Completo')
-	rfc = fields.Binary(string="RFC")
 	fecha_nacimiento = fields.Date(string="Fecha de nacimiento")
 	status_user = fields.Boolean(default=False)
 	crmt_logistico_correo = fields.Char(string='Correo de contacto logistico', default='', help='Correo del concato logistico')
-	status_client = fields.Selection([('Borrador', 'Borrador'), ('Aprobado', 'Aprobado'), ('Rechazado', 'Rechazado')],string='Status', readonly=True)
-	progress_fletex = fields.Float(string="Progreso en Fletex", default="0.0")
-	step_one = fields.Boolean(
-	    string='Informacion de la empresa',
-	)
-	step_two = fields.Boolean(
-	    string='Localizaciones',
-	)
-	step_three = fields.Boolean(
-	    string='Terminos y condiciones',
-	)
-	step_truck = fields.Boolean(
-	    string='Vehiculos',
-	)
 
-	step_operator = fields.Boolean(
-	    string='Operadores',
-	)
-	status_client_fletex = fields.Selection([('No completado', 'No completado'), ('Completado', 'Completado')],string='Status Fletex', readonly=True, default='No completado')
-	motivo = fields.Text(string="Motivo del rechazo")
-	changes_history = fields.Text(string="Últimas modificaciones")
 	crmt_unidades_txt = fields.Char(string='Unidades', compute=_compute_unidades_txt, default='')
 	nuevo_telefono = fields.Char(string='Teléfono') 
 
@@ -826,10 +758,7 @@ class trafitec_productetiqueta(models.Model):
 
 class trafitec_asociados(models.Model):
 	_inherit = 'res.partner'
-	vat_info = fields.Char(string='vat')
-	nombre_vat_copia = fields.Char(string="nombre vat", compute='changename')
-	ext_vat_copia = fields.Char(string="extension vat")
-	vat_copia = fields.Binary(string='Copia NIF')
+	
 	asociado = fields.Boolean(string='Es asociado')
 	tipoasociado = fields.Selection([('externo', 'Externo'), ('interno', 'Interno')], string="Tipo de asociado")
 	notificar_contrarecido = fields.Boolean(string='Notificar generación de contrarecibo')
@@ -849,9 +778,6 @@ class trafitec_asociados(models.Model):
 
 	operador = fields.Boolean(string='Es operador')
 	status_document = fields.Boolean()
-	nolicencia_nombre = fields.Char(compute="changename")
-	nolicencia_ext = fields.Char(string="extension licensia")
-	nolicencia = fields.Binary(string='No. licencia')
 	asociado_operador = fields.Many2one('res.partner',
 								  domain="[('asociado','=',True),('company_type2','in',['company','physical_person'])]",
 								  string="Asociado")
@@ -861,127 +787,17 @@ class trafitec_asociados(models.Model):
 	celular = fields.Char(string='Celular')
 	celular_enlazado = fields.Selection([('No aplica', 'No aplica'), ('No', 'No'), ('Si', 'Si')],
 										string='Celular Enlazado')
-	name_comprobante = fields.Char(compute="changename")
-	name_comprobante_fisica = fields.Char(compute="changename")
-	comprobante_domicilio_fisica = fields.Binary(string="Comprobante domicilio fiscal")
-	ext_comprobante_domicilio_fisica = fields.Char(string="Ext Comprobante domicilio fiscal")
-	comprobante_domicilio = fields.Binary(string="Comprobante domicilio fiscal")
-	ext_comprobante_domicilio = fields.Binary(string="Extension comprobante domicilio fiscal")
-	name_situacion_fiscal = fields.Char(compute="changename")
-	situacion_fiscal = fields.Binary(string="Situación fiscal")
-	name_estado_cuenta = fields.Char(compute="changename")
-	estado_cuenta = fields.Binary(string="Estado de cuenta")
-	name_situacion_fiscal_moral = fields.Char(compute="changename")
-	situacion_fiscal_moral = fields.Binary(string="Situación fiscal")
-	name_estado_cuenta_moral = fields.Char(compute="changename")
-	ext_estado_cuenta_moral = fields.Char(string="Extension estado moral")
-	estado_cuenta_moral = fields.Binary(string="Estado de cuenta")
-	numero_medicina = fields.Char(string='Número de seguro social')
-	name_medicina_ad = fields.Char(compute="changename")
-	ext_medicina_ad = fields.Char(string="Extension Numero de Medicina")
-	numero_medicina_ad = fields.Binary(string="Número de seguro social")
 	activo_slitrack = fields.Boolean(string='Activo para SLITrack')
-
-
 	combustible_convenio_st = fields.Boolean(string='Convenio de combustible', default=False, help='Indica si el asociado tiene convenio para carga de combustible a crédito.')
-	nombres_moral = fields.Char(string="Nombre(s)")
-	apellidos_moral = fields.Char(string="Apellido(s)")
-	correo_moral = fields.Char(string="Correo Electronico")
-	telefono_moral = fields.Char(string="Teléfono de contacto")
-	nombre_representante_moral = fields.Char(string='Nombre')
-	name_identificacion_representante_moral = fields.Char(compute="changename")
-	ext_identificacion_representante_moral = fields.Char(string="Extension Identificacion Fisica")
-	identificacion_representante_moral = fields.Binary(string="Identificacion del representante")
-	rfc_moral = fields.Char(string="RFC del representante")
-	qr_rfc_moral_nombre = fields.Char(compute="changename")
-	qr_rfc_moral = fields.Binary(string="Codigo QR del RFC")
-
-
-
-	name_curp_moral = fields.Char(compute="changename")
-	ext_curp_moral = fields.Char(string="Extension Curp")
-	curp_moral = fields.Binary(string="CURP de Representante")
-
-	name_acta_moral = fields.Char(compute="changename")
-	ext_acta_moral = fields.Char(string="extension acta moral")
-	acta_moral = fields.Binary(string="Acta constitutiva / Boleta registral")
-
-	name_domicilio_moral = fields.Char(compute="changename")
-	ext_domicilio_moral = fields.Char(string="Extension domicilio moral")
-	domicilio_moral = fields.Binary(string="Comprobante de domilicio fiscal")
-
-	nombres_fisica = fields.Char(string="Nombre(s)")
-	apellidos_fisica = fields.Char(string="Apellido(s)")
-	correo_fisica = fields.Char(string="Correo Electronico")
-	telefono_fisica = fields.Char(string="Teléfono de contacto")
-	name_identificacion_representante_fisica = fields.Char(compute="changename")
-	ext_iden_fisica = fields.Char(string='extension archivo representante')
-	identificacion_representante_fisica = fields.Binary(string="Identificacion del representante")
-	rfc_fisica = fields.Char(string="RFC del representante")
-	qr_rfc_fisica_nombre = fields.Char(compute="changename")
-	qr_rfc_fisica = fields.Binary(string="Codigo QR del RFC")	
-	name_estado_cuenta_fisica = fields.Char(compute="changename")
-	ext_estado_cuenta_fisica = fields.Char(string="Extension estado de cuenta fisica")
-	estado_cuenta_fisica = fields.Binary(string="Estado de cuenta")
-	lentes = fields.Binary(string="Estado de cuenta")
-	casco = fields.Binary(string="Estado de cuenta")
-	otro_operador = fields.Binary(string="Estado de cuenta")
-
-	@api.depends('name')
-	@api.one
-	def changename(self):
-		if self.name :
-			if self.ext_domicilio_moral == False:
-				self.ext_domicilio_moral = 'pdf'
-
-			if self.ext_iden_fisica == False:
-				self.ext_iden_fisica = 'pdf'
-
-			if self.ext_medicina_ad == False:
-				self.ext_medicina_ad = 'pdf'
-
-			if self.nolicencia_ext == False:
-				self.nolicencia_ext = 'pdf'
-
-			if self.ext_identificacion_representante_moral == False:
-				self.ext_identificacion_representante_moral = 'pdf'
-
-			if self.ext_acta_moral == False:
-				self.ext_acta_moral = 'pdf'
-
-			if self.ext_domicilio_moral == False:
-				self.ext_domicilio_moral = 'pdf'
-
-			if self.ext_iden_fisica == False:
-				self.ext_iden_fisica = 'pdf'
-
-			if self.ext_estado_cuenta_moral == False:
-				self.ext_estado_cuenta_moral = 'pdf'
-
-			if self.ext_estado_cuenta_fisica == False:
-				self.ext_estado_cuenta_fisica = 'pdf'
-
-			if self.ext_comprobante_domicilio_fisica == False :
-				self.ext_comprobante_domicilio_fisica = 'pdf'
-
-			self.name_comprobante = "Comprobante domicilio de {}.{}".format(self.name, self.ext_domicilio_moral)
-			self.name_identificacion_representante_fisica = "Identificación de {}.{}".format(self.name, self.ext_iden_fisica)
-			self.name_medicina_ad = "Número de medicina de {}.{}".format(self.name, self.ext_medicina_ad)
-			self.nolicencia_nombre = "Licencia de {}.{}".format(self.name, self.nolicencia_ext)
-			self.name_identificacion_representante_moral = "Identificacion del representante de {}.{}".format(self.name, self.ext_identificacion_representante_moral)
-			self.name_curp_moral = "CURP del representante de " + self.name + ".png"
-			self.name_acta_moral = "Acta constitutiva del representante de {}.{}".format(self.name, self.ext_acta_moral)
-			self.name_domicilio_moral = "Comprobante del domicilio del representante de {}.{}".format(self.name, self.ext_domicilio_moral)
-			self.identificacion_representante_fisica = "Identificacion del representante de {}.{}".format(self.name, self.ext_iden_fisica)
-			self.nombre_vat_copia = "NIF de {}.{}".format(self.name, self.ext_vat_copia)
-			self.name_estado_cuenta = "Estado de cuenta de " + self.name + ".png"
-			self.name_situacion_fiscal = "Situacion fiscal de " + self.name + ".png"
-			self.name_estado_cuenta_moral = "Estado de cuenta de {}.{}".format(self.name, self.ext_estado_cuenta_moral)
-			self.name_estado_cuenta_fisica = "Estado de cuenta de {}.{}".format(self.name, self.ext_estado_cuenta_fisica)
-			self.name_situacion_fiscal_moral = "Situacion fiscal de " + self.name + ".png"
-			self.name_comprobante_fisica = "Domicilio fiscal {}.{}".format(self.name, self.ext_comprobante_domicilio_fisica)
-			self.qr_rfc_moral_nombre = "Codigo QR del RFC de {}.{}".format(self.name, self.ext_domicilio_moral)
-			self.qr_rfc_fisica_nombre = "Codigo QR del RFC de " + self.name + ".png"
+	    #Deleted
+	nombre_vat_copia = fields.Char(string='copia')
+	vat_copia = fields.Char(string='copia')
+	vat_info = fields.Char(string='copia')
+	name_medicina_ad = fields.Char(string='vat')
+	nolicencia = fields.Char(string='vat')
+	nolicencia_nombre = fields.Char(string='vat')
+	numero_medicina_ad = fields.Char(string='vat')
+	numero_medicina = fields.Char(string='vat')
 
 	@api.constrains('vat')
 	def check_vat(self):
@@ -1087,7 +903,6 @@ class trafitec_vehiculos(models.Model):
 
 	color_vehicle = fields.Char(string='Color')
 	ejes_tracktocamion = fields.Selection([('C2', 'C2'), ('C3', 'C3'), ('T3', 'T3'), ('S2', 'S2'), ('S3', 'S3') ,('S2-R4', 'S2-R4') ], string='Tipo de Eje')
-	status_vehicle = fields.Selection([('approved', 'Aprobado'), ('rejected', 'Rechazado'), ('onhold', 'En Espera')], string='Status', default='onhold')
 	tiposervicio = fields.Selection([('Estatal', 'Estatal'), ('Federal', 'Federal')], string='Tipo de servicio')
 	asociado_id = fields.Many2one('res.partner',
 								  domain="[('asociado','=',True),('company_type2','in',['company','physical_person'])]",

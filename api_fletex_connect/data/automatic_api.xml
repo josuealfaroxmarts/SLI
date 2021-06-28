@@ -1,0 +1,17 @@
+
+<openerp>
+    <data>
+        <record id="api_sync_data_api_fletex" model="ir.cron">
+            <field name="name">Sincronización de datos Fletex Odoo</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">0</field>
+            <field name="model" eval="'sync.data.fletex'" />
+            <field name="function" eval="'sync_data'" />
+            <field name="args" eval="" />
+        </record>
+    </data>
+</openerp>

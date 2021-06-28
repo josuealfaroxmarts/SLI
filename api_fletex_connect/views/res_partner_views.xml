@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="fletex_api_res_partner" model="ir.ui.view">
+            <field name="name">fletex.api.res.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button string="Aprobar Documentos" name="approve_documents" state="Aprobado" type="object" help="Aprobar Documentos" confirm="¿Esta seguro que desea aprobar los documentos de este usuario?" class="oe_highlight" attrs="{'invisible':[('status_document', '!=', False)]}" groups="sli_trafitec.sli_trafitec_approved_users"/>
+                        <button string="Rechazar" name="refuse_status" state="Rechazado" type="object" help="Rechazar usuario" confirm="¿Esta seguro que desea rechazar de este usuario?" class="oe_highlight" groups="sli_trafitec.sli_trafitec_approved_users"/>
+                        <button string="Aprobar usuario" name="approve_status" state="Aprobado" type="object" help="Aprobar formulario" confirm="¿Esta seguro que desea aprobar este formulario?" class="oe_highlight" attrs="{'invisible':['|',('status_record', '=', 'Aprobado'),('status_document', '=', False)]}" groups="sli_trafitec.sli_trafitec_approved_users"/>
+                        <field name="status_document" invisible="1"/>
+                    </header>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='purchase']/field[@name='supplier']"
+                       position="after">
+                    <field name="limit_credit_fletex"/>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='user_id']"
+                       position="after">
+                    <field name="limit_credit"/>
+                </xpath>
+                <xpath expr="//sheet/group/group/field[@name='lang']" position="after">
+                    <field name="legal_representative" attrs="{'invisible':[('company_type2', '!=', 'company')]}"/>
+                    <field name="status_fletex"/>
+                    <field name="status_record" readonly="1"/>
+                    <field name="progress_fletex" widget="percentpie" attrs="{'invisible':[('operador', '!=', False)]}"/>
+                    <field name="step_one" attrs="{'invisible':[('operador', '!=', False)]}"/>
+                    <field name="step_three" attrs="{'invisible':[('operador', '!=', False)]}"/>
+                    <field name="step_two" attrs="{'invisible':['|',('operador', '!=', False),('supplier', '=', True)]}"/>
+                    <field name="step_operator" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
+                    <field name="step_truck" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
+                    <page name="representative" string="Representante Legal" attrs="{'invisible': [('operador', '!=', False)]}">
+                        <group>
+                            <group>
+                                <field name="name_representative"/>
+                                <field name="lastname_representative"/>
+                                <field name="email_representative"/>
+                                <field name="phone_representative"/>
+                                <field name="name_id_representative" invisible="1"/>
+                                <field name="id_representative" filename="name_id_representative"/>
+                                <field name="id_approved"/>
+                                <field name="rfc_representative"/>
+                                <field name="name_rfc_representative_drop" invisible='1'/>
+                                <field name="rfc_representative_drop" filename="name_rfc_representative_drop"/>
+                                <field name="name_act_representative" invisible="1"/>
+                                <field name="rfc_representative_drop_approved"/>
+                                <field name="act_representative" filename="name_act_representative"/>
+                                <field name="act_approved"/>
+                                <field name="name_address_representative" invisible="1"/>
+                                <field name="address_representative" filename="name_address_representative"/>
+                                <field name="address_approved"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='cliente']" position="attributes">
+                    <attribute name="invisible">['|',('status_record', '==', 'Rechazado'),('asociado', '==', True)]</attribute>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='purchase']/field[@name='supplier']" position="after">
+                    <field name="balance_invoices"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="nif_mod" model="ir.ui.view">
+            <field name="name">nif.mod.form.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_mx_einvoice.view_partner_form_inh_xml22"/>
+            <field name="arch" type="xml">
+                <field name="envio_manual_cfdi" position="after">
+                    <field name="name_rfc_bussiness" invisible='1'/>
+                    <field name="rfc_bussiness" filename="name_rfc_bussiness"/>
+                    <field name="rfc_approved"/>
+                    <field name='vat_info' invisible='1'/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

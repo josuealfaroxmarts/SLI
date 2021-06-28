@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="new_vehiculo_tab" model="ir.ui.view">
+            <field name="name">vehiculo.add.text.field</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="priority" eval="2000"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fecha_poliza']" position="after">
+                    <field name="status_vehicle"/>
+                    <field name="send_to_api"/>
+                </xpath>
+            </field>
+        </record>
+    
+    </data>
+    
+
+</odoo>
+

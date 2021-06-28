@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>
+        <record id="token_api_fletex" model="ir.config_parameter">
+            <field name="key">token_api_fletex</field>
+            <field name="value">Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBwLmZsZXRleC5teFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNDI5MjA5MCwibmJmIjoxNjI0MjkyMDkwLCJqdGkiOiJEeXBOQXRXak1uaXA1Z01QIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.L3HBNEvi4tf6g6-UOMqlSxl96zAkpef8ssvlLNbhks0</field>
+        </record>
+        <record id="api_fletex_url" model="ir.config_parameter">
+            <field name="key">api_fletex_url</field>
+            <field name="value">https://app.fletex.mx/api/</field>
+        </record>
+        <record id="auth_login_fletex_endpoint" model="ir.config_parameter">
+            <field name="key">auth_login_fletex_endpoint</field>
+            <field name="value">auth/login</field>
+        </record>
+        <record id="read_users_fletex_endpoint" model="ir.config_parameter">
+            <field name="key">read_users_fletex_endpoint</field>
+            <field name="value">users/index</field>
+        </record>
+        <record id="read_projects_fletex_endpoint" model="ir.config_parameter">
+            <field name="key">read_projects_fletex_endpoint</field>
+            <field name="value">projects/index</field>
+        </record>
+        <record id="read_shipment_fletex_endpoint" model="ir.config_parameter">
+            <field name="key">read_shipments_fletex_endpoint</field>
+            <field name="value">shipment/index</field>
+        </record>
+        <record id="read_vehicles_fletex_endpoint" model="ir.config_parameter">
+            <field name="key">read_vehicles_fletex_endpoint</field>
+            <field name="value">vehicles/index</field>
+        </record>
+        <record id="read_locations_fletex_endpoint" model="ir.config_parameter">
+            <field name="key">read_locations_fletex_endpoint</field>
+            <field name="value">locations/index</field>
+        </record>
+        <record id="read_responsibles_fletex_endpoint" model="ir.config_parameter">
+            <field name="key">read_responsibles_fletex_endpoint</field>
+            <field name="value">responsibles/index</field>
+        </record>
+        
+    </data>
+</openerp>

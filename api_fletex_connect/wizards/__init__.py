@@ -1,0 +1,1 @@
+from . import refused_res_partner

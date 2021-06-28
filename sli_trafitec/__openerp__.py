@@ -52,7 +52,6 @@
 
         'data/email_refuse.xml',
         'data/email_approve.xml',
-        'data/invoices_due_automatic.xml',
     ],
     
     # only loaded in demonstration mode

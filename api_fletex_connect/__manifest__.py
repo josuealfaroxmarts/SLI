@@ -24,6 +24,8 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/res_partner_views.xml',
+        'views/fleet_vehicles_views.xml',
         'views/sync_info_views.xml',
         'data/fletex_api_config_data.xml',
         'data/automatic_api.xml'
