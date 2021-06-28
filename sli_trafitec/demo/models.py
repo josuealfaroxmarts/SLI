@@ -9,7 +9,7 @@ import logging
 from datetime import timedelta
 
 # from openerp.tools import amount_to_text
-from amount_to_text import *
+from . import amount_to_text
 
 import xlsxwriter
 import base64
