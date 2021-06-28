@@ -21,12 +21,12 @@ class TrafitecReportesGenerales(models.TransientModel):
 	archivo_nombre = fields.Char(string="Nombre del archivo")
 	archivo_archivo = fields.Binary(string="Archivo")
 	tipo = fields.Selection(string="Tipo", selection=[('cliente_dias_cartera', 'Dias de cartera de cliente'),
-													  ('proveedor_dias_cartera', 'Dias de cartera de proveedor'),
-													  ('cuentasxcobrar','Cuentas por cobrar'),
-													  ('cuentasxpagar','Cuentas por pagar'),
-													  ('cuentasxcobrar_flete', 'Cuentas por cobrar flete'),
-													  ('cuentasxpagar_flete','Cuentas por pagar flete'),
-													  ('operaciones_pedidos_estado','Estado de pedidos')],required=True)
+														('proveedor_dias_cartera', 'Dias de cartera de proveedor'),
+														('cuentasxcobrar','Cuentas por cobrar'),
+														('cuentasxpagar','Cuentas por pagar'),
+														('cuentasxcobrar_flete', 'Cuentas por cobrar flete'),
+														('cuentasxpagar_flete','Cuentas por pagar flete'),
+														('operaciones_pedidos_estado','Estado de pedidos')],required=True)
 
 	#--------------------------------------------------------------------------------
 	# EVENTOS
@@ -151,14 +151,14 @@ max(p.id) persona_id,
 --current_date-f.date_due dias,
 sum(f.amount_total) total,
 sum(f.residual) saldo,
- sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.residual else 0 end) v_d1a15,
- sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.residual else 0 end) v_d16a30,
- sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.residual else 0 end) v_d31a45,
- sum(case when (current_date-f.date_due)>=46 then f.residual else 0 end) v_d46aN
+	sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.residual else 0 end) v_d1a15,
+	sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.residual else 0 end) v_d16a30,
+	sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.residual else 0 end) v_d31a45,
+	sum(case when (current_date-f.date_due)>=46 then f.residual else 0 end) v_d46aN
 
 from account_invoice as f
-  inner join res_partner p on(f.partner_id=p.id)
-  left join trafitec_contrarecibo as cr on(cr.invoice_id=f.id)
+	inner join res_partner p on(f.partner_id=p.id)
+	left join trafitec_contrarecibo as cr on(cr.invoice_id=f.id)
 where
 f.residual>1 and f.state='open' and f.type='out_invoice'
 and f.company_id={}
@@ -236,14 +236,14 @@ max(p.id) persona_id,
 --current_date-f.date_due dias,
 sum(f.amount_total) total,
 sum(f.residual) saldo,
- sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.residual else 0 end) v_d1a15,
- sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.residual else 0 end) v_d16a30,
- sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.residual else 0 end) v_d31a45,
- sum(case when (current_date-f.date_due)>=46 then f.residual else 0 end) v_d46an
+	sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.residual else 0 end) v_d1a15,
+	sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.residual else 0 end) v_d16a30,
+	sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.residual else 0 end) v_d31a45,
+	sum(case when (current_date-f.date_due)>=46 then f.residual else 0 end) v_d46an
 
 from account_invoice as f
-  inner join res_partner p on(f.partner_id=p.id)
-  left join trafitec_contrarecibo as cr on(cr.invoice_id=f.id)
+	inner join res_partner p on(f.partner_id=p.id)
+	left join trafitec_contrarecibo as cr on(cr.invoice_id=f.id)
 where
 f.residual>1 and f.state='open' and f.type='in_invoice'
 and f.company_id={}
@@ -319,7 +319,7 @@ f.amount_total total,
 f.residual saldo,
 f.contiene contiene
 from account_invoice as f
-  inner join res_partner as p on(f.partner_id=p.id)
+	inner join res_partner as p on(f.partner_id=p.id)
 where
 f.state='open'
 and f.type='out_invoice'
@@ -400,7 +400,7 @@ f.amount_total total,
 f.residual saldo,
 f.comment comentarios
 from account_invoice as f
-  inner join res_partner as p on(f.partner_id=p.id)
+	inner join res_partner as p on(f.partner_id=p.id)
 where
 f.state='open'
 and f.type='in_invoice'
@@ -484,8 +484,8 @@ f.amount_total as total,
 f.residual as saldo,
 lne.name lineanegocio
 from account_invoice as f
-  inner join res_partner as p on(f.partner_id=p.id)
-  left join trafitec_lineanegocio as lne on(f.lineanegocio=lne.id)
+	inner join res_partner as p on(f.partner_id=p.id)
+	left join trafitec_lineanegocio as lne on(f.lineanegocio=lne.id)
 where
 f.state='open'
 and f.lineanegocio is not null
@@ -573,13 +573,13 @@ cr.fecha as cr_fecha,
 (select
 string_agg(cli.display_name,', ')
 from contrarecibo_viaje_relation x
-  inner join trafitec_viajes as v on(x.viajes_id=v.id)
+	inner join trafitec_viajes as v on(x.viajes_id=v.id)
     inner join res_partner as cli on(v.cliente_id=cli.id)
 where x.contrarecibo_id=cr.id
 ) cliente
 from trafitec_contrarecibo as cr
-  inner join account_invoice as f on(cr.invoice_id=f.id)
-  inner join res_partner as p on(f.partner_id=p.id and p.asociado=True)
+	inner join account_invoice as f on(cr.invoice_id=f.id)
+	inner join res_partner as p on(f.partner_id=p.id and p.asociado=True)
 where
 cr.state='Validada'
 and f.state='open'
@@ -676,16 +676,16 @@ coalesce((
 select
 sum(v1.peso_origen_total/1000)
 from trafitec_viajes as v1
-  inner join trafitec_cotizaciones_linea_origen as ori on(v1.subpedido_id=ori.id)
+	inner join trafitec_cotizaciones_linea_origen as ori on(v1.subpedido_id=ori.id)
     inner join trafitec_cotizaciones_linea as lin on(ori.linea_id=lin.id)
 where v1.state in('Nueva') and lin.cotizacion_id=ct.id
 ),0) as total_viajes,
 
 ct.state estado
 from trafitec_cotizacion as ct
-   inner join res_partner as cli on(ct.cliente=cli.id)
-   inner join product_product as pro on(ct.product=pro.id)
-     inner join product_template as prot on(pro.product_tmpl_id=prot.id)
+	inner join res_partner as cli on(ct.cliente=cli.id)
+	inner join product_product as pro on(ct.product=pro.id)
+    inner join product_template as prot on(pro.product_tmpl_id=prot.id)
 where ct.state in('Disponible')
 """.format(self.empresa_id())
 		self.env.cr.execute(sql)

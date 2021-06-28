@@ -63,25 +63,25 @@ class trafitec_cotizacion(models.Model):
     costo_producto = fields.Float(string='Costo del producto', required=True,track_visibility='onchange')
     reglas_merma = fields.Selection(
         [('No cobrar', 'No cobrar'), ('Porcentaje: Cobrar diferencia', '% Cobrar diferencia'),
-         ('Porcentaje: Cobrar todo', '% Cobrar Todo'), ('Kg: Cobrar diferencia', 'Kilogramos cobrar diferencia'),
-         ('Kg: Cobrar todo', 'Kilogramos cobrar todo'), ('Cobrar todo', 'Cobrar Todo')], string='Reglas de merma')
+        ('Porcentaje: Cobrar todo', '% Cobrar Todo'), ('Kg: Cobrar diferencia', 'Kilogramos cobrar diferencia'),
+        ('Kg: Cobrar todo', 'Kilogramos cobrar todo'), ('Cobrar todo', 'Cobrar Todo')], string='Reglas de merma')
     lista_precio = fields.Many2one('product.pricelist', string='Lista de precios', track_visibility='onchange')
 
     iva = fields.Many2one('account.tax', string='IVAS')
     state = fields.Selection([('Nueva', 'Nueva'), ('Autorizada', 'Autorizada'), ('Enviada', 'Enviada'),
-                              ('Disponible', 'Disponible'), ('EnEspera', 'En espera'), ('Cancelada', 'Cancelada'), ('Cerrada', 'Cerrada')],
-                             string='Estado', default='Nueva', track_visibility='onchange')
+                            ('Disponible', 'Disponible'), ('EnEspera', 'En espera'), ('Cancelada', 'Cancelada'), ('Cerrada', 'Cerrada')],
+                            string='Estado', default='Nueva', track_visibility='onchange')
     lineas_cotizacion_id = fields.One2many('trafitec.cotizaciones.linea', 'cotizacion_id', track_visibility='onchange')
     company_id = fields.Many2one('res.company', 'Company',
-                                 default=lambda self: self.env['res.company']._company_default_get(
-                                     'trafitec.cotizacion'))
+                                default=lambda self: self.env['res.company']._company_default_get(
+                                    'trafitec.cotizacion'))
     motivo_cancelacion = fields.Text(string='Motivo cancelacion', track_visibility='onchange')
     fecha_cancelacion = fields.Datetime(string='Fecha de cancelacion', track_visibility='onchange')
     x_folio_trafitecw = fields.Char(string='Folio Trafitec Windows',
                                     help="Folio de la orden de carga en Trafitec para windows.",track_visibility='onchange')
     sucursal_id = fields.Many2one('trafitec.sucursal', string='Sucursal', track_visibility='onchange')
     evidencia_id = fields.One2many(string="Evidencias", comodel_name="trafitec.cotizaciones.evidencias",
-                                   inverse_name="cotizacion_id", track_visibility='onchange')
+                                    inverse_name="cotizacion_id", track_visibility='onchange')
 
     detalles = fields.Text(string='Detalles', default='', track_visibility='onchange')
     
@@ -99,7 +99,7 @@ class trafitec_cotizacion(models.Model):
     
     cliente_bloqueado = fields.Boolean(string='Cliente bloqueado', related='cliente.bloqueado_cliente_bloqueado', store=True, default=False, help='Indica si el cliente esta bloqueado.')
     folio = fields.Char(string="Folio", required=True, copy=False, readonly=True,
-                   index=True, default=lambda self: _('New'))
+                    index=True, default=lambda self: _('New'))
     
     def action_enviarcorreo_autorizacion(self):
         asunto = "Cotización por autorizar: "+str(self.name or "")
@@ -204,10 +204,10 @@ where v.subpedido_id = clo.id and v.state = 'Nueva'
 )
 ,0) peso_origen_tons
 from trafitec_cotizaciones_linea_origen as clo
-  inner join trafitec_cotizaciones_linea as cl on(clo.linea_id=cl.id)
+    inner join trafitec_cotizaciones_linea as cl on(clo.linea_id=cl.id)
     inner join trafitec_cotizacion as ct on(cl.cotizacion_id=ct.id)
-  inner join trafitec_ubicacion as ori on(clo.origen=ori.id)
-  inner join trafitec_ubicacion as des on(clo.destino=des.id)
+    inner join trafitec_ubicacion as ori on(clo.origen=ori.id)
+    inner join trafitec_ubicacion as des on(clo.destino=des.id)
 where clo.state='Disponible' and ct.id={} --and ct.name='CO001042'
 order by des.name
         """.format(self.id)
@@ -271,7 +271,7 @@ order by des.name
     
         contenido += "<table border=0 cellspacing=1>"
         contenido += "<tr>"
- 
+
         if self.lineanegocio.id == 1: #Granel.
             contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>TONS A MOVER</th><th style='{0}'>TONS MOVIDAS</th><th style='{0}'>TONS SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
         elif self.lineanegocio.id == 2: #Flete.
@@ -772,8 +772,8 @@ class trafitec_localidad_municipios_estado_pais(models.Model):
         domain = []
         if not (name == '' and operator == 'ilike'):
             args += ['|', '|', '|', ('name', 'ilike', name), ('zip_sat_code.township_sat_code.name', 'ilike', name),
-                     ('zip_sat_code.township_sat_code.state_sat_code.name', 'ilike', name),
-                     ('zip_sat_code.township_sat_code.state_sat_code.country_sat_code.name', 'ilike', name)]
+                    ('zip_sat_code.township_sat_code.state_sat_code.name', 'ilike', name),
+                    ('zip_sat_code.township_sat_code.state_sat_code.country_sat_code.name', 'ilike', name)]
         result = self.search(domain + args, limit=limit)
         res = result.name_get()
         return res
@@ -811,7 +811,7 @@ class trafitec_cotizacion_line(models.Model):
     tarifa_cliente = fields.Float(string='Tarifa cliente', required=True)
     cantidad = fields.Integer(string='Cantidad', required=True)
     product_uom = fields.Many2one('product.uom', string='Unidad de medida', required=True,
-                                  domain="[('trafitec','=',True)]")
+                                domain="[('trafitec','=',True)]")
     detalle_asociado = fields.Text(string='Detalle Origen')
     detalle_destino = fields.Text(string='Detalle Destino')
     cotizacion_id = fields.Many2one('trafitec.cotizacion', string='Cotizacion', ondelete='cascade')
@@ -823,8 +823,8 @@ class trafitec_cotizacion_line(models.Model):
     origen_id = fields.One2many('trafitec.cotizaciones.linea.origen', 'linea_id')
     negociacion_id = fields.One2many('trafitec.cotizacion.linea.negociacion', 'linea_id')
     currency_id = fields.Many2one("res.currency", related='cotizacion_id.lista_precio.currency_id', string="Currency",
-                                  readonly=True,
-                                  required=True)
+                                readonly=True,
+                                required=True)
     state = fields.Selection(string='Estado', related='cotizacion_id.state', store=True, readonly=True)
     permitir_ta_mayor_tc = fields.Boolean(string='Ta>tc', default=False, help='Pertimir ta mayor a tc.')
 
@@ -943,7 +943,7 @@ class trafitec_cotizacion_line(models.Model):
             })
 
     total_cargos = fields.Monetary(string='Total cargos', readonly=True, compute='_total_cargos',
-                                   track_visibility='always')
+                                    track_visibility='always')
 
     
     def _subtotal(self):
@@ -1013,7 +1013,7 @@ class trafitec_cotizacion_line_cargos(models.Model):
     name = fields.Many2one('trafitec.tipocargosadicionales', string='Tipos de cargos adicionales', required=True)
     iva = fields.Many2one('account.tax', string='IVAS', required=True)
     tipocalculo = fields.Selection([('Suma', 'Suma'), ('Multiplicado', 'Multiplicado')], string='Tipo de cálculo',
-                                   required=True)
+                                    required=True)
     valor = fields.Float(string='Valor', required=True)
     linea_id = fields.Many2one('trafitec.cotizaciones.linea', ondelete='restrict')
 
@@ -1046,9 +1046,9 @@ class trafitec_cotizacion_line_origen(models.Model):
     csf = fields.Boolean(string='CSF')
     linea_id = fields.Many2one('trafitec.cotizaciones.linea', ondelete='restrict')
     folio_cotizacion = fields.Char(string="No. de cotización", related='linea_id.cotizacion_id.name', readonly=True,
-                                   store=True)
+                                    store=True)
     cliente_cotizacion = fields.Many2one('res.partner', related='linea_id.cotizacion_id.cliente', readonly=True,
-                                         store=True)
+                                        store=True)
     state = fields.Selection([('Disponible', 'Disponible'), ('EnEspera', 'En espera'), ('Cancelada', 'Cancelada'), ('Cerrada', 'Cerrada')], string='Estado', default='Disponible')
 
 
@@ -1075,12 +1075,12 @@ class trafitec_cotizacion_line_origen(models.Model):
         domain = []
         if not (name == '' and operator == 'ilike'):
             args += ['|', '|', '|', '|',
-                     ('name', 'ilike', name),
-                     ('linea_id.cotizacion_id.name', 'ilike', name),
-                     ('linea_id.cotizacion_id.cliente.name', 'ilike', name),
-                     ('origen.name', 'ilike', name),
-                     ('destino.name', 'ilike', name)
-                     ]
+                    ('name', 'ilike', name),
+                    ('linea_id.cotizacion_id.name', 'ilike', name),
+                    ('linea_id.cotizacion_id.cliente.name', 'ilike', name),
+                    ('origen.name', 'ilike', name),
+                    ('destino.name', 'ilike', name)
+                    ]
         result = self.search(domain + args, limit=limit)
         res = result.name_get()
         return res
@@ -1158,10 +1158,10 @@ class trafitec_cotizacion_line_negociacion(models.Model):
             if asociado_id != self.asociado_id.id:
                 obj_nego = self.env['trafitec.cotizacion.linea.negociacion'].search(
                     [
-                     ('asociado_id', '=', asociado_id),
-                     ('tiporemolque_id', '=', vals['tiporemolque_id']),
-                     ('linea_id', '=', self.linea_id.id)
-                     ]
+                    ('asociado_id', '=', asociado_id),
+                    ('tiporemolque_id', '=', vals['tiporemolque_id']),
+                    ('linea_id', '=', self.linea_id.id)
+                    ]
                 )
                 if len(obj_nego) > 0:
                     raise UserError(_('Error !\nNo se permite registrar 2 o mas negociaones a un asociado'))

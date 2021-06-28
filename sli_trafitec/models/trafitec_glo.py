@@ -35,9 +35,9 @@ ori.name origen,
 des.name destino,
 v.tarifa_asociado tarifa
 from trafitec_viajes as v
-  inner join trafitec_ubicacion as ori on(v.origen=ori.id)
-  inner join trafitec_ubicacion as des on(v.destino=des.id)
-  inner join res_partner as aso on(v.asociado_id=aso.id)
+	inner join trafitec_ubicacion as ori on(v.origen=ori.id)
+	inner join trafitec_ubicacion as des on(v.destino=des.id)
+	inner join res_partner as aso on(v.asociado_id=aso.id)
 where
 v.state='Nueva'
 and v.asociado_id = {}

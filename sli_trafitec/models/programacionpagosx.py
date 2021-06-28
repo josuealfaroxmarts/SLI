@@ -32,23 +32,23 @@ class TrafitecProgramacionPagosX(models.Model):
 							default='proveedor', help='Tipo de pago para proveedor o de cliente.')
 	moneda_id = fields.Many2one(string="Moneda", comodel_name="res.currency", required=True)
 	facturas_aplicar_id = fields.One2many(string="Facturas a aplicar",
-										  comodel_name="trafitec.programacionpagosx.facturas.aplicar",
-										  inverse_name="programacionpagos_id")
+										comodel_name="trafitec.programacionpagosx.facturas.aplicar",
+										inverse_name="programacionpagos_id")
 	
 	buscar_persona_id = fields.Many2one(string="Persona", comodel_name="res.partner")
 	buscar_folio = fields.Char(string="Folio")
 	buscar_fecha_inicial = fields.Date(string="Fecha inicial")
 	buscar_fecha_final = fields.Date(string="Fecha inicial")
 	buscar_facturas_id = fields.One2many(string="Facturas a buscar",
-										 comodel_name="trafitec.programacionpagosx.facturas.buscar",
-										 inverse_name="programacionpagos_id")
+										comodel_name="trafitec.programacionpagosx.facturas.buscar",
+										inverse_name="programacionpagos_id")
 	
 	diario_id = fields.Many2one(string="Diario de pagos", comodel_name='account.journal', required=True)
 	
 	total = fields.Float(string="Total", help="Total de la programación de pagos", default=0)
 	detalles = fields.Char(string="Detalles", help="Detalles de la programación.")
 	state = fields.Selection(string="Estado",
-							 selection=[('nuevo', 'Nuevo'), ('revisado', 'Revisado'), ('autorizado', 'Autorizado'),
+							selection=[('nuevo', 'Nuevo'), ('revisado', 'Revisado'), ('autorizado', 'Autorizado'),
 										('aplicado', 'Aplicado'), ('cancelado', 'Cancelado')], default='nuevo')
 	
 	@api.depends('facturas_aplicar_id.abono')
@@ -59,7 +59,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		self.total_abonos = total
 	
 	total_abonos = fields.Monetary(string="Total abonos", compute="compute_total_abonos", currency_field="moneda_id",
-								   store=True)
+									store=True)
 	
 	def action_seleccionar(self):
 		lista_actual = []
@@ -99,7 +99,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		facturas_obj = self.env['account.invoice']
 		facturas_dat = facturas_obj.search(
 			[('partner_id', '=?', self.buscar_persona_id.id), ('state', '=', 'open'), ('type', '=', 'in_invoice'),
-			 ('date_invoice', '>=', self.buscar_fecha_inicial), ('date_invoice', '<=', self.buscar_fecha_final),('number', 'ilike', '%'+(self.buscar_folio or '')+'%')],
+			('date_invoice', '>=', self.buscar_fecha_inicial), ('date_invoice', '<=', self.buscar_fecha_final),('number', 'ilike', '%'+(self.buscar_folio or '')+'%')],
 			order="id asc")
 		
 		for f in facturas_dat:
@@ -221,12 +221,12 @@ class TrafitecProgramacionPagosX(models.Model):
 		movimiento_general_obj = self.env['account.move'].with_context(check_move_validity=False)
 		valores = {
 			'company_id': empresa_id,
-			 'currency_id': moneda_id,
-			 'journal_id': diario_id,# Ok diario de pago.
+			'currency_id': moneda_id,
+			'journal_id': diario_id,# Ok diario de pago.
 			'amount': total,
-			 'narration': '',
-			 'partner_id': persona_id,
-			 'ref': referencia,
+			'narration': '',
+			'partner_id': persona_id,
+			'ref': referencia,
 			'state': 'draft' #draft,posted
 		}
 		nuevo = movimiento_general_obj.create(valores)
@@ -236,18 +236,18 @@ class TrafitecProgramacionPagosX(models.Model):
 		movimiento_linea_obj = self.env['account.move.line']
 		valores = {
 				'move_id': movimiento_id,
-				   'name': 'DETALLE' + str(movimiento_id),
-				   'journal_id': diario_id,
-				   'currency_id': moneda_id,
-				   'invoice_id': factura_id,
-				   'partner_id': persona_id,
-				   'amount_base': monto,
-				   'debit': debito,
-					'credit': credito,
-				   'account_id': cuenta_id,
-				   'payment_id': pago_id,
-				   'reconciled': True,
-				   'user_type_id': tipo_id
+				'name': 'DETALLE' + str(movimiento_id),
+				'journal_id': diario_id,
+				'currency_id': moneda_id,
+				'invoice_id': factura_id,
+				'partner_id': persona_id,
+				'amount_base': monto,
+				'debit': debito,
+				'credit': credito,
+				'account_id': cuenta_id,
+				'payment_id': pago_id,
+				'reconciled': True,
+				'user_type_id': tipo_id
 				}
 		nuevo = movimiento_linea_obj.with_context(check_move_validity=False).create(valores)
 		return nuevo
@@ -347,7 +347,7 @@ class TrafitecProgramacionPagosX(models.Model):
 			nuevo_movimiento_credito_linea = self.genera_movimiento_detalle(nuevo_movimiento.id, self.diario_id.id, False, False, g['persona_id'], 0, 0, g['total'], self.diario_id.default_credit_account_id.id, False, 3)
 
 			nuevo_pago = self.genera_pago('', self.diario_id.id, movimientos, g['facturas'],
-										  g['total'], self.moneda_id.id, g['persona_id'])
+										g['total'], self.moneda_id.id, g['persona_id'])
 
 			#----------------------------------------------------------------------------
 			# Se generan 2 account.move.line
@@ -381,7 +381,7 @@ class TrafitecProgramacionPagosXFacturasAplicar(models.Model):
 	_name = "trafitec.programacionpagosx.facturas.aplicar"
 	programacionpagos_id = fields.Many2one(string="Programacion de pagos", comodel_name="trafitec.programacionpagosx")
 	factura_id = fields.Many2one(string="Factura", comodel_name="account.invoice",
-								 domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
+								domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
 	fecha = fields.Date(string="Fecha", related="factura_id.date_invoice")
 	persona_id = fields.Many2one(string="Persona", related="factura_id.partner_id")
 	moneda_id = fields.Many2one(string="Moneda", related="factura_id.currency_id")
@@ -394,7 +394,7 @@ class TrafitecProgramacionPagosXFacturasBuscar(models.TransientModel):
 	_name = "trafitec.programacionpagosx.facturas.buscar"
 	programacionpagos_id = fields.Many2one(string="Programacion de pagos", comodel_name="trafitec.programacionpagosx")
 	factura_id = fields.Many2one(string="Factura", comodel_name="account.invoice",
-								 domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
+								domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
 	fecha = fields.Date(string="Fecha", related="factura_id.date_invoice")
 	persona_id = fields.Many2one(string="Persona", related="factura_id.partner_id")
 	moneda_id = fields.Many2one(string="Moneda", related="factura_id.currency_id")

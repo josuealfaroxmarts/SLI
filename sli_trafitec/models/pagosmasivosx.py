@@ -30,16 +30,16 @@ class trafitec_pagosmasivosx(models.TransientModel):
 			f=self.env['account.invoice'].browse(x)
 			print("***FACK:***"+str(f))
 			n = {
-			  'id' : f.invoice_id ,
-			  'number' : f.number ,
-			  'name' : f.name ,
-			  'pay_method_id' : f.pay_method_id ,
-			  'date_invoice' : f.date_invoice ,
-			  'partner_id' : f.partner_id ,
-			  'company_id' : f.company_id ,
-			  'journal_id' : f.journal_id ,
-			  'residual' : 666 ,
-		      'currency_id' : f.currency_id ,
+				'id' : f.invoice_id ,
+				'number' : f.number ,
+				'name' : f.name ,
+				'pay_method_id' : f.pay_method_id ,
+				'date_invoice' : f.date_invoice ,
+				'partner_id' : f.partner_id ,
+				'company_id' : f.company_id ,
+				'journal_id' : f.journal_id ,
+				'residual' : 666 ,
+				'currency_id' : f.currency_id ,
 				'residual_company_signed': 666 ,
 				'residual_signed': 666
 			}
@@ -48,7 +48,7 @@ class trafitec_pagosmasivosx(models.TransientModel):
 		print("Las facturas:"+str(lasfacturas))
 		self.facturas_id = nuevas
 		return nuevas
-	                                                  
+
 	@api.onchange('journal_id')
 	def _onchange_journal(self):
 		self._get_invoices()
