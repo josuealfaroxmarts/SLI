@@ -182,7 +182,7 @@ class trafitec_tiposmovil(models.Model):
 								 required=True)
 	tipo = fields.Selection([('full', 'Full'), ('sencillo', 'Sencillo')], string="Tipo", required=True)
 	capacidad = fields.Float(string="Capacidad (Tons)", required=True, default=0)
-	unidadmedida = fields.Many2one('product.uom', string="Unidad de medida", readonly=True)
+	unidadmedida = fields.Many2one('uom.uom', string="Unidad de medida", readonly=True)
 	lineanegocio = fields.Many2one(comodel_name='trafitec.lineanegocio', string='Linea de negocio')
 
 
@@ -864,7 +864,7 @@ class trafitec_unidades(models.Model):
 
 
 class trafitec_unidadmedida(models.Model):
-	_inherit = 'product.uom'
+	_inherit = 'uom.uom'
 
 	trafitec = fields.Boolean(string='Es unidad de medida para Trafitec')
 

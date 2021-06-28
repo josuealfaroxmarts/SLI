@@ -24,7 +24,8 @@
         'product',
         #'l10n_mx_sat_models',
         #'argil_invoice_cancel',
-        'web'
+        'web',
+        'sale_management'
     ],
 
     # always loaded
