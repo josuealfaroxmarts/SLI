@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from requests.sessions import default_headers
-from openerp import models, fields, api, _
-from openerp.exceptions import UserError
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 class FletexFleetVehicle(models.Model):
     _inherit = 'fleet.vehicle'

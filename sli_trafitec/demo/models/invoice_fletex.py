@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from openerp import _, api, fields, models, tools
-from openerp.exceptions import UserError, RedirectWarning, ValidationError
+from odoo.exceptions import UserError, RedirectWarning, ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
