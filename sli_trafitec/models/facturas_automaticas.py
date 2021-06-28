@@ -109,7 +109,7 @@ class trafitec_facturas_automaticas(models.Model):
         else:
             self.subtotal_g = 0
 
-    @api.one
+    
     def _compute_subtotal(self):
         if self.viaje_id:
             amount = 0
@@ -131,7 +131,7 @@ class trafitec_facturas_automaticas(models.Model):
         else:
             self.iva_g = 0
 
-    @api.one
+    
     def _compute_iva(self):
         parametros_obj = self._get_parameter_company(self)
         if self.subtotal_g:
@@ -149,7 +149,7 @@ class trafitec_facturas_automaticas(models.Model):
         else:
             self.r_iva_g = 0
 
-    @api.one
+    
     def _compute_riva(self):
         parametros_obj = self._get_parameter_company(self)
         if self.subtotal_g:
@@ -163,7 +163,7 @@ class trafitec_facturas_automaticas(models.Model):
     def _onchange_total(self):
         self.total_g = self.subtotal_g + self.iva_g + self.r_iva_g
 
-    @api.one
+    
     def _compute_total(self):
         self.total_g = self.subtotal_g + self.iva_g + self.r_iva_g
 

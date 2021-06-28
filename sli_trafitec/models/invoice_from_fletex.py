@@ -21,7 +21,7 @@ class trafitec_invoice_fletex(models.Model):
     invoicePdf = fields.Binary(string="Factura PDF")
 
     @api.depends('shipmentId')
-    @api.one
+    
     def changeNameAttachment(self):
         if self.shipmentId:
             self.invoicePdfName = "Factura PDF del viaje ({}).pdf".format(

@@ -287,7 +287,7 @@ class trafitec_respartner(models.Model):
 	# CRM TRAFICO
 	# --------------------------------------------------------------------------------------------------
 	# @api.depends('crm_trafico_ultimocontacto_fechahora')
-	@api.one
+	
 	def _compute_ultimocontacto_dias_trascurridos(self):
 		# self.ensure_one()
 		if self.crm_trafico_ultimocontacto_fechahora:
@@ -295,7 +295,7 @@ class trafitec_respartner(models.Model):
 					datetime.datetime.today() - fields.Datetime.from_string(
 				self.crm_trafico_ultimocontacto_fechahora)).days
 
-	@api.one
+	
 	def _compute_numerounidades(self):
 		unidades_obj = self.env['trafitec.unidades']
 		unidades_dat = unidades_obj.search([('asociado', '=', self.id)])
@@ -304,7 +304,7 @@ class trafitec_respartner(models.Model):
 			total += u.cantidad
 		self.crm_trafico_numerounidades = total
 
-	@api.one
+	
 	def _compute_saldo(self):
 		facturas_obj = self.env['account.invoice']
 		facturas_dat = facturas_obj.search(
@@ -314,7 +314,7 @@ class trafitec_respartner(models.Model):
 			total += f.residual
 		self.crm_trafico_saldo = total
 
-	@api.one
+	
 	def _compute_saldo_flete(self):
 		facturas_obj = self.env['account.invoice']
 		facturas_dat = facturas_obj.search(
@@ -376,7 +376,7 @@ and f.partner_id={}
 
 		return False
 
-	@api.one
+	
 	def _compute_viaje_tarifa_minima(self):
 		contexto = self._context
 		trafitec_obj = self.env['trafitec.glo']
@@ -399,7 +399,7 @@ and f.partner_id={}
 			else:
 				self.crm_trafico_tarifa_minima = 0
 
-	@api.one
+	
 	def _compute_crm_trafico_info(self):
 		contexto = self._context
 		trafitec_obj = self.env['trafitec.glo']
@@ -428,7 +428,7 @@ and f.partner_id={}
 			else:
 				self.crm_trafico_info = info
 
-	@api.one
+	
 	def _compute_crm_ultimosregistros_info1(self):
 		info = ''
 		c = 0
@@ -438,7 +438,7 @@ and f.partner_id={}
 			info = '(1) ' + str(registros[0].detalles or '')
 		self.crm_trafico_ultimos_registros_info1 = info
 
-	@api.one
+	
 	def _compute_crm_ultimosregistros_info2(self):
 		info = ''
 		c = 0
@@ -469,7 +469,7 @@ and f.partner_id={}
 
 	
 
-	@api.one
+	
 	def _compute_unidades_txt(self):
 		unidades_obj = self.env['trafitec.unidades']
 		unidades_dat = unidades_obj.search([('asociado', '=', self.id)])
@@ -1125,7 +1125,7 @@ class trafitec_plazas_banxico(models.Model):
 	name = fields.Char(string='Nombre', required=True)
 	numero_plaza = fields.Char(string='Número de plaza', required=True)
 
-	@api.one
+	
 	def _compute_display_name(self):
 		self.display_name = '{} - {}'.format(self.name, self.numero_plaza)
 

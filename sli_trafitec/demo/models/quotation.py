@@ -899,7 +899,7 @@ class trafitec_cotizacion_line(models.Model):
             if not self.permitir_ta_mayor_tc:
                 raise UserError(_('Error !\nLa tarifa asociado no puede ser mayor a la tarifa cliente.'))
 
-    @api.one
+    
     def _total_mov(self):
         print("************self: "+str(self))
         if self.tarifa_cliente and self.cantidad:
@@ -939,7 +939,7 @@ class trafitec_cotizacion_line(models.Model):
     total_cargos = fields.Monetary(string='Total cargos', readonly=True, compute='_total_cargos',
                                    track_visibility='always')
 
-    @api.one
+    
     def _subtotal(self):
         self.subtotal = self.total_cargos + self.total_movimientos
         return
@@ -1011,7 +1011,7 @@ trafitec.cotizaciones.linea
     valor = fields.Float(string='Valor', required=True)
     linea_id = fields.Many2one('trafitec.cotizaciones.linea', ondelete='restrict')
 
-    @api.one
+    
     def _total_lineas(self):
         #if self.tipocalculo and self.valor:
         #    if self.tipocalculo == 'Suma':

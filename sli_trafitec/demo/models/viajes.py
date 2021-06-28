@@ -253,7 +253,7 @@ class trafitec_viajes(models.Model):
         self.update({'cargo_id': tfinales})
     
     #Poliza de seguro
-    @api.one
+    
     @api.depends('seguro_pcliente', 'costo_producto', 'peso_origen_total', 'seguro_id')
     def copute_seguro_total(self):
         total = 0
@@ -366,7 +366,7 @@ class trafitec_viajes(models.Model):
         nuevo = descuentos_obj.create(valores)
         viaje.write({'descuento_combustible_id': nuevo.id})
 
-    @api.one
+    
     @api.depends('cargo_id')
     def compute_cargo_total(self):
         total = 0
@@ -477,7 +477,7 @@ class trafitec_viajes(models.Model):
                 cargo.unlink()
         return super(trafitec_viajes, self).unlink()
 
-    @api.one
+    
     @api.constrains('cliente_id',
                     'lineanegocio',
                     'asociado_id',
@@ -661,7 +661,7 @@ class trafitec_viajes(models.Model):
 
     flete_diferencia = fields.Float('Dieferencia en flete', compute='_compute_flete_diferencia', store=True)
 
-    @api.one
+    
     @api.depends('flete_cliente', 'flete_asociado')
     def _compute_flete_diferencia(self):
         self.flete_diferencia = self.flete_cliente - self.flete_asociado
@@ -747,7 +747,7 @@ class trafitec_viajes(models.Model):
         
         return valores.get(state, '')
     
-    @api.one
+    
     @api.depends("contrarecibo_id", "contrarecibo_id.state", "en_contrarecibo", "factura_cliente_id", "factura_cliente_id.state", "en_factura")
     def _compute_info(self):
         info = ""
@@ -797,7 +797,7 @@ class trafitec_viajes(models.Model):
     costo_km_cargado = fields.Float(string='Costo por km cargado', default=0, help='Costo por kilómetro cargado.')
     
         
-    @api.one
+    
     @api.depends('flete_cliente', 'flete_asociado')
     def _compute_utilidad_txt(self):
         if self.flete_cliente <= 0 and self.flete_asociado <= 0:
@@ -949,7 +949,7 @@ class trafitec_viajes(models.Model):
                     self.comision_calculada = ((self.capacidad / 1000) * self.tarifa_asociado) * (
                     self.porcent_comision / 100)
 
-    @api.one
+    
     def _compute_comision_calculada(self):
         if self.regla_comision == 'No cobrar':
             self.comision_calculada = 0
@@ -1089,17 +1089,17 @@ class trafitec_viajes(models.Model):
     peso_convenido_remolque_2_ver = fields.Float(string='Peso remolque 2 Kg', related='peso_convenido_remolque_2', readonly=True)
 
 
-    @api.one
+    
     @api.depends('peso_origen_remolque_1','peso_origen_remolque_2')
     def _compute_pesos_origen_total(self):
             self.peso_origen_total = self.peso_origen_remolque_1 + self.peso_origen_remolque_2
 
-    @api.one
+    
     @api.depends('peso_destino_remolque_1','peso_destino_remolque_2')
     def _compute_pesos_destino_total(self):
             self.peso_destino_total = self.peso_destino_remolque_1 + self.peso_destino_remolque_2
 
-    @api.one
+    
     @api.depends('peso_convenido_remolque_1','peso_convenido_remolque_2')
     def _compute_pesos_convenido_total(self):
             self.peso_convenido_total = self.peso_convenido_remolque_1 + self.peso_convenido_remolque_2
@@ -1140,7 +1140,7 @@ class trafitec_viajes(models.Model):
         else:
             self.merma_kg = 0
 
-    @api.one
+    
     def _compute_merma_kg_(self):
         self.merma_kg = 0
         if self.peso_origen_total and self.peso_destino_total:
@@ -1165,7 +1165,7 @@ class trafitec_viajes(models.Model):
             self.merma_pesos = 0
 
     @api.depends('merma_kg')
-    @api.one
+    
     def _compute_merma_pesos(self):
         if self.peso_origen_total and self.peso_destino_total:
             if self.lineanegocio.id == 3:  # Contenedores.
@@ -1232,7 +1232,7 @@ class trafitec_viajes(models.Model):
 
         print("**********MERMA KG: " + str(merma_kg))
 
-    @api.one
+    
     def _compute_merma_permitida_kg(self):
         if self.peso_origen_total and self.peso_destino_total:
             if self.excedente_merma:
@@ -1260,7 +1260,7 @@ class trafitec_viajes(models.Model):
         else:
             self.merma_permitida_pesos = 0
 
-    @api.one
+    
     def _compute_merma_permitida_pesos(self):
         if self.peso_origen_total and self.peso_destino_total:
             if self.merma_permitida_kg:
@@ -1286,7 +1286,7 @@ class trafitec_viajes(models.Model):
             merma_destino = 0
         self.merma_total = merma_origen + merma_destino
 
-    @api.one
+    
     def _compute_merma_total(self):
         if self.peso_origen_remolque_1 > self.peso_destino_remolque_1:
             merma_origen = self.peso_origen_remolque_1 - self.peso_destino_remolque_1
@@ -1307,7 +1307,7 @@ class trafitec_viajes(models.Model):
         else:
             self.diferencia_porcentaje = 0
 
-    @api.one
+    
     def _compute_diferencia_porcentaje(self):
         if self.merma_kg > self.merma_permitida_kg:
             self.diferencia_porcentaje = self.merma_kg - self.merma_permitida_kg
@@ -1324,7 +1324,7 @@ class trafitec_viajes(models.Model):
         else:
             self.diferencia_kg = 0
 
-    @api.one
+    
     def _compute_diferencia_kg(self):
         if self.merma_kg > self.cliente_id.merma_permitida_kg:
             self.diferencia_kg = self.merma_kg - self.cliente_id.merma_permitida_kg
@@ -1375,7 +1375,7 @@ class trafitec_viajes(models.Model):
             self.merma_permitida_kg = self.cliente_id.merma_permitida_kg
 
 
-    @api.one
+    
     @api.depends('peso_origen_total', 'peso_destino_total', 'merma_kg', 'merma_permitida_kg', 'diferencia_porcentaje',
                  'diferencia_kg')
     def _compute_merma_cobrar_kg(self):
@@ -1421,7 +1421,7 @@ class trafitec_viajes(models.Model):
         else:
             self.merma_cobrar_pesos = 0
 
-    @api.one
+    
     @api.depends('merma_cobrar_kg', 'costo_producto')
     def _compute_merma_cobrar_pesos(self):
         if self.merma_cobrar_kg > 0:
@@ -1490,7 +1490,7 @@ class trafitec_viajes(models.Model):
 
         return res
 
-    @api.one
+    
     def _compute_conteo(self):
         #viaje = self.env['trafitec.viajes'].search([])
         return 0
