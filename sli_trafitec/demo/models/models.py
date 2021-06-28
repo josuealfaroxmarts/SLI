@@ -461,26 +461,6 @@ and f.partner_id={}
 	crm_trafico_ultimos_registros_info2 = fields.Text(string="Último registros",
 													  compute=_compute_crm_ultimosregistros_info2)
 
-	def approve_status(self):
-		if self.status_client == 'Aprobado' :
-			for rec in self :
-				rec.status_client = 'Aprobado'
-				print 'Enviando correo.'
-				template_id = self.env.ref('sli_trafitec.account_approve').id
-				print ("template_id", template_id)
-				self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
-		elif self.status_client == 'Rechazado':
-			for rec in self :
-				rec.status_client = 'Rechazado'
-				print 'Enviando correo.'
-				template_id = self.env.ref('sli_trafitec.account_refuse').id
-				print ("template_id", template_id)
-				self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
-		else :
-			for rec in self :
-				rec.status_client = 'Borrador'
-
-
 	@api.one
 	def _compute_unidades_txt(self):
 		unidades_obj = self.env['trafitec.unidades']

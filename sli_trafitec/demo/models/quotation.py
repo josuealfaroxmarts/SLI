@@ -1003,7 +1003,7 @@ class trafitec_cotizacion_line(models.Model):
 
 class trafitec_cotizacion_line_cargos(models.Model):
     _name = 'trafitec.cotizaciones.linea.cargos'
-
+trafitec.cotizaciones.linea
     name = fields.Many2one('trafitec.tipocargosadicionales', string='Tipos de cargos adicionales', required=True)
     iva = fields.Many2one('account.tax', string='IVAS', required=True)
     tipocalculo = fields.Selection([('Suma', 'Suma'), ('Multiplicado', 'Multiplicado')], string='Tipo de cálculo',

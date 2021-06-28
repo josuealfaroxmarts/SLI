@@ -737,14 +737,6 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//sheet" position="before">
-                    <header>
-                        <button string="Aprobar Documentos" name="approve_documents" state="Aprobado" type="object" help="Aprobar Documentos" confirm="¿Esta seguro que desea aprobar los documentos de este usuario?" class="oe_highlight" attrs="{'invisible':[('status_document', '!=', False)]}" groups="sli_trafitec.sli_trafitec_approved_users"/>
-                        <button string="Rechazar" name="refuse_status" state="Rechazado" type="object" help="Rechazar usuario" confirm="¿Esta seguro que desea rechazar de este usuario?" class="oe_highlight" groups="sli_trafitec.sli_trafitec_approved_users"/>
-                        <button string="Aprobar usuario" name="approve_status" state="Aprobado" type="object" help="Aprobar formulario" confirm="¿Esta seguro que desea aprobar este formulario?" class="oe_highlight" attrs="{'invisible':['|',('status_client', '=', 'Aprobado'),('status_document', '=', False)]}" groups="sli_trafitec.sli_trafitec_approved_users"/>
-                        <field name="status_document" invisible="1"/>
-                    </header>
-                </xpath>
                 <xpath expr="//sheet/group/group/field[@name='website']" position="attributes">
                     <attribute name="states"></attribute>
                     <attribute name="invisible">True</attribute>
@@ -752,19 +744,7 @@
                 <xpath expr="//sheet/group/group/field[@name='lang']" position="after">
                     <field name="aseguradora" invisible="1"/>
                 </xpath>
-                <xpath expr="//sheet/group/group/field[@name='lang']" position="after">
-                    <field name="razon_social" attrs="{'invisible':[('company_type2', '!=', 'company')]}"/>
-                    <field name="status_client_fletex"/>
-                    <field name="status_client" readonly="1"/>
-                    <field name="motive_refuse" attrs="{'invisible':[('status_client', '!=', 'Rechazado')]}"/>
-                    <field name="progress_fletex" widget="percentpie" attrs="{'invisible':[('operador', '!=', False)]}"/>
-                    <field name="step_one" attrs="{'invisible':[('operador', '!=', False)]}"/>
-                    <field name="step_three" attrs="{'invisible':[('operador', '!=', False)]}"/>
-                    <field name="step_two" attrs="{'invisible':['|',('operador', '!=', False),('supplier', '=', True)]}"/>
-                    <field name="step_operator" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
-                    <field name="step_truck" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
-                    <field name="changes_history" attrs="{'invisible':['|',('customer', '!=', False),('asociado', '!=', False)]}"/>
-                </xpath>
+                
                 <xpath expr="//sheet/group/group/field[@name='email']" position="after">
                     <field name="crmt_logistico_correo"/>
                     <field name="crmt_unidades_txt" attrs="{'invisible':True}"/>
@@ -819,18 +799,6 @@
                 <field name="website" position="attributes">
                     <attribute name="states"></attribute>
                     <attribute name="invisible">1</attribute>
-                </field>
-            </field>
-        </record>
-        <record id="nif_mod" model="ir.ui.view">
-            <field name="name">nif.mod.form.add.text.field</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="l10n_mx_einvoice.view_partner_form_inh_xml22"/>
-            <field name="arch" type="xml">
-                <field name="envio_manual_cfdi" position="after">
-                    <field name="nombre_vat_copia" invisible='1'/>
-                    <field name="vat_copia" filename="nombre_vat_copia"/>
-                    <field name='vat_info' invisible='1'/>
                 </field>
             </field>
         </record>
@@ -1004,62 +972,18 @@
                           attrs="{'invisible': [('operador', '!=', True)]}">
                         <group>
                             <group>
-                                <field name="nolicencia_nombre" invisible="1"/>
-                                <field name="nolicencia" filename="nolicencia_nombre"/>
                                 <field name="asociado_operador"/>
                                 <field name="imei"/>
                                 <field name="celular_enlazado"/>
-                                <field name="numero_medicina"/>
-                                <field name="name_medicina_ad" invisible="1"/>
-                                <field name="numero_medicina_ad" filename="name_medicina_ad"/>
+                                <field name="name_license_driver" invisible="1"/>
+                                <field name="license_driver" filename="name_license_driver"/>
+                                <field name="healthcare_number"/>
+                                <field name="name_healthcare_number" invisible="1"/>
+                                <field name="adj_healthcare_number" filename="name_healthcare_number"/>
                             </group>
                             <group>
                                 <field name="activo_slitrack"/>
                                 <field name="noviajes"/>
-                            </group>
-                        </group>
-                    </page>
-                </xpath>
-                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
-                    <page name="representante_moral" string="Representante Legal" attrs="{'invisible': ['|', ('company_type2', '!=', 'company'), ('operador', '!=', False)]}">
-                        <group>
-                            <group>
-                                <field name="nombres_moral"/>
-                                <field name="apellidos_moral"/>
-                                <field name="correo_moral"/>
-                                <field name="telefono_moral"/>
-                                <field name="name_identificacion_representante_moral" invisible="1"/>
-                                <field name="identificacion_representante_moral" filename="name_identificacion_representante_moral"/>
-                                <field name="rfc_moral"/>
-<!--                            <field name="qr_rfc_moral_nombre" invisible="1"/>
-                                <field name="qr_rfc_moral" filename="qr_rfc_moral_nombre"  invisible="1"/> -->
-                                <field name="name_acta_moral" invisible="1"/>
-                                <field name="acta_moral" filename="name_acta_moral"/>
-                                <field name="name_domicilio_moral" invisible="1"/>
-                                <field name="domicilio_moral" filename="name_domicilio_moral"/>
-                                <field name="name_estado_cuenta_moral" invisible="1" />
-                                <field name="estado_cuenta_moral" filename="name_estado_cuenta_moral" attrs="{'invisible': [('asociado', '!=', True)]}"/>
-                            </group>
-                        </group>
-                    </page>
-                </xpath>
-                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
-                    <page name="representante_fisica" string="Representante Legal" attrs="{'invisible': ['|', ('company_type2', '!=', 'physical_person'), ('operador', '!=', False)]}">
-                        <group>
-                            <group>
-                                <field name="nombres_fisica"/>
-                                <field name="apellidos_fisica"/>
-                                <field name="correo_fisica"/>
-                                <field name="telefono_fisica"/>
-                                <field name="name_identificacion_representante_fisica" invisible="1"/>
-                                <field name="identificacion_representante_fisica" filename="name_identificacion_representante_fisica"/>
-                                <field name="rfc_fisica"/>
-<!--                            <field name="qr_rfc_fisica_nombre" invisible="1"/>
-                                <field name="qr_rfc_fisica" filename="qr_rfc_fisica_nombre"  invisible="1"/> -->
-                                <field name="name_comprobante_fisica" invisible="1"/>
-                                <field name="comprobante_domicilio_fisica" filename="name_comprobante_fisica"/>
-                                <field name="name_estado_cuenta_fisica" invisible="1" />
-<!--                            <field name="estado_cuenta_fisica" filename="name_estado_cuenta_fisica" attrs="{'invisible': [('asociado', '!=', True)]}"/> -->
                             </group>
                         </group>
                     </page>
@@ -1129,7 +1053,6 @@
                             <field name="operador_id" attrs="{'invisible': [('es_utilitario', '=', True)]}"
                                    options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
                             <field name="es_flotilla"/>
-                            <field name="status_vehicle"/>
                         </group>
 
                         <group string="Flotilla" attrs="{'invisible': [('es_flotilla', '!=', True)]}">
@@ -1387,7 +1310,7 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
-                    <page name="cliente" string="Información cliente" attrs="{'invisible': ['|',('status_client', '==', 'Rechazado'),('asociado', '==', True)]}">
+                    <page name="cliente" string="Información cliente">
                         <group>
                             <group>
                                 <field name="excedente_merma"/>
@@ -1410,7 +1333,7 @@
 
                         </group>
                     </page>
-                    <page string="Bloqueo" name="trafitec_bloqqueo" groups="sli_trafitec.sli_trafitec_bloqueo_ver" attrs="{'invisible': ['|',('status_client', '==', 'Rechazado'),('operador', '==', True)]}">
+                    <page string="Bloqueo" name="trafitec_bloqqueo" groups="sli_trafitec.sli_trafitec_bloqueo_ver" attrs="{'invisible': [('operador', '==', True)]}">
                         <group string="Cliente" groups="sli_trafitec.sli_trafitec_bloqueo_clientes">
                             <field name="bloqueado_cliente_bloqueado"></field>
                             <field name="bloqueado_cliente_clasificacion_id"
@@ -1419,16 +1342,10 @@
                         </group>
                     </page>
                 </xpath>
-                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='purchase']/field[@name='supplier']"
-                       position="after">
-                    <field name="limite_credito_fletex"/>
-                    <field name="saldo_facturas"/>
-                </xpath>
                 <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='user_id']"
                        position="after">
                     <field name="prorroga"/>
                     <field name="fecha_prorroga" attrs="{'invisible': [('prorroga', '!=', True)]}"/>
-                    <field name="limite_credito"/>
                 </xpath>
                 <!--xpath expr="//div[@name='button_box']" position="after"-->
                 <xpath expr="//sheet" position="before">
