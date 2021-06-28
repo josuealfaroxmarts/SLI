@@ -832,9 +832,9 @@ class trafitec_contrarecibo(models.Model):
         #print("***Cartas porte: "+str(cartasportes))
 
         if self.invoice_id:
-           if self.invoice_id.amount_total <= 0:
-              error = True
-              errores += "El total de la carta porte debe ser mayor a cero.\r\n"
+            if self.invoice_id.amount_total <= 0:
+                error = True
+                errores += "El total de la carta porte debe ser mayor a cero.\r\n"
 
         viajes_encp = False
 

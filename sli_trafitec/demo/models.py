@@ -445,8 +445,8 @@ and f.partner_id={}
 	crm_trafico_ultimocontacto_fechahora = fields.Datetime(string='Último contacto fecha y hora')
 	crm_trafico_ultimocontacto_usuario_id = fields.Many2one(string='Último contacto usuario', comodel_name='res.users')
 	crm_trafico_ultimocontacto_dias_transcurridos = fields.Integer(string='Último contacto dias transcurridos',
-																   compute=_compute_ultimocontacto_dias_trascurridos,
-																   store=False, default=0)
+																	compute=_compute_ultimocontacto_dias_trascurridos,
+																	store=False, default=0)
 	crm_trafico_numerounidades = fields.Integer(string='Número de unidades', compute=_compute_numerounidades,
 												store=False, default=0)
 	crm_trafico_saldo = fields.Float(string='Saldo total', compute=_compute_saldo, default=0)
@@ -457,9 +457,9 @@ and f.partner_id={}
 	crm_trafico_ultimo_rechazo_id = fields.Many2one(string="Último rechazo",
 													comodel_name='trafitec.crm.trafico.registro')
 	crm_trafico_ultimos_registros_info1 = fields.Text(string="Último registros",
-													  compute=_compute_crm_ultimosregistros_info1)
+														compute=_compute_crm_ultimosregistros_info1)
 	crm_trafico_ultimos_registros_info2 = fields.Text(string="Último registros",
-													  compute=_compute_crm_ultimosregistros_info2)
+														compute=_compute_crm_ultimosregistros_info2)
 
 	def approve_status(self):
 		if self.status_client == 'Aprobado' :
@@ -626,12 +626,12 @@ and f.partner_id={}
 				self.asociado = False
 				self.operador = False
 				res = {'warning': {'title': _('Advertencia'),
-								   'message': _('No puede seleccionar que un contacto sea aseguradora, operador o asociado.')}}
+									'message': _('No puede seleccionar que un contacto sea aseguradora, operador o asociado.')}}
 				return res
 			if self.company_type2 != 'company':
 				self.aseguradora = False
 				res = {'warning': {'title': _('Advertencia'),
-								   'message': _('Para que un contacto sea aseguradora, tiene que ser una compañia')}}
+									'message': _('Para que un contacto sea aseguradora, tiene que ser una compañia')}}
 				return res
 
 	"""
@@ -660,7 +660,7 @@ and f.partner_id={}
 	end
 	) total
 	from trafitec_viajes as v
-	   inner join trafitec_moviles as mov on(v.tipo_remolque=mov.id)
+		inner join trafitec_moviles as mov on(v.tipo_remolque=mov.id)
 	where v.state='Nueva'
 	and v.en_factura=false
 	and v.cliente_id={}
@@ -743,13 +743,13 @@ class trafitec_polizas(models.Model):
 
 	name = fields.Char(string="Folio", required=True)
 	aseguradora_id = fields.Many2one('res.partner', string='Aseguradora', required=True,
-									 domain="[('aseguradora','=','True')]")
+									domain="[('aseguradora','=','True')]")
 	porcentaje_aseg = fields.Float(string="Porcentaje aseguradora", required=True)
 	porcentaje_clie = fields.Float(string="Porcentaje cliente", required=True)
 	vigencia_desde = fields.Date(string="Vigencia desde", required=True)
 	vigencia_hasta = fields.Date(string="Vigencia hasta", required=True)
 	estado_poliza = fields.Selection([('vigente', 'Vigente'), ('cancelada', 'Cancelada')], string="Estado de la póliza",
-									 required=True)
+									required=True)
 	activo = fields.Boolean(string="Activo")
 	detalles = fields.Text(string="Detalles")
 
@@ -759,7 +759,7 @@ class trafitec_producttemplate(models.Model):
 
 	trafi_product_id = fields.One2many('trafitec.product', 'product_id')
 	es_flete = fields.Boolean(string='Es flete', default=False,
-							  help='Indica si este producto sera considerado como flete para procesos del sistema.')
+								help='Indica si este producto sera considerado como flete para procesos del sistema.')
 
 
 class trafitec_productetiqueta(models.Model):
@@ -781,7 +781,7 @@ class trafitec_asociados(models.Model):
 	creditocomision = fields.Boolean(string='Crédito de comisión')
 	calificacion = fields.Selection(
 		[('A-Administración total', 'A-Administración total'), ('B-Alianza estrategica', 'B-Alianza estrategica'),
-		 ('C-Asociado normal', 'C-Asociado normal'), ('D-No son asociados', 'D-No son asociados')],
+		('C-Asociado normal', 'C-Asociado normal'), ('D-No son asociados', 'D-No son asociados')],
 		string='Clasificación')
 	info_completa = fields.Boolean(string='Información completa')
 	doc_completa = fields.Boolean(string='Documentación completa')
@@ -939,8 +939,8 @@ class trafitec_vehiculos(models.Model):
 	modelo = fields.Integer(string='Modelo')
 	tiposervicio = fields.Selection([('Estatal', 'Estatal'), ('Federal', 'Federal')], string='Tipo de servicio')
 	asociado_id = fields.Many2one('res.partner',
-								  domain="[('asociado','=',True),('company_type2','in',['company','physical_person'])]",
-								  string="Asociado")
+									domain="[('asociado','=',True),('company_type2','in',['company','physical_person'])]",
+									string="Asociado")
 	operador_id = fields.Many2one('res.partner', domain="[('operador','=',True)]", string="Operador")
 	es_flotilla = fields.Boolean(string='Es flotilla')
 	no_economico = fields.Char(string='No. economico')
@@ -949,7 +949,7 @@ class trafitec_vehiculos(models.Model):
 	remolque_1_id = fields.Many2one(string='Remolque 1', comodel_name='trafitec.remolques',
 									help='Remolque 1 del vehículo.', domain=[('tipo', '=', 'remolque')])
 	dolly_id = fields.Many2one(string='Dolly', comodel_name='trafitec.remolques', help='El dolly del vehículo.',
-							   domain=[('tipo', '=', 'dolly')])
+								domain=[('tipo', '=', 'dolly')])
 	remolque_2_id = fields.Many2one(string='Remolque 2', comodel_name='trafitec.remolques',
 									help='Remolque 2 del vehículo en caso de Doble (Full).',
 									domain=[('tipo', '=', 'remolque')])
@@ -1011,7 +1011,7 @@ class trafitec_vehiculos(models.Model):
 		for rec in self:
 			name = (rec.name or "") + '/' + (rec.asociado_id.name or "") + '/' + (rec.operador_id.name or "") + " (" + (
 					rec.remolque_1_id.name or "") + " " + (rec.dolly_id.name or "") + " " + (
-						   rec.remolque_2_id.name or "") + ")"
+							rec.remolque_2_id.name or "") + ")"
 			result.append((rec.id, name))
 			"""
 			if rec.name and rec.asociado_id and rec.operador_id:
@@ -1030,7 +1030,7 @@ class trafitec_vehiculos(models.Model):
 		domain = []
 		if not (name == '' and operator == 'ilike'):
 			args += ['|', '|', ('name', 'ilike', name), ('asociado_id.name', 'ilike', name),
-					 ('operador_id.name', 'ilike', name)]
+						('operador_id.name', 'ilike', name)]
 
 		result = self.search(domain + args, limit=limit)
 		res = result.name_get()
@@ -1145,7 +1145,7 @@ class trafitec_vehiculos(models.Model):
 class trafitec_remolques(models.Model):
 	_name = "trafitec.remolques"
 	name = fields.Char(string='No. económico', required=True,
-					   help='Número económico que identifica el remolque/dolly de manera única.')
+						help='Número económico que identifica el remolque/dolly de manera única.')
 	placas = fields.Char(string='Placas', required=True, help='Número de placas.')
 	ejes = fields.Integer(string='Número de ejes', required=True, default=1, help='Número de ejes del remolque.')
 	tipo = fields.Selection(string='Tipo',
@@ -1206,8 +1206,8 @@ class trafitec_parametros(models.Model):
 
 	name = fields.Char(string='Nombre', default='', required=True)
 	company_id = fields.Many2one('res.company', 'Compañia',
-								 default=lambda self: self.env['res.company']._company_default_get(
-									 'trafitec.parametros'), required=True)
+								default=lambda self: self.env['res.company']._company_default_get(
+									'trafitec.parametros'), required=True)
 	product = fields.Many2one('product.template', string='Producto', required=True)
 	payment_term_id = fields.Many2one('account.payment.term', string='Forma de pago', required=True)
 
@@ -1225,27 +1225,27 @@ class trafitec_parametros(models.Model):
 	cr_diario_id = fields.Many2one(comodel_name='account.journal', string='Diario', required=True)
 	cr_plancontable_id = fields.Many2one(comodel_name='account.account', string='Plan contable', required=True)
 	cr_moneda_id = fields.Many2one(comodel_name='res.currency', string='Moneda predeterminada',
-								   required=True)  # Moneda predeterminada para nuevo contra recibos.
+									required=True)  # Moneda predeterminada para nuevo contra recibos.
 	cr_lineanegocio_id = fields.Many2one(comodel_name='trafitec.lineanegocio', string='Línea negocio predeterminada',
-										 )  # Linea de negocio para nuevo contra recibos.
+										)  # Linea de negocio para nuevo contra recibos.
 
 	# Notas de cargo.
 	# nca_diario_pagos_id=fields.Many2one(string='Diario para pago automatico:',comodel_name='account.journal',required=True,domain="[('type','=','purchase')]")
 	# nca_diario_cobros_id=fields.Many2one(string='Diario para cobro automatico:',comodel_name='account.journal',required=True,domain="[('type','=','sale')]")
 	nca_diario_pagos_id = fields.Many2one(string='Diario para pago automatico:', comodel_name='account.journal',
-										  required=True)
+											required=True)
 	nca_diario_cobros_id = fields.Many2one(string='Diario para cobro automatico:', comodel_name='account.journal',
-										   required=True)
+											required=True)
 	metodo_pago_id = fields.Many2one('sat.metodo.pago', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
-									 required=True)
+									required=True)
 
 	cot_producto_id = fields.Many2one(string="Producto", comodel_name="product.product",
-									  help="Producto que se utilizara para crear las ordenes de venta a partir de la cotización de trafitec.")
+										help="Producto que se utilizara para crear las ordenes de venta a partir de la cotización de trafitec.")
 
 	cot_envio_avance_pruebas_st = fields.Boolean(string='Pruebas', default=True,
-												 help='Indica el estado de pruebas para envio de avance de cotización.')
+												help='Indica el estado de pruebas para envio de avance de cotización.')
 	cot_envio_avance_pruebas_correo = fields.Char(string='Correo', default='',
-												  help='Correo al que se enviara el avance de cotización de pruebas.')
+												help='Correo al que se enviara el avance de cotización de pruebas.')
 
 	# ----------------------------------------------------
 	# Producto para seguro de carga.
@@ -1300,7 +1300,7 @@ class trafitec_seguridad_perfil(models.Model):
 	name = fields.Char(string='Nombre', default='', required=True)
 	detalles = fields.Char(string='Detalles', default='')
 	derechos = fields.One2many(string='Derechos', comodel_name='trafitec.seguridad.derechos.perfil',
-							   inverse_name='perfil')
+								inverse_name='perfil')
 	usuarios = fields.Many2many(string='Usuarios', comodel_name='res.users')
 	state = fields.Boolean(string='Activo', default=True)
 
@@ -1335,7 +1335,7 @@ class cancelacion_cuentas(models.Model):
 
 	name = fields.Char(string='Folio', default='')
 	persona_id = fields.Many2one(string='Persona', comodel_name='res.partner', required=True,
-								 track_visibility='onchange', domain="[('supplier','=',True),('customer','=',True)]")
+								track_visibility='onchange', domain="[('supplier','=',True),('customer','=',True)]")
 
 	referencia = fields.Text(string='Referencia', default='', required=True, track_visibility='onchange')
 	detalles = fields.Text(string='Detalles', default='', required=True, track_visibility='onchange')
@@ -1349,16 +1349,16 @@ class cancelacion_cuentas(models.Model):
 	abonos = fields.Monetary(string='Total', currency_field='moneda_id', default=0, strore=True, compute='_total')
 
 	facturas_cliente_id = fields.One2many(string='Facturas cliente',
-										  comodel_name='trafitec.cancelacioncuentas.facturas.cliente',
-										  inverse_name='cancelacion_cuentas_id')
+											comodel_name='trafitec.cancelacioncuentas.facturas.cliente',
+											inverse_name='cancelacion_cuentas_id')
 	facturas_proveedor_id = fields.One2many(string='Facturas proveedor',
 											comodel_name='trafitec.cancelacioncuentas.facturas.proveedor',
 											inverse_name='cancelacion_cuentas_id')
 	facturas_relacion_id = fields.One2many(string='Relación', comodel_name='trafitec.cancelacioncuentas.relacion',
-										   inverse_name='cancelacion_cuentas_id')
+											inverse_name='cancelacion_cuentas_id')
 
 	diario_pago_cliente = fields.Many2one(string='Diario de pago a cliente', comodel_name='account.journal',
-										  required=True, track_visibility='onchange')
+											required=True, track_visibility='onchange')
 	diario_pago_proveedor = fields.Many2one(string='Diario de pago a proveedor', comodel_name='account.journal',
 											required=True, track_visibility='onchange')
 
@@ -1366,8 +1366,8 @@ class cancelacion_cuentas(models.Model):
 
 	estado = fields.Boolean(string='Activa', default=True, track_visibility='onchange')
 	state = fields.Selection(string='Estado',
-							 selection=[('nuevo', 'Nuevo'), ('validado', 'Validado'), ('cancelado', 'Cancelado')],
-							 default='nuevo', track_visibility='onchange')
+								selection=[('nuevo', 'Nuevo'), ('validado', 'Validado'), ('cancelado', 'Cancelado')],
+							default='nuevo', track_visibility='onchange')
 
 	@api.onchange('total', 'moneda_id')
 	def _onchange_total(self):
@@ -1398,24 +1398,24 @@ class cancelacion_cuentas(models.Model):
 
 		facturas_cliente = self.env['account.invoice'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', 'out_invoice'), ('residual', '>', 0),
-			 ('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date_invoice asc')
+			('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date_invoice asc')
 		# facturas.sorted(key=lamnda r: r.)
 		# facturas=self.env['account.invoice'].search([])
 		print("***Facturas:" + str(facturas_cliente))
 		for f in facturas_cliente:
 			nuevo = {'factura_cliente_id': f.id, 'factura_cliente_total': f.amount_total,
-					 'factura_cliente_saldo': f.residual, 'abono': f.residual}
+					'factura_cliente_saldo': f.residual, 'abono': f.residual}
 			lista_clientes.append(nuevo)
 		self.facturas_cliente_id = lista_clientes
 
 		facturas_proveedores = self.env['account.invoice'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', 'in_invoice'), ('residual', '>', 0),
-			 ('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date_invoice asc')
+			('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date_invoice asc')
 		# facturas=self.env['account.invoice'].search([])
 		print("***Facturas:" + str(facturas_proveedores))
 		for f in facturas_proveedores:
 			nuevo = {'factura_proveedor_id': f.id, 'factura_proveedor_total': f.amount_total,
-					 'factura_proveedor_saldo': f.residual, 'abono': 0}
+					'factura_proveedor_saldo': f.residual, 'abono': 0}
 			lista_proveedores.append(nuevo)
 		self.facturas_proveedor_id = lista_proveedores
 
@@ -1495,12 +1495,12 @@ class cancelacion_cuentas(models.Model):
 					fp.abono += fp_saldo
 					fc_saldo -= fp_saldo
 					rnueva = {'factura_cliente_id': fc.factura_cliente_id.id,
-							  'factura_proveedor_id': fp.factura_proveedor_id.id, 'abono': fp_saldo}
+							'factura_proveedor_id': fp.factura_proveedor_id.id, 'abono': fp_saldo}
 					relacion.append(rnueva)
 				else:
 					fp.abono += fc_saldo
 					rnueva = {'factura_cliente_id': fc.factura_cliente_id.id,
-							  'factura_proveedor_id': fp.factura_proveedor_id.id, 'abono': fc_saldo}
+							'factura_proveedor_id': fp.factura_proveedor_id.id, 'abono': fc_saldo}
 					relacion.append(rnueva)
 					fc_saldo = 0
 
@@ -1548,16 +1548,16 @@ class cancelacion_cuentas(models.Model):
 			metodo = 1
 
 		valores = {'journal_id': diario_id,  # Ok.
-				   'payment_method_id': metodo,  # account_payment_method 1=Manual inbound, 2=Manual outbound.
-				   'payment_date': datetime.datetime.now().date(),  # Ok.
-				   'communication': 'Pago por cancelación de cuentas {}.'.format(str(self.name)),  # Ok.
-				   'invoice_ids': [(4, factura_id, None)],  # [(4, inv.id, None) for inv in self._get_invoices()],
-				   'payment_type': subtipo,  # inbound,outbound
-				   'amount': abono,  # Ok.
-				   'currency_id': moneda_id,  # Ok.           s
-				   'partner_id': persona_id,  # Ok.
-				   'partner_type': tipo,  # Ok. customer,supplier
-				   }
+					'payment_method_id': metodo,  # account_payment_method 1=Manual inbound, 2=Manual outbound.
+					'payment_date': datetime.datetime.now().date(),  # Ok.
+					'communication': 'Pago por cancelación de cuentas {}.'.format(str(self.name)),  # Ok.
+					'invoice_ids': [(4, factura_id, None)],  # [(4, inv.id, None) for inv in self._get_invoices()],
+					'payment_type': subtipo,  # inbound,outbound
+					'amount': abono,  # Ok.
+					'currency_id': moneda_id,  # Ok.           s
+					'partner_id': persona_id,  # Ok.
+					'partner_type': tipo,  # Ok. customer,supplier
+					}
 
 		print("***Pago auto: " + str(valores))
 		pago = self.env['account.payment'].create(valores)
@@ -1607,12 +1607,12 @@ class cancelacion_cuentas(models.Model):
 			if abono > fc_o.residual:
 				error = True
 				errores += "El abono {} es mayor al saldo de la factura cliente {}/{}.\n".format(abono, fc.number,
-																								 fc.residual)
+																								fc.residual)
 
 			if abono > fp_o.residual:
 				error = True
 				errores += "El abono {} es mayor al saldo de la factura proveedor {}/{}.\n".format(abono, fp.number,
-																								   fp.residual)
+																									fp.residual)
 
 		if error:
 			raise ValidationError(_(errores))
@@ -1632,11 +1632,11 @@ class cancelacion_cuentas(models.Model):
 				pago1 = None
 				pago2 = None
 				pago1 = self._aplicapago(self.diario_pago_cliente.id, r.factura_cliente_id.id, abono, self.moneda_id.id,
-										 self.persona_id.id, 'customer', 'inbound')
+										self.persona_id.id, 'customer', 'inbound')
 
 				# Aplicar pago para factura proveedor.
 				pago2 = self._aplicapago(self.diario_pago_proveedor.id, r.factura_proveedor_id.id, abono,
-										 self.moneda_id.id, self.persona_id.id, 'supplier', 'outbound')
+										self.moneda_id.id, self.persona_id.id, 'supplier', 'outbound')
 				print("Pago 1:" + str(pago1) + " Pago 2:" + str(pago2))
 			self.state = 'validado'
 
@@ -1655,15 +1655,15 @@ class cancelacion_cuentas(models.Model):
 class cancelacion_cuentas_facturas_proveedor(models.Model):
 	_name = 'trafitec.cancelacioncuentas.facturas.proveedor'
 	cancelacion_cuentas_id = fields.Many2one(string='Cancelación de cuentas',
-											 comodel_name='trafitec.cancelacioncuentas')
+											comodel_name='trafitec.cancelacioncuentas')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
 
 	factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.invoice')
 	factura_proveedor_fecha = fields.Date(string='Fecha', related='factura_proveedor_id.date_invoice')
 	factura_proveedor_total = fields.Monetary(string='Total', related='factura_proveedor_id.amount_total',
-											  currency_field='moneda_id')
+												currency_field='moneda_id')
 	factura_proveedor_saldo = fields.Monetary(string='Saldo', related='factura_proveedor_id.residual',
-											  currency_field='moneda_id')
+												currency_field='moneda_id')
 
 	abono = fields.Monetary(string='Abono', default=0, currency_field='moneda_id')
 
@@ -1671,7 +1671,7 @@ class cancelacion_cuentas_facturas_proveedor(models.Model):
 class cancelacion_cuentas_facturas_cliente(models.Model):
 	_name = 'trafitec.cancelacioncuentas.facturas.cliente'
 	cancelacion_cuentas_id = fields.Many2one(string='Cancelación de cuentas',
-											 comodel_name='trafitec.cancelacioncuentas')
+											comodel_name='trafitec.cancelacioncuentas')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
 
 	factura_cliente_id = fields.Many2one(string='Factura cliente', comodel_name='account.invoice')
@@ -1687,7 +1687,7 @@ class cancelacion_cuentas_facturas_cliente(models.Model):
 class cancelacion_cuentas_relacion(models.Model):
 	_name = 'trafitec.cancelacioncuentas.relacion'
 	cancelacion_cuentas_id = fields.Many2one(string='Cancelación de cuentas',
-											 comodel_name='trafitec.cancelacioncuentas')
+											comodel_name='trafitec.cancelacioncuentas')
 	factura_cliente_id = fields.Many2one(string='Factura cliente', comodel_name='account.invoice')
 	factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.invoice')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
@@ -1704,8 +1704,8 @@ class trafitec_pagosmasivos(models.Model):
 
 	name = fields.Char(string='Folio', default='')
 	persona_id = fields.Many2one(string='Persona', comodel_name='res.partner', required=True,
-								 domain="[('company_type2','in',['company','physical_person']),'|',('supplier','=',True),('customer','=',True)]",
-								 track_visibility='onchange')
+								domain="[('company_type2','in',['company','physical_person']),'|',('supplier','=',True),('customer','=',True)]",
+								track_visibility='onchange')
 	fecha = fields.Date(string='Fecha', default=datetime.datetime.now().today(), required=True,
 						track_visibility='onchange')
 
@@ -1718,23 +1718,23 @@ class trafitec_pagosmasivos(models.Model):
 	total_txt_ver = fields.Char(string='Total', related='total_txt', default='')
 
 	facturas_id = fields.One2many(string='Facturas', comodel_name='trafitec.pagosmasivos.facturas',
-								  inverse_name='pagomasivo_id')
+								inverse_name='pagomasivo_id')
 	referencia = fields.Char(string='Referenccia', default='', required=True, track_visibility='onchange')
 	detalles = fields.Char(string='Detalles', default='', track_visibility='onchange')
 	diario_id = fields.Many2one(string='Diario', comodel_name='account.journal', required=True)
 	tipo = fields.Selection(string='Tipo',
 							selection=[('noespecificado', '(No especificado)'), ('proveedor', 'Proveedor'),
-									   ('cliente', 'Cliente')], default='noespecificado', required=True,
+										('cliente', 'Cliente')], default='noespecificado', required=True,
 							track_visibility='onchange')
 	state = fields.Selection(string='Estado',
-							 selection=[('nuevo', 'Nuevo'), ('validado', 'Validado'), ('aplicado', 'Aplicado'),
+							selection=[('nuevo', 'Nuevo'), ('validado', 'Validado'), ('aplicado', 'Aplicado'),
 										('cancelado', 'Cancelado')], default='nuevo', required=True,
-							 track_visibility='onchange')
+							track_visibility='onchange')
 
 	busqueda_fecha_inicial = fields.Date(string='Búsqueda: Fecha inicial', default=datetime.datetime.now().today(),
-										 required=True)
+										required=True)
 	busqueda_fecha_final = fields.Date(string='Búsqueda: Fecha final', default=datetime.datetime.now().today(),
-									   required=True)
+										required=True)
 
 	# context="{'form_view_ref': 'account.view_account_payment_from_invoices', 'invoice_ids' : facturas_id}"
 	def LlamarABatch(self):
@@ -1774,7 +1774,7 @@ class trafitec_pagosmasivos(models.Model):
 		# --------------------------------------------------
 		pago_id = self.env['account.payment'].create(
 			{'partner_id': self.persona_id.id, 'amount': total, 'payment_method_id': 1, 'journal_id': self.diario_id.id,
-			 'payment_type': 'inbound', 'partner_type': 'customer'})
+				'payment_type': 'inbound', 'partner_type': 'customer'})
 		print("*****Despues del pago..")
 
 		# --------------------------------------------------
@@ -1783,10 +1783,10 @@ class trafitec_pagosmasivos(models.Model):
 		lista = []
 
 		linea = {'account_id': 3, 'name': 'Pago cliente.', 'date': datetime.datetime.today(),
-				 'partner_id': self.persona_id.id, 'credit': float(total), 'debit': 0.0}
+					'partner_id': self.persona_id.id, 'credit': float(total), 'debit': 0.0}
 
 		linea2 = {'account_id': 3, 'name': 'Pago factura.', 'date': datetime.datetime.today(),
-				  'partner_id': self.persona_id.id, 'credit': 0.00, 'debit': float(total)}
+					'partner_id': self.persona_id.id, 'credit': 0.00, 'debit': float(total)}
 
 		lista.append(linea)
 		lista.append(linea2)
@@ -1794,7 +1794,7 @@ class trafitec_pagosmasivos(models.Model):
 		line_list = [(0, 0, x) for x in lista]
 		move_id = self.env['account.move'].create(
 			{'partner_id': self.persona_id.id, 'date': datetime.datetime.today(), 'journal_id': self.diario_id.id,
-			 'line_ids': line_list})
+				'line_ids': line_list})
 
 		print("*****Despues del movimiento")
 		# --------------------------------------------------
@@ -1804,18 +1804,18 @@ class trafitec_pagosmasivos(models.Model):
 			cantidad = f.abono
 			# Pago de cliente.
 			valor = {'move_id': move_id.id, 'account_id': f.factura_id.account_id.id, 'partner_id': self.persona_id.id,
-					 'journal_id': self.diario_id.id, 'user_type_id': 2, 'invoice_id': f.factura_id.id,
-					 'ref': '' + str(f.factura_id.number), 'name': '' + str(f.factura_id.number), 'credit': total,
-					 'debit': 0, 'payment_id': pago_id.id}
+						'journal_id': self.diario_id.id, 'user_type_id': 2, 'invoice_id': f.factura_id.id,
+						'ref': '' + str(f.factura_id.number), 'name': '' + str(f.factura_id.number), 'credit': total,
+						'debit': 0, 'payment_id': pago_id.id}
 			print("*****Valor1:")
 			print(valor)
 			credit_line = self.env['account.move.line'].with_context(check_move_validity=False).create(valor)
 
 			# Factura.
 			valor = {'move_id': move_id.id, 'account_id': self.diario_id.default_debit_account_id.id,
-					 'partner_id': self.persona_id.id, 'journal_id': self.diario_id.id, 'user_type_id': 3,
-					 'invoice_id': f.factura_id.id, 'ref': '' + str(f.factura_id.number),
-					 'name': '' + str(f.factura_id.number), 'credit': 0, 'debit': total, 'payment_id': pago_id.id}
+						'partner_id': self.persona_id.id, 'journal_id': self.diario_id.id, 'user_type_id': 3,
+						'invoice_id': f.factura_id.id, 'ref': '' + str(f.factura_id.number),
+						'name': '' + str(f.factura_id.number), 'credit': 0, 'debit': total, 'payment_id': pago_id.id}
 			print("*****Valor2:")
 			print(valor)
 			debit_line = self.env['account.move.line'].with_context(check_move_validity=False).create(valor)
@@ -1823,7 +1823,7 @@ class trafitec_pagosmasivos(models.Model):
 			# Registra el abono.
 			# TODO ABONO PAGO MASIVO
 			abono_credito = {'credit_move_id': credit_line.id, 'full_reconcile_id': False, 'amount': cantidad,
-							 'debit_move_id': debit_line.id, 'amount_currency': 0}
+								'debit_move_id': debit_line.id, 'amount_currency': 0}
 			conciliacion = self.env['account.partial.reconcile'].create(abono_credito)
 
 		move_id.post()
@@ -1851,18 +1851,18 @@ class trafitec_pagosmasivos(models.Model):
 			metodo = 1
 
 		valores = {'journal_id': diario_id,  # Ok.
-				   'payment_method_id': metodo,  # account_payment_method 1=Manual inbound, 2=Manual outbound.
-				   'payment_date': datetime.datetime.now().date(),  # Ok.
-				   'communication': 'Pago desde codigo por:{} de tipo:{} desde Pago masivo {}.'.format(str(abono), tipo,
-																									   self.name),
-				   # Ok.
-				   'invoice_ids': [(4, factura_id, None)],  # [(4, inv.id, None) for inv in self._get_invoices()],
-				   'payment_type': subtipo,  # inbound,outbound
-				   'amount': abono,  # Ok.
-				   'currency_id': moneda_id,  # Ok.           s
-				   'partner_id': persona_id,  # Ok.
-				   'partner_type': tipo,  # Ok. customer,supplier
-				   }
+					'payment_method_id': metodo,  # account_payment_method 1=Manual inbound, 2=Manual outbound.
+					'payment_date': datetime.datetime.now().date(),  # Ok.
+					'communication': 'Pago desde codigo por:{} de tipo:{} desde Pago masivo {}.'.format(str(abono), tipo,
+																										self.name),
+					# Ok.
+					'invoice_ids': [(4, factura_id, None)],  # [(4, inv.id, None) for inv in self._get_invoices()],
+					'payment_type': subtipo,  # inbound,outbound
+					'amount': abono,  # Ok.
+					'currency_id': moneda_id,  # Ok.           s
+					'partner_id': persona_id,  # Ok.
+					'partner_type': tipo,  # Ok. customer,supplier
+					}
 
 		# print("***Pago auto: "+str(valores))
 		pago = self.env['account.payment'].create(valores)
@@ -1878,16 +1878,16 @@ class trafitec_pagosmasivos(models.Model):
 			metodo = 1
 
 		valores = {'journal_id': diario_id,  # Ok.
-				   'payment_method_id': metodo,  # account_payment_method 1=Manual inbound, 2=Manual outbound.
-				   'payment_date': datetime.datetime.now().date(),  # Ok.
-				   'communication': '',
-				   # 'Pago desde codigo por:{} de tipo:{} desde Pago masivo {}.'.format(str(abono),self.name), # Ok.
-				   'invoice_ids': [], 'payment_type': subtipo,  # inbound,outbound
-				   'amount': abono,  # Ok.
-				   'currency_id': moneda_id,  # Ok.           s
-				   'partner_id': persona_id,  # Ok.
-				   'partner_type': tipo,  # Ok. customer,supplier
-				   }
+					'payment_method_id': metodo,  # account_payment_method 1=Manual inbound, 2=Manual outbound.
+					'payment_date': datetime.datetime.now().date(),  # Ok.
+					'communication': '',
+					# 'Pago desde codigo por:{} de tipo:{} desde Pago masivo {}.'.format(str(abono),self.name), # Ok.
+					'invoice_ids': [], 'payment_type': subtipo,  # inbound,outbound
+					'amount': abono,  # Ok.
+					'currency_id': moneda_id,  # Ok.           s
+					'partner_id': persona_id,  # Ok.
+					'partner_type': tipo,  # Ok. customer,supplier
+					}
 
 		# print("***Pago auto: "+str(valores))
 		pago = self.env['account.payment'].create(valores)
@@ -2013,13 +2013,13 @@ class trafitec_pagosmasivos(models.Model):
 
 		facturas_cliente = self.env['account.invoice'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', tipo), ('residual', '>', 0), ('state', '=', 'open'),
-			 ('currency_id', '=', self.moneda_id.id), ('date_invoice', '>=', self.busqueda_fecha_inicial),
-			 ('date_invoice', '<=', self.busqueda_fecha_final)], order='date_invoice asc')
+			('currency_id', '=', self.moneda_id.id), ('date_invoice', '>=', self.busqueda_fecha_inicial),
+			('date_invoice', '<=', self.busqueda_fecha_final)], order='date_invoice asc')
 		print("**Facturas cliente:" + str(facturas_cliente))
 		for f in facturas_cliente:
 			nuevo = {'pagomasivo_id': False, 'moneda_id': f.currency_id.id, 'factura_id': f.id,
-					 'factura_fecha': f.date_invoice, 'factura_total': f.amount_total, 'factura_saldo': f.residual,
-					 'abono': 0}
+					'factura_fecha': f.date_invoice, 'factura_total': f.amount_total, 'factura_saldo': f.residual,
+					'abono': 0}
 			print("**Nuevo:" + str(nuevo))
 			lista_clientes.append(nuevo)
 		print("**Lista de documentos:" + str(lista_clientes))
@@ -2058,10 +2058,10 @@ class trafitec_clasificacionesg(models.Model):
 	aplica_crm_trafico_rechazo = fields.Boolean(string='Aplica a CRM Tráfico en rechazo', default=False)
 	aplica_clasificacion_bloqueo_cliente = fields.Boolean(string='Aplica clasificación de bloqueo de cliente', default=False)
 	considerar = fields.Selection(string="Considerar",
-								  selection=[('noespecificado', 'No especificado'), ('malo', 'Malo'),
-											 ('bueno', 'Bueno')], default='malo', required=True)
+									selection=[('noespecificado', 'No especificado'), ('malo', 'Malo'),
+											('bueno', 'Bueno')], default='malo', required=True)
 	state = fields.Selection(string='Estado', selection=[('inactivo', 'Inactivo'), ('activo', 'Activo')], required=True,
-							 default='activo')
+							default='activo')
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
@@ -2076,7 +2076,7 @@ class trafitec_clasificacionesgxviaje(models.Model):
 	considerar = fields.Selection(string='Considerado como', related='clasificacion_id.considerar', store=True)
 
 	_sql_constraints = [('viaje_clasificacion_uniq', 'unique(viaje_id, clasificacion_id)',
-						 'La calificación debe ser unica en el viaje.')]
+							'La calificación debe ser unica en el viaje.')]
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
@@ -2146,7 +2146,7 @@ class TrafitecParametros(models.TransientModel):
 			if not isinstance(ids, list):
 				ids = [ids]
 			context = dict(context or {}, active_ids=ids, active_model=self._name,
-						   data={'fecha_inicial': self.fecha_inicial, 'fecha_final': self.fecha_final})
+							data={'fecha_inicial': self.fecha_inicial, 'fecha_final': self.fecha_final})
 		return {'type': 'ir.actions.report.xml', 'report_name': 'SLI_TrafitecReportesX.report_viaje_general',
 				'context': context, }
 
@@ -2338,8 +2338,8 @@ sum(
 select
 count(v.peso_origen_total)
 from trafitec_viajes as v
-   inner join trafitec_cotizaciones_linea_origen as vlo on(v.subpedido_id =vlo.id)
-   inner join res_users as usu on(v.create_uid =usu.id)
+	inner join trafitec_cotizaciones_linea_origen as vlo on(v.subpedido_id =vlo.id)
+	inner join res_users as usu on(v.create_uid =usu.id)
 where v.state = 'Nueva' and vlo.linea_id = l.id and v.create_date >= '{0}' and v.create_date <= '{1}' {3}
 )
 ),0) viajes,
@@ -2350,8 +2350,8 @@ sum(
 select
 sum(v.peso_origen_total/1000)
 from trafitec_viajes as v
-   inner join trafitec_cotizaciones_linea_origen as vlo on(v.subpedido_id =vlo.id)
-   inner join res_users as usu on(v.create_uid =usu.id)
+	inner join trafitec_cotizaciones_linea_origen as vlo on(v.subpedido_id =vlo.id)
+	inner join res_users as usu on(v.create_uid =usu.id)
 where v.state = 'Nueva' and vlo.linea_id = l.id and v.create_date >= '{0}' and v.create_date <= '{1}' {3}
 )
 ),0) actual,
@@ -2393,12 +2393,12 @@ extract(month from v.create_date) mes,
 count(*) viajes,
 sum(v.peso_origen_total/1000) peso
 from trafitec_viajes as v
-  --inner join trafitec_sucursal as suc on(v.sucursal_id=suc.id)
-  inner join trafitec_cotizaciones_linea_origen as lo on(v.subpedido_id =lo.id)
+	--inner join trafitec_sucursal as suc on(v.sucursal_id=suc.id)
+	inner join trafitec_cotizaciones_linea_origen as lo on(v.subpedido_id =lo.id)
     inner join trafitec_cotizaciones_linea as l on(lo.linea_id =l.id)
-      inner join trafitec_cotizacion  as ct on(l.cotizacion_id =ct.id )
-      	inner join res_partner as cli on(ct.cliente =cli.id)
-  inner join res_users as usu on(v.create_uid =usu.id)
+	inner join trafitec_cotizacion  as ct on(l.cotizacion_id =ct.id )
+    	inner join res_partner as cli on(ct.cliente =cli.id)
+	inner join res_users as usu on(v.create_uid =usu.id)
 where v.state ='Nueva' and v.create_date>='{0}' and v.create_date<='{1}' {2} 
 group by ct.name,extract(year from v.create_date),extract(month from v.create_date)
 order by ct.name,extract(year from v.create_date),extract(month from v.create_date)
@@ -2429,12 +2429,12 @@ extract(day from v.create_date) dia,
 count(*) viajes,
 sum(v.peso_origen_total/1000) peso
 from trafitec_viajes as v
-  --inner join trafitec_sucursal as suc on(v.sucursal_id=suc.id)
-  inner join trafitec_cotizaciones_linea_origen as lo on(v.subpedido_id =lo.id)
+	--inner join trafitec_sucursal as suc on(v.sucursal_id=suc.id)
+	inner join trafitec_cotizaciones_linea_origen as lo on(v.subpedido_id =lo.id)
     inner join trafitec_cotizaciones_linea as l on(lo.linea_id =l.id)
-      inner join trafitec_cotizacion  as ct on(l.cotizacion_id =ct.id )
-      	inner join res_partner as cli on(ct.cliente =cli.id)
-  inner join res_users as usu on(v.create_uid =usu.id)
+    	inner join trafitec_cotizacion  as ct on(l.cotizacion_id =ct.id )
+    	inner join res_partner as cli on(ct.cliente =cli.id)
+	inner join res_users as usu on(v.create_uid =usu.id)
 where v.state ='Nueva' and v.create_date>='{0}' and v.create_date<='{1}' {2} 
 group by ct.name,extract(year from v.create_date),extract(month from v.create_date),extract(day from v.create_date)
 order by ct.name,extract(year from v.create_date),extract(month from v.create_date),extract(day from v.create_date)

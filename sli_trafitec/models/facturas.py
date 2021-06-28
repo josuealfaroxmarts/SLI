@@ -157,14 +157,14 @@ class trafitec_account_invoice(models.Model):
 	def action_adjuntar_xml(self):
 		if not self.documentos_anexado_xml:
 			self.env['ir.attachment'].create(
-				{
-				 'name': 'Carta porte del asociado xml',
-				 'type': 'binary',
-				 'datas': self.documentos_archivo_xml,
-				 'res_model': 'account.invoice',
-				 'res_id': self.id,
-				 'mimetype': 'application/x-xml'
-				}
+					{
+					'name': 'Carta porte del asociado xml',
+					'type': 'binary',
+					'datas': self.documentos_archivo_xml,
+					'res_model': 'account.invoice',
+					'res_id': self.id,
+					'mimetype': 'application/x-xml'
+					}
 			)
 			self.documentos_anexado_xml = True
 		else:
@@ -285,7 +285,7 @@ class trafitec_account_invoice(models.Model):
 	
 	#DOCUMENTOS.
 	documentos_id = fields.One2many(string="Documentos", comodel_name="trafitec.facturas.documentos",
-								   inverse_name="factura_id")
+									inverse_name="factura_id")
 	documentos_archivo_pdf = fields.Binary(string = "Archivo PDF")
 	documentos_archivo_xml = fields.Binary(string = "Archivo XML", compute='_compute_documentos_tiene_xml')
 	
@@ -383,7 +383,7 @@ class trafitec_account_invoice(models.Model):
 		#for co in self._origin.invoice_line_ids:
 		#    if co not in self.invoice_line_ids:
 
-   
+
 
 
 
@@ -409,19 +409,19 @@ class trafitec_account_invoice(models.Model):
 					impuestos.append(i.id)
 
 				#Concepto.
-				cargo = {
-				 'id': False,
-				 'invoice_id': id,
-				 'product_id': c.name.product_id.id,
-				 'name': c.name.product_id.name,
-				 'quantity': 1,  # Cantidad.
-				 'account_id': c.name.product_id.property_account_expense_id.id,  # Plan contable.
-				 'uom_id': c.name.product_id.uom_id.id,  # Unidad de medida.
-				 'price_unit': c.valor,
-				 'discount': 0,
-				 'invoice_line_tax_ids': impuestos,
-				 'sistema': False
-				}
+					cargo = {
+					'id': False,
+					'invoice_id': id,
+					'product_id': c.name.product_id.id,
+					'name': c.name.product_id.name,
+					'quantity': 1,  # Cantidad.
+					'account_id': c.name.product_id.property_account_expense_id.id,  # Plan contable.
+					'uom_id': c.name.product_id.uom_id.id,  # Unidad de medida.
+					'price_unit': c.valor,
+					'discount': 0,
+					'invoice_line_tax_ids': impuestos,
+					'sistema': False
+					}
 				conceptos.append(cargo)
 
 		#Cargo para factura de clientes.
@@ -441,19 +441,19 @@ class trafitec_account_invoice(models.Model):
 					impuestos.append(i.id)
 
 				#Concepto.
-				cargo = {
-				 'id': False,
-				 'invoice_id': id,
-				 'product_id': c.name.product_id.id,
-				 'name': c.name.product_id.name,
-				 'quantity': 1,  # Cantidad.
-				 'account_id': c.name.product_id.property_account_income_id.id,  # Plan contable.
-				 'uom_id': c.name.product_id.uom_id.id,  # Unidad de medida.
-				 'price_unit': c.valor,
-				 'discount': 0,
-				 'invoice_line_tax_ids': impuestos,
-				 'sistema': False
-				}
+					cargo = {
+					'id': False,
+					'invoice_id': id,
+					'product_id': c.name.product_id.id,
+					'name': c.name.product_id.name,
+					'quantity': 1,  # Cantidad.
+					'account_id': c.name.product_id.property_account_income_id.id,  # Plan contable.
+					'uom_id': c.name.product_id.uom_id.id,  # Unidad de medida.
+					'price_unit': c.valor,
+					'discount': 0,
+					'invoice_line_tax_ids': impuestos,
+					'sistema': False
+					}
 				conceptos.append(cargo)
 		return conceptos
 

@@ -12,25 +12,25 @@ class trafitec_facturas_comision(models.Model):
 
     name = fields.Char(string='Folio',default='Nuevo')
     company_id = fields.Many2one('res.company', 'Company',
-                                 default=lambda self: self.env['res.company']._company_default_get(
-                                     'trafitec.facturas.automaticas'))
+                                default=lambda self: self.env['res.company']._company_default_get(
+                                    'trafitec.facturas.automaticas'))
     asociado_id = fields.Many2one('res.partner', string="Asociado", domain="[('asociado','=',True)]", required=True)
     domicilio_id = fields.Many2one('res.partner', string="Domicilio",
-                                          domain="['|',('parent_id', '=', asociado_id),('id','=',asociado_id)]",
-                                          required=True)
+                                            domain="['|',('parent_id', '=', asociado_id),('id','=',asociado_id)]",
+                                            required=True)
     product_invoice = fields.Many2one('product.product', string='Producto', required=True)
     payment_term_id = fields.Many2one('account.payment.term', string='Forma de pago', required=True)
     metodo_pago_id = fields.Many2one('sat.metodo.pago', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
-                                     required=True)
+                                        required=True)
     uso_cfdi_id = fields.Many2one('sat.uso.cfdi', 'Uso CFDI', required=True, help='Define el motivo de la compra.')
     comision_id = fields.One2many(comodel_name="trafitec.fact.linea.comision", inverse_name="line_id")
     contiene = fields.Text(string='Contiene')
     observaciones = fields.Text(string='Observaciones')
     state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
-                              ('Cancelada', 'Cancelada')], string='Estado',
-                             default='Nueva')
+                                ('Cancelada', 'Cancelada')], string='Estado',
+                                default='Nueva')
     invoice_id = fields.Many2one('account.invoice', string='Factura cliente',
-                                 domain="[('type','=','out_invoice'),('partner_id','=',asociado_id)]")
+                                domain="[('type','=','out_invoice'),('partner_id','=',asociado_id)]")
 
 
 
