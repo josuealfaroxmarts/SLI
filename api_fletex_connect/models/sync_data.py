@@ -680,7 +680,7 @@ class SyncDataFletex(models.Model):
                 'municipio_destino_id': township_destination['id'],
                 'tarifa_cliente': project['initial_fare'],
                 'cantidad': project['total_weight'],
-                'product_uom': self.search_record('product.uom',
+                'product_uom': self.search_record('uom.uom',
                                                   'name', 'Tonelada'),
                 'cotizacion_id': quotation.id,
                 'distancia': 0.00,

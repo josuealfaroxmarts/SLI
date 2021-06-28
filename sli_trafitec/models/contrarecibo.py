@@ -666,7 +666,7 @@ class trafitec_contrarecibo(models.Model):
             
             'account_id': product.property_account_income_id.id,
             # order.lines[0].product_id.property_account_income_id.id or order.lines[0].product_id.categ_id.property_account_income_categ_id.id,
-            'uom_id': parametros_obj.product.uom_id.id,
+            'uom_id': parametros_obj.uom.uom_id.id,
             'quantity': 1,
             'price_unit': subtotal,
             'discount': 0

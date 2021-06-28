@@ -804,7 +804,7 @@ class trafitec_cotizacion_line(models.Model):
     tarifa_asociado = fields.Float(string='Tarifa asociado', required=True)
     tarifa_cliente = fields.Float(string='Tarifa cliente', required=True)
     cantidad = fields.Integer(string='Cantidad', required=True)
-    product_uom = fields.Many2one('product.uom', string='Unidad de medida', required=True,
+    product_uom = fields.Many2one('uom.uom', string='Unidad de medida', required=True,
                                   domain="[('trafitec','=',True)]")
     detalle_asociado = fields.Text(string='Detalle Origen')
     detalle_destino = fields.Text(string='Detalle Destino')

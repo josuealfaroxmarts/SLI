@@ -994,8 +994,8 @@
         <!-- Unidad medida -->
 
         <record id="new_unidadmedida_tab" model="ir.ui.view">
-            <field name="name">product.uom.add.text.field</field>
-            <field name="model">product.uom</field>
+            <field name="name">uom.uom.add.text.field</field>
+            <field name="model">uom.uom</field>
             <field name="inherit_id" ref="product.product_uom_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//group/group/field[@name='rounding']" position="after">
