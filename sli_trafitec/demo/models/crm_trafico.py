@@ -37,7 +37,7 @@ class trafitec_crm_trafico(models.TransientModel):
     buscar_fechaf = fields.Date(string='Fecha final', default=datetime.datetime.today())
     buscar_lineanegocio_id = fields.Many2one(string='Línea de negocio', comodel_name='trafitec.lineanegocio', default=1)
 
-    @api.one
+    
     def _calculado(self):
         print("--CALCULADO---------------------------------")
         self.name = "AUTOMATICO"
@@ -65,7 +65,7 @@ class trafitec_crm_trafico(models.TransientModel):
                                                                                                    tarifa_promedio)
         return info
 
-    @api.one
+    
     def action_buscar_cotizaciones2(self):
         cotiaciones = []
         filtro = []
@@ -121,7 +121,7 @@ class trafitec_crm_trafico(models.TransientModel):
     cotizaciones_abiertas_id = fields.One2many(string="Cotizaciones", comodel_name="trafitec.crm.trafico.pedidos",
                                                inverse_name="crm_trafico_id")
 
-    @api.one
+    
     def action_buscar_viajes(self):
         if not self.buscar_fechai or not self.buscar_fechaf:
             raise UserError(_("Debe especificar el periodo de fechas."))
@@ -452,7 +452,7 @@ class trafitec_crm_trafico_registro(models.Model):
     generar_evento_dias = fields.Integer(string='Dias para nuevo evento', default=3)
     generar_evento_fechahora = fields.Datetime(string='Fecha para nuevo evento')
 
-    @api.one
+    
     @api.depends('viajes_id')
     def _compute_numero_viajes(self):
         self.viajes_n = len(self.viajes_id)
@@ -507,11 +507,11 @@ class trafitec_crm_trafico_registro(models.Model):
     # if self.state != 'aceptado':
     #	self.viajes_id = None
 
-    @api.one
+    
     def action_aceptado(self):
         self.state = 'aceptado'
 
-    @api.one
+    
     def action_rechazado(self):
         self.state = 'rechazado'
 
@@ -709,24 +709,24 @@ class trafitec_crm_trafico_tablero(models.Model):
     # except:
     #	print("**Error al inicializar el registro de CRM Tráfico.")
 
-    @api.one
+    
     def _compute_cotizaciones_disponibles_n(self):
         n = self.env['trafitec.cotizacion'].search([('state', '=', 'Disponible')])
         self.cotizaciones_disponibles_n = len(n)
 
-    @api.one
+    
     def _compute_misviajeshoy_n(self):
         n = self.env['trafitec.viajes'].search_count([('state', '=', 'Nueva'), ('create_uid', '=', self.env.user.id),
                                                       ('create_date', '>=', str(datetime.datetime.today().date()))])
         self.misviajeshoy_n = n
 
-    @api.one
+    
     def _compute_misviajes_n(self):
         n = self.env['trafitec.viajes'].search_count([('state', '=', 'Nueva'), ('create_uid', '=', self.env.user.id), (
             'create_date', '>=', (datetime.date.today() + timedelta(days=-7)).strftime("%Y-%m-%d"))])
         self.misviajes_n = n
 
-    @api.one
+    
     def _compute_misviajesc_n(self):
         n = self.env['trafitec.viajes'].search_count([('state', '!=', 'Nueva'), ('create_uid', '=', self.env.user.id)])
         self.misviajesc_n = n

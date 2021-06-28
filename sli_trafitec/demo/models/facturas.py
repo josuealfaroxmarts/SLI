@@ -37,14 +37,14 @@ class trafitec_account_invoice(models.Model):
 	contrarecibo_id = fields.Many2one(string='Contra recibo', comodel_name='trafitec.contrarecibo')
 	invoice_xml = fields.Many2one('invoice.fletex', string="Factura XML", domain="[('clientId' ,'=', partner_id)]", compute='xml_invoice')
 
-	@api.one
+	
 	@api.depends('amount_total', 'residual')
 	def compute_abonos(self):
 		self.abonos = self.amount_total-self.residual
 
 	abonos = fields.Float(string="Abonos", compute=compute_abonos, store=True, help='Abonos a la factura.')
 
-	@api.one
+	
 	@api.depends('partner_id.bloqueado_cliente_bloqueado')
 	def compute_bloqueado(self):
 		self.cliente_bloqueado = (self.partner_id.bloqueado_cliente_bloqueado or False)
@@ -59,7 +59,7 @@ class trafitec_account_invoice(models.Model):
 			totalflete += viaje_dat.flete_cliente
 		
 		self.total_fletes = totalflete
-	@api.one
+	
 	@api.depends('viajescp_id')
 	def _compute_totalescp(self):
 		totalflete = 0.0
@@ -468,7 +468,7 @@ class trafitec_account_invoice(models.Model):
 				conceptos.append(concepto)
 		return conceptos
 
-	@api.one
+	
 	def _compute_folios_boletas(self):
 		#Obtener los viajes relacionados de la factura.
 		folios = ""
@@ -1172,7 +1172,7 @@ class trafitec_facturas_documentos(models.Model):
 	documento_archivo = fields.Binary(string="Archivo", required=True)
 	factura_id = fields.Many2one(comodel_name="account.invoice", string="Factura", ondelete='cascade')
 
-	@api.one
+	
 	@api.constrains('documento_nombre')
 	def _check_filename(self):
 		if self.documento_archivo:
@@ -1278,7 +1278,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		if self.factura_id:
 			self.abonado = self.factura_id.abonado
 
-	@api.one
+	
 	def _compute_abonado(self):
 		if self.factura_id:
 			self.abonado = self.factura_id.abonado
@@ -1290,7 +1290,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		if self.factura_id:
 			self.saldo = self.total - self.abonado
 
-	@api.one
+	
 	def _compute_saldo(self):
 		if self.factura_id:
 			self.saldo = self.total - self.abonado
@@ -1307,7 +1307,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 				amount += record.flete_cliente
 		self.fletes = amount
 
-	@api.one
+	
 	def _compute_fletes(self):
 		amount = 0
 		for record in self.viaje_id:
@@ -1433,7 +1433,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 				amount += record.maniobras
 		self.maniobras = amount
 
-	@api.one
+	
 	def _compute_maniobras(self):
 		amount = 0
 		for record in self.viaje_id:
@@ -1450,7 +1450,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	def _onchange_subtotal(self):
 		self.subtotal_g = self.fletes + self.maniobras
 
-	@api.one
+	
 	def _compute_subtotal(self):
 		self.subtotal_g = self.fletes + self.maniobras
 
@@ -1464,7 +1464,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		else:
 			self.iva_g = 0
 
-	@api.one
+	
 	def _compute_iva(self):
 		parametros_obj = self._get_parameter_company(self)
 		if self.subtotal_g:
@@ -1482,7 +1482,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		else:
 			self.r_iva_g = 0
 
-	@api.one
+	
 	def _compute_riva(self):
 		parametros_obj = self._get_parameter_company(self)
 		if self.fletes:
@@ -1496,7 +1496,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	def _onchange_total(self):
 		self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
 
-	@api.one
+	
 	def _compute_total(self):
 		self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
 

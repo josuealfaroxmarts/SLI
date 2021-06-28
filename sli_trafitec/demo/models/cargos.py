@@ -42,14 +42,14 @@ class trafitec_cargos(models.Model):
                 result.append((rec.id, name))
         return result
 
-    @api.one
+    
     @api.depends('abono_id.name')
     def _compute_abonado(self):
         self.abonado = sum(line.name for line in self.abono_id)
 
     abonado = fields.Float(compute='_compute_abonado',string='Abonado',store=True)
 
-    @api.one
+    
     @api.depends('abono_id','monto','abonado')
     def _compute_saldo(self):
         #if self.tipo_cargo == 'comision':
@@ -177,14 +177,14 @@ class trafitec_descuentos(models.Model):
             raise UserError(_('Aviso !\nNo se puede eliminar un descuento que tenga abonos.'))
         return super(trafitec_descuentos, self).unlink()
 
-    @api.one
+    
     @api.depends('abono_id.name')
     def _compute_abono_total(self):
         self.abono_total = sum(line.name for line in self.abono_id)
 
     abono_total = fields.Float(string='Abonos', compute='_compute_abono_total',store=True)
 
-    @api.one
+    
     @api.depends('abono_total', 'monto')
     def _compute_saldo(self):
         if self.abono_total:

@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 class trafitec_cargosx(models.Model):
     _name = 'trafitec.cargosx'
 
-    @api.one
+    
     @api.depends('total','abonos','saldo')
     def _compute_total_abonos(self):
         obj=self.env['trafitec.cargosx.abonos'].search([('cargosx_id','=',self.id)])

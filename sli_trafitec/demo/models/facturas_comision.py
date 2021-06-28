@@ -122,7 +122,7 @@ class trafitec_facturas_comision(models.Model):
     r_iva_g = fields.Monetary(string='R. IVA', default=0)
     total_g = fields.Monetary(string='Total', default=0)
 
-    @api.one
+    
     @api.depends('viaje_id')
     def _totales(self):
         #empresa = self._get_parameter_company(self)

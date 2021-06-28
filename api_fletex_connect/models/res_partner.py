@@ -80,7 +80,7 @@ class fletex_respartner(models.Model):
     limit_credit_fletex = fields.Float('Limite de credito en Fletex')
 
     @api.depends('name')
-    @api.one
+    
     def change_name(self):
         if self.name :
             self.name_license_driver = "Licencia de {}.{}".format(

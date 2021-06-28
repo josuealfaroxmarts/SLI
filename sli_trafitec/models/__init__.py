@@ -1,29 +1,29 @@
 # -*- coding: utf-8 -*-
-import models
+from . import models
 
-import trafitec_glo
+from . import trafitec_glo
 
-import controllers
-import quotation
-import viajes
-import cargos
-import contrarecibo
+from . import controllers
+from . import quotation
+from . import viajes
+from . import cargos
+from . import contrarecibo
 
-import facturas_automaticas
-import facturas_comision
-import facturas
-import invoice_from_fletex
-import amount_to_text
+from . import facturas_automaticas
+from . import facturas_comision
+from . import facturas
+from . import invoice_from_fletex
+from . import amount_to_text
 
-import tablero
-import tareas
+from . import tablero
+from . import tareas
 
-#import programacionpagosx
+#from . import programacionpagosx
 
-import crm_trafico
-import proyectos
-import routers
-#import free_report
+from . import crm_trafico
+from . import proyectos
+from . import routers
+#from . import free_report
 
 
 

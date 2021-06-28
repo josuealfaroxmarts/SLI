@@ -1126,7 +1126,7 @@ class trafitec_contrarecibo2(models.Model):
             except:
                 print("TRAFITEC: Error al calcula la fecha de vencimiento de la factura de proveedor.")
 
-    @api.one
+    
     @api.depends('viaje_id', 'asociado_id', 'lineanegocio')
     def _compute_maniobras(self):
         maniobras = 0
@@ -1136,7 +1136,7 @@ class trafitec_contrarecibo2(models.Model):
         self.maniobras = maniobras
 
 
-    @api.one
+    
     @api.depends('invoice_id', 'viaje_id', 'descuento_id', 'comision_id', 'cobrar_comisiones', 'cobrar_descuentos')
     def _compute_diferencia(self):
         self.diferencia = 0
@@ -1149,11 +1149,11 @@ class trafitec_contrarecibo2(models.Model):
     def _onchange_notacargo(self):
         self.notacargo = self.mermas_des + self.descuento_des + self.comision_des + self.prontopago_des
 
-    @api.one
+    
     def _compute_notacargo(self):
         self.notacargo = self.mermas_des + self.descuento_des + self.comision_des + self.prontopago_des
 
-    @api.one
+    
     @api.depends('descuento_id', 'descuento_bol')
     def _check_descuentos(self):
         if self.cobrar_descuentos:
@@ -1272,7 +1272,7 @@ class trafitec_contrarecibo2(models.Model):
         self.cargosadicionales_id = conceptos
         self.cargosadicionales_total = total
 
-    @api.one
+    
     @api.depends('viaje_id', 'mermas_bol')
     def _compute_mermas_antes(self):
         total = 0
@@ -1299,7 +1299,7 @@ class trafitec_contrarecibo2(models.Model):
         if self.mermas_bol == False:
             self.mermas_antes = total
 
-    @api.one
+    
     @api.depends('viaje_id','mermas_bol')
     def _compute_mermas_despues(self):
         total = 0
@@ -1313,7 +1313,7 @@ class trafitec_contrarecibo2(models.Model):
 
 
     #Pronto pago.
-    @api.one
+    
     @api.depends('viaje_id', 'prontopago_bol')
     def _compute_prontopago(self):
         if self.viaje_id:
@@ -1345,7 +1345,7 @@ class trafitec_contrarecibo2(models.Model):
                 self.prontopago_des = 0
 
 
-    @api.one
+    
     @api.depends('viaje_id', 'comision_bol', 'cobrar_comisiones')
     def _check_comisiones(self):
         if self.cobrar_comisiones:
@@ -1418,7 +1418,7 @@ class trafitec_contrarecibo2(models.Model):
             self.comisiones_antes = 0
             self.comision_des = 0
 
-    @api.one
+    
     @api.depends('viaje_id', 'viaje_id.flete_asociado')
     def _compute_fletes(self):
             # for rec in self:
@@ -1428,7 +1428,7 @@ class trafitec_contrarecibo2(models.Model):
             for v in self.viaje_id:
                 self.fletes += v.flete_asociado
 
-    @api.one
+    
     @api.depends('fletes', 'maniobras', 'mermas_antes', 'descuento_antes', 'comisiones_antes', 'prontopago_antes','cargosadicionales_total')
     def _compute_subtotal(self):
             # Subtotal con maniobras.
@@ -1439,7 +1439,7 @@ class trafitec_contrarecibo2(models.Model):
             #print("***COMPUTE SUBTOTAL mermas_antes: " + str(self.mermas_antes))
             self.subtotal_g = self.fletes + self.maniobras+self.cargosadicionales_total - x_mermas_antes - self.descuento_antes - self.comisiones_antes - self.prontopago_antes
 
-    @api.one
+    
     @api.depends('fletes', 'mermas_antes', 'descuento_antes', 'comisiones_antes', 'prontopago_antes')
     def _compute_subtotalSM(self):
             # Subtotal sin maniobras.
@@ -1447,7 +1447,7 @@ class trafitec_contrarecibo2(models.Model):
 
 
 
-    @api.one
+    
     @api.depends('subtotal_g', 'iva_option','fletes')
     def _compute_iva_g(self):
             # for rec in self:
@@ -1455,7 +1455,7 @@ class trafitec_contrarecibo2(models.Model):
             if self.iva_option == "CIR" or self.iva_option == "CISR":
                 self.iva_g = self.subtotal_g * 0.16
 
-    @api.one
+    
     @api.depends('subtotal_gSM', 'iva_option','fletes')
     def _compute_r_iva_g(self):
             # for rec in self:
@@ -1463,7 +1463,7 @@ class trafitec_contrarecibo2(models.Model):
             if self.iva_option == "CIR":
                 self.r_iva_g = self.subtotal_gSM * 0.04
 
-    @api.one
+    
     @api.depends('subtotal_g', 'iva_g', 'r_iva_g')
     def _compute_total_g(self):
             # for rec in self:
@@ -1590,7 +1590,7 @@ class trafitec_contrarecibo2(models.Model):
     observaciones = fields.Text(string='Observaciones')
 
 
-    @api.one
+    
     def _compute_iva_carta(self):
         if self.invoice_id:
             if self.invoice_id.tax_line_ids:
@@ -1614,7 +1614,7 @@ class trafitec_contrarecibo2(models.Model):
                         else:
                             self.r_iva = 0
 
-    @api.one
+    
     def _compute_r_iva_carta(self):
         if self.invoice_id:
             if self.invoice_id.tax_line_ids:
@@ -1717,7 +1717,7 @@ class trafitec_con_descuentos2(models.Model):
     linea_id = fields.Many2one(comodel_name="trafitec.contrarecibo2", string="Contrarecibo id", ondelete='cascade')
     viaje_id = fields.Many2one('trafitec.viajes',string='Viaje ID')
 
-    @api.one
+    
     def _compute_cobrado(self):
         if self.linea_id.state != 'Nueva' :
             if self.linea_id.cobrar_descuentos == 'No cobrar':
