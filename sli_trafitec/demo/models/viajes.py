@@ -14,7 +14,7 @@ class trafitec_viajes(models.Model):
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _order = 'id desc'
     """
-    @api.multi
+    
     def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
         #if view_type == 'form':
         #    raise UserError("Fields get: "+str(fields))
@@ -28,7 +28,7 @@ class trafitec_viajes(models.Model):
         return help
 
     
-    @api.multi
+    
     def export_data(self, fields_to_export, raw_data=False):
         #_logger.info(str(dir(models.Model)))
         """ Override to convert virtual ids to ids """
@@ -270,7 +270,7 @@ class trafitec_viajes(models.Model):
 
     descuento_combustible_id = fields.Many2one(string='Vale de combustible', comodel_name='trafitec.descuentos', help='Descuento de vale de combustible.')
 
-    @api.multi
+    
     def action_descuento_combustible(self):
         self.ensure_one()
 
@@ -376,13 +376,13 @@ class trafitec_viajes(models.Model):
         self.cargo_total = total
     
     
-    @api.multi
+    
     def action_nueva(self):
         self.ensure_one()
         self.state = 'Nueva'
         
 
-    @api.multi
+    
     def action_scan(self):
         self.ensure_one()
         obj = self.env['trafitec.viajes.scan'].search([])
@@ -456,7 +456,7 @@ class trafitec_viajes(models.Model):
         total = total + totalesteviaje
         return total
     
-    @api.multi
+    
     def unlink(self):
         #self.Valida(3)
         #print(dir(self))
@@ -627,7 +627,7 @@ class trafitec_viajes(models.Model):
             if (not infocliente.permitir_ta_mayor_tc) and self.tarifa_asociado > self.tarifa_cliente:
                 raise UserError(_('Alerta..\nLa tarifa asociado no puede ser mayor a la tarifa cliente'))
 
-    @api.multi
+    
     @api.depends('facturar_con', 'facturar_con_cliente', 'peso_destino_remolque_1', 'peso_destino_remolque_2',
                  'peso_convenido_remolque_1', 'peso_convenido_remolque_2', 'peso_origen_remolque_1',
                  'peso_origen_remolque_2', 'tarifa_asociado', 'tarifa_cliente')
@@ -1839,7 +1839,7 @@ class trafitec_viajes_boletas(models.Model):
 
         return super(trafitec_viajes_boletas, self).create(vals)
 
-    @api.multi
+    
     def write(self, vals):
         if 'name' in vals:
             name = vals['name']
@@ -1897,7 +1897,7 @@ class trafitec_viaje_sinestrado(models.TransientModel):
     viaje_id = fields.Many2one('trafitec.viajes', default=_get_viajeid)
     motivo = fields.Text(string='Motivo de siniestro')
 
-    @api.multi
+    
     def siniestrado_button(self):
         self.ensure_one()
         for line in self:
@@ -1920,7 +1920,7 @@ class trafitec_viaje_cambiartarifa_wizard(models.TransientModel):
     viaje_id = fields.Many2one('trafitec.viajes', default=_get_viajeid)
     tarifa = fields.Float(string='Tarifa', default=_get_tarifa, required=True)
 
-    @api.multi
+    
     def action_cambiartarifa(self):
         self.ensure_one()
         for line in self:
@@ -1949,7 +1949,7 @@ class trafitec_viaje_cancelar(models.TransientModel):
     viaje_id = fields.Many2one('trafitec.viajes', default=_get_viajeid)
     motivo = fields.Text(string='Motivo')
 
-    @api.multi
+    
     def cancelacion_button(self):
         self.ensure_one()
         for line in self:
@@ -2021,7 +2021,7 @@ class trafitec_slitrack_registro(models.Model):
     def create(self, vals):
         return super(trafitec_slitrack_registro, self).create(vals)
     
-    @api.multi
+    
     def unlink(self):
         for r in self:
             if r.proveedor in ("geotab","slitrack"):

@@ -10,7 +10,7 @@ class FletexTrafitecCotizacion(models.Model):
     id_fletex = fields.Integer()
     send_to_api = fields.Boolean()
 
-    @api.multi
+    
     def action_available(self):
         logging.debug('AY PAPA FUNCIONO :v !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         if self.state == "Enviada" :

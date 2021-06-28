@@ -32,7 +32,7 @@ class trafitec_facturas_automaticas(models.Model):
     invoice_id = fields.Many2one('account.invoice', string='Factura cliente',
                                  domain="[('type','=','out_invoice'),('partner_id','=',cliente_id)]")
 
-    @api.multi
+    
     def unlink(self):
         for reg in self:
             if reg.state == 'Validada':
@@ -170,7 +170,7 @@ class trafitec_facturas_automaticas(models.Model):
     total_g = fields.Monetary(string='Total', compute='_compute_total')
 
 
-    @api.multi
+    
     def action_available(self):
         if self.invoice_id.id == False:
             parametros_obj = self._get_parameter_company(self)
@@ -245,7 +245,7 @@ class trafitec_facturas_automaticas(models.Model):
             self.write({'state': 'Validada'})
 
 
-    @api.multi
+    
     def action_cancel(self):
         for viaje in self.viaje_id:
             viaje.write({'en_factura': False})

@@ -251,12 +251,12 @@ class trafitec_crm_trafico_pedidos(models.TransientModel):
     lineanegocio = fields.Char(string='Línea de negocio')
     estado = fields.Char(string='Estado')
 
-    @api.multi
+    
     def action_asociados_recomendar(self):
         obj_crm_asociados = self.env['trafitec.crm.asociados']
         return obj_crm_asociados.action_recomendar(self.cotizacion_id.id, self.cotizacion_linea_id.id)
 
-    @api.multi
+    
     def action_asociados_recomendados(self):
         viajes_obj = self.env['trafitec.viajes']
         persona_obj = self.env['res.partner']
@@ -340,15 +340,15 @@ class trafitec_crm_trafico_pedidos(models.TransientModel):
     info = fields.Text(string="Info", default="")
     info_ver = fields.Text(string="Info", related="info", default="")
 
-    @api.multi
+    
     def action_buscar(self):
         return {}
 
-    @api.multi
+    
     def action_aceptar(self):
         return {}
 
-    @api.multi
+    
     def action_cancelar(self):
         return {}
 """
@@ -377,12 +377,12 @@ class trafitec_crm_trafico_asociados(models.Model):
         help = "No se encontraron asociados recomendados por usuarios."
         return help
 
-    @api.multi
+    
     def action_quitar_asociados(self):
         #Limpia la lista.
         self.asociado_id = None
 
-    @api.multi
+    
     def action_buscar_asociados(self):
         self.asociado_id = None
         lista = []
@@ -427,11 +427,11 @@ class trafitec_crm_trafico_asociados(models.Model):
                 }
         }
 
-    @api.multi
+    
     def action_crear(self, vals):
         return super(trafitec_crm_trafico_asociados, self).create(vals)
 
-    @api.multi
+    
     def action_cerrar(self):
         return {}
 
@@ -644,7 +644,7 @@ class trafitec_crm_trafico_registro(models.Model):
 
         return nuevo
 
-    @api.multi
+    
     def write(self, vals):
         self.valida(vals, 2)
 
@@ -683,7 +683,7 @@ class trafitec_crm_trafico_registro_viajes(models.Model):
         nuevo.viaje_id.crm_trafico_registro_id = nuevo.id
         return nuevo
 
-    @api.multi
+    
     def unlink(self):
         self.viaje_id.crm_trafico_registro_id = False
         borrado = super(trafitec_crm_trafico_registro_viajes, self).unlink()

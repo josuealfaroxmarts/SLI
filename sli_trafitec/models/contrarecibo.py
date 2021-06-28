@@ -238,7 +238,7 @@ class trafitec_contrarecibo(models.Model):
             cargosx.append(nuevo)
         self.cargospendientes_id=cargosx
 
-    @api.multi
+    
     def write(self,vals):
         #print("*****AL ESCRIBIR****** self: "+str(self)+" vals: "+str(vals))
         self._factura_relacionada(False,vals)
@@ -246,7 +246,7 @@ class trafitec_contrarecibo(models.Model):
         cr= super(trafitec_contrarecibo, self).write(vals)
         return cr
 
-    @api.multi
+    
     def unlink(self):
         print(dir(self))
         raise UserError(_('Alerta..\nNo esta permitido borrar contra recibos.'))
@@ -759,7 +759,7 @@ class trafitec_contrarecibo(models.Model):
         return parametros_obj
 
 
-    @api.multi
+    
     def action_available(self):
         error = False
         errores = ""
@@ -968,7 +968,7 @@ class trafitec_contrarecibo(models.Model):
             self.write({'state': 'Validada'})
 
     #Cancelar contra recibo.
-    @api.multi
+    
     def action_cancel(self):
         if self.state == 'Validada':
             #Validacion.
@@ -1046,7 +1046,7 @@ class trafitec_contrarecibo(models.Model):
           self.viaje_id=viajes
 
 
-    @api.multi
+    
     @api.onchange('asociado_id')        
     def _asociado(self):
         self.descuento_id=[]
@@ -1861,7 +1861,7 @@ class viajesxcontrarecibo(models.Model):
         viaje.write({'en_contrarecibo': True, 'factura_proveedor_id': vals['factura_id']})
         return super(viajesxcontrarecibo, self).create(vals)
     
-    @api.multi
+    
     def unlink(self):
         for reg in self:
             viaje=self.env['trafitec.viajes'].search([('id', '=', reg.viaje_id.id)])

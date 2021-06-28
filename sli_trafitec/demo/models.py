@@ -53,7 +53,7 @@ class trafitec_municipios(models.Model):
 		vals['name'] = str(vals['name_value']) + ', ' + str(estado.name)
 		return super(trafitec_municipios, self).create(vals)
 
-	@api.multi
+	
 	def write(self, vals):
 		if 'name_value' in vals:
 			nom = vals['name_value']
@@ -83,7 +83,7 @@ class trafitec_localidad(models.Model):
 		vals['name'] = str(vals['name_value']) + ', ' + str(municipio_obj.name)
 		return super(trafitec_localidad, self).create(vals)
 
-	@api.multi
+	
 	def write(self, vals):
 		if 'name_value' in vals:
 			nom = vals['name_value']
@@ -273,7 +273,7 @@ class trafitec_respartner(models.Model):
 		if self.moroso_prorroga_st and not self.moroso_prorroga_fecha:
 			raise UserWarning(_("Alerta.."), _("Debe especificar la fecha de prorroga de moroso."))
 
-	@api.multi
+	
 	def _computex(self):
 		return 0
 
@@ -507,7 +507,7 @@ and f.partner_id={}
 			if not self.email: #and not self.parent_id:
 				raise UserError(_('Alerta..\nEl correo electrónico (EMail) no puede estar vacío.'))
 
-	@api.multi
+	
 	def action_marcar_contactado(self):
 		view_id = self.env.ref('sli_trafitec.trafitec_crm_trafico_registro_form').id
 
@@ -538,7 +538,7 @@ and f.partner_id={}
 				# 'res_id': self.ids[0],
 				'context': {}}
 
-	@api.multi
+	
 	def action_abrir_viajes_asociado(self):
 		self.ensure_one()
 		# view_id = self.env.ref('sli_trafitec.view_viajes_tree').id
@@ -559,7 +559,7 @@ and f.partner_id={}
 				# 'res_id': self.ids[0],
 				'context': {}, 'domain': [('state', '=', 'Nueva'), ('asociado_id', '=', self.id)]}
 
-	@api.multi
+	
 	def action_abrir_facturas_asociado(self):
 		self.ensure_one()
 		# view_id = self.env.ref('sli_trafitec.view_viajes_tree').id
@@ -580,7 +580,7 @@ and f.partner_id={}
 				'context': {},
 				'domain': [('partner_id', '=', self.id), ('state', '=', 'open'), ('type', '=', 'in_invoice')]}
 
-	@api.multi
+	
 	def action_abrir_contactos(self):
 		self.ensure_one()
 		# view_id = self.env.ref('sli_trafitec.view_viajes_tree').id
@@ -600,7 +600,7 @@ and f.partner_id={}
 				# 'res_id': self.ids[0],
 				'context': {}, 'domain': [('parent_id', '=', self.id), ('type', '=', 'contact')]}
 
-	@api.multi
+	
 	def action_abrir_contacto(self):
 		self.ensure_one()
 		# view_id = self.env.ref('sli_trafitec.view_viajes_tree').id
@@ -893,7 +893,7 @@ class trafitec_asociados(models.Model):
 					self.env['trafitec.rutas'].create(valores)
 		return id
 
-	@api.multi
+	
 	def write(self, vals):
 		if 'asociado' in vals:
 			asociado = vals['asociado']
@@ -1003,7 +1003,7 @@ class trafitec_vehiculos(models.Model):
 			_logger.error("**Error al validar las placas.")
 
 	#info_alertas = fields.Char(string='Alerta', default='', help='Muestra mensaje de alertas.')
-	@api.multi
+	
 	@api.depends('name', 'asociado_id', 'operador_id', 'remolque_1_id', 'dolly_id', 'remolque_2_id')
 	def name_get(self):
 		result = []
@@ -1101,7 +1101,7 @@ class trafitec_vehiculos(models.Model):
 			if self.dolly_id and (not self.remolque_1_id or not self.remolque_2_id):
 				raise UserWarning(_("Debe especificar los remolques."))
 
-	@api.multi
+	
 	def write(self, vals):
 		if 'es_flotilla' in vals:
 			es_flotilla = vals['es_flotilla']
@@ -1279,7 +1279,7 @@ class trafitec_parametros(models.Model):
 			raise UserError(_('Aviso !\nNo puede crear 2 parametros para la misma compañia'))
 		return super(trafitec_parametros, self).create(vals)
 
-	@api.multi
+	
 	def write(self, vals):
 		if 'company_id' in vals:
 			raise UserError(_('Aviso !\nNo puede cambiar la compañia'))
@@ -1437,12 +1437,12 @@ class cancelacion_cuentas(models.Model):
 		nuevo = super(cancelacion_cuentas, self).create(vals)
 		return nuevo
 
-	@api.multi
+	
 	def action_saldar(self):
 		for m in self.facturas_proveedor_id:
 			m.abono = m.factura_proveedor_saldo
 
-	@api.multi
+	
 	def action_ceros(self):
 		self.facturas_relacion_id = None
 		print(".....Relacion: " + str(self.facturas_relacion_id))
@@ -1450,7 +1450,7 @@ class cancelacion_cuentas(models.Model):
 		for m in self.facturas_proveedor_id:
 			m.abono = 0
 
-	@api.multi
+	
 	def action_distribuir(self):
 		fc_saldo = 0
 		fp_saldo = 0
@@ -1564,7 +1564,7 @@ class cancelacion_cuentas(models.Model):
 		pago.post()
 		return pago
 
-	@api.multi
+	
 	def action_validar(self):
 		error = False
 		errores = ""
@@ -1640,13 +1640,13 @@ class cancelacion_cuentas(models.Model):
 				print("Pago 1:" + str(pago1) + " Pago 2:" + str(pago2))
 			self.state = 'validado'
 
-	@api.multi
+	
 	def action_cancelar(self):
 		print("---selft.state" + str(self.state))
 		if self.state == 'nuevo' or self.state == 'validado':
 			self.state = 'cancelado'
 
-	@api.multi
+	
 	def unlink(self):
 		if self.state == 'validado':
 			raise ValidationError(_("El documento ya esta validado."))
@@ -1893,7 +1893,7 @@ class trafitec_pagosmasivos(models.Model):
 		pago = self.env['account.payment'].create(valores)
 		return pago.post()
 
-	@api.multi
+	
 	def action_validar(self):
 		self.write({'state': 'validado'})
 		return
@@ -1957,11 +1957,11 @@ class trafitec_pagosmasivos(models.Model):
 
 		self.write({'state': 'validado'})
 
-	@api.multi
+	
 	def action_cancelar(self):
 		self.write({'state': 'cancelado'})
 
-	@api.multi
+	
 	def action_distribuir(self):
 		disponible = self.total
 		for f in self.facturas_id:
@@ -1977,12 +1977,12 @@ class trafitec_pagosmasivos(models.Model):
 					disponible = 0
 					break
 
-	@api.multi
+	
 	def action_cero(self):
 		for f in self.facturas_id:
 			f.abono = 0
 
-	@api.multi
+	
 	def action_saldar(self):
 		for f in self.facturas_id:
 			f.abono = f.factura_saldo
@@ -1991,7 +1991,7 @@ class trafitec_pagosmasivos(models.Model):
 	def _onchange_persona_id(self):
 		self.CargaFacturas()
 
-	@api.multi
+	
 	def CargaFacturas(self):
 		lista_clientes = []
 		self.facturas_id = []
@@ -2150,7 +2150,7 @@ class TrafitecParametros(models.TransientModel):
 		return {'type': 'ir.actions.report.xml', 'report_name': 'SLI_TrafitecReportesX.report_viaje_general',
 				'context': context, }
 
-	@api.multi
+	
 	def export_xls(self):
 		file_name = 'temp'
 		workbook = xlsxwriter.Workbook(file_name, {'in_memory': True})
@@ -2176,7 +2176,7 @@ class SalespersonWizard(models.TransientModel):
 	_name = "salesperson.wizard"
 	_description = "Salesperson Wizard"
 
-	@api.multi
+	
 	def check_report(self):
 		data = {}
 		data['form'] = self.read(['salesperson_id', 'date_from', 'date_to'])[0]
@@ -2216,7 +2216,7 @@ class CrmReport(models.TransientModel):
 		worksheet.write('A1', 'Hello world')
 		workbook.close()
 
-	@api.multi
+	
 	def export(self):
 		file_name = 'temp'
 		workbook = xlsxwriter.Workbook(file_name, {'in_memory': True})
@@ -2443,7 +2443,7 @@ order by ct.name,extract(year from v.create_date),extract(month from v.create_da
 		detalles = self.env.cr.dictfetchall()
 		return detalles
 
-	@api.multi
+	
 	def action_buscar(self):
 		self.resultados_id = [(5, _, _)] #Vaciar los datos existentes.
 		self.detalles_id = [(5, _, _)] #Vaciar los datos existentes.

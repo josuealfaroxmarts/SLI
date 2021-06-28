@@ -16,7 +16,7 @@ class trafitec_cargos(models.Model):
     abono_id = fields.One2many('trafitec.comisiones.abono', 'abonos_id')
     valor = fields.Char(string='valor')
 
-    @api.multi
+    
     def unlink(self):
         if len(self)>1:
             raise UserError(_(
@@ -30,7 +30,7 @@ class trafitec_cargos(models.Model):
                     'Aviso !\nNo se puede eliminar una comision que tenga abonos.'))
         return super(trafitec_cargos, self).unlink()
 
-    @api.multi
+    
     def name_get(self):
         result = []
         name=""
@@ -130,7 +130,7 @@ class trafitec_descuentos(models.Model):
                                                 help='Total con comisión.')
 
 
-    @api.multi
+    
     def action_aprobar(self):
         self.ensure_one()
         error = False
@@ -153,7 +153,7 @@ class trafitec_descuentos(models.Model):
 
         self.state = 'activo'
 
-    @api.multi
+    
     def action_borrador(self):
         self.ensure_one()
         self.state = 'borrador'
@@ -165,11 +165,11 @@ class trafitec_descuentos(models.Model):
             if self.abono_total > self.monto:
                 raise UserError(_('Aviso !\nEl abono del descuento ({}) debe ser manor o igual al saldo del descuento ({}).'.format(self.abono_total, self.monto)))
 
-    @api.multi
+    
     def copy(self):
         raise UserError("No se permite duplicar descuentos.")
 
-    @api.multi
+    
     def unlink(self):
         raise UserError("No se permite borrar descuentos.")
 
@@ -232,7 +232,7 @@ class trafitec_descuentos(models.Model):
         self.env['trafitec.cargos'].create(valores)
         return v_id
 
-    @api.multi
+    
     def write(self, vals):
         if 'viaje_id' in vals:
             viaje_id = vals['viaje_id']
@@ -267,7 +267,7 @@ class trafitec_descuentos(models.Model):
     """
     Cancela descuento verificando si tiene abonos.
     """
-    @api.multi
+    
     def action_cancelar(self):
         for rec in self:
             abonos_obj = self.env['trafitec.descuentos.abono']
@@ -299,7 +299,7 @@ class trafitec_descuentos_abono(models.Model):
     contrarecibo_id = fields.Many2one('trafitec.contrarecibo', ondelete='restrict')
     permitir_borrar = fields.Boolean(string='Permitir borrar', default=False)
 
-    @api.multi
+    
     def unlink(self):
         #if self.tipo == 'contrarecibo':
         #    if self.permitir_borrar != False:
@@ -351,7 +351,7 @@ class trafitec_descuentos_abono(models.Model):
                 des.write({'saldo':res, 'abonos': abonado, 'abono':res})
         return id
 
-    @api.multi
+    
     def write(self, vals):
         if 'name' in vals:
             monto = vals['name']
@@ -393,7 +393,7 @@ class trafitec_comisiones_abono(models.Model):
     contrarecibo_id = fields.Many2one('trafitec.contrarecibo', ondelete='restrict')
     permitir_borrar = fields.Boolean(string='Permitir borrar', default=False)
 
-    @api.multi
+    
     def unlink(self):
         #if self.tipo == 'contrarecibo':
             #if self.permitir_borrar != False:
@@ -448,7 +448,7 @@ class trafitec_comisiones_abono(models.Model):
                 con.write({'saldo':res, 'abonos': abonado})
         return id
 
-    @api.multi
+    
     def write(self, vals):
         if 'name' in vals:
             monto = vals['name']

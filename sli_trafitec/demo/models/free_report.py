@@ -14,7 +14,7 @@ class ReportFee(models.Model):
     partner_id = fields.Many2one(comodel_name='res.partner', string='Partner', readonly=True)
     state = fields.Char(readonly=True)
 
-    @api.multi
+    
     def button_create_inv(self):
         print('OK')
 

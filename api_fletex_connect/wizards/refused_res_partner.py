@@ -10,13 +10,13 @@ class WizardRefusedResPartners(models.TransientModel):
     description=fields.Text('Descripción',required=True)
     date_init=fields.Date('Fecha')
 
-    @api.multi
+    
     def next(self):
         attrs="{'invisible': [('title','='true')]}"
         attrs="{'invisible': [('description','='true')]}"
         attrs="{'invisible': [('date_init','='true')]}"
 
-    @api.multi
+    
     def action_report(self):
         """Metodo que llama la lógica que genera el reporte"""
         datas={'ids': self.env.context.get('active_ids', [])}
