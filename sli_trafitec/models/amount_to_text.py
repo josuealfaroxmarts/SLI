@@ -18,7 +18,7 @@ class amount_to_text:
             "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte")
 
         self._n11 = ("un", "dos", "tres", "cuatro",
-                     "cinco", "seis", "siete", "ocho", "nueve")
+                    "cinco", "seis", "siete", "ocho", "nueve")
 
         self._n2 = (
             "dieci", "veinti", "treinta", "cuarenta", "cincuenta", "sesenta",
@@ -59,7 +59,7 @@ class amount_to_text:
         amount_to_text(nNumero, lFemenino) --> cLiteral
             Converts the number to string literal of characters
             example:  201   --> "Two thousand one"
-                      1111  --> "One thousand one hundred eleven"
+            1111  --> "One thousand one hundred eleven"
 
         @params nNumero : Number to conert
         @params lFemenino : 'true' if the literal is female

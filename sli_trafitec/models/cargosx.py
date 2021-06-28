@@ -15,8 +15,8 @@ class trafitec_cargosx(models.Model):
         suma = 0
 
         if obj:
-          for a in obj:
-            suma+=a.abono
+            for a in obj:
+                suma+=a.abono
 
         self.abonos=suma
         self.saldo=self.total-self.abonos

@@ -58,8 +58,8 @@ class trafitec_contrarecibo(models.Model):
             mermas += v.merma_cobrar_pesos
             
             if self.mermas_bol == False:
-               mermas_an += v.merma_cobrar_pesos
-               mermas_de = 0
+                mermas_an += v.merma_cobrar_pesos
+                mermas_de = 0
             else:
                 mermas_an = 0
                 mermas_de += v.merma_cobrar_pesos
@@ -187,18 +187,18 @@ class trafitec_contrarecibo(models.Model):
 
         if 'invoice_id' in vals:
             if vals['invoice_id']:
-              condiciones.append(('invoice_id', '=', vals['invoice_id']))
+                condiciones.append(('invoice_id', '=', vals['invoice_id']))
             else:
-              return
+                return
         else:
             return
 
         if crear:
-          print(">>>>>VALORES AL CREAR:"+str(vals)+" Context:"+str(self.env.context)+" Self:"+str(self))
-          print("Al crear")
+            print(">>>>>VALORES AL CREAR:"+str(vals)+" Context:"+str(self.env.context)+" Self:"+str(self))
+            print("Al crear")
         else:
-          #print(">>>>>VALORES AL ESCRIBIR:"+str(vals)+" Context:"+str(self.env.context)+" Self:"+str(self))
-          condiciones.append(('id', '!=', self.id))
+            #print(">>>>>VALORES AL ESCRIBIR:"+str(vals)+" Context:"+str(self.env.context)+" Self:"+str(self))
+            condiciones.append(('id', '!=', self.id))
 
         contrarecibo=self.env['trafitec.contrarecibo'].search(condiciones)
 
@@ -206,9 +206,9 @@ class trafitec_contrarecibo(models.Model):
 
         folios=''
         if contrarecibo:
-           for cr in contrarecibo:
-               folios += cr.name + ' '
-           raise UserError(_('La carta porte ya esta en otro contra recibo ({}).'.format(folios)))
+            for cr in contrarecibo:
+                folios += cr.name + ' '
+            raise UserError(_('La carta porte ya esta en otro contra recibo ({}).'.format(folios)))
 
     def _validaobservacione(self):
         #if (self.observaciones.trim() or "")=="":
@@ -450,20 +450,20 @@ class trafitec_contrarecibo(models.Model):
             'payment_id': pago.id,
             'invoice_id': factura_id
         }),
-                      (0, factura_id, {
-                          'name': pago.move_name,
-                          'amount_currency': 0,
-                          'debit': 0,
-                          'credit': abono,
-                          'account_id': 3,
-                          'analytic_account_id': False,
-                          'date': datetime.datetime.now().today(),
-                          'partner_id': persona_id,
-                          'currency_id': moneda_id,
-                          'payment_id': pago.id,
-                          'invoice_id': factura_id
-                      })
-                      ]
+        (0, factura_id, {
+            'name': pago.move_name,
+            'amount_currency': 0,
+            'debit': 0,
+            'credit': abono,
+            'account_id': 3,
+            'analytic_account_id': False,
+            'date': datetime.datetime.now().today(),
+            'partner_id': persona_id,
+            'currency_id': moneda_id,
+            'payment_id': pago.id,
+            'invoice_id': factura_id
+        })
+        ]
 
         registro = {
 
@@ -479,7 +479,7 @@ class trafitec_contrarecibo(models.Model):
 
         id=False
         for mx in pago.move_line_ids:
-          id=mx.move_id.id
+            id=mx.move_id.id
 
         m1={
             'name': pago.move_name,  # a label so accountant can understand where this line come from
@@ -497,20 +497,20 @@ class trafitec_contrarecibo(models.Model):
         }
 
         m2={
-                          'name': pago.move_name,
-                          'amount_currency': 0,
-                          'debit': 0,
-                          'credit': abono,
-                          'account_id': 3,
-                          'analytic_account_id': False,
-                          'date': datetime.datetime.now().today(),
-                          'partner_id': persona_id,
-                          'currency_id': moneda_id,
-                          'payment_id': pago.id,
-                          'invoice_id': factura_id,
-                          'move_id':id,
-                           'company_id': 1
-                      }
+                            'name': pago.move_name,
+                            'amount_currency': 0,
+                            'debit': 0,
+                            'credit': abono,
+                            'account_id': 3,
+                            'analytic_account_id': False,
+                            'date': datetime.datetime.now().today(),
+                            'partner_id': persona_id,
+                            'currency_id': moneda_id,
+                            'payment_id': pago.id,
+                            'invoice_id': factura_id,
+                            'move_id':id,
+                            'company_id': 1
+                        }
 
         """
         #r1=self.env['account.move.line'].with_context(check_move_validity=False).create(m2)
@@ -874,8 +874,8 @@ class trafitec_contrarecibo(models.Model):
             #----------------------------------------------------------
 
             if vobj.en_contrarecibo:
-               error = True
-               errores += 'El viaje {} ya tiene contra recibo.\r\n'.format(viaje.name)
+                error = True
+                errores += 'El viaje {} ya tiene contra recibo.\r\n'.format(viaje.name)
 
             if viaje.documentacion_completa == False:
                 error = True
@@ -915,13 +915,13 @@ class trafitec_contrarecibo(models.Model):
 
 
         if self.invoice_id:
-           diferencia=abs(totales['total']-self.invoice_id.amount_total)
-           if totales['total'] > self.invoice_id.amount_total and diferencia > 1:
-              error=True
-              errores+="El total de la carta porte debe ser mayor o igual al total del contra recibo.\n"
+            diferencia=abs(totales['total']-self.invoice_id.amount_total)
+            if totales['total'] > self.invoice_id.amount_total and diferencia > 1:
+                error=True
+                errores+="El total de la carta porte debe ser mayor o igual al total del contra recibo.\n"
 
         if error:
-           raise UserError(_(errores))
+            raise UserError(_(errores))
 
 
         #Proceso.
@@ -960,7 +960,7 @@ class trafitec_contrarecibo(models.Model):
             #Actualiza los estados de la factura.
             #print("******SELF ID: "+str(self.id))
             try:
-              self.invoice_id.write({'factura_encontrarecibo': True, 'es_cartaporte': True, 'contrarecibo_id': self.id})
+                self.invoice_id.write({'factura_encontrarecibo': True, 'es_cartaporte': True, 'contrarecibo_id': self.id})
             except TypeError:
                 raise UserError(_('Alerta..\nError al marcar la factura {} como: En contra recibo.'.format(self.invoice_id.name)))
 
@@ -976,38 +976,38 @@ class trafitec_contrarecibo(models.Model):
                 raise UserError(_('Alerta !\nLa factura carta porte ya fue contabilizada, no podra cancelar el contra recibo.'))
 
             if self.folio_diferencia:
-               if self.folio_diferencia.state == 'open' or self.folio_diferencia.state == 'paid':
-                  raise UserError(_('Alerta !\nLa nota de cargo por diferencia ya fue contabilizada, no podra cancelar el contra recibo.'))
+                if self.folio_diferencia.state == 'open' or self.folio_diferencia.state == 'paid':
+                    raise UserError(_('Alerta !\nLa nota de cargo por diferencia ya fue contabilizada, no podra cancelar el contra recibo.'))
 
             if self.folio_merma:
-               if self.folio_merma.state == 'open':
-                  raise UserError(_('Alerta !\nLa nota de cargo por merma ya fue contabilizada, no podra cancelar el contra recibo.'))
+                if self.folio_merma.state == 'open':
+                    raise UserError(_('Alerta !\nLa nota de cargo por merma ya fue contabilizada, no podra cancelar el contra recibo.'))
 
             if self.folio_descuento:
-               if self.folio_descuento.state == 'open':
-                  raise UserError(_('Alerta !\nLa nota de cargo por descuentos ya fue contabilizada, no podra cancelar el contra recibo.'))
+                if self.folio_descuento.state == 'open':
+                    raise UserError(_('Alerta !\nLa nota de cargo por descuentos ya fue contabilizada, no podra cancelar el contra recibo.'))
 
             if self.folio_comision:
-               if self.folio_comision.state == 'open':
-                  raise UserError(_('Alerta !\nLa nota de cargo por comision ya fue contabilizada, no podra cancelar el contra recibo.'))
+                if self.folio_comision.state == 'open':
+                    raise UserError(_('Alerta !\nLa nota de cargo por comision ya fue contabilizada, no podra cancelar el contra recibo.'))
 
             if self.folio_prontopago:
-               if self.folio_prontopago.state == 'open':
-                  raise UserError(_('Alerta !\nLa nota de cargo por pronto pago ya fue contabilizada, no podra cancelar el contra recibo.'))
+                if self.folio_prontopago.state == 'open':
+                    raise UserError(_('Alerta !\nLa nota de cargo por pronto pago ya fue contabilizada, no podra cancelar el contra recibo.'))
 
             #Libera comisiones relacionadas.
             for comision in self.comision_id:
                 comision_obj = self.env['trafitec.comisiones.abono'].search([('abonos_id','=',comision.cargo_id.id),('permitir_borrar','=',True)])
                 for c in comision_obj:
-                  c.write({'permitir_borrar': False})
-                  c.unlink()
+                    c.write({'permitir_borrar': False})
+                    c.unlink()
 
             #Libera descuentos relacionados.
             for descuento in self.descuento_id:
                 descuento_obj = self.env['trafitec.descuentos.abono'].search([('abonos_id','=',descuento.descuento_fk.id),('permitir_borrar','=',True)])
                 for d in descuento_obj:
-                  d.write({'permitir_borrar':False})
-                  d.unlink()
+                    d.write({'permitir_borrar':False})
+                    d.unlink()
 
             #Liberar factura de proveedor.
             self.invoice_id.write({'factura_encontrarecibo':False,'contrarecibo_id':False})
@@ -1041,9 +1041,9 @@ class trafitec_contrarecibo(models.Model):
     def _carga_viajes(self):
         return
         if self.state == 'Nueva' and self.asociado_id and self.currency_id and self.lineanegocio and self.iva_option:
-          self.viaje_id = []
-          viajes=self.env['trafitec.viajes'].search([('asociado_id','=',self.asociado_id.id),('en_contrarecibo','=',False),('tipo_viaje','=','Normal'),('state','=','Nueva')])
-          self.viaje_id=viajes
+            self.viaje_id = []
+            viajes=self.env['trafitec.viajes'].search([('asociado_id','=',self.asociado_id.id),('en_contrarecibo','=',False),('tipo_viaje','=','Normal'),('state','=','Nueva')])
+            self.viaje_id=viajes
 
 
     
@@ -1051,7 +1051,7 @@ class trafitec_contrarecibo(models.Model):
     def _asociado(self):
         self.descuento_id=[]
         self.comision_id=[]
-         
+
         if self.asociado_id:
             #Carga los decuentos con saldo.
             obj = self.env['trafitec.descuentos'].search([('asociado_id', '=', self.asociado_id.id), ('saldo', '>', 0), ('state', '=', 'activo')])
@@ -1467,7 +1467,7 @@ class trafitec_contrarecibo(models.Model):
             # Subtotal con maniobras.
             x_mermas_antes = 0
             if self.mermas_bol == False:
-               x_mermas_antes = self.TotalMermas()
+                x_mermas_antes = self.TotalMermas()
 
             #print("***COMPUTE SUBTOTAL mermas_antes: " + str(self.mermas_antes))
             self.subtotal_g = self.fletes + self.maniobras+self.cargosadicionales_total - x_mermas_antes - self.descuento_antes - self.comisiones_antes - self.prontopago_antes
@@ -1747,20 +1747,20 @@ class trafitec_contrarecibo(models.Model):
         #Validar viajes.
         for v in self.viaje_id:
             if v.flete_asociado<=0:
-               error = True
-               errores += "El viaje con folio "+v.name+" no tiene calculado el flete.\n"
+                error = True
+                errores += "El viaje con folio "+v.name+" no tiene calculado el flete.\n"
 
             if not v.documentacion_completa:
                 error = True
                 errores += "El viaje con folio " + v.name + " no tiene la documentación completa.\n"
 
             if self.invoice_id:
-               if v.asociado_id.id != self.invoice_id.partner_id.id:
-                  error = True
-                  errores += "El viaje con folio " + v.name + " es de diferente asociado al del contra recibo.\n"
+                if v.asociado_id.id != self.invoice_id.partner_id.id:
+                    error = True
+                    errores += "El viaje con folio " + v.name + " es de diferente asociado al del contra recibo.\n"
 
         if error:
-           raise UserError(_('Alerta..\n'+str(errores)))
+            raise UserError(_('Alerta..\n'+str(errores)))
 
 #Mike
 class trafitec_cargospendientes(models.TransientModel):
