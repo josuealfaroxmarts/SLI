@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_contrarecibo(models.Model):
     _name = 'trafitec.contrarecibo'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
 

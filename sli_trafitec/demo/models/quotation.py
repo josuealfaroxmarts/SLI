@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_cotizacion(models.Model):
     _name = 'trafitec.cotizacion'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
     
     name = fields.Char(string="No. Cotización", copy=False, readonly=True)

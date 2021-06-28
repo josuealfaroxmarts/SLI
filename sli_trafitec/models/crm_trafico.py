@@ -437,7 +437,7 @@ class trafitec_crm_trafico_asociados(models.Model):
 
 class trafitec_crm_trafico_registro(models.Model):
     _name = 'trafitec.crm.trafico.registro'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
     _rec_name = 'id'
     asociado_id = fields.Many2one(string='Asociado', comodel_name='res.partner', track_visibility='onchange')

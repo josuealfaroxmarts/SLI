@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_facturas_comision(models.Model):
     _name = 'trafitec.facturas.comision'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Folio',default='Nuevo')
     company_id = fields.Many2one('res.company', 'Company',

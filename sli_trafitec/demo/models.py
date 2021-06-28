@@ -1323,7 +1323,7 @@ class trafitec_seguridad_derechos_perfil(models.Model):
 # -------------------------------------------------------------------------------------------------------------------------------------------
 class cancelacion_cuentas(models.Model):
 	_name = 'trafitec.cancelacioncuentas'
-	_inherit = ['mail.thread', 'ir.needaction_mixin']
+	_inherit = ['mail.thread', 'mail.activity.mixin']
 	_order = 'id desc'
 
 	@api.depends('facturas_proveedor_id.abono')
@@ -1700,7 +1700,7 @@ class cancelacion_cuentas_relacion(models.Model):
 class trafitec_pagosmasivos(models.Model):
 	_name = 'trafitec.pagosmasivos'
 	_order = 'id desc'
-	_inherit = ['mail.thread', 'ir.needaction_mixin']
+	_inherit = ['mail.thread', 'mail.activity.mixin']
 
 	name = fields.Char(string='Folio', default='')
 	persona_id = fields.Many2one(string='Persona', comodel_name='res.partner', required=True,

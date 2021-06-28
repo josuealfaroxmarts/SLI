@@ -16,7 +16,7 @@ class TrafitecTareas(models.Model):
 	_name = 'trafitec.tareas'
 	_order = 'id desc'
 	
-	_inherit = ['mail.thread', 'ir.needaction_mixin']
+	_inherit = ['mail.thread', 'mail.activity.mixin']
 	
 	name = fields.Char(string="Nombre", required=True, track_visibility='onchange')
 	detalles = fields.Text(string="Detalles", required=True, track_visibility='onchange')

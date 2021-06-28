@@ -1245,7 +1245,7 @@ class trafitec_facturas_conceptos(models.Model): #Mike
 
 class trafitec_facturas_agregar_quitar(models.Model):
 	_name = 'trafitec.agregar.quitar'
-	_inherit = ['mail.thread', 'ir.needaction_mixin']
+	_inherit = ['mail.thread', 'mail.activity.mixin']
 
 	name = fields.Char(string='Folio', default='Nuevo')
 	factura_id = fields.Many2one('account.invoice',string='Factura',domain="[('es_facturamanual','=',True),('pagada','=',False)]")

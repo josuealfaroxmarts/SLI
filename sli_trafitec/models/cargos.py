@@ -76,7 +76,7 @@ class trafitec_abonos(models.Model):
 class trafitec_descuentos(models.Model):
     _name = 'trafitec.descuentos'
     _order = 'id desc'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'id'
 
     name = fields.Char(string="Folio")

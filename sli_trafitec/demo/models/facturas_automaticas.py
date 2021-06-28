@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_facturas_automaticas(models.Model):
     _name = 'trafitec.facturas.automaticas'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Folio',default='Nuevo')
     cliente_id = fields.Many2one('res.partner', string="Cliente", domain="[('customer','=',True), ('parent_id', '=', False)]", required=True)
