@@ -136,7 +136,7 @@ class trafitec_account_invoice(models.Model):
 			self.documentos_tiene_pdf = False
 
 
-	@api.multi
+	
 	def action_adjuntar_pdf(self):
 		if not self.documentos_anexado_pdf:
 			self.env['ir.attachment'].create(
@@ -153,7 +153,7 @@ class trafitec_account_invoice(models.Model):
 		else:
 			raise UserError(_('Alerta..\nEl archivo ya fue anexado.'))
 
-	@api.multi
+	
 	def action_adjuntar_xml(self):
 		if not self.documentos_anexado_xml:
 			self.env['ir.attachment'].create(
@@ -170,7 +170,7 @@ class trafitec_account_invoice(models.Model):
 		else:
 			raise UserError(_('Alerta..\nEl archivo ya fue anexado.'))
 
-	@api.multi
+	
 	def proceso_adjuntar_archivos(self, xid):
 		print("Ejecutando: proceso_adjuntar_archivos: Id incial: "+str(xid))
 
@@ -248,7 +248,7 @@ class trafitec_account_invoice(models.Model):
 	tipo_contiene = fields.Selection(string="", selection=[('ninguno', '(Ninguno)'), ('simple', 'Simple'), ('detallado','Detallado')], default='simple')
 
 	"""
-	@api.multi
+	
 	@api.onchange('viajescp_id')
 	def onchange_viajescp_id(self):
 		for rec in self:
@@ -340,7 +340,7 @@ class trafitec_account_invoice(models.Model):
 			self.date_due = max(line[0] for line in pterm_list)
 	"""
 	
-	@api.multi
+	
 	def _agrega_conceptos_viaje(self,id,preceiounitario):
 		if preceiounitario<=0:
 			return []
@@ -388,7 +388,7 @@ class trafitec_account_invoice(models.Model):
 
 
 
-	@api.multi
+	
 	def _agrega_conceptos_cargos_viajes(self, id):
 		conceptos=[]
 		impuestos=[]
@@ -457,7 +457,7 @@ class trafitec_account_invoice(models.Model):
 				conceptos.append(cargo)
 		return conceptos
 
-	@api.multi
+	
 	def _agrega_conceptos_sistema(self):
 		# Agregar conceptos existentes.
 		conceptos=[]
@@ -817,7 +817,7 @@ class trafitec_account_invoice(models.Model):
 		#viajesbd_ids=self.env['trafitec.viajes'].search([('factura_cliente_id','=',factura_id)]).ids
 		#viajesme_ids=self.viajes_id.ids
 
-	@api.multi
+	
 	def write(self,vals):
 		factura=None
 		for invoice in self:
@@ -848,7 +848,7 @@ class trafitec_account_invoice(models.Model):
 		    """
 		return factura
 
-	@api.multi
+	
 	def action_invoice_open(self):
 		error = False
 		errores = ""
@@ -1042,7 +1042,7 @@ class trafitec_account_invoice(models.Model):
 		return factura
 
 	#Al presionar boton cancelar.
-	@api.multi
+	
 	def action_invoice_cancel(self):
 		#Factura de cliente: Llamar al asistente de cancelacion para preguntar motivo.
 		if self._context.get('type', 'out_invoice') == 'out_invoice':
@@ -1077,7 +1077,7 @@ class trafitec_account_invoice(models.Model):
 			factura = super(trafitec_account_invoice, self).action_invoice_cancel()
 			return factura
 
-	@api.multi
+	
 	def action_liberar_viajes(self):
 		self.ensure_one()
 		if self.tipo != "manual":
@@ -1100,7 +1100,7 @@ class trafitec_account_invoice(models.Model):
 				v.with_context(validar_credito_cliente=False).write({'factura_cliente_id': False, 'en_factura': False})
 		"""
 		
-	@api.multi
+	
 	def action_relacionar_viajes(self):
 		self.ensure_one()
 		if self.tipo != "manual":
@@ -1111,7 +1111,7 @@ class trafitec_account_invoice(models.Model):
 			if v.factura_cliente_id.id == False:
 				v.with_context(validar_credito_cliente=False).write({'factura_cliente_id': self.id, 'en_factura': True})
 
-	@api.multi
+	
 	def action_liberar_viajescp(self):
 		#Establece el estado de Sin factura en cada viaje relacionado.
 		for f in self:
@@ -1124,7 +1124,7 @@ class trafitec_account_invoice(models.Model):
 				v.with_context(validar_credito_cliente=False).write({'factura_proveedor_id': False, 'en_cp': False})
 
 	#Despues de cancelar.. se puede mandar a borrador.
-	@api.multi
+	
 	def action_invoice_draft(self):
 		factura = super(trafitec_account_invoice, self).action_invoice_draft()
 		return factura
@@ -1135,7 +1135,7 @@ class trafitec_facturas_cancelar(models.TransientModel):
 	detalles = fields.Char(string='Detalles', default='', help='Detalles.')
 	
 	
-	@api.multi
+	
 	def cancelar(self):
 		for rec in self:
 			for v in rec.factura_id.viajes_id:
@@ -1150,7 +1150,7 @@ class trafitec_facturas_cancelar(models.TransientModel):
 class trafitec_change_balance_client(models.Model):
 	_inherit = 'account.payment'
 
-	@api.multi
+	
 	def post(self):
 
 		try:
@@ -1174,7 +1174,7 @@ class trafitec_argil_factura_cancelar(models.TransientModel):
 	_inherit = 'account_invoice.cancel_wizard'
 	cancelacion_detalles = fields.Char(string='Motivo de cancelación', default='', help='Motivo de cancelación de factura.')
 	
-	@api.multi
+	
 	def action_cancel(self):
 		self.ensure_one()
 		_logger.info("**************CANCELAR*******************")
@@ -1275,7 +1275,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 									'trafitec.agregar.quitar'))
 	invoice_id = fields.Many2one('account.invoice', string='Factura excedente',readonly=True)
 
-	@api.multi
+	
 	def unlink(self):
 		for reg in self:
 			if reg.state == 'Validada':
@@ -1419,7 +1419,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 
 		return invoice_id
 
-	@api.multi
+	
 	def action_available(self):
 		apag = False
 		if self.saldo > self.total_g:
@@ -1448,13 +1448,13 @@ class trafitec_facturas_agregar_quitar(models.Model):
 				'context': action_ctx
 			}
 
-	#@api.multi
+	#
 	#def confirmation_button(self):
 		#parametros_obj = self._get_parameter_company(self)
 		#invoice_id = self._generar_factura_excedente(self, parametros_obj)
 		#self.invoice_id = invoice_id
 
-	@api.multi
+	
 	def action_cancel(self):
 		self.factura_id.write({'pagada': False, 'abonado': (self.factura_id.abonado - self.total_g)})
 		for viaje in self.viaje_id:

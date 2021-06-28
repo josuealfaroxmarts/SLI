@@ -135,16 +135,16 @@ class TrafitecProgramacionPagosX(models.Model):
 		if error:
 			raise UserError((errores))
 	
-	@api.multi
+	
 	def action_facturas_aplicar_limpiar(self):
 		self.facturas_aplicar_id = None
 	
-	@api.multi
+	
 	def action_facturas_aplicar_saldar(self):
 		for f in self.facturas_aplicar_id:
 			f.abono = f.factura_id.residual
 	
-	@api.multi
+	
 	def action_facturas_aplicar_cero(self):
 		for f in self.facturas_aplicar_id:
 			f.abono = 0
@@ -204,13 +204,13 @@ class TrafitecProgramacionPagosX(models.Model):
 		nuevo = super(TrafitecProgramacionPagosX, self).create(vals)
 		return nuevo
 	
-	@api.multi
+	
 	def write(self, vals):
 		# if 'buscar_persona_id' in vals:
 		#	vals['buscar_persona_id'] = False
 		return super(TrafitecProgramacionPagosX, self).write(vals)
 	
-	@api.multi
+	
 	def unlink(self):
 		# if self.state = ''
 		raise UserError(_("No esta permitido borrar."))  # return super(TrafitecProgramacionPagosX, self).unlink()

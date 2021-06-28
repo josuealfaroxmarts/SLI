@@ -100,7 +100,7 @@ class trafitec_cotizacion(models.Model):
     cliente_bloqueado = fields.Boolean(string='Cliente bloqueado', related='cliente.bloqueado_cliente_bloqueado', store=True, default=False, help='Indica si el cliente esta bloqueado.')
     folio = fields.Char(string="Folio", required=True, copy=False, readonly=True,
                    index=True, default=lambda self: _('New'))
-    @api.multi
+    
     def action_enviarcorreo_autorizacion(self):
         asunto = "Cotización por autorizar: "+str(self.name or "")
         de = (self.env.user.login or '')
@@ -176,7 +176,7 @@ class trafitec_cotizacion(models.Model):
             if self.semaforo_valor == "rojo":
                 print("----------------------------CAMBIO A ROJO")
 
-    @api.multi
+    
     def action_enviar_info_cliente(self):
         contenido = ""
         para = ""
@@ -429,7 +429,7 @@ order by des.name
         }
         create_and_send_email = self.env['mail.mail'].create(valores).send()
 
-    @api.multi
+    
     def unlink(self):
         print(dir(self))
         raise UserError(_('Alerta..\nNo esta permitido borrar cotizaciones.'))
@@ -597,7 +597,7 @@ order by des.name
         
         self.odoo_cotizacion_id = sale_order_nuevo.id
 
-    @api.multi
+    
     def write(self, vals):
         for data in self :
             #print("********self write: " + str(self))
@@ -676,7 +676,7 @@ order by des.name
         if self.polizas_seguro:
             self.porcen_seguro = self.polizas_seguro.porcentaje_clie
 
-    @api.multi
+    
     def action_authorized(self):
         if len(self.lineas_cotizacion_id) == 0:
             raise UserError(
@@ -684,11 +684,11 @@ order by des.name
         else:
             self.write({'state': 'Autorizada'})
 
-    @api.multi
+    
     def action_reactivate(self):
         self.write({'state': 'Nueva'})
 
-    @api.multi
+    
     def action_send(self):
         if len(self.lineas_cotizacion_id) == 0:
             raise UserError(
@@ -696,7 +696,7 @@ order by des.name
         else:
             self.write({'state': 'Enviada'})
 
-    @api.multi
+    
     def action_accepted(self):
         if len(self.lineas_cotizacion_id) == 0:
             raise UserError(_('Error !\nTiene que tener lineas antes de poder aceptar esta cotización.'))
@@ -704,19 +704,19 @@ order by des.name
         self.write({'state': 'Aceptada'})
         
 
-    @api.multi
+    
     def action_rejected(self):
         self.write({'state': 'Rechazada'})
 
-    @api.multi
+    
     def action_close(self):
         self.write({'state': 'Cerrada'})
 
-    @api.multi
+    
     def action_enespera(self):
         self.write({'state': 'EnEspera'})
     
-    @api.multi
+    
     def action_available(self):
         if self.cliente.name == False:
             raise UserError(
@@ -753,7 +753,7 @@ class trafitec_type_truck(models.Model):
 class trafitec_localidad_municipios_estado_pais(models.Model):
     _inherit = 'res.colonia.zip.sat.code'
 
-    @api.multi
+    
     @api.depends('name')
     def name_get(self):
         result = []
@@ -782,7 +782,7 @@ class trafitec_localidad_municipios_estado_pais(models.Model):
 class trafitec_municipios_estado_pais(models.Model):
     _inherit = 'res.country.township.sat.code'
 
-    @api.multi
+    
     @api.depends('name')
     def name_get(self):
         result = []
@@ -951,7 +951,7 @@ class trafitec_cotizacion_line(models.Model):
         return
     subtotal = fields.Monetary(string='Subtotal', readonly=True, compute='_subtotal', track_visibility='always')
 
-    @api.multi
+    
     def explict_subscription(self):
         action_ctx = dict(self.env.context)
         view_id = self.env.ref('sli_trafitec.linea_Cargos_form_inherit').id
@@ -968,7 +968,7 @@ class trafitec_cotizacion_line(models.Model):
             'context': action_ctx
         }
 
-    @api.multi
+    
     def explict_origen_dest(self):
         action_ctx = dict(self.env.context)
         action_ctx.update({
@@ -989,7 +989,7 @@ class trafitec_cotizacion_line(models.Model):
             'context': action_ctx
         }
 
-    @api.multi
+    
     def explict_negociacion(self):
         action_ctx = dict(self.env.context)
         view_id = self.env.ref('sli_trafitec.linea_negociancion_form_inherit').id
@@ -1052,7 +1052,7 @@ class trafitec_cotizacion_line_origen(models.Model):
     state = fields.Selection([('Disponible', 'Disponible'), ('EnEspera', 'En espera'), ('Cancelada', 'Cancelada'), ('Cerrada', 'Cerrada')], string='Estado', default='Disponible')
 
 
-    @api.multi
+    
     @api.depends('name', 'folio_cotizacion', 'cliente_cotizacion', 'origen', 'destino')
     def name_get(self):
         result = []
@@ -1150,7 +1150,7 @@ class trafitec_cotizacion_line_negociacion(models.Model):
         """
         return super(trafitec_cotizacion_line_negociacion, self).create(vals)
 
-    @api.multi
+    
     def write(self, vals):
         """
         if 'asociado_id' in vals:
@@ -1180,7 +1180,7 @@ class trafitec_cotizacion_cancelar(models.TransientModel):
     cotizacion_id = fields.Many2one('trafitec.cotizacion', default=_get_cotizacionid)
     motivo = fields.Text(string='Motivo')
 
-    @api.multi
+    
     def cancelacion_button(self):
         self.ensure_one()
         for line in self:

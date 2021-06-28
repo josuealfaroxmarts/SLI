@@ -36,25 +36,25 @@ class TrafitecTareas(models.Model):
 	clasificacion_secundaria_id = fields.Many2one(string="Clasificación secuendaria", comodel_name='trafitec.tareas.clsificacion', track_visibility='onchange', required=True, domain="[('tipo','=','secundaria'),('state','=','activo')]")
 	state = fields.Selection(string="Estado", selection=[('nuevo', 'Nuevo'), ('revisado', 'Revisado'), ('validado', 'Validado'), ('cerrado', 'Cerrado'), ('cancelado', 'Cancelado')], default='nuevo', track_visibility='onchange')
 
-	@api.multi
+	
 	def action_revisar(self):
 		self.revision_usuario_id = self.env.user.id
 		self.revision_fechahora = datetime.datetime.now()
 		self.state = 'revisado'
 	
-	@api.multi
+	
 	def action_validar(self):
 		self.validado_usuario_id = self.env.user.id
 		self.validado_fechahora = datetime.datetime.now()
 		self.state = 'validado'
 
-	@api.multi
+	
 	def action_cerrar(self):
 		self.cerrado_usuario_id = self.env.user.id
 		self.cerrado_fechahora = datetime.datetime.now()
 		self.state = 'cerrado'
 	
-	@api.multi
+	
 	def action_cancelar(self):
 		self.state = 'cancelado'
 		

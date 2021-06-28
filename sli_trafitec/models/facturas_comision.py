@@ -34,7 +34,7 @@ class trafitec_facturas_comision(models.Model):
 
 
 
-    @api.multi
+    
     def unlink(self):
         for reg in self:
             if reg.state == 'Validada':
@@ -180,7 +180,7 @@ class trafitec_facturas_comision(models.Model):
                     r.append(valores)
             self.comision_id = r
 
-    @api.multi
+    
     def action_available(self):
         if self.comision_id and self.invoice_id.id == False:
             for comisi in self.comision_id:
@@ -237,7 +237,7 @@ class trafitec_facturas_comision(models.Model):
             self.invoice_id = invoice_id
             self.write({'state': 'Validada'})
 
-    @api.multi
+    
     def action_cancel(self):
         for comision in self.comision_id:
             obj = self.env['trafitec.comisiones.abono'].search([('abonos_id','=',comision.cargo_id.id),('observaciones','=','Generada en la factura {}'.format(comision.line_id.name))])
