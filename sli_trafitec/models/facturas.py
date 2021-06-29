@@ -1170,7 +1170,8 @@ class trafitec_change_balance_client(models.Model):
 		
 
 #Cancelación para facturas de clientes:
-class trafitec_argil_factura_cancelar(models.TransientModel):
+#Revisar con el consultor
+""" class trafitec_argil_factura_cancelar(models.TransientModel):
 	_inherit = 'account_invoice.cancel_wizard'
 	cancelacion_detalles = fields.Char(string='Motivo de cancelación', default='', help='Motivo de cancelación de factura.')
 	
@@ -1197,7 +1198,7 @@ class trafitec_argil_factura_cancelar(models.TransientModel):
 			_logger.info("**Error al guardar el motivo de cancelación.")
 			pass
 
-		return accion
+		return accion """
 
 class trafitec_facturas_documentos(models.Model):
 	_name = 'trafitec.facturas.documentos'

@@ -1,7 +1,7 @@
 <openerp>
     <data>
-
-        <record id="trafitec_argil_factura_cancelar" model="ir.ui.view">
+<!-- TODO: Revisar con el consultor -->
+        <!-- <record id="trafitec_argil_factura_cancelar" model="ir.ui.view">
             <field name="name">trafitec.argil.factura.cancelar</field>
             <field name="model">account_invoice.cancel_wizard</field>
             <field name="inherit_id" ref="argil_invoice_cancel.wiz_view_invoice_cancel_argil"/>
@@ -10,7 +10,7 @@
                     <field name="cancelacion_detalles" required="True"></field>
                 </xpath>
             </field>
-        </record>
+        </record> -->
 
         <record id="sli_trafitec_buscar_facturas_proveedor" model="ir.ui.view">
             <field name="name">sli.trafitec.buscar.facturas.proveedor</field>
