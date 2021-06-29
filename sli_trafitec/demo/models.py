@@ -108,7 +108,7 @@ class trafitec_ubicaciones(models.Model):
 	calle = fields.Char(string="Calle", required=True)
 	noexterior = fields.Char(string="No. Exterior", required=True)
 	nointerior = fields.Char(string="No. Interior")
-	localidad = fields.Many2one('res.colonia.zip.sat.code', string='Localidad', required=True)
+	localidad = fields.Many2one('l10n_mx_edi.res.locality', string='Localidad', required=True)
 	colonia = fields.Char(string="Colonia", required=True)
 	estado = fields.Char(string="Estado", required=True)
 	codigo_postal = fields.Char(string="Codigo Postal", required=True)
@@ -300,7 +300,7 @@ class trafitec_respartner(models.Model):
 
 	
 	def _compute_saldo(self):
-		facturas_obj = self.env['account.invoice']
+		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
 			[('partner_id', '=', self.id), ('state', '=', 'open'), ('type', '=', 'in_invoice')])
 		total = 0
@@ -310,7 +310,7 @@ class trafitec_respartner(models.Model):
 
 	
 	def _compute_saldo_flete(self):
-		facturas_obj = self.env['account.invoice']
+		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
 			[('partner_id', '=', self.id), ('state', '=', 'open'), ('contrarecibo_id', '!=', False)])
 		total = 0
@@ -568,7 +568,7 @@ and f.partner_id={}
 		#	raise UserError(_('El modelo del contexto debe ser res.partner.'))
 
 		return {'name': 'Facturas de asociado (' + (self.name or '') + ')', 'type': 'ir.actions.act_window',
-				'view_type': 'form', 'view_mode': 'tree', 'res_model': 'account.invoice', # 'views': [(view_id, 'tree')],
+				'view_type': 'form', 'view_mode': 'tree', 'res_model': 'account.move', # 'views': [(view_id, 'tree')],
 				# 'form_view_ref': 'base.res_partner_kanban_view',
 				# 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
 				# 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
@@ -1396,11 +1396,11 @@ class cancelacion_cuentas(models.Model):
 		if not self.persona_id or not self.moneda_id:
 			return
 
-		facturas_cliente = self.env['account.invoice'].search(
+		facturas_cliente = self.env['account.move'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', 'out_invoice'), ('residual', '>', 0),
 			('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date_invoice asc')
 		# facturas.sorted(key=lamnda r: r.)
-		# facturas=self.env['account.invoice'].search([])
+		# facturas=self.env['account.move'].search([])
 		print("***Facturas:" + str(facturas_cliente))
 		for f in facturas_cliente:
 			nuevo = {'factura_cliente_id': f.id, 'factura_cliente_total': f.amount_total,
@@ -1408,10 +1408,10 @@ class cancelacion_cuentas(models.Model):
 			lista_clientes.append(nuevo)
 		self.facturas_cliente_id = lista_clientes
 
-		facturas_proveedores = self.env['account.invoice'].search(
+		facturas_proveedores = self.env['account.move'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', 'in_invoice'), ('residual', '>', 0),
 			('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date_invoice asc')
-		# facturas=self.env['account.invoice'].search([])
+		# facturas=self.env['account.move'].search([])
 		print("***Facturas:" + str(facturas_proveedores))
 		for f in facturas_proveedores:
 			nuevo = {'factura_proveedor_id': f.id, 'factura_proveedor_total': f.amount_total,
@@ -1601,8 +1601,8 @@ class cancelacion_cuentas(models.Model):
 			if abono <= 0:
 				continue
 
-			fc_o = self.env['account.invoice'].search([('id', '=', fc.id)])
-			fp_o = self.env['account.invoice'].search([('id', '=', fp.id)])
+			fc_o = self.env['account.move'].search([('id', '=', fc.id)])
+			fp_o = self.env['account.move'].search([('id', '=', fp.id)])
 
 			if abono > fc_o.residual:
 				error = True
@@ -1658,7 +1658,7 @@ class cancelacion_cuentas_facturas_proveedor(models.Model):
 											comodel_name='trafitec.cancelacioncuentas')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
 
-	factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.invoice')
+	factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.move')
 	factura_proveedor_fecha = fields.Date(string='Fecha', related='factura_proveedor_id.date_invoice')
 	factura_proveedor_total = fields.Monetary(string='Total', related='factura_proveedor_id.amount_total',
 												currency_field='moneda_id')
@@ -1674,7 +1674,7 @@ class cancelacion_cuentas_facturas_cliente(models.Model):
 											comodel_name='trafitec.cancelacioncuentas')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
 
-	factura_cliente_id = fields.Many2one(string='Factura cliente', comodel_name='account.invoice')
+	factura_cliente_id = fields.Many2one(string='Factura cliente', comodel_name='account.move')
 	factura_cliente_fecha = fields.Date(string='Fecha', related='factura_cliente_id.date_invoice')
 	factura_cliente_total = fields.Monetary(string='Total', related='factura_cliente_id.amount_total',
 											currency_field='moneda_id')
@@ -1688,8 +1688,8 @@ class cancelacion_cuentas_relacion(models.Model):
 	_name = 'trafitec.cancelacioncuentas.relacion'
 	cancelacion_cuentas_id = fields.Many2one(string='Cancelación de cuentas',
 											comodel_name='trafitec.cancelacioncuentas')
-	factura_cliente_id = fields.Many2one(string='Factura cliente', comodel_name='account.invoice')
-	factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.invoice')
+	factura_cliente_id = fields.Many2one(string='Factura cliente', comodel_name='account.move')
+	factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.move')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
 	abono = fields.Monetary(string='Abono', currency_field='moneda_id')
 
@@ -1753,11 +1753,11 @@ class trafitec_pagosmasivos(models.Model):
 				'view_type': 'form', 'view_mode': 'form', 'form_view_ref': 'action_invoice_invoice_batch_process',
 				# 'form_view_ref': 'account.view_account_payment_from_invoices',
 				'target': 'new', 'multi': True,
-				'context': {'invoice_ids': lasfids, 'active_ids': losids, 'active_model': 'account.invoice', 'batch': True,
+				'context': {'invoice_ids': lasfids, 'active_ids': losids, 'active_model': 'account.move', 'batch': True,
 							'programacionpagosx': True}}
 
 	def EjecutaAbonar(self):
-		facturas = self.env['account.invoice'].search([('id', '=', 329)])
+		facturas = self.env['account.move'].search([('id', '=', 329)])
 		print("----------------Facturas------------------")
 		print(facturas)
 		print("----------------Pagos---------------------")
@@ -1842,7 +1842,7 @@ class trafitec_pagosmasivos(models.Model):
 		return super(trafitec_pagosmasivos, self).create(vals)
 
 	def _aplicapago(self, diario_id, factura_id, abono, moneda_id, persona_id, tipo='supplier', subtipo='inbound'):
-		# factura = self.env['account.invoice'].search([('id', '=', self.id)])
+		# factura = self.env['account.move'].search([('id', '=', self.id)])
 		if abono <= 0:
 			return
 
@@ -1869,7 +1869,7 @@ class trafitec_pagosmasivos(models.Model):
 		pago.post()
 
 	def _aplicapago2(self, diario_id, abono, moneda_id, persona_id, tipo='supplier', subtipo='inbound'):
-		# factura = self.env['account.invoice'].search([('id', '=', self.id)])
+		# factura = self.env['account.move'].search([('id', '=', self.id)])
 		if abono <= 0:
 			return
 
@@ -2011,7 +2011,7 @@ class trafitec_pagosmasivos(models.Model):
 
 		print("----------------------TIPO: " + tipo)
 
-		facturas_cliente = self.env['account.invoice'].search(
+		facturas_cliente = self.env['account.move'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', tipo), ('residual', '>', 0), ('state', '=', 'open'),
 			('currency_id', '=', self.moneda_id.id), ('date_invoice', '>=', self.busqueda_fecha_inicial),
 			('date_invoice', '<=', self.busqueda_fecha_final)], order='date_invoice asc')
@@ -2030,7 +2030,7 @@ class trafitec_pagosmasivos_facturas(models.Model):
 	_name = 'trafitec.pagosmasivos.facturas'
 	pagomasivo_id = fields.Many2one(string='Pago masivo', comodel_name='trafitec.pagosmasivos')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency', required=True)
-	factura_id = fields.Many2one(string='Factura', comodel_name='account.invoice', required=True)
+	factura_id = fields.Many2one(string='Factura', comodel_name='account.move', required=True)
 	factura_fecha = fields.Date(string='Fecha', related='factura_id.date_invoice', store=True)
 	factura_total = fields.Monetary(string='Total', related='factura_id.amount_total', default=0, store=True,
 									currency_field='moneda_id')

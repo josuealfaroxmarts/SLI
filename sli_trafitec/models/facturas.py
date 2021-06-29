@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 
 class trafitec_account_invoice(models.Model):
-	_inherit = 'account.invoice'
+	_inherit = 'account.move'
 	_order = 'id desc'
 
 	es_facturamanual = fields.Boolean(string='Es factura manual?',default= False)
@@ -125,7 +125,7 @@ class trafitec_account_invoice(models.Model):
 				name=self.documentos_nombre_pdf,
 				#datas_fname=self.documentos_nombre_pdf,
 				url="",
-				res_model='account.invoice',
+				res_model='account.move',
 				type='binary',
 				db_datas=base64.b64decode(self.documentos_archivo_pdf),
 			)
@@ -144,7 +144,7 @@ class trafitec_account_invoice(models.Model):
 				'name': 'Carta porte del asociado pdf',
 				'type': 'binary',
 				'datas': self.documentos_archivo_pdf,
-				'res_model': 'account.invoice',
+				'res_model': 'account.move',
 				'res_id': self.id,
 				'mimetype': 'application/x-pdf'
 				}
@@ -161,7 +161,7 @@ class trafitec_account_invoice(models.Model):
 					'name': 'Carta porte del asociado xml',
 					'type': 'binary',
 					'datas': self.documentos_archivo_xml,
-					'res_model': 'account.invoice',
+					'res_model': 'account.move',
 					'res_id': self.id,
 					'mimetype': 'application/x-xml'
 					}
@@ -178,8 +178,8 @@ class trafitec_account_invoice(models.Model):
 			xid = 1000000
 
 		#Obtener las facturas.
-		facturas = self.env['account.invoice'].search(['&','&', ('id', '>=', xid), ('type', '=', 'in_invoice'), ('state', 'in', ['open']), '|', ('documentos_anexado_pdf', '=', False), ('documentos_anexado_xml', '=', False)])
-		#facturas=self.env['account.invoice'].search(['&', '|', ('id', '>=', xid), '&', ('documentos_tiene_pdf', '=', True), ('documentos_anexado_pdf', '=', False), '&', ('documentos_tiene_xml', '=', True), ('documentos_anexado_xml', '=', False)])
+		facturas = self.env['account.move'].search(['&','&', ('id', '>=', xid), ('type', '=', 'in_invoice'), ('state', 'in', ['open']), '|', ('documentos_anexado_pdf', '=', False), ('documentos_anexado_xml', '=', False)])
+		#facturas=self.env['account.move'].search(['&', '|', ('id', '>=', xid), '&', ('documentos_tiene_pdf', '=', True), ('documentos_anexado_pdf', '=', False), '&', ('documentos_tiene_xml', '=', True), ('documentos_anexado_xml', '=', False)])
 
 		if not facturas:
 			print("No hay facturas para procesar.")
@@ -200,7 +200,7 @@ class trafitec_account_invoice(models.Model):
 						'name': 'Carta porte del asociado pdf',
 						'type': 'binary',
 						'datas': f.documentos_archivo_pdf,
-						'res_model': 'account.invoice',
+						'res_model': 'account.move',
 						'res_id': f.id,
 						'mimetype': 'application/x-pdf'
 					}
@@ -213,7 +213,7 @@ class trafitec_account_invoice(models.Model):
 						'name': 'Carta porte del asociado xml',
 						'type': 'binary',
 						'datas': f.documentos_archivo_xml,
-						'res_model': 'account.invoice',
+						'res_model': 'account.move',
 						'res_id': f.id,
 						'mimetype': 'application/x-xml'
 					}
@@ -344,7 +344,7 @@ class trafitec_account_invoice(models.Model):
 	def _agrega_conceptos_viaje(self,id,preceiounitario):
 		if preceiounitario<=0:
 			return []
-		empresa = self.env['res.company']._company_default_get('account.invoice')
+		empresa = self.env['res.company']._company_default_get('account.move')
 		cfg = self.env['trafitec.parametros'].search([('company_id', '=', empresa.id)])
 
 		conceptos = []
@@ -863,7 +863,7 @@ class trafitec_account_invoice(models.Model):
 		error = False
 		errores = ""
 
-		factura = self.env['account.invoice'].search([('id', '=', self.id)])
+		factura = self.env['account.move'].search([('id', '=', self.id)])
 
 		if self.es_cartaporte:
 			if not self.viajescp_id:
@@ -1131,7 +1131,7 @@ class trafitec_account_invoice(models.Model):
 
 class trafitec_facturas_cancelar(models.TransientModel):
 	_name = 'trafitec.facturas.cancelar'
-	factura_id = fields.Many2one(string='Factura', comodel_name='account.invoice', help='Factura que se cancelara.')
+	factura_id = fields.Many2one(string='Factura', comodel_name='account.move', help='Factura que se cancelara.')
 	detalles = fields.Char(string='Detalles', default='', help='Detalles.')
 	
 	
@@ -1184,7 +1184,7 @@ class trafitec_argil_factura_cancelar(models.TransientModel):
 		try:
 			active_ids = self._context.get('active_ids', []) or []
 			for f in active_ids:
-				factura_obj = self.env['account.invoice']
+				factura_obj = self.env['account.move']
 				factura_dat = factura_obj.browse([f])
 				#factura_dat.with_context(validar_credito_cliente=False).write({'cancelacion_detalles': (self.cancelacion_detalles or '')})
 
@@ -1208,7 +1208,7 @@ class trafitec_facturas_documentos(models.Model):
 							required=True, default='cartaporte_pdf')
 	documento_nombre = fields.Char("Nombre del archivo")
 	documento_archivo = fields.Binary(string="Archivo", required=True)
-	factura_id = fields.Many2one(comodel_name="account.invoice", string="Factura", ondelete='cascade')
+	factura_id = fields.Many2one(comodel_name="account.move", string="Factura", ondelete='cascade')
 
 	
 	@api.constrains('documento_nombre')
@@ -1226,7 +1226,7 @@ class trafitec_facturas_documentos(models.Model):
 					raise UserError(_('Alerta..\nSolo se permiten archivos xml para el cfdi.'))
 
 class trafitec_facturas_conceptos(models.Model): #Mike
-	_inherit = ['account.invoice.line']
+	_inherit = ['account.move.line']
 	sistema=fields.Boolean(string="Sistema",default=True) #Indica si es un registro del sistema.
 
 
@@ -1248,7 +1248,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 
 	name = fields.Char(string='Folio', default='Nuevo')
-	factura_id = fields.Many2one('account.invoice',string='Factura',domain="[('es_facturamanual','=',True),('pagada','=',False)]")
+	factura_id = fields.Many2one('account.move',string='Factura',domain="[('es_facturamanual','=',True),('pagada','=',False)]")
 	cliente_id = fields.Many2one('res.partner', string="Cliente",
 										domain="[('customer','=',True), ('parent_id', '=', False)]", related='factura_id.partner_id', store=True)
 	domicilio_id = fields.Many2one('res.partner', string="Domicilio",
@@ -1273,7 +1273,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	company_id = fields.Many2one('res.company', 'Company',
 								default=lambda self: self.env['res.company']._company_default_get(
 									'trafitec.agregar.quitar'))
-	invoice_id = fields.Many2one('account.invoice', string='Factura excedente',readonly=True)
+	invoice_id = fields.Many2one('account.move', string='Factura excedente',readonly=True)
 
 	
 	def unlink(self):
@@ -1370,7 +1370,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			'account_id': fact.account_id.id,
 			'reference': 'Factura generada por excedente en el folio {} '.format(vals.name)
 		}
-		invoice_id = vals.env['account.invoice'].create(valores)
+		invoice_id = vals.env['account.move'].create(valores)
 
 		product = self.env['product.product'].search([('product_tmpl_id','=',parametros_obj.product_invoice.id)])
 
@@ -1396,7 +1396,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			'price_unit': subtotal,
 			'discount': 0
 		}
-		vals.env['account.invoice.line'].create(inv_line)
+		vals.env['account.move.line'].create(inv_line)
 
 
 		inv_tax = {
@@ -1406,7 +1406,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			'amount': (iva - riva),
 			'sequence': '0'
 		}
-		vals.env['account.invoice.tax'].create(inv_tax)
+		vals.env['account.move.tax'].create(inv_tax)
 
 		inv_ret = {
 			'invoice_id': invoice_id.id,
@@ -1415,7 +1415,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			'amount': riva,
 			'sequence': '0'
 		}
-		vals.env['account.invoice.tax'].create(inv_ret)
+		vals.env['account.move.tax'].create(inv_ret)
 
 		return invoice_id
 

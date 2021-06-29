@@ -14,7 +14,7 @@
 
         <record id="sli_trafitec_buscar_facturas_proveedor" model="ir.ui.view">
             <field name="name">sli.trafitec.buscar.facturas.proveedor</field>
-            <field name="model">account.invoice</field>
+            <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_account_invoice_filter"/>
             <field name="arch" type="xml">
                 <xpath expr="//search" position="inside">
@@ -40,8 +40,8 @@
 
         <record id="new_factura_manual_fields" model="ir.ui.view">
             <field name="name">factura_manual.form.add.text.field</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.move_form"/>
             <field name="arch" type="xml">
                 <!--CAMPOS GENERALES DE TRAFITEC EN FACTURA-->
                 <xpath expr="//sheet/group/group/div" position="after">
@@ -152,8 +152,8 @@
 
         <record id="sli_trafitec_factura_cartaporte_form" model="ir.ui.view">
             <field name="name">sli_trafitec_factura_cp</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.move_supplier_form"/>
             <field name="arch" type="xml">
                 <!--CAMPOS GENERALES DE TRAFITEC EN FACTURA-->
                 <xpath expr="//sheet/group/group[1]/field[@name='partner_id']" position="after">
@@ -241,8 +241,8 @@
 
         <record id="sli_trafitec_factura_cartaporte_tree" model="ir.ui.view">
             <field name="name">sli_trafitec_factura_cp</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.move_supplier_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree/field[@name='company_currency_id']" position="after">
                     <field name="es_provision" invisible="0"/>
@@ -403,9 +403,9 @@
 
 
 
-        <record id="account.invoice_tree" model="ir.ui.view">
-            <field name="name">account.invoice.tree</field>
-            <field name="model">account.invoice</field>
+        <record id="account.move_tree" model="ir.ui.view">
+            <field name="name">account.move.tree</field>
+            <field name="model">account.move</field>
             <field name="arch" type="xml">
                 <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoice">
                     <field name="id"/>

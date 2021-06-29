@@ -282,7 +282,7 @@ class trafitec_contrarecibo2(models.Model):
             'account_id': account_obj.id,
             'reference': 'Factura generada del contra recibo {} '.format(vals.name)
         }
-        invoice_id = vals.env['account.invoice'].create(valores)
+        invoice_id = vals.env['account.move'].create(valores)
 
         product_obj = vals.env['product.product'].search([('default_code', '=', 'ServFletGran')])
 
@@ -298,7 +298,7 @@ class trafitec_contrarecibo2(models.Model):
             'price_unit': vals.subtotal,
             'discount': 0
         }
-        vals.env['account.invoice.line'].create(inv_line)
+        vals.env['account.move.line'].create(inv_line)
 
         account_tax_obj = vals.env['account.account'].search([('name', '=', 'IVA Retenido Efectivamente Cobrado')])
 
@@ -309,7 +309,7 @@ class trafitec_contrarecibo2(models.Model):
             'amount': vals.iva + vals.r_iva,
             'sequence': '0'
         }
-        vals.env['account.invoice.tax'].create(inv_tax)
+        vals.env['account.move.tax'].create(inv_tax)
 
         self._cambiar_estado_viaje(vals)
         return invoice_id
@@ -409,7 +409,7 @@ class trafitec_contrarecibo2(models.Model):
                         })
 
     def _aplicapago(self,diario_id,factura_id,abono,moneda_id,persona_id,tipo='supplier',subtipo='inbound'):
-        #factura = self.env['account.invoice'].search([('id', '=', self.id)])
+        #factura = self.env['account.move'].search([('id', '=', self.id)])
         if abono <= 0:
             return
 
@@ -652,7 +652,7 @@ class trafitec_contrarecibo2(models.Model):
             'account_id': plancontable.id,
             'reference': 'Nota de cargo por {} generada del contra recibo {} / {} '.format(tipo,vals.name,self.invoice_id.reference)
         }
-        invoice_id = vals.env['account.invoice'].create(valores)
+        invoice_id = vals.env['account.move'].create(valores)
         #invoice_id.update({'tax_line_ids': [(6, 0, [parametros_obj.iva.id, parametros_obj.retencion.id])]})
 
         #Registra los metodos de pago.
@@ -667,7 +667,7 @@ class trafitec_contrarecibo2(models.Model):
         }
 
         #print("******************************************** VALS.ENV",vals.env)
-        #metodospago=vals.env['account.invoice.pay_method_rel'].create(valores)
+        #metodospago=vals.env['account.move.pay_method_rel'].create(valores)
         #if not metodospago:
 
         #print("**********NOTA DE CARGO",valores)
@@ -696,7 +696,7 @@ class trafitec_contrarecibo2(models.Model):
         #print("**********IMPUESTOS:",impuestos)
         #Impuestos por linea de factura: account_invoice_line_tax / tax_id->account_tax invoice_line_id->account_invoice_line
 
-        linea_id = vals.env['account.invoice.line'].create(inv_line)
+        linea_id = vals.env['account.move.line'].create(inv_line)
         #print("**********NOTA DE CARGO LINEA", inv_line)
 
         #Crea los impuestos relacionados con la linea.
@@ -715,7 +715,7 @@ class trafitec_contrarecibo2(models.Model):
         #documento_impuestos.append(inv_tax)
         
         #TODO La siguiente linea si va, es la buena 13/12/2019.
-        vals.env['account.invoice.tax'].create(inv_tax) #Buena.
+        vals.env['account.move.tax'].create(inv_tax) #Buena.
         
         #TODO Esto es una prueba 13/12/2019... Quita si no funciona (Al parecer si funciona.).
         #invoice_id.compute_taxes()
@@ -731,7 +731,7 @@ class trafitec_contrarecibo2(models.Model):
         }
         #documento_impuestos.append(inv_ret)
         #TODO La siguiente linea si va, es la buena 13/12/2019.
-        vals.env['account.invoice.tax'].create(inv_ret)
+        vals.env['account.move.tax'].create(inv_ret)
 
         #Valida la nota.
         #invoice_id.compute_taxes() #Calcula impuestos.
@@ -855,7 +855,7 @@ class trafitec_contrarecibo2(models.Model):
         for viaje in self.viaje_id:
             vobj = self.env['trafitec.viajes'].search([('id', '=', viaje.id)])
             #Obtener los cargos adiionales.
-            fl_obj = self.env['account.invoice.line']
+            fl_obj = self.env['account.move.line']
             vca_obj = self.env['trafitec.viaje.cargos']
             
             fl_dat = fl_obj.search([('invoice_id', '=', self.invoice_id.id)])
@@ -1506,11 +1506,11 @@ class trafitec_contrarecibo2(models.Model):
     iva_option = fields.Selection([('CIR', 'Con IVA y con RIVA'), ('SIR', 'Sin IVA y sin RIVA'), ('CISR', 'Con IVA y sin RIVA')],string='IVA', default='CIR', required=True, track_visibility='onchange')
     state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'), ('Cancelada', 'Cancelada')],string='Estado', default='Nueva', track_visibility='onchange')
     lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', required=True,default=lambda self: self._predeterminados_lineanegocio(),track_visibility='onchange')
-    invoice_id = fields.Many2one('account.invoice', string='Factura proveedor', domain="[('type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0),('factura_encontrarecibo','=',False),('state','=','open'),('es_cartaporte','=',True)]", track_visibility='onchange')
+    invoice_id = fields.Many2one('account.move', string='Factura proveedor', domain="[('type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0),('factura_encontrarecibo','=',False),('state','=','open'),('es_cartaporte','=',True)]", track_visibility='onchange')
     fecha = fields.Date(string='Fecha', readonly=True, index=True, copy=False, default=fields.Datetime.now,track_visibility='onchange')
     normal = fields.Boolean(string='Normal', default=True, track_visibility='onchange')
     psf = fields.Boolean(string='PSF', default=False, track_visibility='onchange')
-    factura_actual = fields.Many2one('account.invoice', string='Factura proveedor actual',domain="[('type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0)]")
+    factura_actual = fields.Many2one('account.move', string='Factura proveedor actual',domain="[('type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0)]")
     cargospendientes_id = fields.One2many(comodel_name='trafitec.cargospendientes2', inverse_name='contrarecibo_id', string='Cargos pendientes')
     x_folio_trafitecw = fields.Char(string='Folio Trafitec Windows', help="Folio del contra recibo en Trafitec para windows.",track_visibility='onchange')
 
@@ -1579,11 +1579,11 @@ class trafitec_contrarecibo2(models.Model):
     cargosadicionales_id = fields.One2many(string="Cargos adicionales", comodel_name="trafitec.contrarecibos.cargos2", inverse_name="contrarecibo_id")
 
     #Notas de cargo
-    folio_diferencia = fields.Many2one('account.invoice', readonly=True, string='Folio por diferencia')
-    folio_merma = fields.Many2one('account.invoice', readonly=True, string='Folio por merma')
-    folio_descuento = fields.Many2one('account.invoice', readonly=True, string='Folio por descuento')
-    folio_comision = fields.Many2one('account.invoice', readonly=True, string='Folio por comision')
-    folio_prontopago = fields.Many2one('account.invoice', readonly=True, string='Folio por pronto pago')
+    folio_diferencia = fields.Many2one('account.move', readonly=True, string='Folio por diferencia')
+    folio_merma = fields.Many2one('account.move', readonly=True, string='Folio por merma')
+    folio_descuento = fields.Many2one('account.move', readonly=True, string='Folio por descuento')
+    folio_comision = fields.Many2one('account.move', readonly=True, string='Folio por comision')
+    folio_prontopago = fields.Many2one('account.move', readonly=True, string='Folio por pronto pago')
 
     #notascargo_diario_id=fields.Many2one(string='Diario de notas de cargo',comodel_name='account.journal')
 
@@ -1781,7 +1781,7 @@ class viajesxcontrarecibo2(models.Model):
     _name='trafitec.viajesxcontrarecibo2'
     viaje_id=fields.Many2one(string='Viaje', comodel_name='trafitec.viajes')
     contrarecibo_id=fields.Many2one(string='Contra recibo', comodel_name='trafitec.contrarecibo2')
-    factura_id=fields.Many2one(string='Factura', comodel_name='account.invoice')
+    factura_id=fields.Many2one(string='Factura', comodel_name='account.move')
 
     @api.model
     def create(self, vals):

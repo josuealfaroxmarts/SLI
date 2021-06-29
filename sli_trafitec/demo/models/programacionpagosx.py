@@ -96,7 +96,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		self.buscar_facturas_id = None
 		
 		lista = []
-		facturas_obj = self.env['account.invoice']
+		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
 			[('partner_id', '=?', self.buscar_persona_id.id), ('state', '=', 'open'), ('type', '=', 'in_invoice'),
 			 ('date_invoice', '>=', self.buscar_fecha_inicial), ('date_invoice', '<=', self.buscar_fecha_final),('number', 'ilike', '%'+(self.buscar_folio or '')+'%')],
@@ -189,7 +189,7 @@ class TrafitecProgramacionPagosX(models.Model):
 				#'form_view_ref': 'sli_account_register_payments_formx2',
 				# 'form_view_ref': 'account.view_account_payment_from_invoices',
 			'target': 'new', 'multi': True,
-			'context': {'invoice_ids': lasfids, 'active_ids': losids, 'active_model': 'account.invoice', 'batch': True,
+			'context': {'invoice_ids': lasfids, 'active_ids': losids, 'active_model': 'account.move', 'batch': True,
 				'programacionpagosx': True, 'programacionpagosx_id': self.id, 'default_programacionpagos_id': 1}}
 	
 	@api.model
@@ -358,7 +358,7 @@ class TrafitecProgramacionPagosX(models.Model):
 				nuevo_movimiento_debito_linea = self.genera_movimiento_detalle(nuevo_movimiento.id, self.diario_id.id, False, False, g['persona_id'], 0, abono, 0, self.diario_id.default_debit_account_id.id, nuevo_pago.id, 2)
 				movimientos.append({'id': nuevo_movimiento_debito_linea.id})
 				persona_obj = self.env['res.partner'].browse(g['persona_id'])
-				factura_obj = self.env['account.invoice'].browse(f['id'])
+				factura_obj = self.env['account.move'].browse(f['id'])
 				
 				
 				#nuevo_parcial = self.genera_movimiento_abono(empresa_actual_id, abono, nuevo_movimiento_debito_linea.id, nuevo_movimiento_credito_linea.id)
@@ -380,7 +380,7 @@ class TrafitecProgramacionPagosX(models.Model):
 class TrafitecProgramacionPagosXFacturasAplicar(models.Model):
 	_name = "trafitec.programacionpagosx.facturas.aplicar"
 	programacionpagos_id = fields.Many2one(string="Programacion de pagos", comodel_name="trafitec.programacionpagosx")
-	factura_id = fields.Many2one(string="Factura", comodel_name="account.invoice",
+	factura_id = fields.Many2one(string="Factura", comodel_name="account.move",
 								 domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
 	fecha = fields.Date(string="Fecha", related="factura_id.date_invoice")
 	persona_id = fields.Many2one(string="Persona", related="factura_id.partner_id")
@@ -393,7 +393,7 @@ class TrafitecProgramacionPagosXFacturasAplicar(models.Model):
 class TrafitecProgramacionPagosXFacturasBuscar(models.TransientModel):
 	_name = "trafitec.programacionpagosx.facturas.buscar"
 	programacionpagos_id = fields.Many2one(string="Programacion de pagos", comodel_name="trafitec.programacionpagosx")
-	factura_id = fields.Many2one(string="Factura", comodel_name="account.invoice",
+	factura_id = fields.Many2one(string="Factura", comodel_name="account.move",
 								 domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
 	fecha = fields.Date(string="Fecha", related="factura_id.date_invoice")
 	persona_id = fields.Many2one(string="Persona", related="factura_id.partner_id")

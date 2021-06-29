@@ -29,7 +29,7 @@ class trafitec_facturas_comision(models.Model):
     state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
                               ('Cancelada', 'Cancelada')], string='Estado',
                              default='Nueva')
-    invoice_id = fields.Many2one('account.invoice', string='Factura cliente',
+    invoice_id = fields.Many2one('account.move', string='Factura cliente',
                                  domain="[('type','=','out_invoice'),('partner_id','=',asociado_id)]")
 
 
@@ -208,7 +208,7 @@ class trafitec_facturas_comision(models.Model):
                 'account_id': parametros_obj.account_id_invoice.id,
                 'reference': 'Factura de cobro por comision {}.'.format(self.name)
             }
-            invoice_id = self.env['account.invoice'].create(valores)
+            invoice_id = self.env['account.move'].create(valores)
 
 
             inv_line = {
@@ -222,7 +222,7 @@ class trafitec_facturas_comision(models.Model):
                 'price_unit': self.subtotal_g,
                 'discount': 0
             }
-            self.env['account.invoice.line'].create(inv_line)
+            self.env['account.move.line'].create(inv_line)
 
             account_tax_obj = self.env['account.account'].search([('name', '=', 'IVA Retenido Efectivamente Cobrado')])
 
@@ -233,7 +233,7 @@ class trafitec_facturas_comision(models.Model):
                 'amount': self.iva_g - self.r_iva_g,
                 'sequence': '0'
             }
-            self.env['account.invoice.tax'].create(inv_tax)
+            self.env['account.move.tax'].create(inv_tax)
             self.invoice_id = invoice_id
             self.write({'state': 'Validada'})
 

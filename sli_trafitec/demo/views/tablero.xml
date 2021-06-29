@@ -8,7 +8,7 @@
     <!--****************************************************************************************************************-->
     <record id='sli_trafitec_tablero_cuentasxcobrar_pivot' model='ir.ui.view'>
       <field name='name'>sli.trafitec.tablero.cuentasxcobrar.pivot</field>
-      <field name='model'>account.invoice</field>
+      <field name='model'>account.move</field>
       <field name='arch' type='xml'>
         <pivot string="Cuentas por cobrar">
                     <!--field name="create_date" type="col" interval="day" operator="max"/-->
@@ -22,7 +22,7 @@
 
     <record id='sli_trafitec_tablero_cuentasxpagar_pivot' model='ir.ui.view'>
       <field name='name'>sli.trafitec.tablero.cuentasxpagar.pivot</field>
-      <field name='model'>account.invoice</field>
+      <field name='model'>account.move</field>
       <field name='arch' type='xml'>
         <pivot string="Cuentas por pagar">
                     <!--field name="create_date" type="col" interval="day" operator="max"/-->
@@ -36,7 +36,7 @@
  
     <record model="ir.actions.act_window" id="act_cuentasxcobrar_pivot">
         <field name="name">Cuentas por cobrar</field>
-        <field name="res_model">account.invoice</field>
+        <field name="res_model">account.move</field>
         <field name="view_id" ref="sli_trafitec_tablero_cuentasxcobrar_pivot"/>
         <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">pivot</field>
@@ -47,7 +47,7 @@
     
     <record model="ir.actions.act_window" id="act_cuentasxpagar_pivot">
         <field name="name">Cuentas por pagar</field>
-        <field name="res_model">account.invoice</field>
+        <field name="res_model">account.move</field>
         <field name="view_id" ref="sli_trafitec_tablero_cuentasxpagar_pivot"/>
         <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">pivot</field>
@@ -57,7 +57,7 @@
 
     <record id='sli_trafitec_tablero_cuentasxpagarvscuentasporpagar_graph' model='ir.ui.view'>
       <field name='name'>sli.trafitec.tablero.cuentasxcobrarvscuentasporcobrar.graph</field>
-      <field name='model'>account.invoice</field>
+      <field name='model'>account.move</field>
       <field name='arch' type='xml'>
         <graph string="Viajes" display_quantity="True" display_sum="True" display_avg="True">
                     <!--field name="partner_id" type="row"/-->
@@ -71,7 +71,7 @@
     
     <record model="ir.actions.act_window" id="act_cuentasxcobrar_vs_cuentasxpagar_graph">
         <field name="name">Cuentas por pagar vs Cuentas por cobrar</field>
-        <field name="res_model">account.invoice</field>
+        <field name="res_model">account.move</field>
         <field name="view_id" ref="sli_trafitec_tablero_cuentasxpagarvscuentasporpagar_graph"/>
         <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">graph</field>

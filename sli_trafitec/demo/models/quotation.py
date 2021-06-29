@@ -744,7 +744,7 @@ order by des.name
         else:
             self.write({'state': 'Disponible'})
 
-class trafitec_localidad_municipios_estado_pais(models.Model):
+""" class trafitec_localidad_municipios_estado_pais(models.Model):
     _inherit = 'res.colonia.zip.sat.code'
 
     
@@ -770,10 +770,10 @@ class trafitec_localidad_municipios_estado_pais(models.Model):
                      ('zip_sat_code.township_sat_code.state_sat_code.country_sat_code.name', 'ilike', name)]
         result = self.search(domain + args, limit=limit)
         res = result.name_get()
-        return res
+        return res """
 
 
-class trafitec_municipios_estado_pais(models.Model):
+""" class trafitec_municipios_estado_pais(models.Model):
     _inherit = 'res.country.township.sat.code'
 
     
@@ -787,15 +787,15 @@ class trafitec_municipios_estado_pais(models.Model):
                 result.append((rec.id, name))
             else:
                 result.append((rec.id, name))
-        return result
+        return result """
 
 
 class trafitec_cotizacion_line(models.Model):
     _name = 'trafitec.cotizaciones.linea'
 
     name = fields.Char(string='Folio de cliente')
-    municipio_origen_id = fields.Many2one('res.country.township.sat.code', string='Municipio Origen', required=True)
-    municipio_destino_id = fields.Many2one('res.country.township.sat.code', string='Municipio Destino', required=True)
+    municipio_origen_id = fields.Char(string='Municipio Origen', required=True)
+    municipio_destino_id = fields.Char(string='Municipio Destino', required=True)
     distancia = fields.Float(string='Distancia', required=True)
     km_vacio = fields.Float(string='Km. vacio')
     km_cargado = fields.Float(string='Km. Cargado')
@@ -1003,7 +1003,7 @@ class trafitec_cotizacion_line(models.Model):
 
 class trafitec_cotizacion_line_cargos(models.Model):
     _name = 'trafitec.cotizaciones.linea.cargos'
-trafitec.cotizaciones.linea
+    #Revisar para que era esto: trafitec.cotizaciones.linea
     name = fields.Many2one('trafitec.tipocargosadicionales', string='Tipos de cargos adicionales', required=True)
     iva = fields.Many2one('account.tax', string='IVAS', required=True)
     tipocalculo = fields.Selection([('Suma', 'Suma'), ('Multiplicado', 'Multiplicado')], string='Tipo de cálculo',

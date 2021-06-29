@@ -29,7 +29,7 @@ class trafitec_facturas_automaticas(models.Model):
     state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
                                 ('Cancelada', 'Cancelada')], string='Estado',
                                 default='Nueva')
-    invoice_id = fields.Many2one('account.invoice', string='Factura cliente',
+    invoice_id = fields.Many2one('account.move', string='Factura cliente',
                                     domain="[('type','=','out_invoice'),('partner_id','=',cliente_id)]")
 
     
@@ -190,7 +190,7 @@ class trafitec_facturas_automaticas(models.Model):
                 'reference': 'Factura generada automaticamente.'
             }
             print("X**************Valores:" + str(valores))
-            invoice_id = self.env['account.invoice'].create(valores)
+            invoice_id = self.env['account.move'].create(valores)
 
             amount = 0
             for viaje in self.viaje_id:
@@ -208,7 +208,7 @@ class trafitec_facturas_automaticas(models.Model):
                 'discount': 0
             }
             print("**************Valores Linea:" + str(inv_line))
-            self.env['account.invoice.line'].create(inv_line)
+            self.env['account.move.line'].create(inv_line)
 
             for cargo in self.cargo_id:
                 inv_line = {
@@ -222,7 +222,7 @@ class trafitec_facturas_automaticas(models.Model):
                     'price_unit': cargo.valor,
                     'discount': 0
                 }
-                self.env['account.invoice.line'].create(inv_line)
+                self.env['account.move.line'].create(inv_line)
 
             account_tax_obj = self.env['account.account'].search([('name', '=', 'IVA Retenido Efectivamente Cobrado')])
 
@@ -235,7 +235,7 @@ class trafitec_facturas_automaticas(models.Model):
                     'sequence': '0'
                 }
                 print("**************Valores Tax:" + str(inv_tax))
-                self.env['account.invoice.tax'].create(inv_tax)
+                self.env['account.move.tax'].create(inv_tax)
 
             self.invoice_id = invoice_id
 

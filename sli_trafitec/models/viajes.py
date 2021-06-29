@@ -127,12 +127,12 @@ class trafitec_viajes(models.Model):
     cargo_total = fields.Float(string='Total cargos', compute='compute_cargo_total', store=True)
 
     en_factura = fields.Boolean(string="Viaje con factura cliente", default=False)
-    factura_cliente_id = fields.Many2one(string='Factura cliente',comodel_name='account.invoice')  # Mike, indica en que factura esta el viaje
+    factura_cliente_id = fields.Many2one(string='Factura cliente',comodel_name='account.move')  # Mike, indica en que factura esta el viaje
     factura_cliente_folio = fields.Char(string='Folio de factura cliente', related='factura_cliente_id.number',store=True)
     factura_cliente_fecha = fields.Date(string='Fecha de factura cliente', related='factura_cliente_id.date_invoice',store=True)
 
     en_cp = fields.Boolean(string="Viaje con carta porte", default=False, help='Indica si el viaje esta relacionado con una carta porte.')
-    factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.invoice')  # Mike, indica en que factura proveedor esta el viaje
+    factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.move')  # Mike, indica en que factura proveedor esta el viaje
     factura_proveedor_folio = fields.Char(string='Folio de factura proveedor', related='factura_proveedor_id.number', store=True)
     factura_proveedor_fecha = fields.Date(string='Fecha de factura proveedor', related='factura_proveedor_id.date_invoice', store=True)
 
