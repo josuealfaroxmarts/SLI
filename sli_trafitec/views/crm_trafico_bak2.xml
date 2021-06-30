@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
 		
 	
@@ -358,4 +358,4 @@
 </record>
 		
 		</data>
-</openerp>
+</odoo>

@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
 
         <record id="view_contrarecibo_form" model="ir.ui.view">
@@ -348,4 +348,4 @@
             <field name="limit">10</field>
         </record>
     </data>
-</openerp>
+</odoo>

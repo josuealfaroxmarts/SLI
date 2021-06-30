@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
         <record id="view_municipios_search" model="ir.ui.view">
             <field name="name">view.municipios.search</field>
@@ -2371,4 +2371,4 @@
             <field name="limit">10</field>
         </record>
     </data>
-</openerp>
+</odoo>

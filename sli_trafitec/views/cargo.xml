@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
         <record id="view_descuentos_search" model="ir.ui.view">
             <field name="name">view.descuentos.search</field>
@@ -253,4 +253,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>

@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
     <record id="view_cargosx_comisiones_buscar" model="ir.ui.view">
             <field name="name">view.cargosx.comisiones.buscar</field>
@@ -87,4 +87,4 @@
 
     
     </data>
-</openerp>
+</odoo>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
 <!--SECUENCIAS-->
 <record id="sli_trafitec_cotizacion_secuencia" model="ir.sequence">
@@ -33,4 +33,4 @@
 </record>
 
     </data>
-</openerp>
+</odoo>

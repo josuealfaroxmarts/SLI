@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
 		<record model="ir.ui.view" id="view_from_fletex_form">
 		    <field name="name">view.fletex.form</field>
@@ -46,4 +46,4 @@
             <field name="view_mode">tree,form</field>
         </record>
 	</data>
-</openerp>
+</odoo>

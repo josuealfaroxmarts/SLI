@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
      <data>
           <record model="ir.ui.view" id="view_routers_from">
               <field name="name">view.routers.form</field>
@@ -41,4 +41,4 @@
                <field name="view_mode">tree,form</field>
           </record>
      </data>
-</openerp>
+</odoo>

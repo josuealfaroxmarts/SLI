@@ -8,7 +8,7 @@ import datetime
 from datetime import timedelta
 import logging
 
-# from openerp.tools import amount_to_text
+# from odoo.tools import amount_to_text
 from . import amount_to_text
 
 import xlsxwriter
@@ -17,7 +17,7 @@ import base64
 # from amount_to_text import *
 
 
-# from openerp.addons.report_xlsx.report.report_xlsx import ReportXlsx
+# from odoo.addons.report_xlsx.report.report_xlsx import ReportXlsx
 
 _logger = logging.getLogger(__name__)
 

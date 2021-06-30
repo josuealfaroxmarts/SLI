@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
     <record id="view_facturas_comision_search" model="ir.ui.view">
             <field name="name">view.facturas_comision.search</field>
@@ -117,4 +117,4 @@
             <field name="view_mode">tree,form</field>
         </record>
     </data>
-</openerp>
+</odoo>

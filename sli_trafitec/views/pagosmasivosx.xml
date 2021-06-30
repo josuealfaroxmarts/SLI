@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
 		<record id="trafitec_pagosmasivosx" model="ir.ui.view">
             <field name="name">trafitec.pagosmasivosx</field>
@@ -11,4 +11,4 @@
             </field>
     </record>
     </data>
-</openerp>
+</odoo>

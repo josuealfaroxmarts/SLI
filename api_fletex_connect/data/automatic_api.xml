@@ -1,5 +1,5 @@
 
-<openerp>
+<odoo>
     <data>
         <record id="api_sync_data_api_fletex" model="ir.cron">
             <field name="name">Sincronización de datos Fletex Odoo</field>
@@ -14,4 +14,4 @@
             <field name="args" eval="" />
         </record>
     </data>
-</openerp>
+</odoo>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
  <data>
  
  
@@ -203,4 +203,4 @@
         <field name="view_id" ref="board_view_stock_centiro_form" />
     </record>
 </data>
-</openerp>
+</odoo>

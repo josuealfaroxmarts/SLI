@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <record id="fletex_api_res_partner" model="ir.ui.view">
             <field name="name">fletex.api.res.partner</field>
@@ -80,4 +80,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

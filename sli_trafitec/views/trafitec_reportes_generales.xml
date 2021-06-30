@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
 
         <record id="trafitec_reportes_generales_form" model="ir.ui.view">
@@ -53,4 +53,4 @@
 
 
     </data>
-</openerp>
+</odoo>

@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
         <!-- TODO: Revisar con el consultor -->
         <!-- <record id="trafitec_argil_factura_cancelar" model="ir.ui.view">
@@ -462,4 +462,4 @@
 
 
     </data>
-</openerp>
+</odoo>

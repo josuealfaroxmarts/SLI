@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data>
         <record id="sequences_projects" model="ir.sequence">
             <field name="name">Folio Proyecto</field>
@@ -459,4 +459,4 @@
 
 
     </data>
-</openerp>
+</odoo>

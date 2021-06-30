@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
   <data>
    	<record id="sli_trafitec_tablero_indicadores" model="ir.ui.view">
             <field name="name">Indicadores</field>
@@ -14,4 +14,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>
