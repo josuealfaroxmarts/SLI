@@ -1768,7 +1768,7 @@ class trafitec_cargospendientes(models.TransientModel):
     descuento_id = fields.Integer(string="Id descuento", default=0)
     contrarecibo_id = fields.Many2one(string='Contra recibo', comodel_name='trafitec.contrarecibo')
     detalles = fields.Char(string='Detalles')
-    tipo = fields.Selection(string='Tipo', selection=[(1, 'Comision'), (2, 'Descuento')])
+    tipo = fields.Selection([('commision', 'Comision'), ('discount', 'Descuento')],string='Tipo')
     total = fields.Float(string='Total', default=0)
     abonos = fields.Float(string='Abonos', default=0)
     saldo = fields.Float(string='Saldo', default=0)
