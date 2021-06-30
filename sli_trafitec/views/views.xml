@@ -880,7 +880,7 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//sheet/notebook/page[@name='notes']" position="after">
+                <xpath expr="//sheet/notebook/page[@name='sales']" position="after">
                     <page name="presentacion" string="Presentación por producto">
                         <field name="trafi_product_id" widget="one2many_list">
                             <tree editable="bottom">
@@ -888,8 +888,7 @@
                             </tree>
                         </field>
                     </page>
-                    <page name="trafitec_opciones" string="Opciones trafitec"
-                          groups="sli_trafitec.sli_trafitec_sistemas">
+                    <page name="trafitec_opciones" string="Opciones trafitec" groups="sli_trafitec.sli_trafitec_sistemas">
                         <group>
                             <field name="es_flete"/>
                         </group>
@@ -958,9 +957,11 @@
                                 <field name="celular_enlazado"/>
                                 <field name="name_license_driver" invisible="1"/>
                                 <field name="license_driver" filename="name_license_driver"/>
+<!--                                 
+                                Revisar cuando se migre la api de fletex
                                 <field name="healthcare_move_name"/>
                                 <field name="name_healthcare_move_name" invisible="1"/>
-                                <field name="adj_healthcare_move_name" filename="name_healthcare_move_name"/>
+                                <field name="adj_healthcare_move_name" filename="name_healthcare_move_name"/> -->
                             </group>
                             <group>
                                 <field name="activo_slitrack"/>
@@ -1607,7 +1608,7 @@
                     <field name="supplier"/>
                     <field name="aseguradora"/>
                     <!--field name="employee"/-->
-                    <field name="company_type2"/>
+                    <field name="company_type"/>
                     <field name="company_id"/>
 
                     <field name="create_date"/>
