@@ -99,7 +99,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
 			[('partner_id', '=?', self.buscar_persona_id.id), ('state', '=', 'open'), ('type', '=', 'in_invoice'),
-			('date', '>=', self.buscar_fecha_inicial), ('date', '<=', self.buscar_fecha_final),('move_name', 'ilike', '%'+(self.buscar_folio or '')+'%')],
+			('date', '>=', self.buscar_fecha_inicial), ('date', '<=', self.buscar_fecha_final),('name', 'ilike', '%'+(self.buscar_folio or '')+'%')],
 			order="id asc")
 		
 		for f in facturas_dat:
@@ -180,7 +180,7 @@ class TrafitecProgramacionPagosX(models.Model):
 				losids.append(f.factura_id.id)
 				lasfids.append({'id': f.factura_id.id, 'receiving_amt': f.abono})
 		
-		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.move_name)+" amount_residual: "+str(f.factura_id.amount_residual))
+		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.name)+" amount_residual: "+str(f.factura_id.amount_residual))
 		
 		return {'name': 'Programación de pagos X', 'type': 'ir.actions.act_window', 'type': 'ir.actions.act_window',
 			'res_model': 'account.register.payments',  # 'res_model': 'trafitec.programacionpagos',
@@ -271,7 +271,7 @@ class TrafitecProgramacionPagosX(models.Model):
 			folios += str(inv['factura_folio'])+' '
 			
 		valores = {
-			'move_name': movimiento_nombre,
+			'name': movimiento_nombre,
 			'journal_id': diario_id,
 			'payment_method_id': 1,
 			'payment_date': datetime.datetime.today(),
@@ -302,7 +302,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		grupos = []
 		for r in self.facturas_aplicar_id:
 			f = r.factura_id
-			las_facturas.append({'persona_id': f.partner_id.id, 'factura_id': f.id, 'abono': r.abono, 'factura_folio': f.reference})
+			las_facturas.append({'persona_id': f.partner_id.id, 'factura_id': f.id, 'abono': r.abono, 'factura_folio': f.ref})
 		
 		las_facturas_ordenadas = sorted(las_facturas, key=lambda k: k['persona_id'])
 		print("--LISTA DE FACTURAS A PAGAR---")
@@ -367,7 +367,7 @@ class TrafitecProgramacionPagosX(models.Model):
 			#nuevo_movimiento.post()
 			#nuevo_movimiento_nombre = nuevo_movimiento.name
 			#print("MOVIMIENTO NUEVO::" + str(nuevo_movimiento_nombre))
-			#nuevo_pago.write({'move_name', nuevo_movimiento_nombre})
+			#nuevo_pago.write({'name', nuevo_movimiento_nombre})
 			
 			
 			

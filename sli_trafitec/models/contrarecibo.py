@@ -280,7 +280,7 @@ class trafitec_contrarecibo(models.Model):
             'company_id': vals.company_id.id,
             'currency_id': vals.currency_id.id,
             'account_id': account_obj.id,
-            'reference': 'Factura generada del contra recibo {} '.format(vals.name)
+            'ref': 'Factura generada del contra recibo {} '.format(vals.name)
         }
         invoice_id = vals.env['account.move'].create(valores)
 
@@ -439,7 +439,7 @@ class trafitec_contrarecibo(models.Model):
         # REgistros contables.
         """
         movimiento = [(0, factura_id, {
-            'name': pago.move_name,  # a label so accountant can understand where this line come from
+            'name': pago.name,  # a label so accountant can understand where this line come from
             'amount_currency': 0,
             'debit': abono,  # amount of debit
             'credit': 0,  # amount of credit
@@ -451,7 +451,7 @@ class trafitec_contrarecibo(models.Model):
             'invoice_id': factura_id
         }),
         (0, factura_id, {
-            'name': pago.move_name,
+            'name': pago.name,
             'amount_currency': 0,
             'debit': 0,
             'credit': abono,
@@ -482,7 +482,7 @@ class trafitec_contrarecibo(models.Model):
             id=mx.move_id.id
 
         m1={
-            'name': pago.move_name,  # a label so accountant can understand where this line come from
+            'name': pago.name,  # a label so accountant can understand where this line come from
             'amount_currency': 0,
             'debit': abono,  # amount of debit
             'credit': 0,  # amount of credit
@@ -497,7 +497,7 @@ class trafitec_contrarecibo(models.Model):
         }
 
         m2={
-                            'name': pago.move_name,
+                            'name': pago.name,
                             'amount_currency': 0,
                             'debit': 0,
                             'credit': abono,
@@ -634,7 +634,7 @@ class trafitec_contrarecibo(models.Model):
             'metodo_pago_id': configuracion_trafitec.metodo_pago_id.id, #Mike.  sat.metodo.pago
 
             'account_id': plancontable.id,
-            'reference': 'Nota de cargo por {} generada del contra recibo {} / {} '.format(tipo, vals.name, self.invoice_id.reference)
+            'ref': 'Nota de cargo por {} generada del contra recibo {} / {} '.format(tipo, vals.name, self.invoice_id.ref)
         }
         invoice_id = vals.env['account.move'].create(valores)
         #invoice_id.update({'tax_line_ids': [(6, 0, [parametros_obj.iva.id, parametros_obj.retencion.id])]})
@@ -662,7 +662,7 @@ class trafitec_contrarecibo(models.Model):
         inv_line = {
             'invoice_id': invoice_id.id,
             'product_id': product.id,
-            'name': 'Nota de cargo por {} generada del contra recibo {} / {} '.format(tipo,vals.name,self.invoice_id.reference),
+            'name': 'Nota de cargo por {} generada del contra recibo {} / {} '.format(tipo,vals.name,self.invoice_id.ref),
             
             'account_id': product.property_account_income_id.id,
             # order.lines[0].product_id.property_account_income_id.id or order.lines[0].product_id.categ_id.property_account_income_categ_id.id,
@@ -858,7 +858,7 @@ class trafitec_contrarecibo(models.Model):
                             break
                     if not existe:
                         error = True
-                        errores += "No se encontro el cargo adicional '{} por {:.2f}' del viaje '{}' en la factura '{}'.\r\n".format(vca.name.name, vca.valor, viaje.name, ((self.invoice_id.move_name or self.invoice_id.name or "")+" / "+(self.invoice_id.reference or "")))
+                        errores += "No se encontro el cargo adicional '{} por {:.2f}' del viaje '{}' en la factura '{}'.\r\n".format(vca.name.name, vca.valor, viaje.name, ((self.invoice_id.name or self.invoice_id.name or "")+" / "+(self.invoice_id.ref or "")))
             """
             
             #Validar que los viajes tambien esten en la carta porte.
@@ -1629,7 +1629,7 @@ class trafitec_contrarecibo(models.Model):
     totalx = fields.Float(string='Total_', store=True)
 
     #Carta-porte
-    folio = fields.Char(string='Folio carta porte', related='invoice_id.reference', store=True)
+    folio = fields.Char(string='Folio carta porte', related='invoice_id.ref', store=True)
     fecha_porte = fields.Date(string='Fecha', related='invoice_id.date', store=True)
     fletes_carta_porte = fields.Float(string='Fletes')
 

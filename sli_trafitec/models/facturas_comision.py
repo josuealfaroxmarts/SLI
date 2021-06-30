@@ -206,7 +206,7 @@ class trafitec_facturas_comision(models.Model):
                 'company_id': self.company_id.id,
                 'currency_id': self.currency_id.id,
                 'account_id': parametros_obj.account_id_invoice.id,
-                'reference': 'Factura de cobro por comision {}.'.format(self.name)
+                'ref': 'Factura de cobro por comision {}.'.format(self.name)
             }
             invoice_id = self.env['account.move'].create(valores)
 

@@ -143,7 +143,7 @@ class TrafitecReportesGenerales(models.TransientModel):
 		sql = """
 		select
 --f.id id,
---coalesce(f.move_name,'') as folio,
+--coalesce(f.name,'') as folio,
 p.name persona,
 max(p.id) persona_id,
 --f.date fecha,
@@ -228,7 +228,7 @@ group by p.name
 		sql = """
 		select
 --f.id id,
---coalesce(f.move_name,'') as folio,
+--coalesce(f.name,'') as folio,
 p.name persona,
 max(p.id) persona_id,
 --f.date fecha,
@@ -312,7 +312,7 @@ group by p.name
 		sql = """
 select
 f.id id,
-f.move_name folio,
+f.name folio,
 f.date fecha,
 p.display_name persona,
 f.amount_total total,
@@ -393,7 +393,7 @@ order by f.amount_residual desc
 		sql = """
 select
 f.id id,
-f.reference folio,
+f.ref folio,
 f.date fecha,
 p.display_name persona,
 f.amount_total total,
@@ -476,8 +476,8 @@ order by f.amount_residual desc
 		sql = """
 select
 f.id as id,
-f.move_name as folio_interno,
-f.move_name as folio,
+f.name as folio_interno,
+f.name as folio,
 f.date as fecha,
 p.display_name as persona,
 f.amount_total as total,
@@ -561,8 +561,8 @@ and f.company_id={}
 		sql = """
 select
 f.id as id,
-f.move_name as folio_interno,
-f.reference as folio,
+f.name as folio_interno,
+f.ref as folio,
 f.date as fecha,
 p.display_name as persona,
 case p.asociado when true then 'SI' else 'NO' end es_asociado,

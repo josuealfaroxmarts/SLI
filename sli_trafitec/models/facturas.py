@@ -85,7 +85,7 @@ class trafitec_account_invoice(models.Model):
 			tax_two = self.env['account.tax'].search([('name', '=', '4 % Compra')])
 			taxes = [tax_one.id, tax_two.id]
 			self.partner_id = id_distributor.id
-			self.reference = id_distributor.name
+			self.ref = id_distributor.name
 			voucher = xml.getElementsByTagName('cfdi:Comprobante')[0]
 			subtotal = voucher.getAttribute('SubTotal')
 			self.date = voucher.getAttribute('Fecha')
@@ -1006,14 +1006,14 @@ class trafitec_account_invoice(models.Model):
 					vobj = self.env['trafitec.viajes'].search([('id', '=', v.id)])
 					if vobj.en_factura:
 						error = True
-						errores += "El viaje {} ya tiene factura cliente: {}.\r\n".format(v.name, (v.factura_cliente_id.name or v.factura_cliente_id.move_name or ''))
+						errores += "El viaje {} ya tiene factura cliente: {}.\r\n".format(v.name, (v.factura_cliente_id.name or v.factura_cliente_id.name or ''))
 
 			else: #Factura de proveedor.
 				for vcp in f.viajescp_id:
 					vobj = self.env['trafitec.viajes'].search([('id', '=', vcp.id)])
 					if vobj.en_cp:
 						error = True
-						errores += "El viaje {} ya tiene carta porte: {}.\r\n".format(vcp.name, (vcp.factura_proveedor_id.name or vcp.factura_proveedor_id.move_name or ''))
+						errores += "El viaje {} ya tiene carta porte: {}.\r\n".format(vcp.name, (vcp.factura_proveedor_id.name or vcp.factura_proveedor_id.name or ''))
 
 		if error:
 			raise ValidationError(_(errores))
@@ -1369,7 +1369,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			'company_id': fact.company_id.id,
 			'currency_id': fact.currency_id.id,
 			'account_id': fact.account_id.id,
-			'reference': 'Factura generada por excedente en el folio {} '.format(vals.name)
+			'ref': 'Factura generada por excedente en el folio {} '.format(vals.name)
 		}
 		invoice_id = vals.env['account.move'].create(valores)
 

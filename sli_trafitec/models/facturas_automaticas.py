@@ -187,7 +187,7 @@ class trafitec_facturas_automaticas(models.Model):
                 'company_id': self.company_id.id,
                 'currency_id': self.currency_id.id,
                 'account_id': parametros_obj.account_id_invoice.id,
-                'reference': 'Factura generada automaticamente.'
+                'ref': 'Factura generada automaticamente.'
             }
             print("X**************Valores:" + str(valores))
             invoice_id = self.env['account.move'].create(valores)
