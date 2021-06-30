@@ -990,14 +990,14 @@ class trafitec_account_invoice(models.Model):
 					vobj = self.env['trafitec.viajes'].search([('id', '=', v.id)])
 					if vobj.en_factura:
 						error = True
-						errores += "El viaje {} ya tiene factura cliente: {}.\r\n".format(v.name, (v.factura_cliente_id.name or v.factura_cliente_id.number or ''))
+						errores += "El viaje {} ya tiene factura cliente: {}.\r\n".format(v.name, (v.factura_cliente_id.name or v.factura_cliente_id.move_name or ''))
 
 			else: #Factura de proveedor.
 				for vcp in f.viajescp_id:
 					vobj = self.env['trafitec.viajes'].search([('id', '=', vcp.id)])
 					if vobj.en_cp:
 						error = True
-						errores += "El viaje {} ya tiene carta porte: {}.\r\n".format(vcp.name, (vcp.factura_proveedor_id.name or vcp.factura_proveedor_id.number or ''))
+						errores += "El viaje {} ya tiene carta porte: {}.\r\n".format(vcp.name, (vcp.factura_proveedor_id.name or vcp.factura_proveedor_id.move_name or ''))
 
 		if error:
 			raise ValidationError(_(errores))

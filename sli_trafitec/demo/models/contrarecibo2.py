@@ -870,7 +870,7 @@ class trafitec_contrarecibo2(models.Model):
                             break
                     if not existe:
                         error = True
-                        errores += "No se encontro el cargo adicional '{} por {:.2f}' del viaje '{}' en la factura '{}'.\r\n".format(vca.name.name, vca.valor, viaje.name, ((self.invoice_id.number or self.invoice_id.name or "")+" / "+(self.invoice_id.reference or "")))
+                        errores += "No se encontro el cargo adicional '{} por {:.2f}' del viaje '{}' en la factura '{}'.\r\n".format(vca.name.name, vca.valor, viaje.name, ((self.invoice_id.move_name or self.invoice_id.name or "")+" / "+(self.invoice_id.reference or "")))
                         
             
             if vobj.en_contrarecibo:

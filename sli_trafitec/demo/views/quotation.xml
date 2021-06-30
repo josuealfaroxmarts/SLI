@@ -6,7 +6,7 @@
             <field name="active">TRUE</field>
             <field name="prefix"></field>
             <field name="padding">10</field>
-            <field name="number_increment">1</field>
+            <field name="move_name_increment">1</field>
         </record>
                  <!-- Cotizacion encabezado -->
          <record id="cancelar_quotittaion_wizard_view" model="ir.ui.view">

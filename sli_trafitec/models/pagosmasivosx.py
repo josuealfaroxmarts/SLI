@@ -31,7 +31,7 @@ class trafitec_pagosmasivosx(models.TransientModel):
 			print("***FACK:***"+str(f))
 			n = {
 				'id' : f.invoice_id ,
-				'number' : f.number ,
+				'number000' : f.number000 ,
 				'name' : f.name ,
 				'pay_method_id' : f.pay_method_id ,
 				'date' : f.date ,

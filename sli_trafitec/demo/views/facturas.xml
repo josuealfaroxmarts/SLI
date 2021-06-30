@@ -409,7 +409,7 @@
             <field name="arch" type="xml">
                 <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoice">
                     <field name="id"/>
-                    <field name="number"/>
+                    <field name="move_name"/>
                     <field name="sat_uuid"/>
                     <field name="x_folio_trafitecw"/>
                     <field name="date"/>

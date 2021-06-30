@@ -977,9 +977,9 @@
                                 <field name="celular_enlazado"/>
                                 <field name="name_license_driver" invisible="1"/>
                                 <field name="license_driver" filename="name_license_driver"/>
-                                <field name="healthcare_number"/>
-                                <field name="name_healthcare_number" invisible="1"/>
-                                <field name="adj_healthcare_number" filename="name_healthcare_number"/>
+                                <field name="healthcare_number000"/>
+                                <field name="name_healthcare_number000" invisible="1"/>
+                                <field name="adj_healthcare_number000" filename="name_healthcare_number000"/>
                             </group>
                             <group>
                                 <field name="activo_slitrack"/>
@@ -2357,7 +2357,7 @@
                     <field name="id"/>
                     <field name="partner_id"/>
                     <field name="state"/>
-                    <field name="number"/>
+                    <field name="number000"/>
                 </tree>
             </field>
         </record-->

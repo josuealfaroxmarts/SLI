@@ -1623,12 +1623,12 @@ class cancelacion_cuentas(models.Model):
 
 			if abono > fc_o.amount_residual:
 				error = True
-				errores += "El abono {} es mayor al saldo de la factura cliente {}/{}.\n".format(abono, fc.number,
+				errores += "El abono {} es mayor al saldo de la factura cliente {}/{}.\n".format(abono, fc.move_name,
 																								 fc.amount_residual)
 
 			if abono > fp_o.amount_residual:
 				error = True
-				errores += "El abono {} es mayor al saldo de la factura proveedor {}/{}.\n".format(abono, fp.number,
+				errores += "El abono {} es mayor al saldo de la factura proveedor {}/{}.\n".format(abono, fp.move_name,
 																								   fp.amount_residual)
 
 		if error:
@@ -1763,7 +1763,7 @@ class trafitec_pagosmasivos(models.Model):
 				losids.append(f.factura_id.id)
 				lasfids.append({'id': f.factura_id.id, 'receiving_amt': 1.1})
 
-		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.number)+" amount_residual: "+str(f.factura_id.amount_residual))
+		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.move_name)+" amount_residual: "+str(f.factura_id.amount_residual))
 
 		return {'name': 'Pagos masivos X', 'type': 'ir.actions.act_window', 'type': 'ir.actions.act_window',
 				'res_model': 'account.register.payments',  # 'res_model': 'trafitec.programacionpagos',
@@ -1822,7 +1822,7 @@ class trafitec_pagosmasivos(models.Model):
 			# Pago de cliente.
 			valor = {'move_id': move_id.id, 'account_id': f.factura_id.account_id.id, 'partner_id': self.persona_id.id,
 					 'journal_id': self.diario_id.id, 'user_type_id': 2, 'invoice_id': f.factura_id.id,
-					 'ref': '' + str(f.factura_id.number), 'name': '' + str(f.factura_id.number), 'credit': total,
+					 'ref': '' + str(f.factura_id.move_name), 'name': '' + str(f.factura_id.move_name), 'credit': total,
 					 'debit': 0, 'payment_id': pago_id.id}
 			print("*****Valor1:")
 			print(valor)
@@ -1831,8 +1831,8 @@ class trafitec_pagosmasivos(models.Model):
 			# Factura.
 			valor = {'move_id': move_id.id, 'account_id': self.diario_id.default_debit_account_id.id,
 					 'partner_id': self.persona_id.id, 'journal_id': self.diario_id.id, 'user_type_id': 3,
-					 'invoice_id': f.factura_id.id, 'ref': '' + str(f.factura_id.number),
-					 'name': '' + str(f.factura_id.number), 'credit': 0, 'debit': total, 'payment_id': pago_id.id}
+					 'invoice_id': f.factura_id.id, 'ref': '' + str(f.factura_id.move_name),
+					 'name': '' + str(f.factura_id.move_name), 'credit': 0, 'debit': total, 'payment_id': pago_id.id}
 			print("*****Valor2:")
 			print(valor)
 			debit_line = self.env['account.move.line'].with_context(check_move_validity=False).create(valor)
@@ -1933,12 +1933,12 @@ class trafitec_pagosmasivos(models.Model):
 
 			if f.abono < 0:
 				error = True
-				errores += "El abono de la factura {} debe ser mayor o igual a cero.\n".format(f.factura_id.number)
+				errores += "El abono de la factura {} debe ser mayor o igual a cero.\n".format(f.factura_id.move_name)
 
 			if f.abono > f.factura_saldo:
 				error = True
 				errores += "Los abonos deben ser menores o iguales al saldo de la factura {}.".format(
-					f.factura_id.number)
+					f.factura_id.move_name)
 
 			total_abonos = total_abonos + f.abono
 
