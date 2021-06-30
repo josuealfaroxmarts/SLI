@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="view_municipios_search" model="ir.ui.view">
@@ -6,11 +7,7 @@
             <field name="arch" type="xml">
                 <search string="Ruta">
                     <field name="name"/>
-                    <newline/>
-                    <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
-                        <separator orientation="vertical"/>
-                    </group>
+                        <filter string="Ruta" name="name" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
                 </search>
             </field>
         </record>
@@ -22,7 +19,7 @@
                 <form string="Municipios">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name_value"/>
                             <h1>
                                 <field name="name_value"/>
                             </h1>
@@ -54,7 +51,6 @@
             <field name="name">Municipios</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.municipios</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -68,7 +64,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Ruta" name="name" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -82,7 +78,7 @@
                 <form string="Localidades">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" Invalid view/>
                             <h1>
                                 <field name="name_value"/>
                             </h1>
@@ -117,7 +113,6 @@
             <field name="name">Localidades</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.localidad</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -132,7 +127,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Ruta" name="name" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -146,7 +141,7 @@
                 <form string="Tipos de etiquetas">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -176,7 +171,6 @@
             <field name="name">Tipos de etiquetas</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.etiquetas</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -190,7 +184,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Agrupar por">
-                        <filter string="Tipo de ubicación" icon="terp-partner" domain="[]"
+                        <filter string="Tipo de ubicación" icon="terp-partner" name="tipo_ubicacion" domain="[]"
                                 context="{'group_by':'tipo_ubicacion'}"/>
                         <separator orientation="vertical"/>
                     </group>
@@ -292,7 +286,6 @@
             <field name="name">Almacenes y puertos</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.ubicacion</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -300,7 +293,6 @@
             <field name="name">Remolques</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.remolques</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -314,7 +306,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Tipo de ubicación" icon="terp-partner" domain="[]"
+                        <filter string="Tipo de ubicación" icon="terp-partner" name="tipo_ubicacion" domain="[]"
                                 context="{'group_by':'tipo_ubicacion'}"/>
                         <separator orientation="vertical"/>
                     </group>
@@ -329,7 +321,7 @@
                 <form string="Muelles">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -363,7 +355,6 @@
             <field name="name">Muelles</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.muelles</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -377,7 +368,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -391,7 +382,7 @@
                 <form string="Buques">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -421,7 +412,6 @@
             <field name="name">Buques</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.buques</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -435,7 +425,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -449,7 +439,7 @@
                 <form string="Tipos de documento">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -488,7 +478,6 @@
             <field name="name">Tipos de documento</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.tipodoc</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -502,7 +491,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -516,7 +505,7 @@
                 <form string="Tipos de móvil">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -557,7 +546,6 @@
             <field name="name">Tipos de móvil</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.moviles</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -571,7 +559,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -585,7 +573,7 @@
                 <form string="Línea de negocios" create="false" delete="false">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name" readonly="1"/>
                             </h1>
@@ -615,7 +603,6 @@
             <field name="name">Línea de negocios</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.lineanegocio</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -629,7 +616,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -643,7 +630,7 @@
                 <form string="Tipo de presentación">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -667,7 +654,6 @@
             <field name="name">Tipo de presentación</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.tipopresentacion</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -681,7 +667,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Ruta" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -695,7 +681,7 @@
                 <form string="Tipo de cargos adicionales">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -725,7 +711,6 @@
             <field name="name">Tipo de cargos adicionales</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.tipocargosadicionales</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -838,7 +823,7 @@
                 <form string="Pólizas de seguro de carga">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -884,7 +869,6 @@
             <field name="name">Pólizas de seguro de carga</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.polizas</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -1179,7 +1163,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Nombre" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -1193,7 +1177,7 @@
                 <form string="Plazas banxico">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -1223,7 +1207,6 @@
             <field name="name">Plazas banxico</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.plazas.banxico</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -1254,7 +1237,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Nombre" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -1268,7 +1251,7 @@
                 <form string="Conceptos de descuentos">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre"/>
+                            <label string="Nombre" for="name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -1298,7 +1281,6 @@
             <field name="name">Conceptos de descuentos</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.concepto.anticipo</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -1351,7 +1333,7 @@
                 <xpath expr="//sheet" position="before">
                     <div attrs="{'invisible':[('bloqueado_cliente_bloqueado','=',False)]}"
                          style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
-                        <label string="CLIENTE BLOQUEADO"></label>
+                        <label string="CLIENTE BLOQUEADO" for="bloqueado_cliente_bloqueado"></label>
                     </div>
                 </xpath>
 
@@ -1406,7 +1388,7 @@
                     <field name="no_economico"/>
                     <field name="asociado_id"/>
                     <field name="operador_id"/>
-                    <filter string="No. economico" domain="[]" context="{'group_by':'no_economico'}"/>
+                    <filter string="No. economico" domain="[]" name="no_economico" context="{'group_by':'no_economico'}"/>
                     <separator orientation="vertical"/>
                 </xpath>
             </field>
@@ -1440,7 +1422,6 @@
             <field name="name">Asociados</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
-            <field name="view_type">form</field>
             <field name="domain">[('asociado','=',True)]</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="filter" eval="True"/>
@@ -1449,7 +1430,6 @@
             <field name="name">Operadores</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
-            <field name="view_type">form</field>
             <field name="domain">[('operador','=',True)]</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="filter" eval="True"/>
@@ -1567,7 +1547,6 @@
             <field name="name">Parametros</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.parametros</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -1613,7 +1592,6 @@
             <field name="name">Sucursal</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.sucursal</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -1648,7 +1626,6 @@
             <field name="name">Personas</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree</field>
             <field name="domain">[('employee','=',False)]</field>
             <field name="view_id" ref="sli_view_personas_tree"/>
@@ -1697,7 +1674,6 @@
             <field name="name">Perfiles</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.seguridad.perfiles</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="limit">10</field>
         </record>
@@ -1984,8 +1960,8 @@
                     <filter name="statex" string="Validado" domain="[('state','=','validado')]"/>
                     <filter name="statex" string="Cancelado" domain="[('state','=','cancelado')]"/>
                     <group expand="0" string="Agrupar por">
-                        <filter string="Persona" icon="terp-partner" domain="[]" context="{'group_by':'persona_id'}"/>
-                        <filter string="Tipo" icon="terp-partner" domain="[]" context="{'group_by':'tipo'}"/>
+                        <filter string="Persona" icon="terp-partner" name="persona_is" domain="[]" context="{'group_by':'persona_id'}"/>
+                        <filter string="Tipo" icon="terp-partner" domain="[]" name="persona_is" context="{'group_by':'tipo'}"/>
                     </group>
                 </search>
             </field>
@@ -2110,7 +2086,6 @@
         <record model="ir.actions.act_window" id="custom_pop_message_action">
             <field name="name">Alerta</field>
             <field name="res_model">custom.pop.message</field>
-            <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="custom_pop_message_view"/>
             <field name="target">new</field>
@@ -2138,7 +2113,6 @@
         <record model="ir.actions.act_window" id="trafitec_reportes_venta_margen_vendedor_action">
             <field name="name">Reporte venta y margen por vendedor</field>
             <field name="res_model">trafitec.viajes</field>
-            <field name="view_type">form</field>
             <field name="view_mode">pivot</field>
             <field name="view_id" ref="trafitec_reportes_venta_margen_vendedor_pivot"/>
             <field name="domain">[('state','=','Nueva')]</field>
