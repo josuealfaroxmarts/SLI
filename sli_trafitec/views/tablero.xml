@@ -38,7 +38,6 @@
         <field name="name">Cuentas por cobrar</field>
         <field name="res_model">account.move</field>
         <field name="view_id" ref="sli_trafitec_tablero_cuentasxcobrar_pivot"/>
-        <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">pivot</field>
         
         <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','=','out_invoice')]</field>
@@ -49,7 +48,6 @@
         <field name="name">Cuentas por pagar</field>
         <field name="res_model">account.move</field>
         <field name="view_id" ref="sli_trafitec_tablero_cuentasxpagar_pivot"/>
-        <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">pivot</field>
         
         <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','=','in_invoice')]</field>
@@ -73,7 +71,6 @@
         <field name="name">Cuentas por pagar vs Cuentas por cobrar</field>
         <field name="res_model">account.move</field>
         <field name="view_id" ref="sli_trafitec_tablero_cuentasxpagarvscuentasporpagar_graph"/>
-        <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">graph</field>
         <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','in',['in_invoice','out_invoice'])]</field>
     </record>
@@ -107,7 +104,6 @@
     <record model="ir.actions.act_window" id="act_trafitec_indicadores">
         <field name="name">Indicadores</field>
         <field name="res_model">trafitec.viajes</field>
-        <field name="view_type">tree</field> <!-- form -->
         <field name="view_mode">form</field>
         <field name="view_id" ref="sli_trafitec_indicadores_form"></field>
         <!--field name="domain">[('create_uid','=',uid),('state','=','Nueva')]</field-->
@@ -132,7 +128,6 @@
     <record model="ir.actions.act_window" id="act_misviajes">
         <field name="name">Mis viajes</field>
         <field name="res_model">trafitec.viajes</field>
-        <field name="view_type">tree</field> <!-- form -->
         <field name="view_mode">graph</field>
         <field name="view_id" ref="sli_trafitec_tablero_misviajes_graph"></field>
         <field name="domain">[('create_uid','=',uid),('state','=','Nueva')]</field>
@@ -142,7 +137,6 @@
     <record model="ir.actions.act_window" id="act_misviajes_hoy">
         <field name="name">Mis viajes de hoy</field>
         <field name="res_model">trafitec.viajes</field>
-        <field name="view_type">tree</field> <!-- form -->    
         <field name="view_mode">graph</field>
         <field name="domain">[('create_uid','=',uid),('state','=','Nueva')]</field>
     </record>
@@ -163,7 +157,6 @@
     <record model="ir.actions.act_window" id="act_misasociados">
         <field name="name">Mis asociados</field>
         <field name="res_model">res.partner</field>
-        <field name="view_type">form</field>
         <field name="auto_refresh" eval="1" />
         <field name="view_mode">kanban,form</field>
         <field name="domain">['&amp;',('create_uid','=',uid),('asociado','=',True),('active','=',True)]</field>
@@ -197,7 +190,6 @@
     <record model="ir.actions.act_window" id="sli_trafitec_tablero_accion">
         <field name="name">Stock Centiro Dashboard</field>
         <field name="res_model">board.board</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="usage">menu</field>
         <field name="view_id" ref="board_view_stock_centiro_form" />

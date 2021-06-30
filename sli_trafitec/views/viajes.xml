@@ -45,7 +45,7 @@
             <field name="arch" type="xml">
                 <form string="Motivo de siniestro">
                     <field name="viaje_id" invisible="1"/>
-                    <label string="Motivo de siniestro"/>
+                    <label string="Motivo de siniestro" for="motivo"/>
                     <field name="motivo"/>
                     <footer>
                         <button string="Aceptar" name="siniestrado_button" type="object" class="btn-primary"/>
@@ -59,7 +59,8 @@
                     name="Motivo de siniestro"
                     src_model="trafitec.viajes"
                     res_model="trafitec.viaje.sinestrado.wizard"
-                    view_type="form" view_mode="form"
+                    binding_views="form"
+                    view_mode="form"
                     key2="client_action_multi" target="new"
                     groups="base.group_erp_manager"/>
 
@@ -97,7 +98,7 @@
             <field name="arch" type="xml">
                 <form string="Motivo de cancelación">
                     <field name="viaje_id" invisible="1"/>
-                    <label string="Motivo de cancelación"/>
+                    <label string="Motivo de cancelación" for="motivo"/>
                     <field name="motivo"/>
                     <footer>
                         <button string="Aceptar" name="cancelacion_button" type="object" class="btn-primary"/>
@@ -112,7 +113,7 @@
                     name="Motivo de cancelación"
                     src_model="trafitec.viajes"
                     res_model="trafitec.viaje.cancelar.wizard"
-                    view_type="form"
+                    binding_views="form"
                     view_mode="form"
                     key2="client_action_multi"
                     target="new"
@@ -219,7 +220,7 @@
                     </header>
                     <field name="cliente_bloqueado" invisible="1"/>
                     <div attrs="{'invisible':[('cliente_bloqueado','=',False)]}" style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
-                        <label string="CLIENTE BLOQUEADO"></label>
+                        <label string="CLIENTE BLOQUEADO" for="cliente_bloqueado"></label>
                     </div>
 
                     <sheet>
@@ -933,7 +934,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.viajes</field>
             <field name="context">{'search_default_statex':True}</field>
-            <!--field name="view_type">form</field-->
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_viajes_tree"/>
             <field name="auto_search">true</field>
@@ -945,7 +945,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.viajes</field>
             <field name="context">{'search_default_statex':True}</field>
-            <!--field name="view_type">form</field-->
             <field name="view_mode">tree,form,pivot,graph</field>
             <field name="view_id" ref="view_viajes_tree_granel"/>
             <field name="auto_search">true</field>
@@ -959,7 +958,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.viajes</field>
             <field name="context">{'search_default_statex':True}</field>
-            <!--field name="view_type">form</field-->
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_viajes_tree_flete"/>
             <field name="auto_search">true</field>
@@ -985,7 +983,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.viajes</field>
             <field name="context">{'search_default_statex':True}</field>
-            <!--field name="view_type">form</field-->
             <field name="view_mode">form</field>
             <field name="view_id" ref="view_viajes_form"/>
         </record>
@@ -995,7 +992,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.viajes</field>
             <field name="context">{'search_default_statex':True}</field>
-            <!--field name="view_type">form</field-->
             <field name="view_mode">pivot,graph</field>
             <field name="view_id" ref="sli_trafitec_viajes_vista_pivot"/>
             <field name="auto_search">true</field>

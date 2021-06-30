@@ -15,7 +15,7 @@
             <field name="arch" type="xml">
                 <form string="Motivo de cancelación">
                     <field name="cotizacion_id" invisible="1"/>
-                    <label string="Motivo de cancelación"/>
+                    <label string="Motivo de cancelación" for="cotizacion_id"/>
                     <field name="motivo"/>
                     <footer>
                         <button string="Aceptar" name="cancelacion_button" type="object" class="btn-primary"/>
@@ -186,11 +186,11 @@
                                     </field>
                                     <group class="oe_subtotal_footer oe_right" colspan="2" name="quotitation_total">
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                            <label string="Monto total" />
+                                            <label string="Monto total" for="monto_total"/>
                                         </div>
                                         <field name="monto_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                            <label string="Monto Inicial" />
+                                            <label string="Monto Inicial" for="monto_inicial" />
                                         </div>
                                         <field name="monto_inicial" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary'/>
                                     </group>
@@ -404,7 +404,7 @@
                     <field name="cliente_cotizacion"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                         <filter string="Sub pedidos" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                         <filter string="Sub pedidos" icon="terp-partner" name="name" domain="[]" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
