@@ -750,6 +750,7 @@ class trafitec_type_truck(models.Model):
     tipo_camion = fields.Many2one('trafitec.cotizacion', string='Tipo camion')
     type_truck = fields.Selection([("Jaula", "Jaula"), ("Caja seca", "Caja seca"), ("Portacontenedor", "Portacontenedor"), ("Tolva", "Tolva"), ("Plataforma", "Plataforma"), ("Gondola", "Gondola"), ("Torton", "Torton"), ("Rabon", "Rabon"), ("Chasis", "Chasis"), ("Thermo 48", "Thermo 48"), ("Thermo 53", "Thermo 53")], string="Tipo Camion")
 
+#TODO HABLAR CON EL CONSULTOR LINEA 753
 """ class trafitec_localidad_municipios_estado_pais(models.Model):
     _inherit = 'res.colonia.zip.sat.code'
 

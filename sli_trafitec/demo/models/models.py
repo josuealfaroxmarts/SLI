@@ -127,7 +127,8 @@ class trafitec_ubicaciones(models.Model):
 	comentarios = fields.Text(string="Comentarios")
 	cliente_ubicacion = fields.Many2one('res.partner', string="Cliente")
 	responsable_id = fields.One2many('trafitec.responsable', 'responsable')
-	municipio = fields.Many2one(string='Municipio', store=True, related='localidad.zip_sat_code.township_sat_code')
+	#TODO HABLAR CON EL CONSULTOR LINEA 130
+	#municipio = fields.Many2one(string='Municipio', store=True, related='localidad.zip_sat_code.township_sat_code')
 	# FIN MODIFICACION RECIENTE ALTA DE UBICACIONES
 	active = fields.Boolean(string="Activo", default=True)
 
