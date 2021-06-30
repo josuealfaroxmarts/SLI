@@ -143,7 +143,7 @@ class TrafitecReportesGenerales(models.TransientModel):
 		sql = """
 		select
 --f.id id,
---coalesce(f.number000,'') as folio,
+--coalesce(f.move_name,'') as folio,
 p.name persona,
 max(p.id) persona_id,
 --f.date fecha,
@@ -228,7 +228,7 @@ group by p.name
 		sql = """
 		select
 --f.id id,
---coalesce(f.number000,'') as folio,
+--coalesce(f.move_name,'') as folio,
 p.name persona,
 max(p.id) persona_id,
 --f.date fecha,
@@ -312,7 +312,7 @@ group by p.name
 		sql = """
 select
 f.id id,
-f.number000 folio,
+f.move_name folio,
 f.date fecha,
 p.display_name persona,
 f.amount_total total,
@@ -476,8 +476,8 @@ order by f.amount_residual desc
 		sql = """
 select
 f.id as id,
-f.number000 as folio_interno,
-f.number000 as folio,
+f.move_name as folio_interno,
+f.move_name as folio,
 f.date as fecha,
 p.display_name as persona,
 f.amount_total as total,
@@ -561,7 +561,7 @@ and f.company_id={}
 		sql = """
 select
 f.id as id,
-f.number000 as folio_interno,
+f.move_name as folio_interno,
 f.reference as folio,
 f.date as fecha,
 p.display_name as persona,

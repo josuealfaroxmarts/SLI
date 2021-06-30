@@ -99,7 +99,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
 			[('partner_id', '=?', self.buscar_persona_id.id), ('state', '=', 'open'), ('type', '=', 'in_invoice'),
-			('date', '>=', self.buscar_fecha_inicial), ('date', '<=', self.buscar_fecha_final),('number000', 'ilike', '%'+(self.buscar_folio or '')+'%')],
+			('date', '>=', self.buscar_fecha_inicial), ('date', '<=', self.buscar_fecha_final),('move_name', 'ilike', '%'+(self.buscar_folio or '')+'%')],
 			order="id asc")
 		
 		for f in facturas_dat:
@@ -180,7 +180,7 @@ class TrafitecProgramacionPagosX(models.Model):
 				losids.append(f.factura_id.id)
 				lasfids.append({'id': f.factura_id.id, 'receiving_amt': f.abono})
 		
-		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.number000)+" amount_residual: "+str(f.factura_id.amount_residual))
+		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.move_name)+" amount_residual: "+str(f.factura_id.amount_residual))
 		
 		return {'name': 'Programación de pagos X', 'type': 'ir.actions.act_window', 'type': 'ir.actions.act_window',
 			'res_model': 'account.register.payments',  # 'res_model': 'trafitec.programacionpagos',
