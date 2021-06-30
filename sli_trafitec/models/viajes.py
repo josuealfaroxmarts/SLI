@@ -128,12 +128,12 @@ class trafitec_viajes(models.Model):
 
     en_factura = fields.Boolean(string="Viaje con factura cliente", default=False)
     factura_cliente_id = fields.Many2one(string='Factura cliente',comodel_name='account.move')  # Mike, indica en que factura esta el viaje
-    factura_cliente_folio = fields.Char(string='Folio de factura cliente', related='factura_cliente_id.number000',store=True)
+    factura_cliente_folio = fields.Char(string='Folio de factura cliente', related='factura_cliente_id.move_name',store=True)
     factura_cliente_fecha = fields.Date(string='Fecha de factura cliente', related='factura_cliente_id.date',store=True)
 
     en_cp = fields.Boolean(string="Viaje con carta porte", default=False, help='Indica si el viaje esta relacionado con una carta porte.')
     factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.move')  # Mike, indica en que factura proveedor esta el viaje
-    factura_proveedor_folio = fields.Char(string='Folio de factura proveedor', related='factura_proveedor_id.number000', store=True)
+    factura_proveedor_folio = fields.Char(string='Folio de factura proveedor', related='factura_proveedor_id.move_name', store=True)
     factura_proveedor_fecha = fields.Date(string='Fecha de factura proveedor', related='factura_proveedor_id.date', store=True)
 
     asignadoa_id = fields.Many2one(string='Asignado a',comodel_name='res.users', track_visibility='onchange')
@@ -773,8 +773,8 @@ class trafitec_viajes(models.Model):
             f = self.factura_cliente_id
         
             info += "CR: " + (cr.name or "") + " " + (cr.fecha or "") + " " + (cr.state or "") + "  "
-            info += "CP: " + (cp.number000 or "") + " " + (cp.reference or "") + " " + (cp.date or "") + " " + (self.traduce_account_invoice_state(cp.state) or "") + "  "
-            info += "F:  " + (f.number000 or "") + " " + (f.date or "") + " " + (self.traduce_account_invoice_state(f.state) or "") + "  "
+            info += "CP: " + (cp.move_name or "") + " " + (cp.reference or "") + " " + (cp.date or "") + " " + (self.traduce_account_invoice_state(cp.state) or "") + "  "
+            info += "F:  " + (f.move_name or "") + " " + (f.date or "") + " " + (self.traduce_account_invoice_state(f.state) or "") + "  "
         except:
             _logger.info("SLI_TRAFITEC: Error al calcular Info de viajes.")
         

@@ -2424,7 +2424,7 @@
                     <field name="id"/>
                     <field name="partner_id"/>
                     <field name="state"/>
-                    <field name="number000"/>
+                    <field name="move_name"/>
                 </tree>
             </field>
         </record-->

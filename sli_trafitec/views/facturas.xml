@@ -250,7 +250,7 @@
                     <field name="factura_encontrarecibo" invisible="0"/>
                     <field name="contrarecibo_id" invisible="0"/>
                 </xpath>
-                <xpath expr="//tree/field[@name='number000']" position="after">
+                <xpath expr="//tree/field[@name='move_name']" position="after">
                     <field name="sat_uuid" invisible="0"/>
                 </xpath>
             </field>
@@ -409,7 +409,7 @@
             <field name="arch" type="xml">
                 <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoice">
                     <field name="id"/>
-                    <field name="number000"/>
+                    <field name="move_name"/>
                     <field name="sat_uuid"/>
                     <field name="date"/>
                     <field name="partner_id" groups="base.group_user" string="Customer"/>

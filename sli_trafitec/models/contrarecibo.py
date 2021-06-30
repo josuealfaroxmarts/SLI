@@ -858,7 +858,7 @@ class trafitec_contrarecibo(models.Model):
                             break
                     if not existe:
                         error = True
-                        errores += "No se encontro el cargo adicional '{} por {:.2f}' del viaje '{}' en la factura '{}'.\r\n".format(vca.name.name, vca.valor, viaje.name, ((self.invoice_id.number000 or self.invoice_id.name or "")+" / "+(self.invoice_id.reference or "")))
+                        errores += "No se encontro el cargo adicional '{} por {:.2f}' del viaje '{}' en la factura '{}'.\r\n".format(vca.name.name, vca.valor, viaje.name, ((self.invoice_id.move_name or self.invoice_id.name or "")+" / "+(self.invoice_id.reference or "")))
             """
             
             #Validar que los viajes tambien esten en la carta porte.

@@ -10,7 +10,7 @@ class ReportFee(models.Model):
     _auto = False
 
     id = fields.Integer(readonly=True)
-    number000 = fields.Char(readonly=True)
+    move_name = fields.Char(readonly=True)
     partner_id = fields.Many2one(comodel_name='res.partner', string='Partner', readonly=True)
     state = fields.Char(readonly=True)
 
@@ -25,7 +25,7 @@ class ReportFee(models.Model):
         self._cr.execute(""" CREATE VIEW fee_report AS (
                     select
                     f.id id,
-                    f.number000 number000,
+                    f.move_name move_name,
                     f.partner_id partner_id,
                     f.state state
                     from account_invoice f
