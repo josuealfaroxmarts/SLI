@@ -401,21 +401,21 @@ class trafitec_viajes(models.Model):
         obj = self.env['trafitec.viajes.scan'].search([])
         print("**Scan : " + str(obj))
 
-        if len(obj) > 0:
+        if len(obj) == 'started':
             if obj.viaje_id and self.id:
-                if obj.viaje_id.id != self.id and obj.st == 1:
+                if obj.viaje_id.id != self.id and obj.st == 'started':
                     raise UserError(_('Alerta..\nEl proceso de Scan esta activo en otro viaje: '+str(obj.viaje_id.name)))
 
-            if obj.st == 1:
-                obj.st = 0
+            if obj.st == 'started':
+                obj.st = 'not_started'
                 return self.Mensaje("Scan terminado.")
             else:
-                obj.st = 1
+                obj.st = 'started'
                 obj.viaje_id = self.id
                 return self.Mensaje("Scan iniciado.")
         else:
             if self.id:
-                nuevo={'viaje_id': self.id, 'st': 1}
+                nuevo={'viaje_id': self.id, 'st': 'started'}
                 print("**Scan nuevo:"+str(nuevo))
                 obj.create(nuevo)
                 return self.Mensaje("Scan iniciado.")
