@@ -250,7 +250,7 @@
                     <field name="factura_encontrarecibo" invisible="0"/>
                     <field name="contrarecibo_id" invisible="0"/>
                 </xpath>
-                <xpath expr="//tree/field[@name='number']" position="after">
+                <xpath expr="//tree/field[@name='move_name']" position="after">
                     <field name="sat_uuid" invisible="0"/>
                 </xpath>
             </field>
