@@ -78,7 +78,7 @@
                 <form string="Localidades">
                     <sheet>
                         <div class="oe_title">
-                            <label string="Nombre" Invalid view/>
+                            <label string="Nombre" for="name_value"/>
                             <h1>
                                 <field name="name_value"/>
                             </h1>
@@ -306,8 +306,8 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Tipo de ubicación" icon="terp-partner" name="tipo_ubicacion" domain="[]"
-                                context="{'group_by':'tipo_ubicacion'}"/>
+                        <filter string="Tipo de ubicación" icon="terp-partner" name="name" domain="[]"
+                                context="{'group_by':'ubicacion'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -1388,7 +1388,7 @@
                     <field name="no_economico"/>
                     <field name="asociado_id"/>
                     <field name="operador_id"/>
-                    <filter string="No. economico" domain="[]" name="no_economico" context="{'group_by':'no_economico'}"/>
+                    <filter string="No. economico" domain="[]" name="name" context="{'group_by':'no_economico'}"/>
                     <separator orientation="vertical"/>
                 </xpath>
             </field>
@@ -1960,8 +1960,8 @@
                     <filter name="statex" string="Validado" domain="[('state','=','validado')]"/>
                     <filter name="statex" string="Cancelado" domain="[('state','=','cancelado')]"/>
                     <group expand="0" string="Agrupar por">
-                        <filter string="Persona" icon="terp-partner" name="persona_is" domain="[]" context="{'group_by':'persona_id'}"/>
-                        <filter string="Tipo" icon="terp-partner" domain="[]" name="persona_is" context="{'group_by':'tipo'}"/>
+                        <filter string="Persona" icon="terp-partner" name="name" domain="[]" context="{'group_by':'persona_id'}"/>
+                        <filter string="Tipo" icon="terp-partner" domain="[]" name="name" context="{'group_by':'tipo'}"/>
                     </group>
                 </search>
             </field>
