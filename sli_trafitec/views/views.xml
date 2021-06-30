@@ -727,26 +727,26 @@
                     <attribute name="invisible">True</attribute>
                 </xpath>
                 <xpath expr="//sheet[1]/group[1]/group[2]/div/field[@name='lang']" position="after">
+                    <field name="asociado"/>
+                    <field name="operador"/>
+                </xpath>
+                <xpath expr="//sheet[1]/group[1]/group[2]/div/field[@name='lang']" position="after">
                     <field name="aseguradora" invisible="1"/>
                 </xpath>
                 
-                <xpath expr="//sheet/group/group/field[@name='email']" position="after">
+                <xpath expr="//sheet[1]/group[1]/group[2]/field[@name='email']" position="after">
                     <field name="crmt_logistico_correo"/>
                     <field name="crmt_unidades_txt" attrs="{'invisible':True}"/>
                 </xpath>
-                <xpath expr="//sheet/group/group/field[@name='phone']" position="attributes">
+                <xpath expr="//sheet[1]/group[1]/group[2]/field[@name='phone']" position="attributes">
                     <attribute name="states"></attribute>
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//sheet/group/group/field[@name='fax']" position="attributes">
+                <xpath expr="//sheet[1]/group[1]/group[2]/field[@name='website']" position="attributes">
                     <attribute name="states"></attribute>
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//sheet/group/group/field[@name='website']" position="attributes">
-                    <attribute name="states"></attribute>
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//sheet/group/group/field[@name='function']" position="attributes">
+                <xpath expr="//sheet[1]/group[1]/group[2]/field[@name='function']" position="attributes">
                     <attribute name="states"></attribute>
                     <attribute name="invisible">1</attribute>
                 </xpath>
@@ -754,17 +754,17 @@
                     <attribute name="states"></attribute>
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//sheet/group/group/field[@name='category_id']" position="attributes">
+                <xpath expr="//sheet[1]/group[1]/group[2]/field[@name='category_id']" position="attributes">
                     <attribute name="states"></attribute>
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//sheet/group/group/label[@for='street']" position="attributes">
+                <xpath expr="//field[@name='street'][1]" position="attributes">
                      <attribute name="attrs">{'invisible': [('operador','!=',False)]}</attribute>
                 </xpath>
-                <xpath expr="//sheet/group/group/div" position="attributes">
+                <xpath expr="//sheet[1]/group[1]/group[1]/div" position="attributes">
                      <attribute name="attrs">{'invisible': [('operador','!=',False)]}</attribute>
                 </xpath>
-                <xpath expr="//sheet/group/group/div" position="after">
+                <xpath expr="//sheet[1]/group[1]/group[1]/div" position="after">
                      <field name="fecha_nacimiento" attrs="{'invisible': [('operador', '!=', True)]}"/>
                 </xpath>
                 <xpath expr="//notebook/page[@name='internal_notes']" position="attributes">
@@ -772,7 +772,8 @@
                 </xpath>  
             </field>
         </record>
-        <record id="alta_choferes" model="ir.ui.view">
+        <!-- TODO codigo comentado al migrar en la version 14, por favor revisar su funcionamiento -->
+        <!-- <record id="alta_choferes" model="ir.ui.view">
             <field name="name">alta.choferes.form.add.text.field</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_mx_sat_models.form_res_partner_address_fields_3_3"/>
@@ -786,7 +787,7 @@
                     <attribute name="invisible">1</attribute>
                 </field>
             </field>
-        </record>
+        </record> -->
         <!--<record id="nif_mod" model="ir.ui.view">
             <field name="name">nif.mod.form.add.text.field</field>
             <field name="model">sales.order</field>
@@ -904,10 +905,6 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//sheet[1]/group[1]/group[2]/div/field[@name='lang']" position="after">
-                    <field name="asociado"/>
-                    <field name="operador"/>
-                </xpath>
                 <xpath expr="//sheet/notebook/page[1]" position="attributes">
                     <attribute name="states"></attribute>
                     <attribute name="invisible">1</attribute>
