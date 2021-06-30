@@ -898,7 +898,7 @@ class trafitec_vehiculos(models.Model):
 	ejes_tracktocamion = fields.Selection([('C2', 'C2'), ('C3', 'C3'), ('T3', 'T3'), ('S2', 'S2'), ('S3', 'S3') ,('S2-R4', 'S2-R4') ], string='Tipo de Eje')
 	tiposervicio = fields.Selection([('Estatal', 'Estatal'), ('Federal', 'Federal')], string='Tipo de servicio')
 	asociado_id = fields.Many2one('res.partner',
-								domain="[('asociado','=',True),('company_type','in',['company','person'])]",
+								domain="[('asociado','=',True),(['company','person'],'in','company_type')]",
 								string="Asociado")
 	operador_id = fields.Many2one('res.partner', domain="[('operador','=',True)]", string="Operador")
 	es_flotilla = fields.Boolean(string='Es flotilla')
