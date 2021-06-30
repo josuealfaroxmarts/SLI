@@ -600,7 +600,7 @@ and f.partner_id={}
 				# 'target': 'new',
 				'res_id': self.id, 'context': {}, 'domain': []}
 
-	@api.onchange('aseguradora', 'asociado', 'operador', 'company_type2')
+	@api.onchange('aseguradora', 'asociado', 'operador', 'company_type')
 	def _onchange_asegurador(self):
 		if self.aseguradora == True:
 			if self.asociado == True or self.operador == True:
@@ -609,7 +609,7 @@ and f.partner_id={}
 				res = {'warning': {'title': _('Advertencia'),
 									'message': _('No puede seleccionar que un contacto sea aseguradora, operador o asociado.')}}
 				return res
-			if self.company_type2 != 'company':
+			if self.company_type != 'company':
 				self.aseguradora = False
 				res = {'warning': {'title': _('Advertencia'),
 									'message': _('Para que un contacto sea aseguradora, tiene que ser una compañia')}}
@@ -772,8 +772,9 @@ class trafitec_asociados(models.Model):
 	operador = fields.Boolean(string='Es operador')
 	status_document = fields.Boolean()
 	asociado_operador = fields.Many2one('res.partner',
-									domain="[('asociado','=',True),('company_type2','in',['company','physical_person'])]",
-									string="Asociado")
+									domain="[('asociado','=',True),(['company','person'],'in','company_type')]",
+									string="Asociado",
+									store=True)
 	imei = fields.Char(string='IMEI')
 	noviajes = fields.Integer(string='No. Viajes', readonly=True)
 	radio = fields.Char(string='Radio')
@@ -807,9 +808,9 @@ class trafitec_asociados(models.Model):
 	def _construct_constraint_msg(self):
 		return True
 
-	@api.constrains('vat', 'company_type2')
+	@api.constrains('vat', 'company_type')
 	def _check_constrains(self):
-		if self.company_type2 != 'person':
+		if self.company_type != 'person':
 			if self.vat:
 				if len(self.vat) >= 12 and self.vat <= 13 :
 					vat_obj = self.env['res.partner'].search(
@@ -897,7 +898,7 @@ class trafitec_vehiculos(models.Model):
 	ejes_tracktocamion = fields.Selection([('C2', 'C2'), ('C3', 'C3'), ('T3', 'T3'), ('S2', 'S2'), ('S3', 'S3') ,('S2-R4', 'S2-R4') ], string='Tipo de Eje')
 	tiposervicio = fields.Selection([('Estatal', 'Estatal'), ('Federal', 'Federal')], string='Tipo de servicio')
 	asociado_id = fields.Many2one('res.partner',
-								domain="[('asociado','=',True),('company_type2','in',['company','physical_person'])]",
+								domain="[('asociado','=',True),('company_type','in',['company','person'])]",
 								string="Asociado")
 	operador_id = fields.Many2one('res.partner', domain="[('operador','=',True)]", string="Operador")
 	es_flotilla = fields.Boolean(string='Es flotilla')
@@ -1654,7 +1655,7 @@ class trafitec_pagosmasivos(models.Model):
 
 	name = fields.Char(string='Folio', default='')
 	persona_id = fields.Many2one(string='Persona', comodel_name='res.partner', required=True,
-								domain="[('company_type2','in',['company','physical_person']),'|',('supplier','=',True),('customer','=',True)]",
+								domain="[('company_type','in',['company','person']),'|',('supplier','=',True),('customer','=',True)]",
 								track_visibility='onchange')
 	fecha = fields.Date(string='Fecha', default=datetime.datetime.now().today(), required=True,
 						track_visibility='onchange')
