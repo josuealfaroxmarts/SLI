@@ -38,10 +38,10 @@ class trafitec_pagosmasivosx(models.TransientModel):
 			  'partner_id' : f.partner_id ,
 			  'company_id' : f.company_id ,
 			  'journal_id' : f.journal_id ,
-			  'residual' : 666 ,
+			  'amount_residual' : 666 ,
 		      'currency_id' : f.currency_id ,
-				'residual_company_signed': 666 ,
-				'residual_signed': 666
+				'amount_residual_company_signed': 666 ,
+				'amount_residual_signed': 666
 			}
 			nuevas.append(n)
 		

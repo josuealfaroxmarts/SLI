@@ -306,7 +306,7 @@ class trafitec_respartner(models.Model):
 			[('partner_id', '=', self.id), ('state', '=', 'open'), ('type', '=', 'in_invoice')])
 		total = 0
 		for f in facturas_dat:
-			total += f.residual
+			total += f.amount_residual
 		self.crm_trafico_saldo = total
 
 	
@@ -316,7 +316,7 @@ class trafitec_respartner(models.Model):
 			[('partner_id', '=', self.id), ('state', '=', 'open'), ('contrarecibo_id', '!=', False)])
 		total = 0
 		for f in facturas_dat:
-			total += f.residual
+			total += f.amount_residual
 		self.crm_trafico_saldo = total
 
 	def saldo_vencido(self, persona_id=None):
@@ -326,7 +326,7 @@ class trafitec_respartner(models.Model):
 
 		sql = """
 		select
-sum(f.residual) saldo
+sum(f.amount_residual) saldo
 from account_invoice as f
 where f.state = 'open'
 and f.type='out_invoice'
@@ -669,7 +669,7 @@ and f.partner_id={}
 		total_facturas = 0
 		sql_facturas = """
 	select
-	sum(f.residual) total
+	sum(f.amount_residual) total
 	from account_invoice as f
 	where
 	f.state='open'
@@ -1414,25 +1414,25 @@ class cancelacion_cuentas(models.Model):
 			return
 
 		facturas_cliente = self.env['account.move'].search(
-			[('partner_id', '=', self.persona_id.id), ('type', '=', 'out_invoice'), ('residual', '>', 0),
+			[('partner_id', '=', self.persona_id.id), ('type', '=', 'out_invoice'), ('amount_residual', '>', 0),
 			 ('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date asc')
 		# facturas.sorted(key=lamnda r: r.)
 		# facturas=self.env['account.move'].search([])
 		print("***Facturas:" + str(facturas_cliente))
 		for f in facturas_cliente:
 			nuevo = {'factura_cliente_id': f.id, 'factura_cliente_total': f.amount_total,
-					 'factura_cliente_saldo': f.residual, 'abono': f.residual}
+					 'factura_cliente_saldo': f.amount_residual, 'abono': f.amount_residual}
 			lista_clientes.append(nuevo)
 		self.facturas_cliente_id = lista_clientes
 
 		facturas_proveedores = self.env['account.move'].search(
-			[('partner_id', '=', self.persona_id.id), ('type', '=', 'in_invoice'), ('residual', '>', 0),
+			[('partner_id', '=', self.persona_id.id), ('type', '=', 'in_invoice'), ('amount_residual', '>', 0),
 			 ('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date asc')
 		# facturas=self.env['account.move'].search([])
 		print("***Facturas:" + str(facturas_proveedores))
 		for f in facturas_proveedores:
 			nuevo = {'factura_proveedor_id': f.id, 'factura_proveedor_total': f.amount_total,
-					 'factura_proveedor_saldo': f.residual, 'abono': 0}
+					 'factura_proveedor_saldo': f.amount_residual, 'abono': 0}
 			lista_proveedores.append(nuevo)
 		self.facturas_proveedor_id = lista_proveedores
 
@@ -1501,7 +1501,7 @@ class cancelacion_cuentas(models.Model):
 			fc_saldo = fc.factura_cliente_saldo
 			print("---FC SALDO: " + str(fc_saldo))
 			for fp in self.facturas_proveedor_id:  # Facturas de proveedor.
-				fp_saldo = fp.factura_proveedor_id.residual - fp.abono
+				fp_saldo = fp.factura_proveedor_id.amount_residual - fp.abono
 
 				if fc_saldo <= 0:
 					break
@@ -1621,15 +1621,15 @@ class cancelacion_cuentas(models.Model):
 			fc_o = self.env['account.move'].search([('id', '=', fc.id)])
 			fp_o = self.env['account.move'].search([('id', '=', fp.id)])
 
-			if abono > fc_o.residual:
+			if abono > fc_o.amount_residual:
 				error = True
 				errores += "El abono {} es mayor al saldo de la factura cliente {}/{}.\n".format(abono, fc.number,
-																								 fc.residual)
+																								 fc.amount_residual)
 
-			if abono > fp_o.residual:
+			if abono > fp_o.amount_residual:
 				error = True
 				errores += "El abono {} es mayor al saldo de la factura proveedor {}/{}.\n".format(abono, fp.number,
-																								   fp.residual)
+																								   fp.amount_residual)
 
 		if error:
 			raise ValidationError(_(errores))
@@ -1679,7 +1679,7 @@ class cancelacion_cuentas_facturas_proveedor(models.Model):
 	factura_proveedor_fecha = fields.Date(string='Fecha', related='factura_proveedor_id.date')
 	factura_proveedor_total = fields.Monetary(string='Total', related='factura_proveedor_id.amount_total',
 											  currency_field='moneda_id')
-	factura_proveedor_saldo = fields.Monetary(string='Saldo', related='factura_proveedor_id.residual',
+	factura_proveedor_saldo = fields.Monetary(string='Saldo', related='factura_proveedor_id.amount_residual',
 											  currency_field='moneda_id')
 
 	abono = fields.Monetary(string='Abono', default=0, currency_field='moneda_id')
@@ -1695,7 +1695,7 @@ class cancelacion_cuentas_facturas_cliente(models.Model):
 	factura_cliente_fecha = fields.Date(string='Fecha', related='factura_cliente_id.date')
 	factura_cliente_total = fields.Monetary(string='Total', related='factura_cliente_id.amount_total',
 											currency_field='moneda_id')
-	factura_cliente_saldo = fields.Monetary(string='Saldo', related='factura_cliente_id.residual',
+	factura_cliente_saldo = fields.Monetary(string='Saldo', related='factura_cliente_id.amount_residual',
 											currency_field='moneda_id')
 
 	abono = fields.Monetary(string='Abono', default=0, currency_field='moneda_id')
@@ -1759,11 +1759,11 @@ class trafitec_pagosmasivos(models.Model):
 		lasfids = []
 		print("****LAS FACTURAS*****")
 		for f in self.facturas_id:
-			if f.factura_id.residual > 0:
+			if f.factura_id.amount_residual > 0:
 				losids.append(f.factura_id.id)
 				lasfids.append({'id': f.factura_id.id, 'receiving_amt': 1.1})
 
-		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.number)+" Residual: "+str(f.factura_id.residual))
+		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.number)+" amount_residual: "+str(f.factura_id.amount_residual))
 
 		return {'name': 'Pagos masivos X', 'type': 'ir.actions.act_window', 'type': 'ir.actions.act_window',
 				'res_model': 'account.register.payments',  # 'res_model': 'trafitec.programacionpagos',
@@ -2029,13 +2029,13 @@ class trafitec_pagosmasivos(models.Model):
 		print("----------------------TIPO: " + tipo)
 
 		facturas_cliente = self.env['account.move'].search(
-			[('partner_id', '=', self.persona_id.id), ('type', '=', tipo), ('residual', '>', 0), ('state', '=', 'open'),
+			[('partner_id', '=', self.persona_id.id), ('type', '=', tipo), ('amount_residual', '>', 0), ('state', '=', 'open'),
 			 ('currency_id', '=', self.moneda_id.id), ('date', '>=', self.busqueda_fecha_inicial),
 			 ('date', '<=', self.busqueda_fecha_final)], order='date asc')
 		print("**Facturas cliente:" + str(facturas_cliente))
 		for f in facturas_cliente:
 			nuevo = {'pagomasivo_id': False, 'moneda_id': f.currency_id.id, 'factura_id': f.id,
-					 'factura_fecha': f.date, 'factura_total': f.amount_total, 'factura_saldo': f.residual,
+					 'factura_fecha': f.date, 'factura_total': f.amount_total, 'factura_saldo': f.amount_residual,
 					 'abono': 0}
 			print("**Nuevo:" + str(nuevo))
 			lista_clientes.append(nuevo)
@@ -2051,7 +2051,7 @@ class trafitec_pagosmasivos_facturas(models.Model):
 	factura_fecha = fields.Date(string='Fecha', related='factura_id.date', store=True)
 	factura_total = fields.Monetary(string='Total', related='factura_id.amount_total', default=0, store=True,
 									currency_field='moneda_id')
-	factura_saldo = fields.Monetary(string='Saldo', related='factura_id.residual', default=0, store=True,
+	factura_saldo = fields.Monetary(string='Saldo', related='factura_id.amount_residual', default=0, store=True,
 									currency_field='moneda_id')
 	abono = fields.Monetary(string='Abono', required=True, default=0, currency_field='moneda_id')
 

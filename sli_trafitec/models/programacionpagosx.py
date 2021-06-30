@@ -83,7 +83,7 @@ class TrafitecProgramacionPagosX(models.Model):
 					break
 			
 			if not existe:
-				lista_actual.append({'factura_id': fb.factura_id.id, 'abono': fb.factura_id.residual})
+				lista_actual.append({'factura_id': fb.factura_id.id, 'abono': fb.factura_id.amount_residual})
 
 		print("***LISTA ACTUAL***")
 		print(lista_actual)
@@ -124,7 +124,7 @@ class TrafitecProgramacionPagosX(models.Model):
 			errores += "El total de abonos debe ser menor o igual al total del documento.\n"
 		
 		for f in self.facturas_aplicar_id:
-			if f.abono > f.factura_id.residual:
+			if f.abono > f.factura_id.amount_residual:
 				error = True
 				errores += "El abono debe ser menor o igual al saldo de la factura.\n"
 			
@@ -142,7 +142,7 @@ class TrafitecProgramacionPagosX(models.Model):
 	
 	def action_facturas_aplicar_saldar(self):
 		for f in self.facturas_aplicar_id:
-			f.abono = f.factura_id.residual
+			f.abono = f.factura_id.amount_residual
 	
 	
 	def action_facturas_aplicar_cero(self):
@@ -176,11 +176,11 @@ class TrafitecProgramacionPagosX(models.Model):
 		lasfids = []
 		print("****LAS FACTURAS*****")
 		for f in self.facturas_aplicar_id:
-			if f.factura_id.residual > 0:
+			if f.factura_id.amount_residual > 0:
 				losids.append(f.factura_id.id)
 				lasfids.append({'id': f.factura_id.id, 'receiving_amt': f.abono})
 		
-		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.number)+" Residual: "+str(f.factura_id.residual))
+		# print("Id: "+str(f.factura_id.id)+" Folio: "+str(f.factura_id.number)+" amount_residual: "+str(f.factura_id.amount_residual))
 		
 		return {'name': 'Programación de pagos X', 'type': 'ir.actions.act_window', 'type': 'ir.actions.act_window',
 			'res_model': 'account.register.payments',  # 'res_model': 'trafitec.programacionpagos',
@@ -386,7 +386,7 @@ class TrafitecProgramacionPagosXFacturasAplicar(models.Model):
 	persona_id = fields.Many2one(string="Persona", related="factura_id.partner_id")
 	moneda_id = fields.Many2one(string="Moneda", related="factura_id.currency_id")
 	total = fields.Monetary(string="Total", related="factura_id.amount_total", currency_field="moneda_id")
-	saldo = fields.Monetary(string="Saldo", related="factura_id.residual", currency_field="moneda_id")
+	saldo = fields.Monetary(string="Saldo", related="factura_id.amount_residual", currency_field="moneda_id")
 	abono = fields.Monetary(string="Abono", default=0, currency_field="moneda_id")
 
 
@@ -399,7 +399,7 @@ class TrafitecProgramacionPagosXFacturasBuscar(models.TransientModel):
 	persona_id = fields.Many2one(string="Persona", related="factura_id.partner_id")
 	moneda_id = fields.Many2one(string="Moneda", related="factura_id.currency_id")
 	total = fields.Monetary(string="Total", related="factura_id.amount_total", currency_field="moneda_id")
-	saldo = fields.Monetary(string="Saldo", related="factura_id.residual", currency_field="moneda_id")
+	saldo = fields.Monetary(string="Saldo", related="factura_id.amount_residual", currency_field="moneda_id")
 
 
 

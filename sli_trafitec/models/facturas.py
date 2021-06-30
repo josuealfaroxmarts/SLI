@@ -39,9 +39,9 @@ class trafitec_account_invoice(models.Model):
 
 
 	
-	@api.depends('amount_total', 'residual')
+	@api.depends('amount_total', 'amount_residual')
 	def compute_abonos(self):
-		self.abonos = self.amount_total-self.residual
+		self.abonos = self.amount_total-self.amount_residual
 
 	abonos = fields.Float(string="Abonos", compute=compute_abonos, store=True, help='Abonos a la factura.')
 

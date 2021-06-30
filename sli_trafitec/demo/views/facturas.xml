@@ -26,7 +26,7 @@
                     <separator/>
                     <filter name="no_en_contrarecibo" string="No en contra recibo" domain="[('factura_encontrarecibo','=',False)]"/>
                     <separator/>
-                    <filter name="por_pagar" string="Por pagar" domain="[('state','=','open'),('residual','>',0)]"/>
+                    <filter name="por_pagar" string="Por pagar" domain="[('state','=','open'),('amount_residual','>',0)]"/>
                     <separator/>
                     <filter name="es_provision" string="Es provisión" domain="[('es_provision','=',True)]"/>
 
@@ -427,7 +427,7 @@
                     <field name="amount_total_signed" string="Total" sum="Total"/>
                     <!--TODO Abonos en lista de facturas y completar reglas de negociacion-->
                     <field name="abonos" string="Abonos" sum="Abonos"/>
-                    <field name="residual_signed" string="Saldo" sum="Amount Due"/>
+                    <field name="amount_residual_signed" string="Saldo" sum="Amount Due"/>
                     <field name="currency_id" invisible="1"/>
                     <field name="lineanegocio"/>
                     <field name="company_currency_id" invisible="1"/>

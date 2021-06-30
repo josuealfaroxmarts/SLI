@@ -14,7 +14,7 @@
                     <!--field name="create_date" type="col" interval="day" operator="max"/-->
                     <!--field name="partner_id" type="row"/-->
                     <field name="partner_id" type="row"/>
-                    <field name="residual" type="measure"/>
+                    <field name="amount_residual" type="measure"/>
                     <field name="partner_id" type="count"/>
         </pivot>
       </field>
@@ -27,7 +27,7 @@
         <pivot string="Cuentas por pagar">
                     <!--field name="create_date" type="col" interval="day" operator="max"/-->
                     <field name="partner_id" type="row"/>
-                    <field name="residual" type="measure"/>
+                    <field name="amount_residual" type="measure"/>
                     <field name="partner_id" type="count"/>
         </pivot>
       </field>
@@ -41,7 +41,7 @@
         <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">pivot</field>
         
-        <field name="domain">[('residual','&gt;',0),('state','=','open'),('type','=','out_invoice')]</field>
+        <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','=','out_invoice')]</field>
     </record>
 
     
@@ -52,7 +52,7 @@
         <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">pivot</field>
         
-        <field name="domain">[('residual','&gt;',0),('state','=','open'),('type','=','in_invoice')]</field>
+        <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','=','in_invoice')]</field>
     </record>
 
     <record id='sli_trafitec_tablero_cuentasxpagarvscuentasporpagar_graph' model='ir.ui.view'>
@@ -61,7 +61,7 @@
       <field name='arch' type='xml'>
         <graph string="Viajes" display_quantity="True" display_sum="True" display_avg="True">
                     <!--field name="partner_id" type="row"/-->
-                    <field name="residual" type="measure"/>
+                    <field name="amount_residual" type="measure"/>
                     <field name="type" type="col"/>
                     <!--field name="partner_id" type="count"/-->
         </graph>
@@ -75,7 +75,7 @@
         <field name="view_id" ref="sli_trafitec_tablero_cuentasxpagarvscuentasporpagar_graph"/>
         <field name="view_type">form</field> <!-- form -->
         <field name="view_mode">graph</field>
-        <field name="domain">[('residual','&gt;',0),('state','=','open'),('type','in',['in_invoice','out_invoice'])]</field>
+        <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','in',['in_invoice','out_invoice'])]</field>
     </record>
     
     <!--****************************************************************************************************************-->
@@ -97,7 +97,7 @@
                     </button>
            </div>
            <!--field name="partner_id" type="row"/-->
-           <!--field name="residual" type="measure"/-->
+           <!--field name="amount_residual" type="measure"/-->
            <!--field name="type" type="col"/-->
            <!--field name="partner_id" type="count"/-->
         </form>
@@ -122,7 +122,7 @@
         <graph string="Viajes" display_quantity="True" display_sum="True" display_avg="True">
                     <field name="fecha_viaje" type="col" interval="month"/>
                     <!--field name="partner_id" type="row"/-->
-                    <!--field name="residual" type="measure"/-->
+                    <!--field name="amount_residual" type="measure"/-->
                     <!--field name="type" type="col"/-->
                     <!--field name="partner_id" type="count"/-->
         </graph>

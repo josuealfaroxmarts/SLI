@@ -150,17 +150,17 @@ max(p.id) persona_id,
 --f.date_due fecha_vencimiento,
 --current_date-f.date_due dias,
 sum(f.amount_total) total,
-sum(f.residual) saldo,
- sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.residual else 0 end) v_d1a15,
- sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.residual else 0 end) v_d16a30,
- sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.residual else 0 end) v_d31a45,
- sum(case when (current_date-f.date_due)>=46 then f.residual else 0 end) v_d46aN
+sum(f.amount_residual) saldo,
+ sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.amount_residual else 0 end) v_d1a15,
+ sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.amount_residual else 0 end) v_d16a30,
+ sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.amount_residual else 0 end) v_d31a45,
+ sum(case when (current_date-f.date_due)>=46 then f.amount_residual else 0 end) v_d46aN
 
 from account_invoice as f
   inner join res_partner p on(f.partner_id=p.id)
   left join trafitec_contrarecibo as cr on(cr.invoice_id=f.id)
 where
-f.residual>1 and f.state='open' and f.type='out_invoice'
+f.amount_residual>1 and f.state='open' and f.type='out_invoice'
 and f.company_id={}
 group by p.name
 """.format(self.empresa_id())
@@ -235,17 +235,17 @@ max(p.id) persona_id,
 --f.date_due fecha_vencimiento,
 --current_date-f.date_due dias,
 sum(f.amount_total) total,
-sum(f.residual) saldo,
- sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.residual else 0 end) v_d1a15,
- sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.residual else 0 end) v_d16a30,
- sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.residual else 0 end) v_d31a45,
- sum(case when (current_date-f.date_due)>=46 then f.residual else 0 end) v_d46an
+sum(f.amount_residual) saldo,
+ sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.amount_residual else 0 end) v_d1a15,
+ sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.amount_residual else 0 end) v_d16a30,
+ sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.amount_residual else 0 end) v_d31a45,
+ sum(case when (current_date-f.date_due)>=46 then f.amount_residual else 0 end) v_d46an
 
 from account_invoice as f
   inner join res_partner p on(f.partner_id=p.id)
   left join trafitec_contrarecibo as cr on(cr.invoice_id=f.id)
 where
-f.residual>1 and f.state='open' and f.type='in_invoice'
+f.amount_residual>1 and f.state='open' and f.type='in_invoice'
 and f.company_id={}
 group by p.name
 """.format(self.empresa_id())
@@ -316,7 +316,7 @@ f.number folio,
 f.date fecha,
 p.display_name persona,
 f.amount_total total,
-f.residual saldo,
+f.amount_residual saldo,
 f.contiene contiene
 from account_invoice as f
   inner join res_partner as p on(f.partner_id=p.id)
@@ -324,7 +324,7 @@ where
 f.state='open'
 and f.type='out_invoice'
 and f.company_id={}
-order by f.residual desc
+order by f.amount_residual desc
 """.format(self.empresa_id())
 		self.env.cr.execute(sql)
 		facturas = self.env.cr.dictfetchall()
@@ -397,7 +397,7 @@ f.reference folio,
 f.date fecha,
 p.display_name persona,
 f.amount_total total,
-f.residual saldo,
+f.amount_residual saldo,
 f.comment comentarios
 from account_invoice as f
   inner join res_partner as p on(f.partner_id=p.id)
@@ -405,7 +405,7 @@ where
 f.state='open'
 and f.type='in_invoice'
 and f.company_id={}
-order by f.residual desc
+order by f.amount_residual desc
 """.format(self.empresa_id())
 		self.env.cr.execute(sql)
 		facturas = self.env.cr.dictfetchall()
@@ -481,7 +481,7 @@ f.number as folio,
 f.date as fecha,
 p.display_name as persona,
 f.amount_total as total,
-f.residual as saldo,
+f.amount_residual as saldo,
 lne.name lineanegocio
 from account_invoice as f
   inner join res_partner as p on(f.partner_id=p.id)
@@ -490,7 +490,7 @@ where
 f.state='open'
 and f.lineanegocio is not null
 and f.type='out_invoice'
-and f.residual>0
+and f.amount_residual>0
 and f.company_id={}
 """.format(self.empresa_id())
 		self.env.cr.execute(sql)
@@ -567,7 +567,7 @@ f.date as fecha,
 p.display_name as persona,
 case p.asociado when true then 'SI' else 'NO' end es_asociado,
 f.amount_total as total,
-f.residual as saldo,
+f.amount_residual as saldo,
 cr.name as cr_folio,
 cr.fecha as cr_fecha,
 (select
@@ -584,7 +584,7 @@ where
 cr.state='Validada'
 and f.state='open'
 and f.type='in_invoice'
-and f.residual>0
+and f.amount_residual>0
 and f.company_id={}
 """.format(self.empresa_id())
 		self.env.cr.execute(sql)
