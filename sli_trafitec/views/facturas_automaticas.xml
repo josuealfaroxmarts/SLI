@@ -11,7 +11,7 @@
                     <field name="company_id"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                         <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Nombre" icon="terp-partner" name="name" domain="[]" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -71,7 +71,7 @@
                                         <field name="iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                         <field name="r_iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                            <label string="Total" />
+                                            <label string="Total" for="total_g"/>
                                         </div>
                                         <field name="total_g" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                     </group>
@@ -82,14 +82,14 @@
                                     <group>
                                         <field name="origen" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                         <field name="destino" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
-                                        <label string="Cliente origen"/>
+                                        <label string="Cliente origen" for="cliente_origen_id"/>
                                           <div name='cliente_origen'>
                                               <div>
                                                 <field name='cliente_origen_id' class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                                 <field name='domicilio_origen_id' class="oe_inline" string="Domicilio" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                               </div>
                                           </div>
-                                            <label string="Cliente destino"/>
+                                            <label string="Cliente destino" for"cliente_destino"/>
                                           <div name='cliente_destino'>
                                               <div>
                                                 <field name='cliente_destino_id' class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
@@ -141,8 +141,7 @@
         <record id="facturas_automaticas_action_generic" model="ir.actions.act_window">
             <field name="name">Facturas automaticas</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">trafitec.facturas.automaticas</field>
-            <field name="view_type">form</field>
+            <field name="res_model">trafitec.facturas.automaticas</field>            
             <field name="view_mode">tree,form</field>
         </record>
     </data>

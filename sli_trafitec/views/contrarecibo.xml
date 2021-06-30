@@ -57,7 +57,7 @@
                                 <field name="prontopago_antes_ver"/>
                             </group>
                             <group name="despues" string="Despues">
-                                <label string="-Merma"/>
+                                <label string="-Merma" for="mermas_des"/>
                                 <div name='mermas_des'>
                                     <div>
                                         <field name='mermas_des' class="oe_inline" nolabel="1"  invisible="1" readonly="0"/>
@@ -65,7 +65,7 @@
                                         <field name='mermas_bol' invisible="1" class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                     </div>
                                 </div>
-                                <label string="-Descuentos"/>
+                                <label string="-Descuentos" for="descuento_des"/>
                                 <div name='descuento_des'>
                                     <div>
                                         <field name='descuento_des' class="oe_inline" nolabel="1" invisible="1" readonly="0"/>
@@ -73,7 +73,7 @@
                                         <field name='descuento_bol' invisible="1" class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                     </div>
                                 </div>
-                                <label string="-Comision"/>
+                                <label string="-Comision" for="comision_des"/>
                                 <div name='comision_des'>
                                     <div>
                                         <field name='comision_des' class="oe_inline" nolabel="1" invisible="1" readonly="0"/>
@@ -81,7 +81,7 @@
                                         <field name='comision_bol' invisible="1" class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                     </div>
                                 </div>
-                                <label string="-Pronto pago"/>
+                                <label string="-Pronto pago" for"prontopago_des"/>
                                 <div name='prontopago_des'>
                                     <div>
                                         <field name='prontopago_des' class="oe_inline" nolabel="1" invisible="1" readonly="0"/>
@@ -158,7 +158,7 @@
                                     <field name="r_iva_g_ver" widget='monetary' options="{'currency_field': 'currency_id'}"/>
 
                                     <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                        <label string="Total" />
+                                        <label string="Total" for="total_g_ver"/>
                                     </div>
                                     <field name="total_g_ver" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                     <field name="total_g" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}" readonly="0" invisible="1"/>
@@ -341,8 +341,7 @@
             <field name="name">Contra recibos</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.contrarecibo</field>
-            <!--<field name="context">{'search_default_filter_state':True}</field>-->
-            <field name="view_type">form</field>
+            <!--<field name="context">{'search_default_filter_state':True}</field>-->            
             <field name="view_mode">tree,form</field>
             <field name="auto_search">true</field>
             <field name="limit">10</field>

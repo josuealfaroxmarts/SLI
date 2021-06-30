@@ -11,7 +11,7 @@
                     <field name="product_invoice"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                         <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Nombre" icon="terp-partner" name="name" domain="[]" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -63,7 +63,7 @@
                                         <field name="iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                         <field name="r_iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                            <label string="Total" />
+                                            <label string="Total" for="total_g" />
                                         </div>
                                         <field name="total_g" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                     </group>
@@ -112,8 +112,7 @@
         <record id="facturas_comision_action_generic" model="ir.actions.act_window">
             <field name="name">Facturas por comision</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">trafitec.facturas.comision</field>
-            <field name="view_type">form</field>
+            <field name="res_model">trafitec.facturas.comision</field>            
             <field name="view_mode">tree,form</field>
         </record>
     </data>

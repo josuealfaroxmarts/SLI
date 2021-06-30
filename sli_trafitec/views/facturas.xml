@@ -31,7 +31,7 @@
                     <filter name="es_provision" string="Es provisión" domain="[('es_provision','=',True)]"/>
 
                     <group expand="0" string="Agrupar por">
-                        <filter string="Es provisión" icon="terp-partner" domain="[]" context="{'group_by':'es_provision'}"/>
+                        <filter string="Es provisión" icon="terp-partner" name="name" domain="[]" context="{'group_by':'es_provision'}"/>
                     </group>
                 </xpath>
 
@@ -270,7 +270,7 @@
                     <field name="lineanegocio"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Nombre" icon="terp-partner" name="name" domain="[]" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -289,7 +289,7 @@
                     </header>
                     <sheet>
                         <div class="oe_title">
-                            <label string="Factura"/>
+                            <label string="Factura" for="factura_id"/>
                             <h3>
                                 <field name="factura_id" domain="[('type','=','out_invoice'),('state','=','open')]" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
                             </h3>
@@ -326,7 +326,7 @@
                                         <field name="iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                         <field name="r_iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                            <label string="Total" />
+                                            <label string="Total" for="total_g" />
                                         </div>
                                         <field name="total_g" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                     </group>
@@ -376,8 +376,7 @@
         <record id="facturas_agregar_quitar_action_generic" model="ir.actions.act_window">
             <field name="name">Agregar / quitar viajes a facturas manuales</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">trafitec.agregar.quitar</field>
-            <field name="view_type">form</field>
+            <field name="res_model">trafitec.agregar.quitar</field>            
             <field name="view_mode">tree,form</field>
         </record>
 

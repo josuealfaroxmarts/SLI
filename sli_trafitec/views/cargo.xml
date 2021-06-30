@@ -15,7 +15,7 @@
                     <field name="state"/>
                     <newline/>
                     <group expand="0" string="Agrupar por">
-                        <filter string="Asociado" icon="terp-partner" domain="[]" context="{'group_by':'asociado_id'}"/>
+                        <filter string="Asociado" name="" icon="terp-partner" domain="[]" context="{'group_by':'asociado_id'}"/>
                         <filter name="agrupar_por_viaje" string="Viaje" domain="[]" context="{'group_by':'viaje_id'}"
                                 help="Agrupar por asociado"/>
                         <filter name="agrupar_por_concepto" string="Concepto" domain="[]"
@@ -161,8 +161,7 @@
         <record id="descuentos_action_generic" model="ir.actions.act_window">
             <field name="name">Descuentos</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">trafitec.descuentos</field>
-            <field name="view_type">form</field>
+            <field name="res_model">trafitec.descuentos</field>            
             <field name="view_mode">tree,form</field>
             <field name="context">{'search_default_filter_filtro_activos':True}</field>
         </record>
@@ -178,7 +177,7 @@
                     <field name="saldo"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Asociado" icon="terp-partner" domain="[]" context="{'group_by':'asociado_id'}"/>
+                        <filter string="Asociado" name="" icon="terp-partner" domain="[]" context="{'group_by':'asociado_id'}"/>
                         <separator orientation="vertical"/>
                         <filter name="consaldo" string="Con saldo" domain="[('saldo','>',0)]"/>
                     </group>
@@ -244,8 +243,7 @@
         <record id="comisiones_action_generic" model="ir.actions.act_window">
             <field name="name">Comisiones</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">trafitec.cargos</field>
-            <field name="view_type">form</field>
+            <field name="res_model">trafitec.cargos</field>           
             <field name="domain">[('tipo_cargo','=','comision')]</field>
             <field name="view_mode">tree,form</field>
             <field name="auto_search">true</field>

@@ -13,7 +13,7 @@
                     <field name="saldo"/>
                     <newline/>
                     <group expand="0" string="Agrupar por">
-                         <filter string="Asociado" icon="terp-partner" domain="[]" context="{'group_by':'asociado_id'}"/>
+                        <filter string="Asociado" icon="terp-partner" name="" domain="[]" context="{'group_by':'asociado_id'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>
@@ -65,8 +65,7 @@
         <record id="cargosx_comisiones_action_generic" model="ir.actions.act_window">
             <field name="name">Comisiones X</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">trafitec.cargosx</field>
-            <field name="view_type">form</field>
+            <field name="res_model">trafitec.cargosx</field>            
             <field name="view_mode">tree,form</field>
             <field name="domain">[('tipo','=','comision')]</field>
             <field name="auto_search">true</field>
@@ -77,8 +76,7 @@
         <record id="cargosx_descuentos_action_generic" model="ir.actions.act_window">
             <field name="name">Descuentos X</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">trafitec.cargosx</field>
-            <field name="view_type">form</field>
+            <field name="res_model">trafitec.cargosx</field>            
             <field name="view_mode">tree,form</field>
             <field name="domain">[('tipo','=','descuento')]</field>
             <field name="auto_search">true</field>
