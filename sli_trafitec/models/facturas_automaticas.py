@@ -177,7 +177,7 @@ class trafitec_facturas_automaticas(models.Model):
             print("**************Parametros:"+str(parametros_obj))
             valores = {
                 'type': 'out_invoice',
-                'date_invoice': datetime.datetime.now(),
+                'date': datetime.datetime.now(),
                 'partner_id': self.cliente_id.id,
                 'partner_shipping_id': self.domicilio_origen_id.id,
                 'metodo_pago_id': self.metodo_pago_id.id,

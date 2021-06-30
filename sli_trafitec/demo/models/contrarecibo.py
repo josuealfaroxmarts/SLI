@@ -274,7 +274,7 @@ class trafitec_contrarecibo(models.Model):
         valores = {
             'origin': vals.name,
             'type': 'in_invoice',
-            'date_invoice': datetime.datetime.now(),
+            'date': datetime.datetime.now(),
             'partner_id': vals.asociado_id.id,
             'journal_id': journal_obj.id,
             'company_id': vals.company_id.id,
@@ -622,7 +622,7 @@ class trafitec_contrarecibo(models.Model):
             'origin': vals.name,
             #'type': 'in_refund',
             'type': 'out_invoice',
-            'date_invoice': datetime.datetime.now(),
+            'date': datetime.datetime.now(),
             'partner_id': vals.asociado_id.id,
             'journal_id': diario.id,
             'company_id': vals.company_id.id,
@@ -1630,7 +1630,7 @@ class trafitec_contrarecibo(models.Model):
 
     #Carta-porte
     folio = fields.Char(string='Folio carta porte', related='invoice_id.reference', store=True)
-    fecha_porte = fields.Date(string='Fecha', related='invoice_id.date_invoice', store=True)
+    fecha_porte = fields.Date(string='Fecha', related='invoice_id.date', store=True)
     fletes_carta_porte = fields.Float(string='Fletes')
 
     subtotal = fields.Monetary(string='Subtotal', related='invoice_id.amount_untaxed')

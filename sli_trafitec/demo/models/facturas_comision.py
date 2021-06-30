@@ -196,7 +196,7 @@ class trafitec_facturas_comision(models.Model):
 
             valores = {
                 'type': 'out_invoice',
-                'date_invoice': datetime.datetime.now(),
+                'date': datetime.datetime.now(),
                 'partner_id': self.asociado_id.id,
                 'partner_shipping_id': self.domicilio_id.id,
                 'metodo_pago_id': self.metodo_pago_id.id,

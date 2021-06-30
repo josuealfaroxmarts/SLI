@@ -80,7 +80,7 @@ class trafitec_account_invoice(models.Model):
 			self.partner_id = id_distributor.id
 			self.reference = id_distributor.name
 			voucher = xml.getElementsByTagName('cfdi:Comprobante')[0]
-			self.date_invoice = voucher.getAttribute('Fecha')
+			self.date = voucher.getAttribute('Fecha')
 			concepts = []
 			concepts_xml = xml.getElementsByTagName('cfdi:Conceptos')[0]
 			concept_xml = xml.getElementsByTagName('cfdi:Concepto')
@@ -312,20 +312,20 @@ class trafitec_account_invoice(models.Model):
 	
 	
 	"""
-	@api.onchange('payment_term_id', 'date_invoice')
-	def _onchange_payment_term_date_invoice(self):
-		date_invoice = self.date_invoice
-		if not date_invoice:
-			date_invoice = fields.Date.context_today(self)
+	@api.onchange('payment_term_id', 'date')
+	def _onchange_payment_term_date(self):
+		date = self.date
+		if not date:
+			date = fields.Date.context_today(self)
 		if not self.payment_term_id:
 			# When no payment term defined
-			self.date_due = self.date_due or date_invoice
+			self.date_due = self.date_due or date
 		else:
 			
 			#Obtener los de la cotizacion.
 			pterm = self.payment_term_id
 			pterm_list = \
-			pterm.with_context(currency_id=self.company_id.currency_id.id).compute(value=1, date_ref=date_invoice)[0]
+			pterm.with_context(currency_id=self.company_id.currency_id.id).compute(value=1, date_ref=date)[0]
 			self.date_due = max(line[0] for line in pterm_list)
 	"""
 	
@@ -1223,7 +1223,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', store=True, related='factura_id.lineanegocio',readonly=True)
 	contiene = fields.Text(string='Contiene', store=True, related='factura_id.contiene',readonly=True)
 	total = fields.Monetary(string='Total', store=True, related='factura_id.amount_total',readonly=True)
-	fecha = fields.Date(string='Fecha', store=True, related='factura_id.date_invoice',readonly=True)
+	fecha = fields.Date(string='Fecha', store=True, related='factura_id.date',readonly=True)
 	state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
 							  ('Cancelada', 'Cancelada')], string='Estado',
 							 default='Nueva')
@@ -1325,7 +1325,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		valores = {
 			'origin': vals.name,
 			'type': fact.type,
-			'date_invoice': datetime.datetime.now(),
+			'date': datetime.datetime.now(),
 			'partner_id': fact.partner_id.id,
 			'journal_id': fact.journal_id.id,
 			'company_id': fact.company_id.id,

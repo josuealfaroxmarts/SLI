@@ -1308,7 +1308,7 @@ class cancelacion_cuentas(models.Model):
 
 		facturas_cliente = self.env['account.move'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', 'out_invoice'), ('residual', '>', 0),
-			 ('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date_invoice asc')
+			 ('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date asc')
 		# facturas.sorted(key=lamnda r: r.)
 		# facturas=self.env['account.move'].search([])
 		print("***Facturas:" + str(facturas_cliente))
@@ -1320,7 +1320,7 @@ class cancelacion_cuentas(models.Model):
 
 		facturas_proveedores = self.env['account.move'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', 'in_invoice'), ('residual', '>', 0),
-			 ('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date_invoice asc')
+			 ('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date asc')
 		# facturas=self.env['account.move'].search([])
 		print("***Facturas:" + str(facturas_proveedores))
 		for f in facturas_proveedores:
@@ -1569,7 +1569,7 @@ class cancelacion_cuentas_facturas_proveedor(models.Model):
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
 
 	factura_proveedor_id = fields.Many2one(string='Factura proveedor', comodel_name='account.move')
-	factura_proveedor_fecha = fields.Date(string='Fecha', related='factura_proveedor_id.date_invoice')
+	factura_proveedor_fecha = fields.Date(string='Fecha', related='factura_proveedor_id.date')
 	factura_proveedor_total = fields.Monetary(string='Total', related='factura_proveedor_id.amount_total',
 											  currency_field='moneda_id')
 	factura_proveedor_saldo = fields.Monetary(string='Saldo', related='factura_proveedor_id.residual',
@@ -1585,7 +1585,7 @@ class cancelacion_cuentas_facturas_cliente(models.Model):
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
 
 	factura_cliente_id = fields.Many2one(string='Factura cliente', comodel_name='account.move')
-	factura_cliente_fecha = fields.Date(string='Fecha', related='factura_cliente_id.date_invoice')
+	factura_cliente_fecha = fields.Date(string='Fecha', related='factura_cliente_id.date')
 	factura_cliente_total = fields.Monetary(string='Total', related='factura_cliente_id.amount_total',
 											currency_field='moneda_id')
 	factura_cliente_saldo = fields.Monetary(string='Saldo', related='factura_cliente_id.residual',
@@ -1923,12 +1923,12 @@ class trafitec_pagosmasivos(models.Model):
 
 		facturas_cliente = self.env['account.move'].search(
 			[('partner_id', '=', self.persona_id.id), ('type', '=', tipo), ('residual', '>', 0), ('state', '=', 'open'),
-			 ('currency_id', '=', self.moneda_id.id), ('date_invoice', '>=', self.busqueda_fecha_inicial),
-			 ('date_invoice', '<=', self.busqueda_fecha_final)], order='date_invoice asc')
+			 ('currency_id', '=', self.moneda_id.id), ('date', '>=', self.busqueda_fecha_inicial),
+			 ('date', '<=', self.busqueda_fecha_final)], order='date asc')
 		print("**Facturas cliente:" + str(facturas_cliente))
 		for f in facturas_cliente:
 			nuevo = {'pagomasivo_id': False, 'moneda_id': f.currency_id.id, 'factura_id': f.id,
-					 'factura_fecha': f.date_invoice, 'factura_total': f.amount_total, 'factura_saldo': f.residual,
+					 'factura_fecha': f.date, 'factura_total': f.amount_total, 'factura_saldo': f.residual,
 					 'abono': 0}
 			print("**Nuevo:" + str(nuevo))
 			lista_clientes.append(nuevo)
@@ -1941,7 +1941,7 @@ class trafitec_pagosmasivos_facturas(models.Model):
 	pagomasivo_id = fields.Many2one(string='Pago masivo', comodel_name='trafitec.pagosmasivos')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency', required=True)
 	factura_id = fields.Many2one(string='Factura', comodel_name='account.move', required=True)
-	factura_fecha = fields.Date(string='Fecha', related='factura_id.date_invoice', store=True)
+	factura_fecha = fields.Date(string='Fecha', related='factura_id.date', store=True)
 	factura_total = fields.Monetary(string='Total', related='factura_id.amount_total', default=0, store=True,
 									currency_field='moneda_id')
 	factura_saldo = fields.Monetary(string='Saldo', related='factura_id.residual', default=0, store=True,

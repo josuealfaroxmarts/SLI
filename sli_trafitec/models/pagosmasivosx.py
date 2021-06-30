@@ -34,7 +34,7 @@ class trafitec_pagosmasivosx(models.TransientModel):
 				'number' : f.number ,
 				'name' : f.name ,
 				'pay_method_id' : f.pay_method_id ,
-				'date_invoice' : f.date_invoice ,
+				'date' : f.date ,
 				'partner_id' : f.partner_id ,
 				'company_id' : f.company_id ,
 				'journal_id' : f.journal_id ,

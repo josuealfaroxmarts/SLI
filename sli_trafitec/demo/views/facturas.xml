@@ -412,7 +412,7 @@
                     <field name="number"/>
                     <field name="sat_uuid"/>
                     <field name="x_folio_trafitecw"/>
-                    <field name="date_invoice"/>
+                    <field name="date"/>
                     <field name="partner_id" groups="base.group_user" string="Customer"/>
                     <field name="commercial_partner_id" invisible="1"/>
                     <field name="reference" invisible="1"/>

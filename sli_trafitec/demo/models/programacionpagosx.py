@@ -99,7 +99,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
 			[('partner_id', '=?', self.buscar_persona_id.id), ('state', '=', 'open'), ('type', '=', 'in_invoice'),
-			 ('date_invoice', '>=', self.buscar_fecha_inicial), ('date_invoice', '<=', self.buscar_fecha_final),('number', 'ilike', '%'+(self.buscar_folio or '')+'%')],
+			 ('date', '>=', self.buscar_fecha_inicial), ('date', '<=', self.buscar_fecha_final),('number', 'ilike', '%'+(self.buscar_folio or '')+'%')],
 			order="id asc")
 		
 		for f in facturas_dat:
@@ -382,7 +382,7 @@ class TrafitecProgramacionPagosXFacturasAplicar(models.Model):
 	programacionpagos_id = fields.Many2one(string="Programacion de pagos", comodel_name="trafitec.programacionpagosx")
 	factura_id = fields.Many2one(string="Factura", comodel_name="account.move",
 								 domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
-	fecha = fields.Date(string="Fecha", related="factura_id.date_invoice")
+	fecha = fields.Date(string="Fecha", related="factura_id.date")
 	persona_id = fields.Many2one(string="Persona", related="factura_id.partner_id")
 	moneda_id = fields.Many2one(string="Moneda", related="factura_id.currency_id")
 	total = fields.Monetary(string="Total", related="factura_id.amount_total", currency_field="moneda_id")
@@ -395,7 +395,7 @@ class TrafitecProgramacionPagosXFacturasBuscar(models.TransientModel):
 	programacionpagos_id = fields.Many2one(string="Programacion de pagos", comodel_name="trafitec.programacionpagosx")
 	factura_id = fields.Many2one(string="Factura", comodel_name="account.move",
 								 domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
-	fecha = fields.Date(string="Fecha", related="factura_id.date_invoice")
+	fecha = fields.Date(string="Fecha", related="factura_id.date")
 	persona_id = fields.Many2one(string="Persona", related="factura_id.partner_id")
 	moneda_id = fields.Many2one(string="Moneda", related="factura_id.currency_id")
 	total = fields.Monetary(string="Total", related="factura_id.amount_total", currency_field="moneda_id")
