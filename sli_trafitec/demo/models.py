@@ -2096,7 +2096,7 @@ class trafitec_presupuestos(models.Model):
 	monto_mes10 = fields.Float(string='Octubre', default=0)
 	monto_mes11 = fields.Float(string='Noviembre', default=0)
 	monto_mes12 = fields.Float(string='Diciembre', default=0)
-	st = fields.Selection(string='Estado', selection=[(0, 'Inactivo'), (1, 'Activo')], default=1)
+	st = fields.Selection([('inactive', 'Inactivo'), ('active', 'Activo')],string='Estado', default='active')
 
 
 class CustomPopMessage(models.TransientModel):
