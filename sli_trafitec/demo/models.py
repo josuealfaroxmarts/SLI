@@ -465,14 +465,12 @@ and f.partner_id={}
 		if self.status_client == 'Aprobado' :
 			for rec in self :
 				rec.status_client = 'Aprobado'
-				print 'Enviando correo.'
 				template_id = self.env.ref('sli_trafitec.account_approve').id
 				print ("template_id", template_id)
 				self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
 		elif self.status_client == 'Rechazado':
 			for rec in self :
 				rec.status_client = 'Rechazado'
-				print 'Enviando correo.'
 				template_id = self.env.ref('sli_trafitec.account_refuse').id
 				print ("template_id", template_id)
 				self.env['mail.template'].browse(template_id).send_mail(self.id, force_send=True)
@@ -2045,7 +2043,7 @@ class trafitec_pagosmasivos_facturas(models.Model):
 class trafitec_viajes_scan(models.Model):
 	_name = 'trafitec.viajes.scan'
 	viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes', required=True)
-	st = fields.Selection(string='Estado', selection=[(0, 'No iniciado'), (1, 'Iniciado')], default=0)
+	st = fields.Selection([('not_started', 'No iniciado'), ('started', 'Iniciado')],string='Estado')
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
