@@ -255,7 +255,7 @@
                             <field name="cotizaciones_abiertas_id" context="{'group_by': 'cotizacion_id'}">
                                 <tree create="false" widget="one2many_list" edit="false" delete="false"
                                       context="{'group_by': 'cotizacion_id'}"
-                                      colors="red:semaforo_valor=='rojo';green:semaforo_valor=='verde';orange:semaforo_valor=='marillo'">
+                                      decoration-danger="semaforo_valor=='rojo'" decoration-success="semaforo_valor=='verde'" decoration-warning="semaforo_valor=='amarillo'" >
                                     <!--field name="id"/-->
                                     <button string="Semaforo rojo" icon="fa-circle" class="btn-default"
                                             name="semaforo_rojo"

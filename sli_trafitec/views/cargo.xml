@@ -135,7 +135,7 @@
             <field name="name">view.descuentos.tree</field>
             <field name="model">trafitec.descuentos</field>
             <field name="arch" type="xml">
-                <tree string="Descuentos" colors="red:state=='cancelado';green:state=='activo';">
+                <tree string="Descuentos" decoration-danger="state=='cancelado'" decoration-success="state=='activo'">
                     <field name="id"/>
                     <field name="viaje_id"/>
                     <field name="fecha"/>
