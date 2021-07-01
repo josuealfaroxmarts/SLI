@@ -81,7 +81,7 @@
                                         <field name='comision_bol' invisible="1" class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                     </div>
                                 </div>
-                                <label string="-Pronto pago" for"prontopago_des"/>
+                                <label string="-Pronto pago" for="prontopago_des"/>
                                 <div name='prontopago_des'>
                                     <div>
                                         <field name='prontopago_des' class="oe_inline" nolabel="1" invisible="1" readonly="0"/>
