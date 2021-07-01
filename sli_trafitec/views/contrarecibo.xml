@@ -96,7 +96,7 @@
                                 <field name = "viaje_id" attrs="{'readonly': [('state', 'in', ('Validada'))]}">
                                     <!--field name = "viaje_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/-->
                                     <!--field name = "viaje_id" context="{'form_view_ref' : 'module.view_id', 'tree_view_ref' : 'model.view_id'}" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/-->
-                                    <tree string="Viajes" delete="true"  colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                                    <tree string="Viajes" delete="true"  decoration-success="tipo_viaje=='Cobro destino'" decoration-muted="tipo_viaje=='Directo'" decoration-danger="state in ('Cancelado','Siniestrado')">
                                         <field name="id"/>
                                         <button string="CR" icon="fa-truck" class="btn-default" readonly="1" name="CR"  attrs="{'invisible': [('en_contrarecibo', '=',False)]}"  />
                                         <button string="F" icon="fa-money" class="btn-default" readonly="1" name="F"  attrs="{'invisible': [('en_factura', '=',False)]}"  />
@@ -288,7 +288,7 @@
             <field name="name">view.contrarecibo.tree</field>
             <field name="model">trafitec.contrarecibo</field>
             <field name="arch" type="xml">
-                <tree string="Contra recibos" duplicate="false" delete="false" colors="red:state in('Cancelada'); green:state in('Validada')">
+                <tree string="Contra recibos" duplicate="false" delete="false" decoration-danger="state == 'Cancelada'" decoration-success="state == 'Validada'">
                     <field name="id"/>
                     <field name="name"/>
                     <field name="x_folio_trafitecw"/>
