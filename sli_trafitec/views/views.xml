@@ -1693,7 +1693,7 @@
             <field name="name">view.trafitec.cancelacioncuentas.tree</field>
             <field name="model">trafitec.cancelacioncuentas</field>
             <field name="arch" type="xml">
-                <tree delete="false" duplicate="false" colors="red:state in('cancelado');green:state in('validado')">
+                <tree delete="false" duplicate="false" decoration-danger="state == 'cancelado'" decoration-success="state == 'validado'">
                     <field name="id"/>
                     <field name="name"/>
                     <field name="fecha"/>
