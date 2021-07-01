@@ -102,10 +102,10 @@
                             </div>
                             <group>
                                 <group>
-                                    <field name="folio" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" domain="[('company_type2','in',['company','physical_person']),('customer','=',True)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                    <field name="folio" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" domain="[(['company','physical_person'],'in','company_type'),('customer','=',True)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
                                     <field name="nombre" attrs="{'readonly': ['|',('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera')),('cliente','!=',False)]}"/>
                                     <field name="cliente_refenciado" invisible="1"/>
-                                    <field name="cliente" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" domain="[('company_type2','in',['company','physical_person']),('customer','=',True)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                    <field name="cliente" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" domain="[(['company','physical_person'],'in','company_type'),('customer','=',True)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
                                     <field name="contacto" invisible="1"/>
                                     <field name="contacto2" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" />
                                     <field name="colonia" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}"/>
