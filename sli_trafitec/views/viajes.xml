@@ -6,7 +6,7 @@
             <field name="active">TRUE</field>
             <field name="prefix"></field>
             <field name="padding">10</field>
-            <field name="move_name_increment">1</field>
+            <field name="number_increment">1</field>
         </record>
         <record id='sli_trafitec_viajes_vista_pivot' model='ir.ui.view'>
             <field name='name'>sli.trafitec.viajes.vista.pivot</field>
