@@ -1821,7 +1821,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.cancelacioncuentas</field>
             <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
+            <!-- <field name="auto_search">true</field> -->
             <field name="limit">10</field>
         </record>
 
@@ -1920,7 +1920,7 @@
             <field name="name">view.trafitec.pagosmasivos.tree</field>
             <field name="model">trafitec.pagosmasivos</field>
             <field name="arch" type="xml">
-                <tree delete="false" colors="red:state in ('cancelado');green:state=='validado'">
+                <tree delete="false" decoration-danger="state == 'cancelado'" decoration-success="state == 'validado'">
                     <field name="id"/>
                     <field name="name"/>
                     <field name="fecha"/>
