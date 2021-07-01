@@ -1820,8 +1820,7 @@
             <field name="name">Cancelación de cuentas</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.cancelacioncuentas</field>
-            <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
+            <field name="view_mode">tree,form</field>        
             <field name="limit">10</field>
         </record>
 
@@ -1966,8 +1965,7 @@
             <field name="name">Pagos masivos</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.pagosmasivos</field>
-            <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
+            <field name="view_mode">tree,form</field>            
             <field name="limit">10</field>
         </record>
 
@@ -2012,8 +2010,7 @@
             <field name="name">Clasificaciones generales</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.clasificacionesg</field>
-            <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
+            <field name="view_mode">tree,form</field>            
             <field name="limit">10</field>
         </record>
 
@@ -2050,8 +2047,7 @@
             <field name="name">Calificaciones de viaje</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.clasificacionesgxviaje</field>
-            <field name="view_mode">pivot,graph</field>
-            <field name="auto_search">true</field>
+            <field name="view_mode">pivot,graph</field>            
             <field name="limit">10</field>
         </record>
 
@@ -2096,7 +2092,6 @@
                     <!--field name="viaje_folio"/-->
                     <field name="fecha_viaje" type="row" interval="month"/>
                     <field name="vendedor_id" type="row"/>
-
                     <field name="flete_cliente" type="measure"/>
                     <field name="flete_diferencia" type="measure"/>
                 </pivot>
@@ -2121,7 +2116,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.tareas</field>
             <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
+            
             <field name="limit">10</field>
         </record>
 
@@ -2333,8 +2328,7 @@
             <field name="name">Avance de cotizaciones</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.reportes.generales.pedidos.avance.buscar</field>
-            <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
+            <field name="view_mode">tree,form</field>            
             <field name="limit">10</field>
         </record>
     </data>
