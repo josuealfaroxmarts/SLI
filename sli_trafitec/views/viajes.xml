@@ -12,7 +12,7 @@
             <field name='name'>sli.trafitec.viajes.vista.pivot</field>
             <field name='model'>trafitec.viajes</field>
             <field name='arch' type='xml'>
-                <pivot string="Viajes" display_quantity="True" display_sum="True" display_avg="True">
+                <pivot string="Viajes">
                     <field name="sucursal_id" type="row"/>
                     <field name="cliente_id" type="row"/>
                     <field name="create_date" type="col" interval="month"/>
@@ -27,7 +27,7 @@
             <field name='name'>sli.trafitec.viajes.vista.graph</field>
             <field name='model'>trafitec.viajes</field>
             <field name='arch' type='xml'>
-                <graph type="pivot" display_quantity="True" display_sum="True" display_avg="True">
+                <graph type="pivot">
                     <field name="sucursal_id" type="row"/>
                     <field name="cliente_id" type="row"/>
                     <field name="create_uid" type="col"/>
