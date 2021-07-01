@@ -262,7 +262,7 @@
             <field name="name">view.cotizacion.tree</field>
             <field name="model">trafitec.cotizacion</field>
             <field name="arch" type="xml">
-                <tree string="Cotización" delete="false" colors="red:state in('Cancelada');green:state in('Disponible')">
+                <tree string="Cotización" delete="false" decoration-danger="state == 'Cancelada'" decoration-success="state == 'Disponible'">
                             <field name="id"/>
 			                <field name="folio"/>
 			                <field name="nombre"/>
@@ -347,8 +347,8 @@
                         <field name="origen_id" nolabel="1" >
                             <tree editable="bottom" >
                                 <field name="name"/>
-                                <field name="origen" domain="[('municipio','=', parent.municipio_origen_id)]"/>
-                                <field name="destino" domain="[('municipio','=', parent.municipio_destino_id)]"/>
+                                <field name="origen"/>
+                                <field name="destino" />
                                 <field name="cantidad"/>
                                 <field name="psf"/>
                                 <field name="csf"/>
@@ -373,7 +373,7 @@
                     </group>
                     <group>
                         <field name="negociacion_id" nolabel="1" >
-                            <tree editable="bottom" colors="green:state in ('autorizado');gray:state in ('noautorizado')">
+                            <tree editable="bottom" decoration-danger="state == 'autorizado'" decoration-muted="state == 'noautorizado'">
                                 <field name="tipo" attrs="{'readonly': [('state', '=', 'autorizado')]}"/>
                                 <field name="asociado_id" attrs="{'readonly': [('state', '=', 'autorizado')]}"/>
                                 <field name="tarifa" attrs="{'readonly': [('state', '=', 'autorizado')]}"/>
