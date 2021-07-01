@@ -142,7 +142,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.programacionpagosx</field>
             <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
     </record>
 

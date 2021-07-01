@@ -342,7 +342,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.crm.trafico</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
         <!--*********************************************************
@@ -489,7 +488,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.crm.trafico.registro</field>
             <field name="view_mode">tree,pivot,graph,calendar,form</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
 

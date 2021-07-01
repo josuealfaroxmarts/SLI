@@ -68,7 +68,6 @@
             <field name="res_model">trafitec.cargosx</field>            
             <field name="view_mode">tree,form</field>
             <field name="domain">[('tipo','=','comision')]</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
 
@@ -79,7 +78,6 @@
             <field name="res_model">trafitec.cargosx</field>            
             <field name="view_mode">tree,form</field>
             <field name="domain">[('tipo','=','descuento')]</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
 

@@ -343,7 +343,6 @@
             <field name="res_model">trafitec.contrarecibo</field>
             <!--<field name="context">{'search_default_filter_state':True}</field>-->            
             <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
     </data>

@@ -246,7 +246,6 @@
             <field name="res_model">trafitec.cargos</field>           
             <field name="domain">[('tipo_cargo','=','comision')]</field>
             <field name="view_mode">tree,form</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
 
