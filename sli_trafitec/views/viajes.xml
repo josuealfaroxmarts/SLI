@@ -54,16 +54,11 @@
                 </form>
             </field>
         </record>
-
-        <act_window id="siniestrado_wizard_action"
-                    name="Motivo de siniestro"
-                    src_model="trafitec.viajes"
-                    res_model="trafitec.viaje.sinestrado.wizard"
-                    binding_views="form"
-                    view_mode="form"
-                    key2="client_action_multi" target="new"
-                    groups="base.group_erp_manager"/>
-
+        <record id="siniestrado_wizard_action" model="ir.actions.act_window">
+            <field name="name">Motivo de siniestro</field>
+            <field name="res_model">trafitec.viaje.sinestrado.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
         <!--Cambiar tarifa-->
         <!--
                 <record id="cambiartarifa_wizard_tree" model="ir.ui.view">
@@ -107,18 +102,11 @@
                 </form>
             </field>
         </record>
-
-
-        <act_window id="cancelar_wizard_action"
-                    name="Motivo de cancelación"
-                    src_model="trafitec.viajes"
-                    res_model="trafitec.viaje.cancelar.wizard"
-                    binding_views="form"
-                    view_mode="form"
-                    key2="client_action_multi"
-                    target="new"
-                    groups="base.group_erp_manager"
-        />
+        <record id="cancelar_wizard_action" model="ir.actions.act_window">
+            <field name="name">Motivo de cancelación</field>
+            <field name="res_model">trafitec.viaje.cancelar.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
 
         <record id="view_viajes_search" model="ir.ui.view">
             <field name="name">view.viajes.search</field>
@@ -936,7 +924,6 @@
             <field name="context">{'search_default_statex':True}</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_viajes_tree"/>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
 
@@ -947,7 +934,6 @@
             <field name="context">{'search_default_statex':True}</field>
             <field name="view_mode">tree,form,pivot,graph</field>
             <field name="view_id" ref="view_viajes_tree_granel"/>
-            <field name="auto_search">true</field>
             <field name="domain">[('lineanegocio','=',1)]</field>
             <field name="limit">10</field>
         </record>
@@ -960,7 +946,6 @@
             <field name="context">{'search_default_statex':True}</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_viajes_tree_flete"/>
-            <field name="auto_search">true</field>
             <field name="domain">[('lineanegocio','=',2)]</field>
             <field name="limit">10</field>
         </record>
@@ -973,7 +958,6 @@
             <!--field name="view_type">form</field-->
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_viajes_tree_contenedores"/>
-            <field name="auto_search">true</field>
             <field name="domain">[('lineanegocio','=',3)]</field>
             <field name="limit">10</field>
         </record>
@@ -994,7 +978,6 @@
             <field name="context">{'search_default_statex':True}</field>
             <field name="view_mode">pivot,graph</field>
             <field name="view_id" ref="sli_trafitec_viajes_vista_pivot"/>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
             <field name="domain">[('state','=','Nueva')]</field>
         </record>
@@ -1004,7 +987,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.viajes.boletas</field>
             <field name="view_mode">tree</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
 
@@ -1014,7 +996,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.asignaciones</field>
             <field name="view_mode">tree</field>
-            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record>
 
