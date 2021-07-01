@@ -351,7 +351,7 @@
             <field name="name">trafitec.crm.trafico.registro.tree</field>
             <field name="model">trafitec.crm.trafico.registro</field>
             <field name="arch" type="xml">
-                <tree string="Buscar registro" create="false" edit="false" delete="false" copy="false">
+                <tree string="Buscar registro" create="false" edit="false" delete="false">
                     <field name="id"></field>
                     <field name="tipo"></field>
                     <field name="create_uid" string="Usuario"></field>
@@ -369,8 +369,7 @@
             <field name="name">trafitec.crm.trafico.registro.calendar</field>
             <field name="model">trafitec.crm.trafico.registro</field>
             <field name="arch" type="xml">
-                <calendar string="Buscar registro" create="false" edit="false" delete="false" copy="false"
-                          date_start="generar_evento_fechahora" date_stop="generar_evento_fechahora">
+                <calendar string="Buscar registro" date_start="generar_evento_fechahora" date_stop="generar_evento_fechahora">
                     <field name="id"></field>
                     <field name="tipo"></field>
                     <field name="create_uid" string="Usuario"></field>
@@ -409,7 +408,7 @@
             <field name="name">trafitec.crm.trafico.registro.form</field>
             <field name="model">trafitec.crm.trafico.registro</field>
             <field name="arch" type="xml">
-                <form string="Nuevo registro de contacto" create="false" delete="false" copy="false">
+                <form string="Nuevo registro de contacto" create="false" delete="false">
                     <sheet>
                         <group>
                             <group colspan="2">
