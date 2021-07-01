@@ -2032,7 +2032,7 @@
             <field name="name">view.clasificacionesgxviaje.graph</field>
             <field name="model">trafitec.clasificacionesgxviaje</field>
             <field name="arch" type="xml">
-                <graph string="Clasificaciones" display_quantity="True">
+                <graph string="Clasificaciones">
                     <!--field name="viaje_folio"/-->
                     <field name="clasificacion_id" type="col" group="True"/>
                     <field name="operador_nombre" type="row"/>
