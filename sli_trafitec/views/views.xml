@@ -1820,12 +1820,7 @@
             <field name="name">Cancelación de cuentas</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.cancelacioncuentas</field>
-<<<<<<< HEAD
             <field name="view_mode">tree,form</field>        
-=======
-            <field name="view_mode">tree,form</field>
-            <!-- <field name="auto_search">true</field> -->
->>>>>>> 20e27d977ea039ce8b42702a3d21ef6c3cce9e9e
             <field name="limit">10</field>
         </record>
 
