@@ -273,7 +273,7 @@ class trafitec_contrarecibo(models.Model):
         
         valores = {
             'origin': vals.name,
-            'type': 'in_invoice',
+            'move_type': 'in_invoice',
             'date': datetime.datetime.now(),
             'partner_id': vals.asociado_id.id,
             'journal_id': journal_obj.id,
@@ -621,7 +621,7 @@ class trafitec_contrarecibo(models.Model):
         valores = {
             'origin': vals.name,
             #'type': 'in_refund',
-            'type': 'out_invoice',
+            'move_type': 'out_invoice',
             'date': datetime.datetime.now(),
             'partner_id': vals.asociado_id.id,
             'journal_id': diario.id,
@@ -1559,13 +1559,13 @@ class trafitec_contrarecibo(models.Model):
     invoice_id = fields.Many2one(
         'account.move',
         string='Factura proveedor',
-        domain="[('type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0),('factura_encontrarecibo','=',False),('state','=','open'),('es_cartaporte','=',True)]",
+        domain="[('move_type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0),('factura_encontrarecibo','=',False),('state','=','open'),('es_cartaporte','=',True)]",
         track_visibility='onchange'
     )
     fecha = fields.Date(string='Fecha', readonly=True, index=True, copy=False, default=fields.Datetime.now,track_visibility='onchange')
     normal = fields.Boolean(string='Normal', default=True, track_visibility='onchange')
     psf = fields.Boolean(string='PSF', default=False, track_visibility='onchange')
-    factura_actual = fields.Many2one('account.move', string='Factura proveedor actual',domain="[('type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0)]")
+    factura_actual = fields.Many2one('account.move', string='Factura proveedor actual',domain="[('move_type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0)]")
     cargospendientes_id = fields.One2many(comodel_name='trafitec.cargospendientes', inverse_name='contrarecibo_id', string='Cargos pendientes')
     x_folio_trafitecw = fields.Char(string='Folio Trafitec Windows', help="Folio del contra recibo en Trafitec para windows.",track_visibility='onchange')
 
