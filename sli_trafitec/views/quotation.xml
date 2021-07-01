@@ -102,7 +102,7 @@
                             </div>
                             <group>
                                 <group>
-                                    <field name="folio" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" domain="[(['company','physical_person'],'in','company_type'),('customer','=',True)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                    <field name="folio" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
                                     <field name="nombre" attrs="{'readonly': ['|',('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera')),('cliente','!=',False)]}"/>
                                     <field name="cliente_refenciado" invisible="1"/>
                                     <field name="cliente" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" domain="[(['company','physical_person'],'in','company_type'),('customer','=',True)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
@@ -281,8 +281,8 @@
                             <field name="evidencia_id"/>
                             <field name="semaforo_valor"/>
                             <field name="mostrar_en_crm_trafico"/>
-                            
-                            <button name="button_form" icon="semaforo_rojo.png" type="object"/>
+                            <!-- TODO: CONSULTARLO CON EL CONSULTOR -->
+                            <!-- <button name="button_form" icon="semaforo_rojo.png" type="object"/> -->
                             <field name="state"/>
                 </tree>
             </field>
