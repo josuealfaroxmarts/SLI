@@ -1338,8 +1338,9 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='purchase']/field[@name='supplier']"
+                <xpath expr="//sheet/notebook/page[2]/group/group[1]/field[@name='user_id']"
                        position="after">
+                    <field name="customer" />
                     <field name="plazas_ban_id"/>
                     <field name="no_sucursal"/>
                 </xpath>

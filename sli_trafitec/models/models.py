@@ -792,6 +792,8 @@ class trafitec_asociados(models.Model):
 	nolicencia_nombre = fields.Char(string='vat')
 	numero_medicina_ad = fields.Char(string='vat')
 	numero_medicina = fields.Char(string='vat')
+	customer = fields.Boolean(string='Es cliente')
+	supplier = fields.Boolean(string='Es proveedor')
 
 	@api.constrains('vat')
 	def check_vat(self):
