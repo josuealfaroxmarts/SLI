@@ -783,15 +783,6 @@ class trafitec_asociados(models.Model):
 										string='Celular Enlazado')
 	activo_slitrack = fields.Boolean(string='Activo para SLITrack')
 	combustible_convenio_st = fields.Boolean(string='Convenio de combustible', default=False, help='Indica si el asociado tiene convenio para carga de combustible a crédito.')
-	    #Deleted
-	nombre_vat_copia = fields.Char(string='copia')
-	vat_copia = fields.Char(string='copia')
-	vat_info = fields.Char(string='copia')
-	name_medicina_ad = fields.Char(string='vat')
-	nolicencia = fields.Char(string='vat')
-	nolicencia_nombre = fields.Char(string='vat')
-	numero_medicina_ad = fields.Char(string='vat')
-	numero_medicina = fields.Char(string='vat')
 	customer = fields.Boolean(string='Es cliente')
 	supplier = fields.Boolean(string='Es proveedor')
 
@@ -1657,7 +1648,7 @@ class trafitec_pagosmasivos(models.Model):
 
 	name = fields.Char(string='Folio', default='')
 	persona_id = fields.Many2one(string='Persona', comodel_name='res.partner', required=True,
-								domain="[('company_type','in',['company','person']),'|',('supplier','=',True),('customer','=',True)]",
+								domain="[(['company','person'],'in','company_type'),'|',('supplier','=',True),('customer','=',True)]",
 								track_visibility='onchange')
 	fecha = fields.Date(string='Fecha', default=datetime.datetime.now().today(), required=True,
 						track_visibility='onchange')
