@@ -229,16 +229,16 @@
         <record id="sli_trafitec_factura_cartaporte_tree" model="ir.ui.view">
             <field name="name">sli_trafitec_factura_cp</field>
             <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.move_supplier_tree"/>
+            <field name="inherit_id" ref="account.view_move_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//tree/field[@name='company_currency_id']" position="after">
+                <xpath expr="//tree/field[@name='company_id']" position="after">
                     <field name="es_provision" invisible="0"/>
                     <field name="es_cartaporte" invisible="0"/>
                     <field name="factura_encontrarecibo" invisible="0"/>
                     <field name="contrarecibo_id" invisible="0"/>
                 </xpath>
-                <xpath expr="//tree/field[@name='move_name']" position="after">
-                    <field name="sat_uuid" invisible="0"/>
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="l10n_mx_edi_cfdi_uuid" invisible="0"/>
                 </xpath>
             </field>
         </record>
@@ -278,7 +278,7 @@
                         <div class="oe_title">
                             <label string="Factura" for="factura_id"/>
                             <h3>
-                                <field name="factura_id" domain="[('type','=','out_invoice'),('state','=','open')]" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="factura_id" domain="[('move_type','=','out_invoice'),('state','=','open')]" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
                             </h3>
                         </div>
                         <group >
@@ -378,7 +378,8 @@
                         <h3>Se creara una factura por excedente, ya que el monto de los viajes supera a la factura inicial.</h3>
                     </group>
                     <footer>
-                        <button string="Aceptar" name="confirmation_button" type="object" class="btn-primary"/>
+                        <!-- TODO: Revisar -->
+                        <!-- <button string="Aceptar" name="confirmation_button" type="object" class="btn-primary"/> -->
                         <button string="Cancel" class="btn-default" special="cancel" />
                     </footer>
                 </form>
@@ -389,24 +390,22 @@
 
 
 
-        <record id="account.move_tree" model="ir.ui.view">
+        <record id="account_move_tree" model="ir.ui.view">
             <field name="name">account.move.tree</field>
             <field name="model">account.move</field>
             <field name="arch" type="xml">
                 <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoice">
                     <field name="id"/>
-                    <field name="move_name"/>
-                    <field name="sat_uuid"/>
+                    <field name="name"/>
+                    <field name="l10n_mx_edi_cfdi_uuid"/>
                     <field name="date"/>
                     <field name="partner_id" groups="base.group_user" string="Customer"/>
                     <field name="commercial_partner_id" invisible="1"/>
-                    <field name="reference" invisible="1"/>
-                    <field name="name" invisible="1"/>
                     <field name="journal_id" invisible="1"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                     <field name="user_id"/>
-                    <field name="date_due"/>
-                    <field name="origin"/>
+                    <field name="invoice_date_due"/>
+                    <field name="invoice_origin"/>
                     <field name="amount_untaxed"/>
                     <field name="amount_tax"/>
                     <field name="amount_total_signed" string="Total" sum="Total"/>
@@ -420,7 +419,7 @@
                     <field name="folios_boletas"/>
                     <field name="cancelacion_detalles"></field>
                     <field name="state"/>
-                    <field name="type" invisible="context.get('type',True)"/>
+                    <field name="move_type" invisible="context.get('move_type',True)"/>
                 </tree>
             </field>
         </record>
