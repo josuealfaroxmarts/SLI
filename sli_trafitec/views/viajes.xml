@@ -519,7 +519,7 @@
             <field name="name">view.viajes.tree</field>
             <field name="model">trafitec.viajes</field>
             <field name="arch" type="xml">
-                <tree string="Viajes" copy="false" duplicate="false" colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                <tree string="Viajes" copy="false" duplicate="false" colors="decoration-danger:state in ('Cancelado','Siniestrado');decoration-muted:tipo_viaje=='Directo';decoration-success:tipo_viaje=='Cobro destino'">
                     <field name="id"/>
                     <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
                     <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
@@ -609,7 +609,7 @@
             <field name="name">view.viajes.tree.granel</field>
             <field name="model">trafitec.viajes</field>
             <field name="arch" type="xml">
-                <tree string="Viajes" copy="false" duplicate="false" colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                <tree string="Viajes" copy="false" duplicate="false" colors="decoration-danger: state in ('Cancelado','Siniestrado');decoration-muted:tipo_viaje=='Directo';decoration-success:tipo_viaje=='Cobro destino'">
                     <field name="id"/>
                     <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
                     <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
@@ -688,7 +688,7 @@
             <field name="name">view.viajes.tree.flete</field>
             <field name="model">trafitec.viajes</field>
             <field name="arch" type="xml">
-                <tree string="Viajes" copy="false" duplicate="false" colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                <tree string="Viajes" copy="false" duplicate="false" colors="decoration-danger: state in ('Cancelado','Siniestrado');decoration-muted: tipo_viaje=='Directo';decoration-success:tipo_viaje=='Cobro destino'">
                     <field name="id"/>
                     <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
                     <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
@@ -755,7 +755,7 @@
             <field name="name">view.viajes.tree.contenedores</field>
             <field name="model">trafitec.viajes</field>
             <field name="arch" type="xml">
-                <tree string="Viajes" copy="false" duplicate="false" colors="red:state in ('Cancelado','Siniestrado');gray:tipo_viaje=='Directo';green:tipo_viaje=='Cobro destino'">
+                <tree string="Viajes" copy="false" duplicate="false" colors="decoration-danger:state in ('Cancelado','Siniestrado');decoration-muted: tipo_viaje=='Directo';decoration-success: tipo_viaje=='Cobro destino'">
                     <field name="id"/>
                     <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
                     <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
