@@ -57,12 +57,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
-                    <attribute name="attrs">{'delete':[('tipo','!=','automatica')]}</attribute>
-                </xpath>
-
-                <!--CAMPOS DE LA LINEA DE CONCEPTOS-->
-                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="attributes">
-                    <!--attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute-->
+                    <attribute name="attrs">{'delete':[('parent.tipo','!=','automatica')]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="attributes">
@@ -71,14 +66,6 @@
 
                 <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="attributes">
                     <attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute>
-                </xpath>
-
-                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="attributes">
-                    <!--attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute-->
-                </xpath>
-
-                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='uom_id']" position="attributes">
-                    <!--attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute-->
                 </xpath>
 
 
@@ -140,10 +127,10 @@
                     </page>
                 </xpath>
 
-                <xpath expr="//field[@name='has_outstanding']" position="before">
+                <xpath expr="//field[@name='invoice_has_outstanding']" position="before">
                     <field name="cliente_bloqueado" invisible="1"/>
                     <div attrs="{'invisible':[('cliente_bloqueado','=',False)]}" style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
-                        <label string="CLIENTE BLOQUEADO"></label>
+                        <label string="CLIENTE BLOQUEADO" for="cliente_bloqueado"></label>
                     </div>
 
                 </xpath>
@@ -153,7 +140,7 @@
         <record id="sli_trafitec_factura_cartaporte_form" model="ir.ui.view">
             <field name="name">sli_trafitec_factura_cp</field>
             <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.move_supplier_form"/>
+            <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
                 <!--CAMPOS GENERALES DE TRAFITEC EN FACTURA-->
                 <xpath expr="//sheet/group/group[1]/field[@name='partner_id']" position="after">
