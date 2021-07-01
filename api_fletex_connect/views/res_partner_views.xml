@@ -23,7 +23,7 @@
                     <field name="limit_credit"/>
                 </xpath>
                 <xpath expr="//sheet/group/group/field[@name='lang']" position="after">
-                    <field name="legal_representative" attrs="{'invisible':[('company_type2', '!=', 'company')]}"/>
+                    <field name="legal_representative" attrs="{'invisible':[('company_type', '!=', 'company')]}"/>
                     <field name="status_fletex"/>
                     <field name="status_record" readonly="1"/>
                     <field name="progress_fletex" widget="percentpie" attrs="{'invisible':[('operador', '!=', False)]}"/>

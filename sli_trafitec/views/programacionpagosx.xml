@@ -95,7 +95,7 @@
                       <group colspan="2">
                          <group colspan="2">
                            <group string="Persona">
-                             <field name="buscar_persona_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" domain="[('supplier','=',True),('company_type2','!=','person')]"/>
+                             <field name="buscar_persona_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" domain="[('supplier','=',True),('company_type','!=','person')]"/>
                              <field name="buscar_folio"/>
                            </group>
                            <group string="Periodo">
