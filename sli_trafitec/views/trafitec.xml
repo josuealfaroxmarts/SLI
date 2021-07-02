@@ -14,6 +14,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">fee.report</field>
             <field name="view_mode">tree,form</field>
+            <field name="auto_search">true</field>
             <field name="limit">10</field>
         </record-->
 
@@ -61,9 +62,9 @@
         
         
         <!--
-        <menuitem string="Comisiones X" action="cargosx_comisiones_action_generic" id="menu_cargosx_comisiones_generic" parent="menu_trafitec_config" sequence="100" />
-        <menuitem string="Descuentos X" action="cargosx_descuentos_action_generic" id="menu_cargosx_descuentos_generic" parent="menu_trafitec_config" sequence="100" />
-        <menuitem string="Descuentos X" action="cargosx_descuentos_action_generic" id="menu_cargosx_descuentos_generic" parent="menu_trafitec_config" sequence="100" />
+        <menuitem name="Comisiones X" action="cargosx_comisiones_action_generic" id="menu_cargosx_comisiones_generic" parent="menu_trafitec_config" sequence="100" />
+        <menuitem name="Descuentos X" action="cargosx_descuentos_action_generic" id="menu_cargosx_descuentos_generic" parent="menu_trafitec_config" sequence="100" />
+        <menuitem name="Descuentos X" action="cargosx_descuentos_action_generic" id="menu_cargosx_descuentos_generic" parent="menu_trafitec_config" sequence="100" />
         -->
         <!--INICIO-->
         <!--menuitem name="Clientes, proveedores, asociados y operadores" id="menu_trafitec_personas"  parent="menu_trafitec_inicio" sequence="00" action="contacts.action_contacts"/-->
@@ -87,14 +88,14 @@
         
         
         <!--CUENTAS POR COBRAR-->
-        <menuitem name="Facturas de cliente" action="account.action_invoice_tree1" id="menu_facturas_cliente" parent="menu_trafitec_facturacion" sequence="100"/>
+        <menuitem name="Facturas de cliente" action="account.action_move_in_invoice_type" id="menu_facturas_cliente" parent="menu_trafitec_facturacion" sequence="100"/>
         <menuitem name="Pagos" action="account.action_account_payments" id="menu_cxc_pagos" parent="menu_trafitec_facturacion" sequence="200" />
         <menuitem name="Descuentos" action="descuentos_action_generic" id="menu_descuentos_generic" parent="menu_trafitec_facturacion" sequence="300" />
         <menuitem name="Comisiones" action="comisiones_action_generic" id="menu_comision_generic" parent="menu_trafitec_facturacion" sequence="400" />
         <menuitem name="Clientes" action="base.action_partner_customer_form" id="menu_concepto_clientes" parent="menu_trafitec_facturacion" sequence="500" />
 
         <!--CUENTAS POR PAGAR-->
-        <menuitem name="Facturas de proveedor" action="account.action_invoice_tree2" id="menu_facturas_proveedor" parent="menu_trafitec_cuentasxpagar" sequence="100" />
+        <menuitem name="Facturas de proveedor" action="account.action_move_out_invoice_type" id="menu_facturas_proveedor" parent="menu_trafitec_cuentasxpagar" sequence="100" />
         <menuitem name="Facturas Fletex" action="action_invoice_fletex" id="menu_invoice_fletex" parent="menu_trafitec_cuentasxpagar" sequence="200" />
         <menuitem name="Contra recibos" action="contrarecibo_action_generic" id="menu_contrarecibos_generic" parent="menu_trafitec_cuentasxpagar" sequence="300" />
         <menuitem name="Pagos" action="account.action_account_payments_payable" id="menu_cxp_pagos" parent="menu_trafitec_cuentasxpagar" sequence="400"/>
@@ -131,16 +132,16 @@
         <menuitem action="concepto_anti_action_generic" id="menu_concepto_anti_generic" parent="menu_trafitec_system" sequence="700"   groups="sli_trafitec.sli_trafitec_sistemas"/>
         <menuitem action="etiquetas_action_generic" id="menu_etiquetas_generic" parent="menu_trafitec_system" sequence="800"   groups="sli_trafitec.sli_trafitec_sistemas"/>
         <menuitem action="polizas_action_generic" id="menu_polizas_generic" parent="menu_trafitec_system" sequence="900" />
-        <menuitem string="Perfiles de seguridad" action="sli_trafitec_seguridad_perfiles" id="menu_seguridad_perfiles" parent="menu_trafitec_system" sequence="1000" groups="sli_trafitec.sli_trafitec_sistemas"/>
-        <menuitem string="Pagos masivos" action="sli_trafitec_pagosmasivos" id="menu_trafitec_pagosmasivos" parent="menu_trafitec_system" sequence="1200" />
-        <menuitem string="Clasificaciones generales" action="sli_clasificacionesg" id="menu_trafitec_clasificacionesg" parent="menu_trafitec_system" sequence="1300" />
-        <menuitem string="Tareas" action="trafitec_tareas_action" id="menu_trafitec_tareas" parent="menu_trafitec_system" sequence="1300" />
+        <menuitem name="Perfiles de seguridad" action="sli_trafitec_seguridad_perfiles" id="menu_seguridad_perfiles" parent="menu_trafitec_system" sequence="1000" groups="sli_trafitec.sli_trafitec_sistemas"/>
+        <menuitem name="Pagos masivos" action="sli_trafitec_pagosmasivos" id="menu_trafitec_pagosmasivos" parent="menu_trafitec_system" sequence="1200" />
+        <menuitem name="Clasificaciones generales" action="sli_clasificacionesg" id="menu_trafitec_clasificacionesg" parent="menu_trafitec_system" sequence="1300" />
+        <menuitem name="Tareas" action="trafitec_tareas_action" id="menu_trafitec_tareas" parent="menu_trafitec_system" sequence="1300" />
 
         <!--CRM TRAFICO-->
-        <menuitem string="CRM Tráfico tablero" action="trafitec_crm_trafico_tablero_action" id="menu_trafitec_crm_trafico_tablero" parent= "menu_trafitec_crm_trafico" sequence= "100" />
-        <menuitem string="CRM Tráfico CRM" action="trafitec_crm_trafico_action" id="menu_trafitec_crm_trafico_crm" parent="menu_trafitec_crm_trafico" sequence="200" />
-        <menuitem string="CRM Tráfico registro" action="trafitec_crm_trafico_action_registro" id="menu_trafitec_crm_trafico_registro" parent="menu_trafitec_crm_trafico" sequence="300" />
-        <menuitem string="CRM Asociados recomendados por usuario" action="trafitec_crm_asociados_action" id="menu_trafitec_crm_asociados" parent="menu_trafitec_crm_trafico" sequence="400" />
-        <!--menuitem string="fee.report" action="trafitec_fee_report_action" id="menu_trafitec_fee_report" parent="menu_trafitec_crm_trafico" sequence="500" /-->
+        <menuitem name="CRM Tráfico tablero" action="trafitec_crm_trafico_tablero_action" id="menu_trafitec_crm_trafico_tablero" parent= "menu_trafitec_crm_trafico" sequence= "100" />
+        <menuitem name="CRM Tráfico CRM" action="trafitec_crm_trafico_action" id="menu_trafitec_crm_trafico_crm" parent="menu_trafitec_crm_trafico" sequence="200" />
+        <menuitem name="CRM Tráfico registro" action="trafitec_crm_trafico_action_registro" id="menu_trafitec_crm_trafico_registro" parent="menu_trafitec_crm_trafico" sequence="300" />
+        <menuitem name="CRM Asociados recomendados por usuario" action="trafitec_crm_asociados_action" id="menu_trafitec_crm_asociados" parent="menu_trafitec_crm_trafico" sequence="400" />
+        <!--menuitem name="fee.report" action="trafitec_fee_report_action" id="menu_trafitec_fee_report" parent="menu_trafitec_crm_trafico" sequence="500" /-->
 
 </odoo>

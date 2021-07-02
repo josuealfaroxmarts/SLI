@@ -89,7 +89,7 @@
                                                 <field name='domicilio_origen_id' class="oe_inline" string="Domicilio" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                               </div>
                                           </div>
-                                            <label string="Cliente destino" for"cliente_destino"/>
+                                            <label string="Cliente destino" for="cliente_destino_id"/>
                                           <div name='cliente_destino'>
                                               <div>
                                                 <field name='cliente_destino_id' class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>

@@ -15,7 +15,8 @@ class SyncDataFletex(models.Model):
 
     def sync_data(self):
         """In this function, requests are made to FLETEX and calls 
-        are made to the other functions for saving or modifying the registry."""
+        are made to the other functions for saving or modifying the registry.
+        """
 
         # Variable where headers are stored
         headers = {
@@ -93,8 +94,8 @@ class SyncDataFletex(models.Model):
         parameters :
         endponit (string) = endpoint where the request will be made
         method (string) = http method used for the request
-        data (dict) = data that will be sent to the endpoint, must contain, data, 
-        headers and params
+        data (dict) = data that will be sent to the endpoint, must contain, 
+        data, headers and params
         """
 
         url = self.env["ir.config_parameter"].sudo().get_param(
@@ -131,28 +132,32 @@ class SyncDataFletex(models.Model):
         vals = {
             'id_fletex': user['user_id'],
             'asociado': (True
-                         if user['role'] == "carrier"
-                         else False),
+                        if user['role'] == "carrier"
+                        else False),
             'operador': (True
-                         if user['role'] == "driver"
-                         else False),
+                        if user['role'] == "driver"
+                        else False),
             'supplier': (True
-                         if user['role'] == "carrier"
-                         else False),
+                        if user['role'] == "carrier"
+                        else False),
             'customer': (True
-                         if user['role'] == "client"
-                         else False),
+                        if user['role'] == "client"
+                        else False),
             'image': user['profile_pic'],
-            'name': "{} {}".format(user['account_name'], user['account_last_name'])
+            'name': "{} {}".format(user['account_name'], 
+                                    user['account_last_name'])
             if user['account_type'] != "moral"
             else "{}".format(user['social_reason']),
-            'legal_representative': "{} {}".format(user['account_name'], user['account_last_name'])
+            'legal_representative': "{} {}".format(user['account_name'], 
+                                                    user['account_last_name'])
             if user['account_type'] == "moral"
             else "{}".format(user['social_reason']),
             'company_type2': ("person"
-                              if user['account_type'] != "moral"
-                              else "company"),
-            'asociado_operador':  self.env['res.partner'].search([('id_fletex', '=', user['carrier_id'])])
+                            if user['account_type'] != "moral"
+                            else "company"),
+            'asociado_operador':  self.env['res.partner'].search([('id_fletex',
+                                                        '=', 
+                                                        user['carrier_id'])])
             if user['role'] == "driver"
             else False,
             'vat': user['rfc_empresa'],
@@ -161,17 +166,17 @@ class SyncDataFletex(models.Model):
             'l10n_mx_street3': user['ext_num'],
             'l10n_mx_street4': user['int_num'],
             'zip_sat_id': self.search_record('res.country.zip.sat.code',
-                                             'code',
-                                             user['zip']),
+                                            'code',
+                                            user['zip']),
             'colonia_sat_id': self.search_record('res.colonia.zip.sat.code',
-                                                 'name',
-                                                 user['neighborhood']),
+                                                'name',
+                                                user['neighborhood']),
             'township_sat_id': self.search_record('res.country.township.sat.code',
-                                                  'name',
-                                                  user['city']),
+                                                'name',
+                                                user['city']),
             'state_id': self.search_record('res.country.state',
-                                           'name',
-                                           user['state']),
+                                            'name',
+                                            user['state']),
             'email': user['account_email'],
             'name_representative': user['legal_representative']['name'],
             'lastname_representative': user['legal_representative']['lastName'],
@@ -385,7 +390,8 @@ class SyncDataFletex(models.Model):
             res_partner.write({'send_to_api': True})
 
     def vehicles_manager(self, vehicle, headers):
-        """ This function is in charge of managing the vehicles that are sent from fletex :
+        """ This function is in charge of managing the vehicles that are sent 
+            from fletex :
             vehicle (dict) = dictionary with vehicle data
             headers (dict) = headers used for the request
         """
@@ -462,8 +468,8 @@ class SyncDataFletex(models.Model):
         else:
             """
             Due to the inconsistency of data between Fletex and Odoo, 
-            it is verified if the model and brand of the vehicle exists in odoo, 
-            if not, it will be created.
+            it is verified if the model and brand of the vehicle exists in 
+            odoo, if not, it will be created.
             Note: By request of SLI, the model will not be used, 
             it will be replaced by the year of the vehicle
             """
@@ -548,7 +554,8 @@ class SyncDataFletex(models.Model):
                         'data': {
                             'vehicles': [
                                 {
-                                    'vehicle_id': vehicle['id_fletex_trailer'] if vehicle['tipo_vehiculo'] == 'remolque'
+                                    'vehicle_id': vehicle['id_fletex_trailer'] 
+                                    if vehicle['tipo_vehiculo'] == 'remolque'
                                     else vehicle['id_fletex_truck'],
                                     'type': 'trailer'
                                     if vehicle['tipo_vehiculo'] == 'remolque'
@@ -648,8 +655,9 @@ class SyncDataFletex(models.Model):
                 else 'Costal',
                 'product': product_id['id'],
                 'lineanegocio': self.search_record('trafitec.lineanegocio',
-                                                   'name',
-                                                   project['product_presentation']),
+                                                    'name',
+                                                    project[
+                                                    'product_presentation']),
                 'origen_id': self.search_record('trafitec.ubicacion',
                                                 'id_fletex',
                                                 project['location_id']),
@@ -661,27 +669,28 @@ class SyncDataFletex(models.Model):
             quotation = self.env['trafitec.cotizacion'].create(vals)
             origen_id = self.env['trafitec.ubicacion'].search(
                 [('id_fletex',
-                  '=',
-                  project['location_id'])])
+                '=',
+                project['location_id'])])
             township_origin = self.env['res.country.township.sat.code'].search(
                 [('name',
-                  '=',
-                  origen_id['ciudad'])])
+                '=',
+                origen_id['ciudad'])])
             destino_id = self.env['trafitec.ubicacion'].search(
                 [('id_fletex',
-                  '=',
-                  project['destinations'][0])])
-            township_destination = self.env['res.country.township.sat.code'].search(
+                '=',
+                project['destinations'][0])])
+            township_destination = self.env['res.country.township.sat.code']\
+                .search(
                 [('name',
-                  '=',
-                  destino_id['ciudad'])])
+                '=',
+                destino_id['ciudad'])])
             vals = {
                 'municipio_origen_id': township_origin['id'],
                 'municipio_destino_id': township_destination['id'],
                 'tarifa_cliente': project['initial_fare'],
                 'cantidad': project['total_weight'],
                 'product_uom': self.search_record('uom.uom',
-                                                  'name', 'Tonelada'),
+                                                'name', 'Tonelada'),
                 'cotizacion_id': quotation.id,
                 'distancia': 0.00,
                 'tarifa_asociado': 1,
@@ -714,8 +723,11 @@ class SyncDataFletex(models.Model):
                             'quotes': [
                                 {
                                     'project_id': project['id_fletex'],
-                                    'carrier_fare': project_line['tarifa_asociado'],
-                                    'estimated_shipments': project_line['total_movimientos']
+                                    'carrier_fare': project_line[
+                                                    'tarifa_asociado'],
+                                    'estimated_shipments': project_line[
+                                                            'total_movimientos'
+                                                            ]
                                 }
                             ]
                         },
@@ -740,9 +752,9 @@ class SyncDataFletex(models.Model):
             client_id = self.env['res.partner'].search([
                 ('id_fletex', '=', location['user_id'])])
             name_obj = self.env['trafitec.ubicacion'].search([('name',
-                                                               'ilike',
-                                                               location['alias']
-                                                               )])
+                                                            'ilike',
+                                                            location['alias']
+                                                            )])
 
             vals = {
                 'id_fletex': location['location_id'],
@@ -793,9 +805,10 @@ class SyncDataFletex(models.Model):
             client_id = self.env['res.partner'].search([
                 ('id_fletex', '=', location['user_id'])])
             name_obj = self.env['trafitec.ubicacion'].search([('name',
-                                                               'ilike',
-                                                               location['alias']
-                                                               )])
+                                                                'ilike',
+                                                                location[
+                                                                    'alias']
+                                                                )])
             if len(name_obj) > 1:
                 return
 
@@ -867,7 +880,7 @@ class SyncDataFletex(models.Model):
 
             vals = {
                 'linea_id': self.search_record('trafitec.cotizacion.lineas',
-                                               'id', shipment['project_id']),
+                'id', shipment['project_id']),
                 'client_id': quotation['cliente'],
                 'origen': quotation['origen_id'],
                 'destino': quotation['destino_id'],
@@ -926,7 +939,8 @@ class SyncDataFletex(models.Model):
 
     def run_revision_due_invoices(self, id=None):
         domain = [('date_due', '=', fields.Date.today()),
-                  ('state', '=', 'open'), ('partner_id.customer', '=', True)]
+                ('state', '=', 'open'), 
+                ('partner_id.customer', '=', True)]
         for invoice in self.search(domain):
             saldo = invoice.partner_id.saldo_facturas + invoice.amount_total
             saldo_restante = invoice.partner_id.limite_credito - saldo

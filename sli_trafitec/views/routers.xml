@@ -25,7 +25,7 @@
             <field name="name">view.routers.tree</field>
             <field name="model">trafitec.routers</field>
             <field name="arch" type="xml">
-                <tree string="Viajes" copy="false" duplicate="false">
+                <tree string="Viajes" duplicate="false">
                     <field name="id"/>
                     <field name="shipment_id_fletex"/>
                     <field name="shipment_id_odoo"/>

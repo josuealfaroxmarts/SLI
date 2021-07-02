@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 class fletex_respartner(models.Model):
@@ -71,7 +71,7 @@ class fletex_respartner(models.Model):
                                     default='draft')
     status_document = fields.Boolean()
     limit_credit = fields.Float('Limite de credito')
-    limit_credit_fletex = fields.Float('Limite de credito en Fletex')
+    limit_credit_fletex = fields.Float('Limite de credito')
     balance_invoices = fields.Float('Saldo en facturas')
 
     #deleted
