@@ -1,0 +1,67 @@
+<openerp>
+    <data>
+      <record id="sli_viajes_buscar" model="ir.ui.view">
+            <field name="name">sli.viajes.buscar</field>
+            <field name="model">trafitec.viajes</field>
+            <field name="inherit_id" ref="sli_trafitec.view_viajes_search"/>
+            <field name="arch" type="xml">
+                <search>
+                    <!--FILTRO RAPIDO-->
+                    <filter name="misviajes" string="Mis viajes" domain="[('create_uid','=',uid)]"/>
+                    <separator/>
+                    <filter name="hoy" string="Viajes de hoy" domain="[('create_date','>=',current_date)]"/>
+                    <filter name="siete_dias" string="Viajes recientes" domain="[('create_date','&gt;=',(context_today()+relativedelta(days=-3)).strftime('%%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="concontrarecibo" string="Con contra recibo" domain="[('en_contrarecibo','=',True)]"/>
+                    <filter name="concontrarecibo" string="Sin contra recibo" domain="[('en_contrarecibo','=',False)]"/>
+
+                    <separator/>
+                    <filter name="confactura" string="Con factura" domain="[('en_factura','=',True)]"/>
+                    <filter name="confactura" string="Sin factura" domain="[('en_factura','=',False)]"/>
+
+                    <separator/>
+                    <filter name="conpsf" string="Es PSF" domain="[('psf','=',True)]"/>
+                    <filter name="sinpsf" string="No es PSF" domain="[('psf','=',False)]"/>
+
+                    <separator/>
+                    <filter name="concsf" string="Es CSF" domain="[('csf','=',True)]"/>
+                    <filter name="sincsf" string="No es CSF" domain="[('csf','=',False)]"/>
+
+                    <separator/>
+                    <filter name="conpesoo" string="Con peso origen" domain="['|',('peso_origen_remolque_1','>',0),('peso_origen_remolque_2','>',0)]"/>
+                    <separator/>
+                    <filter name="conpesod" string="Con peso destino" domain="['|',('peso_destino_remolque_1','>',0),('peso_destino_remolque_2','>',0)]"/>
+                    <separator/>
+                    <filter name="sinpesoo" string="Sin peso origen" domain="['&amp;',('peso_origen_remolque_1','&lt;=',0),('peso_origen_remolque_2','&lt;=',0)]"/>
+                    <separator/>
+                    <filter name="sinpesob" string="Sin peso destino" domain="['&amp;',('peso_destino_remolque_1','&lt;=',0),('peso_destino_remolque_2','&lt;=',0)]"/>
+
+                    
+                    <!--BUSQUEDA RAPIDA-->
+                    <field name="name" string="Folio"/>
+                    <field name="x_folio_trafitecw" string="Folio de trafitec windows"/>
+                    <field name="placas_id" string="Vehículo"/>
+                    <field name="tipo_remolque" string="Tipo de remolque"/>
+                    <field name="lineanegocio" string="Línea de negocio"/>
+                    <field name="sucursal_id" string="Sucursal"/>
+                    <field name="tipo_viaje" string="Tipo"/>
+
+                    
+                    <!--AGRUPADORES-->
+                    <group expand="0" string="Agrupar por">
+                        <filter name="agrupar_por_cliente" string="Cliente" domain="[]" context="{'group_by':'cliente_id'}" help="Agrupar por cliente"/>
+                        <filter name="agrupar_por_asociado" string="Asociado" domain="[]" context="{'group_by':'asociado_id'}" help="Agrupar por asociado"/>
+                        <filter name="agrupar_por_noe" string="NOE" domain="[]" context="{'group_by':'no_economico'}" help="Agrupar por número economico"/>
+                        <filter name="agrupar_por_sucursal" string="Sucursal" domain="[]" context="{'group_by':'sucursal_id'}" help="Agrupar por sucursal"/>
+                        <filter name="agrupar_por_ano" context="{'group_by': 'create_date:year'}" string="Año" help="Agrupar por año" />
+                        <filter name="grupar_por_mes" context="{'group_by': 'create_date:month'}" string="Mes" help="Agrupar por mes"/>
+                        <filter name="grupar_por_lineanegocio" context="{'group_by': 'lineanegocio'}" string="Línea de negocio" help="Agrupar por línea de negocio"/>
+                        <filter name="grupar_por_usuario" context="{'group_by': 'create_uid'}" string="Usuario" help="Agrupar por usuario"/>
+                        <filter name="grupar_por_asignadoa" context="{'group_by': 'asignadoa_id'}" string="Aignado a" help="Agrupar por asignado a"/>
+          					</group>
+
+                </search>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,29 @@
+<openerp>
+    <data>
+      <record id="sli_contrarecibos_buscar" model="ir.ui.view">
+            <field name="name">sli.contrarecibos.buscar</field>
+            <field name="model">trafitec.contrarecibo</field>
+            <field name="inherit_id" ref="sli_trafitec.view_contrarecibo_search"/>
+            <field name="arch" type="xml">
+                <search>
+                    <!--FILTRO RAPIDO-->
+                    <filter name="miscontrarecibos" string="Mis contra recibos" domain="[('create_uid','=',uid)]"/>
+                    <separator/>
+                    <filter name="hoy" string="Contra recibos de hoy" domain="[('create_date','>=',current_date)]"/>
+                    <filter name="siete_dias" string="Contra recibos recientes" domain="[('create_date','&gt;=',(context_today()+relativedelta(days=-3)).strftime('%%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="nueva" string="Nueva" domain="[('state','=','Nueva')]"/>
+                    <filter name="validada" string="Validada" domain="[('state','=','Validada')]"/>
+                    <filter name="cancelada" string="Cancelada" domain="[('state','=','Cancelada')]"/>
+
+                    <!--AGRUPADORES-->
+                    <group expand="0" string="Agrupar por">
+                        <filter name="agrupar_por_asociado" string="Asociado" domain="[]" context="{'group_by':'asociado_id'}" help="Agrupar por asociado"/>
+                        <filter name="agrupar_por_lineanegocio" string="Linea de negocio" domain="[]" context="{'group_by':'lineanegocio'}" help="Agrupar por linea de negocio"/>
+          					</group>
+
+                </search>
+            </field>
+        </record>
+    </data>
+</openerp>
