@@ -82,7 +82,7 @@ class trafitec_viajes(models.Model):
 
     moneda = fields.Many2one("res.currency", related='linea_id.cotizacion_id.currency_id', string="Moneda", store=True)
     cliente_id = fields.Many2one('res.partner', string='Cliente', required=True,
-                                domain="[('company_type','in',['company','physical_person']),('customer','=',True)]")
+                                domain="[('company_type','in',['company','person']),('customer','=',True)]")
     referencia_cliente = fields.Char(string="Referencia Viaje Cliente")
     referencia_fletex = fields.Char(string="Referencia Viaje Cliente")
     referencia_asociado = fields.Char(string="Referencia Viaje Asociado")

@@ -152,7 +152,7 @@ class SyncDataFletex(models.Model):
                                                     user['account_last_name'])
             if user['account_type'] == "moral"
             else "{}".format(user['social_reason']),
-            'company_type2': ("person"
+            'company_type': ("person"
                             if user['account_type'] != "moral"
                             else "company"),
             'asociado_operador':  self.env['res.partner'].search([('id_fletex',

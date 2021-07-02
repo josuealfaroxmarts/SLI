@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sli_portales_registro,PORTALES Registros de portal,model_sli_portales_registro,,1,0,0,1
+access_sli_portales_usuarios,PORTALES Usuarios,model_sli_portales_usuarios,SLI_Portales_general,1,1,1,1
+access_sli_portales_usuarios,PORTALES Usuarios,model_sli_portales_usuarios,,1,0,0,0
