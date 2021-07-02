@@ -71,13 +71,8 @@ class fletex_respartner(models.Model):
                                     default='draft')
     status_document = fields.Boolean()
     limit_credit = fields.Float('Limite de credito')
-    limit_credit_fletex = fields.Float('Limite de credito')
+    limit_credit_fletex = fields.Float('Limite de credito en FLETEX')
     balance_invoices = fields.Float('Saldo en facturas')
-
-    #deleted
-    saldo_facturas = fields.Float('dasd')
-    limit_credit = fields.Float('Limite de credito en Fletex')
-    limit_credit_fletex = fields.Float('Limite de credito en Fletex')
 
     @api.depends('name')
     

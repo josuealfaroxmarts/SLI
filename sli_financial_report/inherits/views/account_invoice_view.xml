@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!-- <record id="account_invoice_inherit_view_form" model="ir.ui.view">
+		<field name="name">Account Invoice Inherit View Form</field>
+		<field name="model">account.move</field>
+		<field name="arch" type="xml">
+			<form>
+				<group>
+					<field name="number"/>
+					<field name="date_invoice"/>
+					<field name="amount_total"/>
+					<field name="residual"/>
+					<field name="state"/>
+				</group>
+			</form>
+		</field>
+	</record> -->
+
+	<record id="account_invoice_inherit_view_tree" model="ir.ui.view">
+		<field name="name">Account Invoice Inherit View Tree</field>
+		<field name="model">account.move</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="number"/>
+				<field name="date_invoice"/>
+				<field name="amount_total"/>
+				<field name="residual"/>
+				<field name="state"/>
+				<field name="file_pdf" filename="filename_pdf"/>
+				<field name="filename_pdf" invisible="True"/>
+				<field name="file_xml" filename="filename_xml"/>
+				<field name="filename_xml" invisible="True"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="account_invoice_inherit_action" model="ir.actions.act_window">
+		<field name="name">Descarga de archivos</field>
+		<field name="res_model">account.move</field>
+		<field name="view_mode">tree,form,kanban,calendar,graph,pivot</field>
+		<field name="view_id" ref="account.view_account_invoice_filter"/>
+		<field name="domain">[('type','in', ['out_invoice', 'out_refund']), ('state', 'not in', ['draft', 'cancel'])]</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">
+				Clic para agregar un registro
+			</p>
+		</field>
+	</record>
+
+	<record id="action_account_invoice_tree_window" model="ir.actions.act_window.view">
+		<field eval="1" name="sequence"/>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="account_invoice_inherit_view_tree"/>
+		<field name="act_window_id" ref="account_invoice_inherit_action"/>
+	</record>
+
+	<menuitem
+		id="menu_account_invoice_inherit"
+		name="Archivos PDF y XML de facturas"
+		action="account_invoice_inherit_action"
+		parent="sli_financial_report.menu_accounts_payment"
+		sequence="1"/>
+
+</odoo>
