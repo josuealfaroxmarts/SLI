@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            string="Factura personalizada"
+            id="action_report_custom_invoice"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            name="sli_custom_invoice.report_custom_invoice"
+            file="sli_custom_invoice.report_custom_invoice"
+        />
+
+
+    </data>
+</odoo>
