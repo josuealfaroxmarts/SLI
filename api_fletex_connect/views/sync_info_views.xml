@@ -37,7 +37,6 @@
     <record id="sync_errors_fletex_action" model="ir.actions.act_window">
       <field name="name">Sincronización de datos</field>
       <field name="res_model">info.sync.fletex</field>
-      <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
     </record>
     <menuitem
