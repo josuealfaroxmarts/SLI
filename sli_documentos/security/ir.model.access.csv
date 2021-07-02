@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_seguimiento_viaje,Seguimineto registro viaje,model_sli_seguimiento_registro,sli_documentos.sli_seguimiento_permitir_asignar_viaje,1,1,1,0
+access_seguimiento_contra_recibo,Seguimineto registro contra recibo,model_sli_seguimiento_registro,sli_documentos.sli_seguimiento_permitir_asignar_contrarecibo,1,1,1,0
+access_seguimiento_factura,Seguimineto registro factura,model_sli_seguimiento_registro,sli_documentos.sli_seguimiento_permitir_asignar_factura,1,1,1,0
+
+access_seguimiento_clasificacion,Seguimineto clasificación,model_sli_seguimiento_clasificacion,,1,0,0,0

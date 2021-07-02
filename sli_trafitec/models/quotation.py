@@ -145,14 +145,14 @@ class trafitec_cotizacion(models.Model):
         }
 
     
-    #@api.one
+    #
     #@api.depends('')
     #def _compute_totales_origenes_destinos(self):
     #    total = 0
         #trafitec.cotizaciones.linea
     #    self.totales_origenes_destinos = total
 
-    #@api.one
+    #
     #@api.depends('')
     #def _compute_totales_viajes(self):
     #    total = 0

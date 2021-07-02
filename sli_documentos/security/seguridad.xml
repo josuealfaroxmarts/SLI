@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+    <!--CATEGORIAS-->
+    <record id="sli_seguimiento" model="ir.module.category" >
+            <field name="name">SLI Seguimiento</field>
+            <field name="description">Seguimiento de viajes, contra recibos y facturas.</field>
+            <field name="sequence">20</field>
+    </record>
+
+    <!--ASIGNAR VIAJE-->
+    <record id="sli_seguimiento_permitir_asignar_viaje" model="res.groups">
+        <field name="name">Permitir asignar viaje</field>
+        <field name="comment">Permitir asignar viaje.</field>
+        <field name="category_id" ref="sli_seguimiento"/>
+    </record>
+    
+    <record id="sli_seguimiento_permitir_quitar_asignacion_viaje" model="res.groups">
+        <field name="name">Permitir quitar asignación de viaje</field>
+        <field name="comment">Permitir quitar asignación de viaje.</field>
+        <field name="category_id" ref="sli_seguimiento"/>
+    </record>
+    
+    
+    
+    <!--ASIGNAR CONTRARECIBO-->
+    <record id="sli_seguimiento_permitir_asignar_contrarecibo" model="res.groups">
+        <field name="name">Permitir asignar contra recibo</field>
+        <field name="comment">Permitir asignar contra recibo.</field>
+        <field name="category_id" ref="sli_seguimiento"/>
+    </record>
+    
+    <record id="sli_seguimiento_permitir_quitar_asignacion_contrarecibo" model="res.groups">
+        <field name="name">Permitir quitar asignación de contra recibo</field>
+        <field name="comment">Permitir quitar asignación de contra recibo.</field>
+        <field name="category_id" ref="sli_seguimiento"/>
+    </record>
+    
+    <!--ASIGNAR FACTURA-->
+    <record id="sli_seguimiento_permitir_asignar_factura" model="res.groups">
+        <field name="name">Permitir asignar factura</field>
+        <field name="comment">Permitir asignar factura.</field>
+        <field name="category_id" ref="sli_seguimiento"/>
+    </record>
+    
+    <record id="sli_seguimiento_permitir_quitar_asignacion_factura" model="res.groups">
+        <field name="name">Permitir quitar asignación de factura</field>
+        <field name="comment">Permitir quitar asignación de factura.</field>
+        <field name="category_id" ref="sli_seguimiento"/>
+    </record>
+</data>
+</openerp>
+
+

@@ -955,7 +955,6 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">trafitec.viajes</field>
             <field name="context">{'search_default_statex':True}</field>
-            <!--field name="view_type">form</field-->
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_viajes_tree_contenedores"/>
             <field name="domain">[('lineanegocio','=',3)]</field>
