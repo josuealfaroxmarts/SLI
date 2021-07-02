@@ -1,0 +1,32 @@
+<openerp>
+  <data>
+    <record id="trafitec_reportes_parametros_view" model="ir.ui.view">
+        <field name="name">custom.pop.message</field>
+        <field name="model">trafitec.reportes.parametros</field>
+        <field name="arch" type="xml">
+            <form string="Reportes PDF">
+              <group>
+                <group string="Periodo">
+									<field name="fecha_inicial"/>
+									<field name="fecha_final"/>
+                </group>
+                <group string="Opciones">
+                  <field name="tipo"/>
+                </group>
+              </group>
+              <footer>
+                    <button string="Imprimir" name="reporte" type="object" class="btn-primary"/>
+              </footer>
+            </form>
+        </field>
+    </record>
+  	<record id="trafitec_reportes_parametros_action" model="ir.actions.act_window" >
+        <field name="name">Reportes PDF</field>
+        <field name="res_model">trafitec.reportes.parametros</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="trafitec_reportes_parametros_view" />
+        <field name="target">new</field>
+    </record>
+	  <menuitem name="Reportes PDF" action="trafitec_reportes_parametros_action" id="trafitec_reportes_menu_parametros" parent="sli_trafitec.trafitec_menu_trafitec_reportes_especiales"  groups="sli_trafitec.sli_trafitec_reportes_especiales" sequence="204"/>
+  </data>
+</openerp>

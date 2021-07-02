@@ -1,0 +1,333 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+    <template id="report_contrarecibo_general">
+     <t t-foreach="docs" t-as="o">
+       <!--DOCUMENTO PRINCIPAL-->
+       <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+               <!--Contenido del repote-->
+               <div class="page">
+                  <t t-if="o.state=='Cancelada'">
+                    <div class="cancelado">
+                    <p><span t-field="o.state"/></p>
+                    </div>
+                  </t>
+
+                  <t t-if="o.state=='Nueva'">
+                    <div class="noautorizada">
+                    <p>NO VALIDADO</p>
+                    </div>
+                  </t>
+
+                   <t t-set="fletes_subtotal" t-value="0"/>
+                   <t t-set="fletes_maniobras" t-value="0"/>
+                   <t t-set="cargosadicionales_subtotal" t-value="0"/>
+                   <t t-set="comisiones_subtotal" t-value="0"/>
+                   <t t-set="descuentos_subtotal" t-value="0"/>
+
+
+
+                  <div class="borde">
+                  <table width="100%">
+                  <tr><td></td><td colspan="2" class="centro"><h1>CONTRA RECIBO GENERAL <br/><b><span t-field="o.name"/></b></h1></td><td class="centro"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.name, 100, 100)"/></td></tr>
+                  <tr><td width="150"><div class="campo">CONTRA RECIBO:</div></td><td><span t-field="o.name"/></td><td width="100"><div class="campo">TIPO:</div></td><td class="derecha" width="50"><span t-field="o.lineanegocio"/></td></tr>
+                  <tr><td width="150"><div class="campo">ASOCIADO:</div></td><td><b><span t-field="o.asociado_id"/></b></td><td width="100"><div  class="campo">ESTADO:</div></td><td class="derecha" width="50"><span t-field="o.state"/></td></tr>
+                  <tr><td width="150"><div class="campo">FECHA HORA:</div></td><td><span t-field="o.create_date"/></td><td width="100"></td><td class="derecha" width="50"></td></tr>
+                  </table>
+                  </div>
+
+                  <div class="barrah">+VIAJES</div>
+                  <table width="100%">
+                  <tr>
+                  <th class="centro"><div class="th">FOLIO</div></th>
+                  <th class="centro"><div class="th">FECHA</div></th>
+                  <th class="centro"><div class="th">VEHICULO</div></th>
+                  <th class="centro"><div class="th">ORIGEN</div></th>
+                  <th class="centro"><div class="th">DESTINO</div></th>
+                  <th class="centro"><div class="th">TARIFA</div></th>
+                  <th class="centro"><div class="th">PESO ORIGEN (KG)</div></th>
+                  <th class="centro"><div class="th">PESO DESTINO (KG)</div></th>
+                  <th class="centro"><div class="th">MERMA (KG)</div></th>
+                  <th class="centro"><div class="th">MANIOBRAS</div></th>
+                  <th class="centro"><div class="th">FLETE</div></th>
+                  </tr>
+                  <t t-foreach="o.viaje_id" t-as="v">
+                    <tr>
+                    <td width="150" class="td centro"><span t-field="v.name"/></td>
+                    <td width="150" class="td centro"><span t-field="v.fecha_viaje"/></td>
+                    <td width="150" class="td centro"><span t-field="v.vehiculo"/></td>
+                    <td width="150" class="td centro"><span t-field="v.origen"/></td>
+                    <td width="150" class="td centro"><span t-field="v.destino"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(v.tarifa_asociado))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(v.peso_origen_remolque_1+v.peso_origen_remolque_2))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(v.peso_destino_remolque_1+v.peso_destino_remolque_2))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float((v.peso_origen_remolque_1+v.peso_origen_remolque_2)-(v.peso_destino_remolque_1+v.peso_destino_remolque_2)))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(v.maniobras))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(v.flete_asociado))"/></td>
+                    </tr>
+                       <t t-set="fletes_subtotal" t-value="fletes_subtotal+v.flete_asociado"/>
+                       <t t-set="fletes_maniobras" t-value="fletes_maniobras+v.maniobras"/>
+                  </t>
+
+                      <tr>
+                          <td colspan="9"></td>
+                          <td width="150" class="td derecha borde_arriba">
+                            <t t-esc="'{0:,.2f}'.format(float(fletes_maniobras))"/>
+                          </td>
+                          <td width="150" class="td derecha borde_arriba">
+                            <t t-esc="'{0:,.2f}'.format(float(fletes_subtotal))"/>
+                          </td>
+                      </tr>
+
+                  </table>
+
+                  <!--*************************************************************-->
+                  <!--CARGOS ADICIONALES-->
+                   <!--*************************************************************-->
+                   <t t-if="o.cargosadicionales_total>0">
+
+                  <div class="barrah">+CARGOS ADICIONALES A FAVOR</div>
+                  <table width="100%">
+                  <tr>
+                  <th class="centro"><div class="th">ID</div></th>
+                  <th class="centro"><div class="th">VIAJE</div></th>
+                  <th class="centro"><div class="th">TIPO</div></th>
+                  <th class="centro"><div class="th">VALOR</div></th>
+                  </tr>
+                  <t t-foreach="o.cargosadicionales_id" t-as="ca">
+                    <tr>
+                    <td width="150" class="td centro"><span t-field="ca.id"/></td>
+                    <td width="150" class="td centro"><span t-field="ca.viaje_id.name"/></td>
+                    <td width="150" class="td centro"><span t-field="ca.tipo_cargo_id.name"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(ca.valor))"/></td>
+                    </tr>
+                      <t t-set="cargosadicionales_subtotal" t-value="cargosadicionales_subtotal+ca.valor"/>
+                  </t>
+                  <tr>
+                  <td colspan="3"></td>
+                  <td width="150" class="td derecha borde_arriba">
+                      <t t-esc="'{0:,.2f}'.format(float(cargosadicionales_subtotal))"/>
+                  </td>
+                  </tr>
+                  </table>
+
+                    </t>
+                  <!--*************************************************************-->
+                  <!--DESCUENTOS-->
+                   <!--*************************************************************-->
+                  <t t-if="(o.descuento_antes+o.descuento_des)>0">
+
+                  <div class="barrah">-DESCUENTOS</div>
+                  <table width="100%">
+                  <tr>
+                  <th class="centro"><div class="th">ID</div></th>
+                  <th class="centro"><div class="th">FECHA</div></th>
+                  <th class="centro"><div class="th">CONCEPTO</div></th>
+                  <th class="centro"><div class="th">VIAJE</div></th>
+                  <th class="centro"><div class="th">TOTAL</div></th>
+                  <th class="centro"><div class="th">ABONOS</div></th>
+                  <th class="centro"><div class="th">SALDO</div></th>
+                  <th class="centro"><div class="th">ESTE COBRO</div></th>
+                  </tr>
+                  <t t-foreach="o.descuento_id" t-as="c">
+                    <tr>
+                    <td width="150" class="td centro"><span t-field="c.descuento_fk.id"/></td>
+                    <td width="150" class="td centro"><span t-field="c.descuento_fk.fecha"/></td>
+                    <td width="150" class="td centro"><span t-field="c.descuento_fk.concepto"/></td>
+                    <td width="150" class="td centro"><span t-field="c.descuento_fk.viaje_id"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c.descuento_fk.monto))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c.descuento_fk.abono_total))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c.descuento_fk.saldo))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c.abono))"/></td>
+                    </tr>
+                    <t t-set="descuentos_subtotal" t-value="descuentos_subtotal+c.abono"/>
+                  </t>
+                  <tr>
+                  <td colspan="7"></td>
+                  <td width="150" class="td derecha borde_arriba"><t t-esc="'{0:,.2f}'.format(float(descuentos_subtotal))"/></td>
+                  </tr>
+                  </table>
+
+                  </t>
+                  <!--*************************************************************-->
+                  <!--COMISIONES COBRADAS-->
+                   <!--*************************************************************-->
+                  <t t-if="(o.comisiones_antes+o.comision_des)>0">
+
+                  <div class="barrah">-COMISIONES</div>
+                  <table width="100%">
+                  <tr>
+                  <th class="centro"><div class="th">ID</div></th>
+                  <th class="centro"><div class="th">FECHA</div></th>
+                  <th class="centro"><div class="th">VIAJE</div></th>
+                  <th class="centro"><div class="th">TOTAL</div></th>
+                  <th class="centro"><div class="th">ABONOS</div></th>
+                  <th class="centro"><div class="th">SALDO</div></th>
+                  <th class="centro"><div class="th">ESTE COBRO</div></th>
+                  </tr>
+                  <t t-foreach="o.comision_id" t-as="c">
+                    <tr>
+                    <td width="150" class="td centro"><span t-field="c.cargo_id.id"/></td>
+                    <td width="150" class="td centro"><span t-field="c.fecha"/></td>
+                    <td width="150" class="td centro"><span t-field="c.viaje_id.name"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c.cargo_id.monto))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c.cargo_id.abonado))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c.cargo_id.saldo))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c.saldo))"/></td>
+                    </tr>
+                    <t t-set="comisiones_subtotal" t-value="comisiones_subtotal+c.saldo"/>
+                  </t>
+                  <tr>
+                  <td colspan="6"></td>
+                  <td width="150" class="td derecha borde_arriba"><t t-esc="'{0:,.2f}'.format(float(comisiones_subtotal))"/></td>
+                  </tr>
+                  </table>
+
+                  </t>
+                   <!--*************************************************************-->
+                  <!--TOTALES-->
+                   <!--*************************************************************-->
+
+
+                  <div class="barrah">TOTALES</div>
+                  <table width="100%">
+                  <tr>
+                  <td width="25%">
+                    <table width="100%">
+                    <tr><td colspan="2"><div class="barrah">CARTA PORTE</div></td></tr>
+                    <tr><td>FOLIO:</td><td><span t-field="o.invoice_id.reference"/> <span class="color_gris"><span t-field="o.invoice_id.number"/></span></td></tr>
+                    <tr><td>FECHA:</td><td><span t-field="o.invoice_id.date_invoice"/></td></tr>
+                    <tr><td>TOTAL:</td><td><t t-esc="'{0:,.2f}'.format(float(o.invoice_id.amount_total))"/></td></tr>
+                    <tr><td height="100%"></td></tr>
+                    </table>
+                  </td>
+                  <td width="40%"></td>
+                  <td width="35%" valign="top">
+                    <div class="borde_rojo">
+                    <table width="100%">
+                    <tr>
+                        <td>+FLETES:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.fletes))"/></td></tr>
+                        <t t-if="o.maniobras>0"><tr><td>+MANIOBRAS:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.maniobras))"/></td></tr></t>
+                        <t t-if="o.cargosadicionales_total>0"><tr><td>+CARGOS ADICIONALES:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.cargosadicionales_total))"/></td></tr></t>
+
+                        <tr><td colspan="2"><div class="separadorh"/></td></tr>
+                    <t t-if="o.descuento_antes>0"><tr><td>-DESCUENTOS:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.descuento_antes))"/></td></tr></t>
+                    <t t-if="o.comisiones_antes>0"><tr><td>-COMISIONES:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.comisiones_antes))"/></td></tr></t>
+                    <t t-if="o.mermas_antes>0"><tr><td>-MERMAS:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.mermas_antes))"/></td></tr></t>
+                    <t t-if="o.prontopago_antes>0"><tr><td>-PRONTOPAGO:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.prontopago_antes))"/></td></tr></t>
+
+                    <tr><td colspan="2"><div class="separadorh"/></td></tr>
+                    <tr><td>SUBTOTAL:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.subtotal_g))"/></td></tr>
+                    <tr><td>IVA:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.iva_g))"/></td></tr>
+                    <tr><td>RETENCION DE IVA:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.r_iva_g))"/></td></tr>
+                    <tr><td><b>TOTAL:</b></td><td class="derecha"><b><t t-esc="'{0:,.2f}'.format(float(o.total_g))"/></b></td></tr>
+
+                    <tr><td colspan="2"><div class="separadorh"/></td></tr>
+                    <t t-if="o.descuento_des>0"><tr><td>-DESCUENTOS:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.descuento_des))"/></td></tr></t>
+                    <t t-if="o.comision_des>0"><tr><td>-COMISIONES:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.comision_des))"/></td></tr></t>
+                    <t t-if="o.mermas_des>0"><tr><td>-MERMAS:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.mermas_des))"/></td></tr></t>
+                    <t t-if="o.prontopago_des>0"><tr><td>-PRONTOPAGO:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.prontopago_des))"/></td></tr></t>
+                    <tr><td colspan="2"><div class="separadorh"/></td></tr>
+                    <tr><td><b>TOTAL A PAGAR</b></td><td class="derecha"><b><t t-esc="'{0:,.2f}'.format(float(o.total_g-(o.descuento_des+o.comision_des+o.mermas_des+o.prontopago_des)))"/></b></td></tr>
+                    </table>
+                    </div>
+                  </td>
+                  </tr>
+                  </table>
+
+
+                  <div class="firmas">FIRMAS</div>
+                  <table width="100%" height="100%">
+                  <tr><td height="100%"></td></tr>
+                  <tr><td class="centro" height="50" width="33%"><span t-field="o.create_uid.partner_id"/></td><td width="33%"></td><td class="centro" width="33%"><span t-field="o.asociado_id"/></td></tr>
+                  <tr><td class="centro borde_arriba">GENERO</td><td class="centro borde_arriba"></td><td class="centro borde_arriba">ASOCIADO</td></tr>
+                  </table>
+               <!--Fin del Contenido del repote-->
+               </div>
+           </t>
+      </t>
+
+       <!--ANEXOS-->
+       <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+               <!--Contenido del repote-->
+               <div class="page">
+                  <div class="barrah">ANEXOS</div>
+
+
+                  <table width="100%">
+                  <tr><td colspan="10"><b>NOTAS DE CARGO</b><hr/></td></tr>
+                    <tr>
+                      <th>FOLIO</th>
+                      <th>TOTAL</th>
+                      <th>TIPO</th>
+                    </tr>
+
+                    <tr>
+                      <td><span t-field="o.folio_diferencia"/></td><td><span t-field="o.folio_diferencia.amount_total"/></td><td><span t-field="o.folio_diferencia.reference"/></td>
+                    </tr>
+                    <tr>
+                      <td><span t-field="o.folio_merma"/></td><td><span t-field="o.folio_merma.amount_total"/></td><td><span t-field="o.folio_merma.reference"/></td>
+                    </tr>
+                    <tr>
+                      <td><span t-field="o.folio_descuento"/></td><td><span t-field="o.folio_descuento.amount_total"/></td><td><span t-field="o.folio_descuento.reference"/></td>
+                    </tr>
+                    <tr>
+                      <td><span t-field="o.folio_comision"/></td><td><span t-field="o.folio_comision.amount_total"/></td><td><span t-field="o.folio_comision.reference"/></td>
+                    </tr>
+                    <tr>
+                      <td><span t-field="o.folio_prontopago"/></td><td><span t-field="o.folio_prontopago.amount_total"/></td><td><span t-field="o.folio_prontopago.reference"/></td>
+                    </tr>
+                  </table>
+                  <hr/>
+
+
+                  <hr/>
+                  <table width="100%">
+                  <tr><td colspan="10"><b>PAGOS</b><hr/></td></tr>
+                    <tr>
+                      <th>FOLIO</th>
+                      <th>FECHA</th>
+                      <th>TOTAL</th>
+                      <th>TIPO</th>
+                      <th>DETALLES</th>
+                      <th>USUARIO</th>
+                    </tr>
+
+                    <tr>
+                      <td><span t-field="o.folio_diferencia"/></td><td><span t-field="o.folio_diferencia.amount_total"/></td><td><span t-field="o.folio_diferencia.reference"/></td>
+                    </tr>
+                    <tr>
+                      <td><span t-field="o.folio_merma"/></td><td><span t-field="o.folio_merma.amount_total"/></td><td><span t-field="o.folio_merma.reference"/></td>
+                    </tr>
+                    <tr>
+                      <td><span t-field="o.folio_descuento"/></td><td><span t-field="o.folio_descuento.amount_total"/></td><td><span t-field="o.folio_descuento.reference"/></td>
+                    </tr>
+                    <tr>
+                      <td><span t-field="o.folio_comision"/></td><td><span t-field="o.folio_comision.amount_total"/></td><td><span t-field="o.folio_comision.reference"/></td>
+                    </tr>
+                    <tr>
+                      <td><span t-field="o.folio_prontopago"/></td><td><span t-field="o.folio_prontopago.amount_total"/></td><td><span t-field="o.folio_prontopago.reference"/></td>
+                    </tr>
+                  </table>
+
+               <!--Fin del Contenido del repote-->
+               </div>
+           </t>
+      </t>
+     </t><!--t-foreach-->
+    </template>
+
+    <report id="action_report_contrarecibo_general"
+    string="Contra recibo Formato General"
+    model="trafitec.contrarecibo"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.report_contrarecibo_general"
+    />
+
+
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="reporte_venta_periodo">
+       <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+              <div class="page">
+                <div class="barrah">VENTA POR PERIODO</div>
+        
+                <t t-set="o" t-value="docs"></t>
+                 <!--MSG:<span t-esc="o._context"/-->
+                 <t t-set="clientes_top10" t-value="o._context['valores']"/>
+                 <t t-set="info" t-value="o._context['info']"/>
+                <span t-esc="info"></span>
+                
+                 <t t-set="total_total" t-value="0"/>
+                 <t t-set="total_diferencia" t-value="0"/>
+                 <t t-set="total_viajes" t-value="0"/>
+
+                <table width="100%">
+                 <th class="centro">AÑO</th>
+                 <th class="centro">MES</th>
+                 <th class="centro">TOTAL</th>
+                 <th class="centro">DIFERENCIA</th>
+                 <th class="centro">VIAJES</th>
+                 <t t-foreach="clientes_top10" t-as="c">
+                   <tr>
+                   <td class="td"><span t-esc="c['ano']"/></td>
+                   <td class="td"><span t-esc="c['mes_txt']"/></td>
+                   <td class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c['total']))"/></td>
+                   <td class="td derecha"><t t-esc="'{0:,.2f}'.format(float(c['diferencia']))"/></td>
+                   <td class="td derecha"><t t-esc="'{0:,.0f}'.format(float(c['cantidad']))"/></td>
+                   </tr>
+
+                   <t t-set="total_total" t-value="total_total+float(c['total'])"/>
+                   <t t-set="total_diferencia" t-value="total_diferencia+float(c['diferencia'])"/>
+                   <t t-set="total_viajes" t-value="total_viajes+float(c['cantidad'])"/>
+                 </t>
+                
+                   <tr>
+                   <td></td>
+                   <td></td>
+                   <td class="derecha"><t t-esc="'{0:,.2f}'.format(float(total_total))"/></td>
+                   <td class="derecha"><t t-esc="'{0:,.2f}'.format(float(total_diferencia))"/></td>
+                   <td class="derecha"><t t-esc="'{0:,.0f}'.format(float(total_viajes))"/></td>
+                   </tr>
+
+                 </table>
+              </div>
+           </t>
+       </t>
+    </template>
+
+    <report id="reporte_venta_periodo_action"
+    string="Ventas por periodo"
+    model="trafitec.reportes.parametros"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.reporte_venta_periodo"
+    />
+   
+</odoo>

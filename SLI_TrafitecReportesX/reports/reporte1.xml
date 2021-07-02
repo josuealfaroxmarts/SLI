@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<odoo>
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+    <template id="report_cotizacion">
+        <t t-call="report.html_container">
+        <t t-call="report.external_layout">
+            <div class="page">
+                <!--Report page content-->
+                <!--div t-field="sli.recompensas.articulos.x_nombre"-->
+                <t t-foreach="docs" t-as="o">
+                      <div class="row">
+                        <div class="col-xs-1" t-field="o.cliente"></div>
+                        <div class="col-xs-1" t-field="o.product"></div>
+                        <div class="col-xs-1" t-field="o.contacto"></div>
+                      </div>
+                
+                </t>
+             
+            </div>
+        </t>
+        </t>
+    </template>
+
+    <report id="action_report_cotizacion"
+    string="Formato cotizacion 1"
+    model="trafitec.cotizacion"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.report_cotizacion"
+    />
+
+
+
+
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+    <template id="report_viaje">
+     <t t-foreach="docs" t-as="o">
+      <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+               <!--Contenido del repote-->
+               <div class="page">
+                  <table width="100%">
+                  <tr><td></td><td colspan="2" class="centro"><h1>ORDEN DE CARGA / <b><span t-field="o.name"/></b></h1></td><td class="centro"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.name, 100, 100)"/></td></tr>
+                  <tr><td width="150"><div class="campo">COTIZACION:</div></td><td><span t-field="o.subpedido_id.linea_id.cotizacion_id"/></td><td width="100"><div class="campo">TIPO:</div></td><td class="derecha" width="50"><span t-field="o.tipo_viaje"/>/<span t-field="o.lineanegocio"/></td></tr>
+                  <tr><td width="150"><div class="campo">ORIGEN DESTINO:</div></td><td><span t-field="o.subpedido_id.linea_id"/></td><td width="100"><div  class="campo">SUCURSAL:</div></td><td class="derecha" width="50"><span t-field="o.sucursal_id"/></td></tr>
+                  <tr><td width="150"><div class="campo">FECHA HORA:</div></td><td><span t-field="o.create_date"/></td><td width="100"><div  class="campo">ESTADO:</div></td><td class="derecha" width="50"><span t-field="o.state"/></td></tr>
+                  </table>
+               
+                  <div class="barrah">CONDICIONES</div>
+                  <table width="100%">
+                  <tr><td width="150"><div class="campo">CLIENTE</div></td><td><span t-field="o.cliente_id"/></td><t t-if="o.folio_cliente"><td class="derecha">FOLIO DEL CLIENTE:</td><td class="derecha"><span t-field="o.folio_cliente"/></td></t></tr>
+                  <tr><td width="150">PRODUCTO</td><td colspan="3"><span t-field="o.product"/></td></tr>
+                  <tr><td width="150">ORIGEN</td><td colspan="3"><span t-field="o.origen"/></td></tr>
+                  <tr><td width="150">DESTINO</td><td colspan="3"><span t-field="o.destino"/></td></tr>
+                  <tr><td width="150">TARIFA</td><td colspan="3"><t t-esc="'{0:,.2f}'.format(float(o.tarifa_asociado))"/></td></tr>
+                  </table>
+
+                  <div class="barrah">TRANSPORTE</div>
+                  <table width="100%">
+                  <tr><td width="150">ASOCIADO</td><td><span t-field="o.asociado_id"/></td><td></td></tr>
+                  <tr><td width="150">OPERADOR</td><td><span t-field="o.operador_id"/></td><td></td></tr>
+                  <tr><td width="150">VEHICULO</td><td><span t-if="o.no_economico">NOE: <span t-field="o.no_economico"/> </span><span t-field="o.vehiculo"/> <span t-field="o.tipo_remolque"/></td><td></td></tr>
+                  <tr><td width="150"></td><td></td><td></td></tr>
+                  <tr><td width="150">TARIFA</td><td><t t-esc="'{0:,.2f}'.format(float(o.tarifa_cliente))"/></td><td></td></tr>
+                  </table>
+
+                  <div class="barrah">PESOS</div>
+                  <table>
+                  <tr><td width="300">REMOLQUE 1 PESO ORIGEN (Kg): </td><td class="derecha"><t t-esc="'{0:,.0f}'.format(float(o.peso_origen_remolque_1))"/></td><td></td></tr>
+                  <tr><td width="300">REMOLQUE 2 PESO ORIGEN (Kg): </td><td class="derecha"><t t-esc="'{0:,.0f}'.format(float(o.peso_origen_remolque_2))"/></td><td></td></tr>
+                  <tr><td width="300">REMOLQUE 1 PESO DESTINO (Kg): </td><td class="derecha"><t t-esc="'{0:,.0f}'.format(float(o.peso_destino_remolque_1))"/></td><td></td></tr>
+                  <tr><td width="300">REMOLQUE 2 PESO DESTINO (Kg): </td><td class="derecha"><t t-esc="'{0:,.0f}'.format(float(o.peso_destino_remolque_2))"/></td><td></td></tr>
+                  <tr><td width="300">REMOLQUE 1 PESO CONVENIDO (Kg): </td><td class="derecha"><t t-esc="'{0:,.0f}'.format(float(o.peso_convenido_remolque_1))"/></td><td></td></tr>
+                  <tr><td width="300">REMOLQUE 2 PESO CONVENIDO (Kg): </td><td class="derecha"><t t-esc="'{0:,.0f}'.format(float(o.peso_convenido_remolque_2))"/></td><td></td></tr>
+                  <tr><td width="300">PESO AUTORIZADO (Kg):</td><td><t t-esc="'{0:,.0f}'.format(float(o.peso_autorizado))"/></td><td></td></tr>
+                  </table>
+                 
+                  <div class="barrah">OBSERVACIONES</div>
+                  <table width="100%">
+                  <tr><td height="100"><span t-field="o.especificaciones"/></td></tr>
+                  <tr><td height="100"><span t-field="o.observaciones"/></td></tr>
+                  </table>
+
+
+                  <div class="barrah">FIRMAS</div>
+                  <table width="100%">
+                  <tr><td class="centro" height="50" width="33%"><span t-field="o.create_uid.partner_id"/></td><td width="33%"></td><td class="centro" width="33%"><span t-field="o.operador_id"/></td></tr>
+                  <tr><td class="centro borde_arriba">DOCUMENTADOR</td><td class="centro borde_arriba">ALMACENISTA</td><td class="centro borde_arriba">OPERADOR</td></tr>
+                  </table>
+                 
+               <!--Fin del Contenido del repote-->
+               </div>
+
+           </t>
+           
+           
+
+      </t>
+     
+      
+      
+     </t><!--t-foreach-->
+    </template>
+
+    <report id="action_report_viaje"
+    string="Formato viaje 1"
+    model="trafitec.viajes"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.report_viaje"
+    />
+
+
+</odoo>

@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+    <template id="report_pagos_masivos">
+     <t t-foreach="docs" t-as="o">
+      <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+               <!--Contenido del repote-->
+               <div class="page">
+                  <t t-if="o.state=='cancelado' or o.state=='nuevo'">
+                    <div class="cancelado">
+                    <p><span t-field="o.state"/></p>
+                    </div>
+                  </t>
+
+                   <table width="100%">
+                    <tr><td></td><td colspan="2" class="centro"><h1>PAGO MASIVO/(<span t-field="o.tipo"/>)<br/><b><span t-field="o.name"/></b></h1></td><td class="centro"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.name, 100, 100)"/></td></tr>
+                    <tr><td width="150"><div class="campo">PERSONA:</div></td><td><span t-field="o.persona_id.name"/></td><td width="100"><div class="campo">TOTAL:</div></td><td class="derecha" width="50"><b><span t-field="o.total"/></b></td></tr>
+                    <tr><td width="150"><div class="campo">RFC:</div></td><td><span t-esc="o.persona_id.vat[2:]"/></td><td width="100"><div class="campo">FECHA:</div></td><td class="derecha" width="50"><span t-field="o.fecha"/></td></tr>
+                    <tr><td width="150"><div class="campo">FECHA:</div></td><td><span t-field="o.fecha"/></td><td width="100"><div  class="campo">REFERENCIA:</div></td><td class="derecha" width="50"><span t-field="o.referencia"/></td></tr>
+                    <tr><td width="150"><div class="campo">MONEDA:</div></td><td><span t-field="o.moneda_id.name"/></td><td width="100"><div  class="campo">ESTADO:</div></td><td class="derecha" width="50"><span t-field="o.state"/></td></tr>
+                   </table>
+                   <br/>
+                   
+                   <div class="barrah">CONCEPTO</div>
+                   <span t-field="o.detalles"/>
+                   
+                   <div class="barrah">RELACION DE DOCUMENTOS</div>
+                   <table width="100%">
+                     <tr>
+                     <!--th>ID</th-->
+                     <th class="centro">FOLIO</th>
+                     <th class="centro">FECHA</th>
+                     <th class="centro">TOTAL</th>
+                     <th class="centro">ABONO</th>
+                     </tr>
+                     <t t-set="total_abonos" t-value="0"/>
+                     <t t-foreach="o.facturas_id" t-as="r">
+                       <t t-if="r.abono>0">
+                         <tr>
+                           <!--td class="td"><span t-field="r.id"/></td-->
+                           
+                           <td colspan="1" class="td"><span t-field="r.factura_id.number"/></td>
+                           <td colspan="1" class="td"><span t-field="r.factura_id.date_invoice"/></td>
+                           <td colspan="1" class="td derecha"><span t-field="r.factura_id.amount_total"/></td>
+                           <td class="td derecha"><b><t t-esc="'{0:,.2f}'.format(float(r.abono))"/></b></td>
+                         </tr>
+                       </t>
+                       <t t-set="total_abonos" t-value="total_abonos+r.abono"/>
+                     </t>
+                       <tr>
+                           <!--"o.amount_to_text(o.amount_total, 'INR')"-->
+                           <!--td class="td"></td-->
+                           <td class="td borde_arriba"></td>
+                           <td class="td borde_arriba"></td>
+                           <td class="td derecha borde_arriba"><b>TOTAL ABONOS:</b></td>
+                           <td class="td derecha borde_arriba"><b><t t-esc="'{0:,.2f}'.format(float(total_abonos))"/></b></td>
+                       </tr>
+                      
+                       <tr>
+                           <!--"o.amount_to_text(o.amount_total, 'INR')"-->
+                           <!--td class="td"></td-->
+                           <td class="td"><span t-field="o.total_txt_ver"/></td>
+                           <td class="td"></td>
+                           <td class="td"></td>
+                           <td class="td derecha"></td>
+                       </tr>
+                   </table>
+                  
+                  <br/>
+                  <br/>
+                  <div class="firmas">FIRMAS</div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <table width="100%">
+                  <tr>
+                    <td class="centro borde_arriba" width="50%"></td>
+                    <td class="centro borde_arriba" width="50%"><span t-field="o.create_uid.name"/></td>
+                  </tr>
+                  
+                  <tr>
+                    <td class="centro ">PAGOS</td>
+                    <td class="centro ">ELABORO</td>
+                  </tr>
+                  </table>
+
+               <!--Fin del Contenido del repote-->
+               </div>
+
+           </t>
+           
+           
+
+      </t>
+     
+      
+      
+     </t><!--t-foreach-->
+    </template>
+
+    <report id="action_report_pagos_masivos"
+    string="Formato de Pago masivo"
+    model="trafitec.pagosmasivos"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.report_pagos_masivos"
+    />
+
+</odoo>

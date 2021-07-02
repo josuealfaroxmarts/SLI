@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<odoo>
+ <template id="assets_common" name="SLI_TrafitecReportesX assets" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+        <link rel="stylesheet" href="/SLI_TrafitecReportesX/static/src/css/SLI_TrafitecReportesX.css"/>
+    </xpath>
+ </template>
+</odoo>
+
+

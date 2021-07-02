@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="report_x">
+     <t t-foreach="docs" t-as="o">
+      <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+               <!--Contenido del repote-->
+               <div class="page">
+               <!--Fin del Contenido del repote-->
+               </div>
+           </t>
+      </t>
+     </t><!--t-foreach-->
+    </template>
+
+    <report id="action_report_x"
+    string="Orden de carga Formato General"
+    model="trafitec.viajes"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.report_x"
+    />
+
+</odoo>

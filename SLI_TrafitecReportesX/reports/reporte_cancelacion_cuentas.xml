@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+    <template id="report_cancelacioncuentas">
+     <t t-foreach="docs" t-as="o">
+      <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+               <!--Contenido del repote-->
+               <div class="page">
+                  <t t-if="o.state=='cancelado' or o.state=='nuevo'">
+                    <div class="cancelado">
+                    <p><span t-field="o.state"/></p>
+                    </div>
+                  </t>
+
+                   <table width="100%">
+                    <tr><td></td><td colspan="2" class="centro"><h1>CANCELACION DE CUENTAS<br/><b><span t-field="o.name"/></b></h1></td><td class="centro"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.name, 100, 100)"/></td></tr>
+                    <tr><td width="150"><div class="campo">A FAVOR DE:</div></td><td><span t-field="o.persona_id.name"/></td><td width="100"><div class="campo">TOTAL:</div></td><td class="derecha" width="50"><b><span t-field="o.total"/></b></td></tr>
+                    <tr><td width="150"><div class="campo">RFC:</div></td><td><span t-esc="o.persona_id.vat[2:]"/></td><td width="100"><div class="campo">FECHA:</div></td><td class="derecha" width="50"><span t-field="o.fecha"/></td></tr>
+                    <tr><td width="150"><div class="campo">FECHA:</div></td><td><span t-field="o.fecha"/></td><td width="100"><div  class="campo">REFERENCIA:</div></td><td class="derecha" width="50"><span t-field="o.referencia"/></td></tr>
+                    <tr><td width="150"><div class="campo">MONEDA:</div></td><td><span t-field="o.moneda_id.name"/></td><td width="100"><div  class="campo">ESTADO:</div></td><td class="derecha" width="50"><span t-field="o.state"/></td></tr>
+                   </table>
+                   <br/>
+                   <div><b>CON  ESTA FECHA CARGAMOS A SU APRECIABLE CUENTA LO SIGUIENTE:</b></div>
+                   
+                   <div class="barrah">CONCEPTO</div>
+                   <span t-field="o.detalles"/>
+                   
+                   <div class="barrah">RELACION DE DOCUMENTOS</div>
+                   <table width="100%">
+                     <tr>
+                     <!--th>ID</th-->
+                     <th class="centro">FOLIO DE FACTURA CLIENTE</th>
+                     <th class="centro">FOLIO DE FACTURA PROVEEDOR</th>
+                     <th class="centro">IMPORTE</th>
+                     </tr>
+                     <t t-set="total_abonos" t-value="0"/>
+                     <t t-foreach="o.facturas_relacion_id" t-as="r">
+                       <tr>
+                           <!--td class="td"><span t-field="r.id"/></td-->
+                           <td class="td"><span t-field="r.factura_cliente_id.number"/></td>
+                           <td class="td"><span t-field="r.factura_proveedor_id.number"/> (<span t-field="r.factura_proveedor_id.reference"/>)</td>
+                           <td class="td derecha"><t t-esc="'{0:,.2f}'.format(float(r.abono))"/></td>
+                       </tr>
+                       <t t-set="total_abonos" t-value="total_abonos+r.abono"/>
+                     </t>
+                       <tr>
+                           <!--"o.amount_to_text(o.amount_total, 'INR')"-->
+                           <!--td class="td"></td-->
+                           <td class="td borde_arriba"><b>CANTIDAD CON LETRA:</b></td>
+                           <td class="td derecha borde_arriba"><b>TOTAL:</b></td>
+                           <td class="td derecha borde_arriba"><b><t t-esc="'{0:,.2f}'.format(float(total_abonos))"/></b></td>
+                       </tr>
+                      
+                       <tr>
+                           <!--"o.amount_to_text(o.amount_total, 'INR')"-->
+                           <!--td class="td"></td-->
+                           <td class="td"><span t-field="o.total_txt_ver"/></td>
+                           <td class="td"></td>
+                           <td class="td derecha"></td>
+                       </tr>
+                   </table>
+                  
+                  <br/>
+                  <br/>
+                  <div class="firmas">FIRMAS</div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <table width="100%">
+                  <tr>
+                    <td class="centro borde_arriba" height="50" width="33%"><span t-field="o.persona_id.name"/></td>
+                    <td class="centro borde_arriba" width="33%"><span t-field="o.persona_cobranza"/></td>
+                    <td class="centro borde_arriba" width="33%"><span t-field="o.create_uid.name"/></td>
+                  </tr>
+                  
+                  <tr>
+                    <td class="centro ">AUTORIZO</td>
+                    <td class="centro ">COBRANZA</td>
+                    <td class="centro ">ELABORO</td>
+                  </tr>
+                  </table>
+
+               <!--Fin del Contenido del repote-->
+               </div>
+
+           </t>
+           
+           
+
+      </t>
+     
+      
+      
+     </t><!--t-foreach-->
+    </template>
+
+    <report id="action_report_cancelacioncuentas"
+    string="Formato de Cancelación de cuentas"
+    model="trafitec.cancelacioncuentas"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.report_cancelacioncuentas"
+    />
+
+</odoo>

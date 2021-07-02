@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<odoo>
+<!-- Append css to assets_backend [Use assets_frontend if website] -->
+<template id="assets_backend" name="my custom theme" inherit_id="web.assets_backend">
+     <xpath expr="." position="inside">
+           <link rel="stylesheet" href="/SLI_TrafitecReportesX/static/src/css/SLI_TrafitecReportesX.css"/>
+     </xpath>
+</template>
+</odoo>
+
+

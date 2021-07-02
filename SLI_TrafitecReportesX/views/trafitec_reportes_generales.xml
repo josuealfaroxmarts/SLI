@@ -1,0 +1,55 @@
+<openerp>
+  <data>
+  
+  <record id="trafitec_reportes_generales_form" model="ir.ui.view">
+    <field name="name">Trafitec Reportes generales</field>
+    <field name="model">trafitec.reportes.generales</field>
+    <field name="arch" type="xml">
+        <form>
+        <sheet>
+            <group>
+                <group string="General">
+                  <field name="name"></field>
+                  <field name="tipo"></field>
+                  <!--button name="export_xls" string="Generar" type="object"  class="oe_highlight"/-->
+                </group>
+                <group string="Parámetros">
+                  <field name="fecha_inicial"></field>
+                  <field name="fecha_final"></field>
+                  <field name="archivo_nombre" invisible="1"></field>
+                  <field name="archivo_archivo" filename="archivo_nombre" invisible="1"></field>
+                </group>
+            </group>
+        </sheet>
+        </form>
+    </field>
+  </record>
+  
+  <record id="trafitec_reportes_generales_tree" model="ir.ui.view">
+    <field name="name">Trafitec Reportes generales</field>
+    <field name="model">trafitec.reportes.generales</field>
+    <field name="arch" type="xml">
+        <tree>
+                  <field name="name"></field>
+                  <field name="tipo"></field>
+                  <field name="fecha_inicial"></field>
+                  <field name="fecha_final"></field>
+                  <field name="archivo_nombre"></field>
+                  <field name="archivo_archivo" filename="archivo_nombre"></field>
+        </tree>
+    </field>
+  </record>
+
+  <record id="trafitec_reportes_generales_action" model="ir.actions.act_window">
+            <field name="name">Trafitec Reportes generales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.reportes.generales</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">10</field>
+  </record>
+  
+  <menuitem name="Trafitec reportes generales" action="trafitec_reportes_generales_action" id="menu_trafitec_reportes_generales" parent="sli_trafitec.trafitec_menu_trafitec_reportes_especiales" sequence="204"/>
+
+        
+  </data>
+</openerp>

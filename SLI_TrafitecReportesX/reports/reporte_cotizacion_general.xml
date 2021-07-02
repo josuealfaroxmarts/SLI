@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+    <template id="report_cotizacion_general">
+     <t t-foreach="docs" t-as="o">
+      <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+               <!--Contenido del repote-->
+               <div class="page">
+                  <t t-if="o.state=='Cancelada'">
+                    <div class="cancelado">
+                    <p><span t-field="o.state"/></p>
+                    </div>
+                  </t>
+
+                  <t t-if="o.state=='Nueva'">
+                    <div class="noautorizada">
+                    <p><span>NO AUTORIZADA</span></p>
+                    </div>
+                  </t>
+
+
+                  <div class="borde">
+                  <table width="100%">
+                  <tr><td></td><td colspan="2" class="centro"><h1>COTIZACION GENERAL <br/><b><span t-field="o.name"/></b></h1></td><td class="centro"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.name, 100, 100)"/></td></tr>
+                  <tr><td width="150"><div class="campo">COTIZACION:</div></td><td><span t-field="o.name"/></td><td width="100"><div class="campo">TIPO:</div></td><td class="derecha" width="50"><span t-field="o.lineanegocio"/></td></tr>
+                  <tr><td width="150"></td><td></td><td width="100"><div  class="campo">SUCURSAL:</div></td><td class="derecha" width="50"><span t-field="o.sucursal_id"/></td></tr>
+                  <tr><td width="150"><div class="campo">FECHA HORA:</div></td><td><span t-field="o.create_date"/></td><td width="100"><div  class="campo">ESTADO:</div></td><td class="derecha" width="50"><span t-field="o.state"/></td></tr>
+                  </table>
+
+                  <table width="100%">
+                  <tr><td width="150"><div class="campo">CLIENTE:</div></td><td><b>
+                     <t t-set= "nombrecliente" t-value="o.cliente.display_name or o.cliente_refenciado" ></t>
+                     <span t-esc="nombrecliente"/>
+                  </b></td><t t-if="o.x_folio_trafitecw"><td class="derecha">FOLIO DEL CLIENTE:</td><td class="derecha"><span t-field="o.x_folio_trafitecw"/></td></t>
+                  </tr>
+                  <tr>
+                    <t t-set= "credito" t-value="o.cliente_plazo_pago_id.name or o.cliente.property_payment_term_id.name" ></t>
+                    <td width="150"><div class="campo">CREDITO:</div></td>
+                    <td class="izquierda"><span t-esc="credito"/></td>
+                  </tr>
+                  
+                  <tr><td width="150"><div class="campo">PRODUCTO:</div></td><td colspan="3">
+                     <t t-set= "nombreproducto" t-value="o.product.name or o.producto_referenciado" ></t>
+                     <span t-esc="nombreproducto"/>
+                  </td></tr>
+                  <tr><td width="150"><div class="campo">CONTACTO:</div></td><td colspan="3"><span t-field="o.contacto"/></td></tr>
+                  <tr><td width="150"><div class="campo">CORREO:</div></td><td colspan="3"><span t-field="o.email"/></td></tr>
+                  <tr><td width="150"><div class="campo">TELEFONO:</div></td><td colspan="3"><span t-field="o.telefono"/></td></tr>
+                  </table>
+                  </div>
+
+                  
+                  <div class="barrah">ORIGENES Y DESTINOS</div>
+                  <table width="100%">
+                  <tr>
+                  <th class="centro"><div class="th">ORIGEN</div></th>
+                  <th class="centro"><div class="th">DESTINO</div></th>
+                  <t t-if="o.lineanegocio.name=='Granel'">
+                    <th class="centro"><div class="th">TARIFA</div></th>
+                  </t>
+                  <t t-if="o.lineanegocio.name=='Flete' or o.lineanegocio.name=='Contenedores'">
+                    <th class="centro"><div class="th">FLETE</div></th>
+                  </t>
+
+                  <!--<th class="centro"><div class="th">TARIFA ASOCIADO</div></th>-->
+                  <th class="centro"><div class="th">DISTANCIA (KM)</div></th>
+                  <th class="centro"><div class="th">CANTIDAD</div></th>
+                  <th class="centro"><div class="th">UNIDAD</div></th>
+                  <!--<th class="centro"><div class="th">ESTADO</div></th>-->
+                  </tr>
+                  <t t-foreach="o.lineas_cotizacion_id" t-as="d">
+                    <tr>
+                    <td width="150" class="td centro"><span t-field="d.municipio_origen_id.name"/>,<span t-field="d.municipio_origen_id.state_sat_code.name"/></td>
+                    <td width="150" class="td centro"><span t-field="d.municipio_destino_id.name"/>,<span t-field="d.municipio_destino_id.state_sat_code.name"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(d.tarifa_cliente))"/></td>
+                    <!--<td width="150" class="td derecha"><span t-field="d.tarifa_asociado"></span></td>-->
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.0f}'.format(float(d.distancia))"/></td>
+                    <td width="150" class="td derecha"><t t-esc="'{0:,.2f}'.format(float(d.cantidad))"/></td>
+                    <td width="150" class="td centro"><span t-field="d.product_uom"></span></td>
+                    <!--<td width="150" class="td"><span t-field="d.state"></span></td>-->
+                    </tr>
+                  </t>
+                  </table>
+
+                  <div class="barrah">CONDICIONES DE CONTRATACION</div>
+
+                  <t t-if="o.lineanegocio.name=='Granel'">
+                  <p>
+                  GRANEL
+                  <ul>
+<li>LAS CUOTAS NO INCLUYEN IMPUESTOS INHERENTES AL TRANSPORTE.</li>
+<li>NO INCLUYE DEMORAS DE CARGA Y DESCARGA (EN CASO DE HABERLAS EL COSTO SERA DE $2,000.00 POR CAJA POR DIA +IVA). APLICA DESPUES DE LAS PRIMERAS 24 HORAS.</li>
+<li>NO INCLUYE MANIOBRAS DE REPARTO NI RECOLECCION.</li>
+<li>ESTA COTIZACION PUEDE VARIAR SIN PREVIO AVISO.</li>
+<li>ESTA COTIZACION ESTA SUJETA A LA DISPONIBILIDAD DE UNIDADES.</li>
+                  </ul>
+                  </p>
+                  </t>
+
+                  <t t-if="o.lineanegocio.name=='Flete'">
+                  <p>
+                  FLETE
+                  <ul>
+<li>LAS CUOTAS NO INCLUYEN IMPUESTOS INHERENTES AL TRANSPORTE.</li>
+<li>NO INCLUYE DEMORAS DE CARGA Y DESCARGA (EN CASO DE HABERLAS EL COSTO SERA DE $2,000.00 POR CAJA POR DIA +IVA). APLICA DESPUES DE LAS PRIMERAS 24 HORAS.</li>
+<li>NO INCLUYE MANIOBRAS DE REPARTO NI RECOLECCION.</li>
+<li>ESTA COTIZACION PUEDE VARIAR SIN PREVIO AVISO.</li>
+<li>ESTA COTIZACION ESTA SUJETA A LA DISPONIBILIDAD DE UNIDADES.</li>
+<li>LAS TARIFAS SON MAS PISTAS.</li>
+                  </ul>
+                  </p>
+                  </t>
+                  
+                  
+                  <t t-if="o.lineanegocio.name=='Contenedores'">
+                  <p>
+                  CONTENEDORES
+                  <ul>
+<li>LAS CUOTAS NO INCLUYEN IMPUESTOS INHERENTES AL TRANSPORTE.</li>
+<li>NO INCLUYE DEMORAS DE CARGA Y DESCARGA (EN CASO DE HABERLAS EL COSTO SERA DE $2,500.00 POR CAJA POR DIA +IVA). APLICA DESPUES DE LAS PRIMERAS 24 HORAS.</li>
+<li>NO INCLUYE MANIOBRAS DE REPARTO NI RECOLECCION.</li>
+<li>ESTA COTIZACION PUEDE VARIAR SIN PREVIO AVISO.</li>
+<li>ESTA COTIZACION ESTA SUJETA A LA DISPONIBILIDAD DE UNIDADES.</li>
+<li>LAS TARIFAS SON MAS PISTAS.</li>
+<li>NO INCLUYE SEGURO PARA EL CONTENEDOR NI DAÑOS OCASIONADOS POR LA MERCANCÍA DEL MISMO.</li>
+                  </ul>
+                  </p>
+                  </t>
+                  <br/>
+                  
+                  <t t-if="o.seguro_mercancia">
+                     <div class="barrah">SEGURO</div>
+                     NUMERO POLIZA DE SEGURO: <span t-field="o.polizas_seguro"/><br/>
+                     PORCENTAJE DE SEGURO (%): <span t-field="o.porcen_seguro"/><br/>
+                     COSTO DEL PRODUCTO (POR KG): <span t-field="o.costo_producto"/>
+                  </t>
+                  
+                  <span t-field="o.detalles"></span>
+                  <br/>
+                  <br/>
+                  <p>
+                  Esperando que la presente cumpla con sus expectativas quedamos de usted muy atentamente.
+                  </p>
+                  <div class="firmas">FIRMAS</div>
+                  <table width="100%">
+                  <tr><td class="centro" height="50" width="33%"><span t-field="o.create_uid.partner_id"/></td><td width="33%"></td><td class="centro" width="33%"><span t-field="o.contacto"/></td></tr>
+                  <tr><td class="centro borde_arriba">EJECUTIVO</td><td class="centro borde_arriba"></td><td class="centro borde_arriba">CLIENTE</td></tr>
+                  </table>
+                  
+                 
+               <!--Fin del Contenido del repote-->
+               </div>
+
+           </t>
+           
+           
+
+      </t>
+     
+      
+      
+     </t><!--t-foreach-->
+    </template>
+
+    <report id="action_report_cotizacion_general"
+    string="Cotización Formato General"
+    model="trafitec.cotizacion"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.report_cotizacion_general"
+    />
+
+
+</odoo>

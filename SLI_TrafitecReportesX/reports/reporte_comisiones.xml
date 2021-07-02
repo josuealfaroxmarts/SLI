@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+    <template id="report_comisiones">
+     
+      <t t-call="report.html_container">
+           <t t-call="report.external_layout">
+               <!--Contenido del repote-->
+               <t t-set="general_saldo" t-value="0"/>
+               <div class="page">
+                  
+                  <t t-foreach="docs" t-as="o">
+                    <table width="100%">
+                      <tr>
+                        <td class="centro"><h1>COMISIONES<br/><span t-field="o.id"/></h1></td>
+                      </tr>
+                    </table>
+                    
+                    <table>
+                      <!--<tr>
+                      <td>ID:</td><td><span t-field="o.id"/></td>
+                      -->
+                      <tr>
+                        <td><b>ASOCIADO:</b></td><td><b><span t-field="o.asociado_id"/></b></td>
+                      </tr>
+
+                      <tr>
+                        <td>VIAJE:</td><td><span t-field="o.viaje_id"/></td>
+                      </tr>
+                      <tr>
+                        <td>FECHA HORA:</td><td><span t-field="o.create_date"/></td>
+                      </tr>
+
+                      <!--
+                      <tr>
+                        <td>TIPO:</td><td><span t-field="o.tipo_cargo"/></td>
+                      </tr>
+                      -->
+                      
+                      <tr>
+                        <td>MONTO:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.monto))"/></td>
+                      </tr>
+
+                      <tr>
+                        <td>ABONOS:</td><td class="derecha"><t t-esc="'{0:,.2f}'.format(float(o.abonado))"/></td>
+                      </tr>
+
+                      <tr>
+                        <td><b>SALDO:</b></td><td class="derecha"><b><t t-esc="'{0:,.2f}'.format(float(o.saldo))"/></b></td>
+                      </tr>
+
+                    </table>
+                    
+                    <t t-set="saldo" t-value="general_saldo+o.saldo"/>
+                    
+                    <!--ABONOS-->
+                    <table width="100%">
+                      <tr><td/><td colspan="10" class="barrah">ABONOS</td></tr>
+                      <tr>
+                        <th/>
+                        <th class="centro">ID</th>
+                        <th class="centro">FECHA</th>
+                        <th class="centro">MONTO</th>
+                        <th class="centro">OBSERVACIONES</th>
+                        <th class="centro">USUARIO</th>
+                        <th class="centro">TIPO</th>
+                      </tr>
+                      <t t-foreach="o.abono_id" t-as="abono">
+                         <tr>
+                           <td/>
+                           <td class="td"><span t-field="abono.id"/></td>
+                           <td class="td"><span t-field="abono.fecha"/></td>
+                           <td class="td derecha"><t t-esc="'{0:,.2f}'.format(float(abono.name))"/></td>
+                           <td class="td"><span t-field="abono.observaciones"/></td>
+                           <td class="td"><span t-field="abono.create_uid"/></td>
+                           <td class="td"><span t-field="abono.tipo"/></td>
+                         </tr>
+                      </t>
+                    </table>
+                    <hr/>
+                  </t><!--t-foreach docs-->
+                  <div class="derecha"><h1>SALDO:<t t-esc="'{0:,.2f}'.format(float(general_saldo))"/></h1></div>
+               <!--Fin del Contenido del repote-->
+               </div>
+
+           </t>
+      </t>
+    </template>
+
+
+    <report id="action_report_comisiones"
+    string="Comisiones Formato general"
+    model="trafitec.cargos"
+    report_type="qweb-pdf"
+    name="SLI_TrafitecReportesX.report_comisiones"
+    />
+
+
+</odoo>

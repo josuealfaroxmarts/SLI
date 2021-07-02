@@ -1,0 +1,26 @@
+<openerp>
+    <data>
+<record model="ir.ui.view" id="sli_seguridad_viajes">
+    <field name="name">sli_seguridad_viajes</field>
+    <field name="model">trafitec.viajes</field>
+    <field name="inherit_id" ref="sli_trafitec.view_viajes_form"/>
+    <field name="arch" type="xml">
+        <data>
+            <!--ESTE NO FUNCIONA-->
+            <!--<xpath expr="/form/sheet/group/group/field[@name='tarifa_cliente']" position="attributes">
+                        <attribute name="invisible">[('tarifa_asociado','>',100)]</attribute>
+            </xpath>-->
+        
+            <!--***********************************************************************************************************************************************-->
+            
+            <!--ESTE SI FUNCIONA-->
+            <!--<field name="tarifa_cliente"  position="replace">
+              <field name="tarifa_cliente" attrs="{'invisible': [('tarifa_asociado', '>', 100)]}"/>
+            </field>-->
+            
+        </data>
+    </field>
+</record>
+    
+    </data>
+</openerp>
