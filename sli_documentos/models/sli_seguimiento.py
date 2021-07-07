@@ -13,7 +13,7 @@ import random
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError, UserError, RedirectWarning
-#from openerp.exceptions import UserError, RedirectWarning, ValidationError
+#from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
 import ast
 import re
