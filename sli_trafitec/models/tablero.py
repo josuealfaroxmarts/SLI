@@ -9,3 +9,4 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_tablero(models.Model):
     _name = 'trafitec.tablero'
+    _description='trafitec tablero'

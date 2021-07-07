@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_facturas_automaticas(models.Model):
     _name = 'trafitec.facturas.automaticas'
+    _description ='trafitec facturas automaticas'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Folio',default='Nuevo')
@@ -278,6 +279,7 @@ class trafitec_facturas_automaticas(models.Model):
 
 class trafitec_fact_aut_cargo(models.Model):
     _name = 'trafitec.fact.aut.cargo'
+    _description ='factura aut cargo'
 
     name = fields.Many2one('trafitec.tipocargosadicionales', string='Producto', required=True, readonly=True)
     valor = fields.Float(string='Total', required=True, readonly=True)

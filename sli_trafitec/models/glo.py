@@ -10,6 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class SliGlo(models.Model):
 	_name = "sli.glo"
+	_description ='glo'
 	_auto = False
 	
 	def cfg(self):

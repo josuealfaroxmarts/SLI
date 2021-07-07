@@ -5,8 +5,9 @@ import logging
 _logger = logging.getLogger(__name__)
 
 class trafitec_cargos(models.Model):
-    _name = 'trafitec.cargos'
+    _name = 'trafitec.cargos'    
     _order= 'id desc'
+    _description = 'Cargos'
 
     viaje_id = fields.Many2one('trafitec.viajes', string='Viajes ID', ondelete='cascade',readonly=False)
     monto = fields.Float(string='Monto',readonly=False)
@@ -63,6 +64,7 @@ class trafitec_cargos(models.Model):
 
 class trafitec_abonos(models.Model):
     _name = 'trafitec.abonos'
+    _description = 'Abonos'
 
     cargo_id = fields.Integer(string='Id del padre')
     monto = fields.Float(string='monto')
@@ -75,28 +77,29 @@ class trafitec_abonos(models.Model):
 #Descuentos.
 class trafitec_descuentos(models.Model):
     _name = 'trafitec.descuentos'
+    _description = 'Descuentos'
     _order = 'id desc'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'id'
 
     name = fields.Char(string="Folio")
-    viaje_id = fields.Many2one('trafitec.viajes', string="Viaje", track_visibility='onchange')
+    viaje_id = fields.Many2one('trafitec.viajes', string="Viaje", tracking=True)
     flete_asociado = fields.Float(string='Flete asociado', related='viaje_id.flete_asociado', readonly=True)
     asociado_id = fields.Many2one('res.partner', string="Asociado", domain="[('asociado','=',True)]", required=True)
     operador_id = fields.Many2one('res.partner', string="Operador", domain="[('operador','=',True)]")
     concepto = fields.Many2one('trafitec.concepto.anticipo', string="Concepto", required=True)
-    monto = fields.Float(string="Monto", required=True, track_visibility='onchange')
-    proveedor = fields.Many2one('res.partner', string="Proveedor", domain="[('supplier','=',True)]", track_visibility='onchange')
-    cobro_fijo = fields.Boolean(string='Cobro fijo', track_visibility='onchange')
-    monto_cobro = fields.Float(string='Cantidad', track_visibility='onchange')
-    folio_nota = fields.Char(string='Folio nota', track_visibility='onchange')
-    comentarios = fields.Text(string='Comentarios', track_visibility='onchange')
+    monto = fields.Float(string="Monto", required=True, tracking=True)
+    proveedor = fields.Many2one('res.partner', string="Proveedor", domain="[('supplier','=',True)]", tracking=True)
+    cobro_fijo = fields.Boolean(string='Cobro fijo', tracking=True)
+    monto_cobro = fields.Float(string='Cantidad', tracking=True)
+    folio_nota = fields.Char(string='Folio nota', tracking=True)
+    comentarios = fields.Text(string='Comentarios', tracking=True)
     company_id = fields.Many2one('res.company', 'Company',
                                 default=lambda self: self.env['res.company']._company_default_get(
-                                'trafitec.descuentos'), track_visibility='onchange')
-    abono_id = fields.One2many('trafitec.descuentos.abono','abonos_id', track_visibility='onchange')
+                                'trafitec.descuentos'), tracking=True)
+    abono_id = fields.One2many('trafitec.descuentos.abono','abonos_id', tracking=True)
     fecha = fields.Date(string='Fecha', readonly=True, index=True, copy=False,
-                            default=fields.Datetime.now, track_visibility='onchange')
+                            default=fields.Datetime.now, tracking=True)
 
     @api.depends('es_combustible_litros', 'es_combustible_costoxlt')
     def compute_es_combustible_total(self):
@@ -111,22 +114,22 @@ class trafitec_descuentos(models.Model):
         self.es_combustible_totalcomision = self.es_combustible_total+self.es_combustible_comision
 
 
-    #state = fields.Selection(string="Estado", selection=[('cancelado', 'Cancelado'), ('activo', 'Activo')], default='activo', track_visibility='onchange')
-    state = fields.Selection(string='Estado', selection=[('borrador', 'Borrador'), ('activo', 'Aprobado'), ('cancelado', 'Cancelado')], default='borrador', track_visibility='onchange')
-    es_combustible = fields.Boolean(string='Vale de combustible', default=False, track_visibility='onchange')
-    es_combustible_litros = fields.Float(string='Litros', default=0, track_visibility='onchange')
-    es_combustible_costoxlt = fields.Float(string='Costo por litro', default=0, track_visibility='onchange')
-    es_combustible_total = fields.Float(string='Total', default=0, compute='compute_es_combustible_total', store=True, track_visibility='onchange', help='Total sin comisión.')
+    #state = fields.Selection(string="Estado", selection=[('cancelado', 'Cancelado'), ('activo', 'Activo')], default='activo', tracking=True)
+    state = fields.Selection(string='Estado', selection=[('borrador', 'Borrador'), ('activo', 'Aprobado'), ('cancelado', 'Cancelado')], default='borrador', tracking=True)
+    es_combustible = fields.Boolean(string='Vale de combustible', default=False, tracking=True)
+    es_combustible_litros = fields.Float(string='Litros', default=0, tracking=True)
+    es_combustible_costoxlt = fields.Float(string='Costo por litro', default=0, tracking=True)
+    es_combustible_total = fields.Float(string='Total', default=0, compute='compute_es_combustible_total', store=True, tracking=True, help='Total sin comisión.')
     
-    es_combustible_pcomision = fields.Float(string='Porcentaje comisión (%)', default=0, track_visibility='onchange')
+    es_combustible_pcomision = fields.Float(string='Porcentaje comisión (%)', default=0, tracking=True)
     es_combustible_comision = fields.Float(string='Comisión', default=0,
                                         compute='compute_es_combustible_comision',
                                         store=True,
-                                        track_visibility='onchange')
+                                        tracking=True)
     es_combustible_totalcomision = fields.Float(string='Total', default=0,
                                                 compute='compute_es_combustible_totalcomision',
                                                 store=True,
-                                                track_visibility='onchange',
+                                                tracking=True,
                                                 help='Total con comisión.')
 
 
@@ -290,6 +293,7 @@ class trafitec_descuentos(models.Model):
 
 class trafitec_descuentos_abono(models.Model):
     _name = 'trafitec.descuentos.abono'
+    _description = 'Descuentos y abonos'
 
     name = fields.Float(string='Abono', required=True)
     fecha = fields.Date(string='Fecha', required=True, default=fields.Datetime.now)

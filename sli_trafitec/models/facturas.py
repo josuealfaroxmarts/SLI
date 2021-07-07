@@ -1131,6 +1131,7 @@ class trafitec_account_invoice(models.Model):
 
 class trafitec_facturas_cancelar(models.TransientModel):
 	_name = 'trafitec.facturas.cancelar'
+	_description ='Facturas cancelar'
 	factura_id = fields.Many2one(string='Factura', comodel_name='account.move', help='Factura que se cancelara.')
 	detalles = fields.Char(string='Detalles', default='', help='Detalles.')
 	
@@ -1202,6 +1203,7 @@ class trafitec_change_balance_client(models.Model):
 
 class trafitec_facturas_documentos(models.Model):
 	_name = 'trafitec.facturas.documentos'
+	_description ='facturas documentos'
 
 
 	name = fields.Selection(string="Tipo",

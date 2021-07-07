@@ -32,12 +32,14 @@ _logger.error('ERROR: Something really bad happened!')
 
 class sli_seguimiento_asignar(models.Model):
     _name = 'sli.seguimiento.clasificacion'
+    _description ='clasificacion seguimiento'
     name = fields.Char(string='Nombre', help='Nombre de la clasificación.')
     aplica = fields.Selection(string='Aplica a', selection=[('viaje', 'Viaje'), ('contrarecibo', 'Contra recibo'), ('factura', 'Factura')], default='viaje', help='Indica para que asignación aplica.')
 
 
 class sli_seguimiento_registro(models.Model):
     _name = 'sli.seguimiento.registro'
+    _description ='registro seguimiento'
     _order = 'id desc'
     
     @api.depends('para_usuario_id', 'viaje_id', 'contrarecibo_id', 'factura_id')
@@ -143,6 +145,7 @@ class sli_seguimiento_registro(models.Model):
 
 class sli_seguimiento_asignar_viaje(models.TransientModel):
     _name = 'sli.seguimiento.asignar'
+    _description ='Asignar seguimiento'
     para_usuario_id = fields.Many2one(string='Para', comodel_name='res.users', required=True, help='Usuario al que se asigna el documento.')
     viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes', help='Usuario al que se asigna el documento.')
     contrarecibo_id = fields.Many2one(string='Contra recibo', comodel_name='trafitec.contrarecibo', help='Contrarecibo relacionado.')

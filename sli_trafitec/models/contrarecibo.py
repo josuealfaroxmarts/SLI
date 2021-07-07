@@ -11,6 +11,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_contrarecibo(models.Model):
     _name = 'trafitec.contrarecibo'
+    _description ='Contrarecibo'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
@@ -1546,34 +1547,34 @@ class trafitec_contrarecibo(models.Model):
 
 
     name = fields.Char(string='Folio', default='Nuevo')
-    asociado_id = fields.Many2one('res.partner', string="Asociado",domain="[('asociado','=',True),('supplier','=',True)]", required=True,track_visibility='onchange')
-    currency_id = fields.Many2one("res.currency", string="Moneda", required=True,default=lambda self: self._predeterminados_moneda(),track_visibility='onchange')
+    asociado_id = fields.Many2one('res.partner', string="Asociado",domain="[('asociado','=',True),('supplier','=',True)]", required=True,tracking=True)
+    currency_id = fields.Many2one("res.currency", string="Moneda", required=True,default=lambda self: self._predeterminados_moneda(),tracking=True)
     company_id = fields.Many2one('res.company', 'Company',default=lambda self: self.env['res.company']._company_default_get('trafitec.contrarecibo'))
     viaje_id = fields.Many2many('trafitec.viajes','contrarecibo_viaje_relation', 'contrarecibo_id','viajes_id', string='Viajes',domain="[('asociado_id','=',asociado_id),('moneda','=',currency_id),('lineanegocio','=',lineanegocio),('state','=','Nueva'),('en_contrarecibo','=',False),('tipo_viaje','=','Normal')]")
     # viajex_id = fields.Many2many(string='Viajes X',comodel_name='trafitec.viajes')
-    cobrar_descuentos = fields.Selection([('No cobrar', 'No cobrar'), ('Todos', 'Todos'),('Viajes del contrarecibo', 'Viajes del contrarecibo')],string='Cobrar descuentos', default='Todos', required=True,track_visibility='onchange')
-    cobrar_comisiones = fields.Selection([('No cobrar', 'No cobrar'), ('Viajes del contrarecibo', 'Viajes del contrarecibo'),('Todos los viajes', 'Todos los viajes')], string='Cobrar comisiones', default='Todos los viajes',required=True, track_visibility='onchange')
-    iva_option = fields.Selection([('CIR', 'Con IVA y con RIVA'), ('SIR', 'Sin IVA y sin RIVA'), ('CISR', 'Con IVA y sin RIVA')],string='IVA', default='CIR', required=True, track_visibility='onchange')
-    state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'), ('Cancelada', 'Cancelada')],string='Estado', default='Nueva', track_visibility='onchange')
-    lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', required=True,default=lambda self: self._predeterminados_lineanegocio(),track_visibility='onchange')
+    cobrar_descuentos = fields.Selection([('No cobrar', 'No cobrar'), ('Todos', 'Todos'),('Viajes del contrarecibo', 'Viajes del contrarecibo')],string='Cobrar descuentos', default='Todos', required=True,tracking=True)
+    cobrar_comisiones = fields.Selection([('No cobrar', 'No cobrar'), ('Viajes del contrarecibo', 'Viajes del contrarecibo'),('Todos los viajes', 'Todos los viajes')], string='Cobrar comisiones', default='Todos los viajes',required=True, tracking=True)
+    iva_option = fields.Selection([('CIR', 'Con IVA y con RIVA'), ('SIR', 'Sin IVA y sin RIVA'), ('CISR', 'Con IVA y sin RIVA')],string='IVA', default='CIR', required=True, tracking=True)
+    state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'), ('Cancelada', 'Cancelada')],string='Estado', default='Nueva', tracking=True)
+    lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', required=True,default=lambda self: self._predeterminados_lineanegocio(),tracking=True)
     invoice_id = fields.Many2one(
         'account.move',
         string='Factura proveedor',
         domain="[('move_type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0),('factura_encontrarecibo','=',False),('state','=','open'),('es_cartaporte','=',True)]",
-        track_visibility='onchange'
+        tracking=True
     )
-    fecha = fields.Date(string='Fecha', readonly=True, index=True, copy=False, default=fields.Datetime.now,track_visibility='onchange')
-    normal = fields.Boolean(string='Normal', default=True, track_visibility='onchange')
-    psf = fields.Boolean(string='PSF', default=False, track_visibility='onchange')
+    fecha = fields.Date(string='Fecha', readonly=True, index=True, copy=False, default=fields.Datetime.now,tracking=True)
+    normal = fields.Boolean(string='Normal', default=True, tracking=True)
+    psf = fields.Boolean(string='PSF', default=False, tracking=True)
     factura_actual = fields.Many2one('account.move', string='Factura proveedor actual',domain="[('move_type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0)]")
     cargospendientes_id = fields.One2many(comodel_name='trafitec.cargospendientes', inverse_name='contrarecibo_id', string='Cargos pendientes')
-    x_folio_trafitecw = fields.Char(string='Folio Trafitec Windows', help="Folio del contra recibo en Trafitec para windows.",track_visibility='onchange')
+    x_folio_trafitecw = fields.Char(string='Folio Trafitec Windows', help="Folio del contra recibo en Trafitec para windows.",tracking=True)
 
     #----------------------------------------------------------------------------------------------------------------------------------------------
     # MONTOS
     #----------------------------------------------------------------------------------------------------------------------------------------------
     #despues
-    mermas_bol = fields.Boolean(string='Merma', default=False, track_visibility='onchange')
+    mermas_bol = fields.Boolean(string='Merma', default=False, tracking=True)
     mermas_des = fields.Float(string='-Merma', store=False, compute='_compute_mermas_despues')
     mermas_des_ver = fields.Float(string='-Merma', related='mermas_des')
     mermasx_des = fields.Float(string='-Merma', store=True)
@@ -1582,7 +1583,7 @@ class trafitec_contrarecibo(models.Model):
     mermas_antes_ver = fields.Float(string='-Merma', related='mermas_antes')
     mermasx_antes = fields.Float(string='-Merma', store=True)
 
-    descuento_bol = fields.Boolean(string='Descuento', default=False, track_visibility='onchange')
+    descuento_bol = fields.Boolean(string='Descuento', default=False, tracking=True)
     descuento_des = fields.Float(string='-Descuento', store=False, compute='_check_descuentos')
     descuento_des_ver = fields.Float(string='-Descuento', related='descuento_des')
     descuentox_des = fields.Float(string='-Descuento_', store=True)
@@ -1591,7 +1592,7 @@ class trafitec_contrarecibo(models.Model):
     descuento_antes_ver = fields.Float(string='-Descuento', related='descuento_antes')
     descuentox_antes = fields.Float(string='-Descuento_', store=True)
 
-    comision_bol = fields.Boolean(string='Comision', default=False, track_visibility='onchange')
+    comision_bol = fields.Boolean(string='Comision', default=False, tracking=True)
     comision_des = fields.Float(string='-Comision', store=False, compute='_check_comisiones')
     comision_des_ver = fields.Float(string='-Comision', related='comision_des')
     comisionx_des = fields.Float(string='-Comision_', store=True)
@@ -1600,7 +1601,7 @@ class trafitec_contrarecibo(models.Model):
     comisiones_antes_ver = fields.Float(string='-Comisiones', related='comisiones_antes')
     comisionesx_antes = fields.Float(string='-Comisiones_', store=True)
 
-    prontopago_bol = fields.Boolean(string='Pronto pago', default=False, track_visibility='onchange')
+    prontopago_bol = fields.Boolean(string='Pronto pago', default=False, tracking=True)
     prontopago_des = fields.Float(string='-Pronto pago', store=False, compute='_compute_prontopago')
     prontopago_des_ver = fields.Float(string='-Pronto pago', related='prontopago_des')
     prontopagox_des = fields.Float(string='-Pronto pago_', store=True)
@@ -1635,7 +1636,7 @@ class trafitec_contrarecibo(models.Model):
 
     subtotal = fields.Monetary(string='Subtotal', related='invoice_id.amount_untaxed')
 
-    observaciones = fields.Text(string="Observaciones",_constraints = [_validaobservacione, "Observaciones invalidas", ['observaciones','state']],track_visibility='onchange')
+    observaciones = fields.Text(string="Observaciones",_constraints = [_validaobservacione, "Observaciones invalidas", ['observaciones','state']],tracking=True)
 
     r_iva = fields.Float(string='R. IVA', compute='_compute_r_iva_carta')
 
@@ -1765,6 +1766,7 @@ class trafitec_contrarecibo(models.Model):
 #Mike
 class trafitec_cargospendientes(models.TransientModel):
     _name = 'trafitec.cargospendientes'
+    _description ='Cargos pendientes'
     descuento_id = fields.Integer(string="Id descuento", default=0)
     contrarecibo_id = fields.Many2one(string='Contra recibo', comodel_name='trafitec.contrarecibo')
     detalles = fields.Char(string='Detalles')
@@ -1775,6 +1777,7 @@ class trafitec_cargospendientes(models.TransientModel):
 
 class trafitec_con_descuentos(models.Model):
     _name = 'trafitec.con.descuentos'
+    _description ='Descuentos'
 
     name = fields.Char(string='Concepto',readonly=True)
     fecha = fields.Date(string='Fecha',readonly=True)
@@ -1826,6 +1829,7 @@ class trafitec_con_descuentos(models.Model):
 
 class trafitec_con_comision(models.Model):
     _name = 'trafitec.con.comision'
+    _description ='Comision'
 
     name = fields.Char(string='Folio del viaje', readonly=True)
     fecha = fields.Date(string='Fecha', readonly=True)
@@ -1842,6 +1846,7 @@ class trafitec_con_comision(models.Model):
 #Descuentos por cobrar.
 class trafitec_contrarecibo_descuentosx(models.TransientModel):
     _name = 'trafitec.contrarecibos.descuentosx'
+    _description ='Contrarecibos descuentos'
     descuento_id=fields.Many2one(comodel_name='trafitec.descuentos',string='Descuentos')
     concepto=fields.Char(string='Concepto', default='')
     total=fields.Float(string='Total', default=0)
@@ -1851,6 +1856,7 @@ class trafitec_contrarecibo_descuentosx(models.TransientModel):
     
 class viajesxcontrarecibo(models.Model):
     _name='trafitec.viajesxcontrarecibo'
+    _description ='Viajesx contrarecibo'
     viaje_id=fields.Many2one(string='Viaje', comodel_name='trafitec.viajes')
     contrarecibo_id=fields.Many2one(string='Contra recibo', comodel_name='trafitec.contrarecibo')
     factura_id=fields.Many2one(string='Factura', comodel_name='account.move')
@@ -1870,6 +1876,7 @@ class viajesxcontrarecibo(models.Model):
 
 class trafitec_contrarecibos_cargos(models.Model):
     _name = 'trafitec.contrarecibos.cargos'
+    _description ='Contrarecibos cargos'
     tipo_cargo_id = fields.Many2one(
         string='Tipo de cargo adicional',
         comodel_name='trafitec.tipocargosadicionales',

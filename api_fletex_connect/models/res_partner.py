@@ -74,10 +74,10 @@ class fletex_respartner(models.Model):
     limit_credit_fletex = fields.Float('Limite de credito en FLETEX')
     balance_invoices = fields.Float('Saldo en facturas')
 
-    @api.depends('name')
+    
     
     def change_name(self):
-        if self.name :
+        if self.name:
             self.name_license_driver = "Licencia de {}.{}".format(
                                     self.name, 
                                     self.ext_license_driver)

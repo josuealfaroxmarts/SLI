@@ -7,6 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_cargosx(models.Model):
     _name = 'trafitec.cargosx'
+    _description ='Cargos X'
 
     
     @api.depends('total','abonos','saldo')
@@ -35,6 +36,7 @@ class trafitec_cargosx(models.Model):
 
 class trafitec_cargosx_abonos(models.Model):
     _name='trafitec.cargosx.abonos'
+    _description ='Abonos Cargos X'
     cargosx_id=fields.Many2one(comodel_name='trafitec.cargosx',string='Cargo',required=True)
     abono=fields.Float(string='Abono',default=0,required=True)
     generadoen=fields.Selection(string="Generado en",selection=[('sistema','Sistema'),('manual','Manual'),('contrarecibo','Contra recibo'),('factura','Factura')],default='sistema')

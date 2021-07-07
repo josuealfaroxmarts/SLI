@@ -6,7 +6,6 @@ import logging
 
 class FletexTrafitecCotizacion(models.Model):
     _inherit = 'trafitec.cotizacion'
-
     id_fletex = fields.Integer()
     send_to_api = fields.Boolean()
 

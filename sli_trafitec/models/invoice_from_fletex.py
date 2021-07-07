@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_invoice_fletex(models.Model):
     _name = 'invoice.from.fletex'
+    _description ='invoice from fletex'
     _rec_name = 'fletexShipmentReference'
 
     clientId = fields.Many2one('res.partner', string='Asociado', required=True)

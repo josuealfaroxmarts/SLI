@@ -7,6 +7,7 @@ from datetime import datetime,date
 
 class SupplierPaymentTermReport(models.Model):
 	_name = "supplier.payment.term.report"
+	_description ='Supplier payment report'
 
 
 	date_from = fields.Date(string=_("De"))

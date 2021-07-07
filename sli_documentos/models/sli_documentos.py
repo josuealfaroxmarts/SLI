@@ -35,6 +35,7 @@ _logger.error('ERROR: Something really bad happened!')
 
 class sli_documentos_documentos(models.Model):
     _name = 'sli.documentos.documentos'
+    _description ='SLI documentos'
     
     
     @api.depends('fecha_final')
@@ -162,5 +163,6 @@ class sli_documentos_documentos(models.Model):
 
 class sli_documentos_personas(models.Model):
     _name = 'sli.documentos.personas'
+    _description ='SLI documentos personas'
     documento_id = fields.Many2one(string='Documento', comodel_name='sli.documentos.documentos', help='Documento relacionado')
     persona_id = fields.Many2one(string='Persona', comodel_name='res.partner', help='Persona relacionada')

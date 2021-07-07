@@ -11,6 +11,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_viajes(models.Model):
     _name = 'trafitec.viajes'
+    _description='viajes'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
     """
@@ -89,14 +90,14 @@ class trafitec_viajes(models.Model):
     origen = fields.Many2one(related='linea_id.cotizacion_id.origen_id', string='Ubicación origen', store=True, required=True, readonly=True)
     destino = fields.Many2one(related='linea_id.cotizacion_id.destino_id', string='Ubicación destino', store=True, required=True, readonly=True)
     facturar = fields.Boolean(string='Facturar', readonly=True, store=True)
-    psf = fields.Boolean(string='PSF', track_visibility='onchange')
-    csf = fields.Boolean(string='CSF', track_visibility='onchange')
-    tarifa_asociado = fields.Float(string='Tarifa asociado', default=0, track_visibility='onchange', related='linea_id.tarifa_asociado', required=True)
+    psf = fields.Boolean(string='PSF', tracking=True)
+    csf = fields.Boolean(string='CSF', tracking=True)
+    tarifa_asociado = fields.Float(string='Tarifa asociado', default=0, tracking=True, related='linea_id.tarifa_asociado', required=True)
     tarifa_cliente = fields.Float(string='Tarifa cliente', default=0,required=True)
     tarifa_cliente_colaborador = fields.Float(string='Tarifa cliente colaborador', default=0, required=False)
     product = fields.Many2one('product.product', string='Producto',
                                 related='linea_id.cotizacion_id.product', readonly=True, store=True)
-    costo_producto = fields.Float(string='Costo del producto', track_visibility='onchange')
+    costo_producto = fields.Float(string='Costo del producto', tracking=True)
 
     lineanegocio = fields.Many2one(comodel_name='trafitec.lineanegocio', string='Linea de negocios', store=True)
     tipo_lineanegocio = fields.Char('Tipo de linea de negocio', related='lineanegocio.name', store=True)
@@ -107,14 +108,14 @@ class trafitec_viajes(models.Model):
                                     default=lambda self: self.env['res.company']._company_default_get('trafitec.viajes'))
     state = fields.Selection([('Nueva', 'Nueva'), ('Siniestrado', 'Siniestrado'), ('Cancelado', 'Cancelado')],
                                 string='Estado',
-                                default='Nueva', track_visibility='onchange')
+                                default='Nueva', tracking=True)
     documentacion_completa = fields.Boolean(string='Documentanción completa')
     fecha_viaje = fields.Date(string='Fecha del viaje', readonly=False, index=True, copy=False,
                                 default=fields.Datetime.now, required=True)
-    user_id = fields.Many2one('res.users', string='Usuario que genero viaje', index=True, track_visibility='onchange',
+    user_id = fields.Many2one('res.users', string='Usuario que genero viaje', index=True, tracking=True,
                                 default=lambda self: self.env.user)
-    motivo_siniestrado = fields.Text(string='Motivo siniestrado', track_visibility='onchange')
-    motivo_cancelacion = fields.Text(string='Motivo cancelacion', track_visibility='onchange')
+    motivo_siniestrado = fields.Text(string='Motivo siniestrado', tracking=True)
+    motivo_cancelacion = fields.Text(string='Motivo cancelacion', tracking=True)
     fecha_cambio_estado = fields.Datetime(string='Fecha de cambio')
 
     en_contrarecibo = fields.Boolean(string="Viaje en contra recibo", default=False)
@@ -136,12 +137,12 @@ class trafitec_viajes(models.Model):
     factura_proveedor_folio = fields.Char(string='Folio de factura proveedor', related='factura_proveedor_id.name', store=True)
     factura_proveedor_fecha = fields.Date(string='Fecha de factura proveedor', related='factura_proveedor_id.date', store=True)
 
-    asignadoa_id = fields.Many2one(string='Asignado a',comodel_name='res.users', track_visibility='onchange')
+    asignadoa_id = fields.Many2one(string='Asignado a',comodel_name='res.users', tracking=True)
     
     
-    estado_viaje = fields.Selection(string='Estado del viaje', selection = [('noespecificado','(No especificado)'),('enespera','(En espera)'),('enproceso','En proceso'),('finalizado','Finalizado'),('cancelador','Cancelado'), ('cerrado','Cerrado'),('siniestrado','Siniestrado')],default='enespera', track_visibility='onchange')
+    estado_viaje = fields.Selection(string='Estado del viaje', selection = [('noespecificado','(No especificado)'),('enespera','(En espera)'),('enproceso','En proceso'),('finalizado','Finalizado'),('cancelador','Cancelado'), ('cerrado','Cerrado'),('siniestrado','Siniestrado')],default='enespera', tracking=True)
     proyecto_referenciado = fields.Char(string='Proyecto referenciado', readonly=True, related='linea_id.cotizacion_id.nombre')
-    calificaiones = fields.One2many(string='Calificaciones', inverse_name='viaje_id', comodel_name = 'trafitec.clasificacionesgxviaje', track_visibility='onchange')
+    calificaiones = fields.One2many(string='Calificaciones', inverse_name='viaje_id', comodel_name = 'trafitec.clasificacionesgxviaje', tracking=True)
 
     crm_trafico_registro_id = fields.Many2one(string='Registro CRM Tráfico', comodel_name='trafitec.crm.trafico.registro')
 
@@ -782,7 +783,7 @@ class trafitec_viajes(models.Model):
 
     # Transporte
     placas_id = fields.Many2one('fleet.vehicle', string='Placas', required=True)
-    vehiculo = fields.Char(string='Vehiculo', readonly=True, track_visibility='onchange')
+    vehiculo = fields.Char(string='Vehiculo', readonly=True, tracking=True)
     asociado_id = fields.Many2one(related='placas_id.asociado_id', string='Asociado', store=True)
     porcentaje_comision = fields.Float(string='Porcentaje de comisión', readonly=True)
     usar_porcentaje = fields.Boolean(string='Usar porcentaje de línea de negocio', readonly=True)
@@ -799,7 +800,7 @@ class trafitec_viajes(models.Model):
     capacidad = fields.Float(string="Capacidad", related='tipo_remolque.capacidad', readonly=True, store=True)
     tipo = fields.Selection([('full', 'Full'), ('sencillo', 'Sencillo')], string="Tipo", related='tipo_remolque.tipo',
                             readonly=True, store=True,
-                            track_visibility='onchange')  # Define si el remolque es full o sencillo
+                            tracking=True)  # Define si el remolque es full o sencillo
     celular_operador = fields.Char(string='Celular operador', required=True)
 
 
@@ -911,12 +912,12 @@ class trafitec_viajes(models.Model):
                                             'Con % especifico y capacidad de remolque'),
                                         ('Cobrar cantidad especifica', 'Cobrar cantidad específica')],
                                         string='Regla de Comisión', default='Con % linea transportista y peso origen',
-                                        required=True, track_visibility='onchange')
+                                        required=True, tracking=True)
     comision = fields.Selection([('No cobrar', 'No cobrar'), ('Cobrar en contra-recibo', 'Cobrar en contra-recibo'), (
     'Cobrar en contra recibo-porcentaje especifico', 'Cobrar en contra recibo-porcentaje específico'),
                                 ('Cobrar cantidad especifica', 'Cobrar cantidad específica')], string='Comisión',
-                                default='Cobrar en contra-recibo', required=True, track_visibility='onchange')
-    motivo = fields.Text(string='Motivo sin comisión', track_visibility='onchange')
+                                default='Cobrar en contra-recibo', required=True, tracking=True)
+    motivo = fields.Text(string='Motivo sin comisión', tracking=True)
     porcent_comision = fields.Float(string='Porcentaje de comisión')
     cant_especifica = fields.Float(string='Cobrar cantidad específica')
     peso_autorizado = fields.Float(string='Peso autorizado (Kg)', required=True, help='Peso autorizado en toneladas.')
@@ -929,7 +930,7 @@ class trafitec_viajes(models.Model):
             ('No pagar en contrarecibo y cobrar en factura', 'No pagar en contrarecibo y cobrar en factura'),
             ('No pagar en contrarecibo y no cobrar en factura', 'No pagar en contrarecibo y no cobrar en factura')],
         string='Regla de maniobra', default='Pagar en contrarecibo y cobrar en factura', required=True,
-        track_visibility='onchange')
+        tracking=True)
 
     @api.onchange('regla_comision', 'cant_especifica', 'facturar_con', 'regla_comision')
     def _onchange_comision_calculada(self):
@@ -1023,10 +1024,10 @@ class trafitec_viajes(models.Model):
     detalles_cita = fields.Text(string='Detalles cita')
 
     # detalles
-    observaciones = fields.Text(string='Observaciones', track_visibility='onchange')
-    especificaciones = fields.Text(string='Especificaciones', track_visibility='onchange')
-    folio_cliente = fields.Char(string='Folio del cliente', track_visibility='onchange')
-    suger_pago = fields.Boolean(string='Sugerir pago inmediato', track_visibility='onchange')
+    observaciones = fields.Text(string='Observaciones', tracking=True)
+    especificaciones = fields.Text(string='Especificaciones', tracking=True)
+    folio_cliente = fields.Char(string='Folio del cliente', tracking=True)
+    suger_pago = fields.Boolean(string='Sugerir pago inmediato', tracking=True)
     # contenedores
     no_pedimento = fields.Char(string='No. de pedimento')
     tipo_mov = fields.Selection(
@@ -1087,12 +1088,12 @@ class trafitec_viajes(models.Model):
 
             
 
-    peso_origen_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso origen del remolque 1 en kilogramos.', track_visibility='onchange')
-    peso_origen_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso origen del remolque 2 en kilogramos.', track_visibility='onchange')
-    peso_destino_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso destino del remolque 1 en kilogramos.', track_visibility='onchange')
-    peso_destino_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso destino del remolque 2 en kilogramos.', track_visibility='onchange')
-    peso_convenido_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso convenido del remolque 1 en kilogramos.', track_visibility='onchange')
-    peso_convenido_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso convenido del remolque 2 en kilogramos.', track_visibility='onchange')
+    peso_origen_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso origen del remolque 1 en kilogramos.', tracking=True)
+    peso_origen_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso origen del remolque 2 en kilogramos.', tracking=True)
+    peso_destino_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso destino del remolque 1 en kilogramos.', tracking=True)
+    peso_destino_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso destino del remolque 2 en kilogramos.', tracking=True)
+    peso_convenido_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso convenido del remolque 1 en kilogramos.', tracking=True)
+    peso_convenido_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso convenido del remolque 2 en kilogramos.', tracking=True)
 
     peso_origen_remolque_1_ver = fields.Float(string='Peso remolque 1 Kg', related='peso_origen_remolque_1', readonly=True)
     peso_origen_remolque_2_ver = fields.Float(string='Peso remolque 2 Kg', related='peso_origen_remolque_2', readonly=True)
@@ -1125,11 +1126,11 @@ class trafitec_viajes(models.Model):
     
     facturar_con = fields.Selection(
         [('Peso convenido', 'Peso convenido'), ('Peso origen', 'Peso origen'), ('Peso destino', 'Peso destino')],
-        string='Facturar con (Asociado)', required=True, default='Peso origen', track_visibility='onchange')
+        string='Facturar con (Asociado)', required=True, default='Peso origen', tracking=True)
 
     facturar_con_cliente = fields.Selection(
         [('Peso convenido', 'Peso convenido'), ('Peso origen', 'Peso origen'), ('Peso destino', 'Peso destino')],
-        string='Facturar con (Cliente)', required=True, default='Peso origen', track_visibility='onchange')
+        string='Facturar con (Cliente)', required=True, default='Peso origen', tracking=True)
     excedente_merma = fields.Selection(
         [('No cobrar', 'No cobrar'), ('Porcentaje: Cobrar diferencia', 'Porcentaje: Cobrar diferencia'),
             ('Porcentaje: Cobrar todo', 'Porcentaje: Cobrar todo'), ('Kg: Cobrar diferencia', 'Kg: Cobrar diferencia'),
@@ -1455,9 +1456,9 @@ class trafitec_viajes(models.Model):
 
     # Relaciones
     boletas_id = fields.One2many(comodel_name="trafitec.viajes.boletas", inverse_name="linea_id",
-                                track_visibility='onchange')
+                                tracking=True)
     evidencia_id = fields.One2many(string="Evidencias", comodel_name="trafitec.viajes.evidencias", inverse_name="linea_id",
-                                track_visibility='onchange')
+                                tracking=True)
 
     # @api.constrains('comision_calculada')
     # def _datos_correctos(self):
@@ -1821,10 +1822,11 @@ class trafitec_viajes(models.Model):
     
 class trafitec_viajes_boletas(models.Model):
     _name = 'trafitec.viajes.boletas'
+    _description='viajes boletas'
 
-    name = fields.Char(string='Folio de boleta', required=True, track_visibility='onchange')
+    name = fields.Char(string='Folio de boleta', required=True, tracking=True)
     tipo_boleta = fields.Selection(string="Tipo de boleta", selection=[('Origen', 'Origen'), ('Destino', 'Destino')],
-                                    required=True, track_visibility='onchange')
+                                    required=True, tracking=True)
     linea_id = fields.Many2one(comodel_name="trafitec.viajes", string="Folio de viaje", ondelete='cascade')
 
     fecha = fields.Date(related='linea_id.fecha_viaje', string='Fecha', store=True)
@@ -1879,7 +1881,7 @@ class trafitec_viajes_boletas(models.Model):
 
 class trafitec_viajes_evidencias(models.Model):
     _name = 'trafitec.viajes.evidencias'
-
+    _description='viajes evidencias'
     name = fields.Selection(string="Tipo",
                             selection=[('Evidencia de viaje', 'Evidencia de viaje'), ('Carta porte', 'Carta porte'), ('Carta porte xml', 'Carta porte xml')],
                             required=True, default='Evidencia de viaje')
@@ -1890,7 +1892,7 @@ class trafitec_viajes_evidencias(models.Model):
 
 class trafitec_viaje_sinestrado(models.TransientModel):
     _name = 'trafitec.viaje.sinestrado.wizard'
-
+    _description='viajes sinestrado'
     def _get_viajeid(self):
         print(self._context.get('active_id'))
         viajes_obj = self.env['trafitec.viajes'].search([('id', '=', self._context.get('active_id'))])
@@ -1919,7 +1921,7 @@ class trafitec_viaje_sinestrado(models.TransientModel):
 
 class trafitec_viaje_cambiartarifa_wizard(models.TransientModel):
     _name = 'trafitec.viaje.cambiartarifa.wizard'
-
+    _description='viaje cambiar tarifa wizard'
     def _get_viajeid(self):
         print(self._context.get('active_id'))
         viajes_obj = self.env['trafitec.viajes'].search([('id', '=', self._context.get('active_id'))], limit=1)
@@ -1943,7 +1945,7 @@ class trafitec_viaje_cambiartarifa_wizard(models.TransientModel):
 
 class trafitec_viaje_cancelar(models.TransientModel):
     _name = 'trafitec.viaje.cancelar.wizard'
-
+    _description='viaje cancelar wizard'
     def _get_viajeid(self):
         print(self._context.get('active_id'))
         viajes_obj = self.env['trafitec.viajes'].search([('id', '=', self._context.get('active_id'))], limit=1)
@@ -1991,7 +1993,7 @@ class trafitec_viaje_cancelar(models.TransientModel):
 
 class trafitec_viaje_cargos(models.Model):
     _name = 'trafitec.viaje.cargos'
-
+    _description='trafitec viajes cargos'
     name = fields.Many2one('trafitec.tipocargosadicionales', string='Tipos de cargos adicionales', required=True)
     valor = fields.Float(string='Valor', required=True)
     line_cargo_id = fields.Many2one('trafitec.viajes', string='Id viaje')
@@ -2020,6 +2022,7 @@ class trafitec_viaje_cargos(models.Model):
 
 class trafitec_slitrack_registro(models.Model):
     _name = 'trafitec.slitrack.registro'
+    _description='slitrack registro'
     _order = 'fechahorag desc'
     viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes')
     fechahorad = fields.Datetime(string='Fecha hora dispositivo')
@@ -2059,6 +2062,7 @@ class trafitec_slitrack_registro(models.Model):
     
 class trafitec_asignaciones(models.Model):
     _name = 'trafitec.asignaciones'
+    _description='trafitec asignaciones'
     asignadoa_id = fields.Many2one(string='Usuario',comodel_name='res.users',help='Usuario al que se le asigno el viaje.')
     viaje_id = fields.Many2one(string='Viaje',comodel_name='trafitec.viajes',help='Viaje asignado.')
     tipo = fields.Selection(string = 'Tipo',selection=[('alcrear','Al crear'),('almodificar','Al modificar')],default='alcrear')

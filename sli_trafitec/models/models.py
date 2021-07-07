@@ -30,6 +30,7 @@ class nif_mod(models.Model):
 
 class trafitec_municipios(models.Model):
 	_name = 'trafitec.municipios'
+	_description ='Municipios'
 
 	name = fields.Char(string="Nombre completo")
 	name_value = fields.Char(string="Nombre del municipio", required=True)
@@ -68,6 +69,7 @@ class trafitec_municipios(models.Model):
 
 class trafitec_localidad(models.Model):
 	_name = 'trafitec.localidad'
+	_description ='Localidad'
 
 	name = fields.Char(string="Nombre")
 	name_value = fields.Char(string="Nombre de la Localidad", required=True)
@@ -98,10 +100,11 @@ class trafitec_localidad(models.Model):
 class trafitec_status_client(models.Model) :
 	name = 'trafitec.status'
 	status = fields.Char(string="Estatus", required=True)
-			
+	_description ='status'
 
 class trafitec_ubicaciones(models.Model):
 	_name = 'trafitec.ubicacion'
+	_description ='ubicacion'
 	# MODIFICACIONE RECIENTE ALTA DE UBICACIONES
 	name = fields.Char(string="Nombre", required=True)
 	calle = fields.Char(string="Calle", required=True)
@@ -141,6 +144,7 @@ class trafitec_ubicaciones(models.Model):
 
 class trafitec_ubi_responsable(models.Model):
 	_name = 'trafitec.responsable'
+	_description ='Responsable'
 
 	responsable = fields.Many2one('trafitec.ubicacion', string='Responsable')
 	nombre_responsable = fields.Char(string="Nombre", required=True)
@@ -151,7 +155,7 @@ class trafitec_ubi_responsable(models.Model):
 
 class trafitec_etiquetas(models.Model):
 	_name = 'trafitec.etiquetas'
-
+	_description ='etiquetas'
 	name = fields.Char(string="Nombre", required=True)
 	tipovalor = fields.Selection(
 		[('Numerico', 'Numerico'), ('Texto', 'Texto'), ('Booleano', 'Booleano'), ('Entero', 'Entero')],
@@ -160,7 +164,7 @@ class trafitec_etiquetas(models.Model):
 
 class trafitec_muelles(models.Model):
 	_name = 'trafitec.muelles'
-
+	_description ='muelles'
 	name = fields.Char(string="Nombre", required=True)
 	ubicacion = fields.Many2one('trafitec.ubicacion', string='Ubicación', required=True,
 								domain="[('tipo_ubicacion','=','puerto')]")
@@ -169,14 +173,14 @@ class trafitec_muelles(models.Model):
 
 class trafitec_buques(models.Model):
 	_name = 'trafitec.buques'
-
+	_description ='buques'
 	name = fields.Char(string="Nombre", required=True)
 	detalles = fields.Text(string="Detalles")
 
 
 class trafitec_tipodocumento(models.Model):
 	_name = 'trafitec.tipodoc'
-
+	_description ='tipo doc'
 	name = fields.Char(string="Nombre", required=True)
 	tipo = fields.Selection([('origen', 'Origen'), ('destino', 'Destino')], string="Tipo", required=True)
 	evidencia = fields.Boolean(string="Para evidencia", default=False,
@@ -188,7 +192,7 @@ class trafitec_tipodocumento(models.Model):
 
 class trafitec_tiposmovil(models.Model):
 	_name = 'trafitec.moviles'
-
+	_description ='tipo moviles'
 	name = fields.Char(string="Nombre", required=True)
 	tipomovil = fields.Selection([('vehiculo', 'Vehículo'), ('remolque', 'Remolque')], string="Tipo de móvil",
 								required=True)
@@ -200,19 +204,20 @@ class trafitec_tiposmovil(models.Model):
 
 class trafitec_lineanegocio(models.Model):
 	_name = 'trafitec.lineanegocio'
-
+	_description ='linea negocio'
 	name = fields.Char(string="Nombre", required=True)
 	porcentaje = fields.Float(string="Porcentaje de comisión", required=True)
 
 
 class trafitec_tipopresentacion(models.Model):
 	_name = 'trafitec.tipopresentacion'
-
+	_description ='tipo presentacion'
 	name = fields.Char(string="Nombre", required=True)
 
 
 class trafitec_tipocargosadicionales(models.Model):
 	_name = 'trafitec.tipocargosadicionales'
+	_description ='tipo cargos adicionales'
 
 	name = fields.Char(string="Nombre", required=True)
 	product_id = fields.Many2one('product.product', string='Producto', required=True)
@@ -720,6 +725,7 @@ and f.partner_id={}
 
 class trafitec_polizas(models.Model):
 	_name = 'trafitec.polizas'
+	_description ='Polizas'
 	_order = 'id desc'
 
 	name = fields.Char(string="Folio", required=True)
@@ -745,6 +751,7 @@ class trafitec_producttemplate(models.Model):
 
 class trafitec_productetiqueta(models.Model):
 	_name = 'trafitec.product'
+	_description ='Etiqueta producto'
 
 	product_id = fields.Many2one('product.template', string='Product')
 	etiqueta_id = fields.Many2one('trafitec.tipopresentacion', string='Presentación')
@@ -863,6 +870,7 @@ class trafitec_asociados(models.Model):
 
 class trafitec_asoc_rutas(models.Model):
 	_name = 'trafitec.rutas'
+	_description ='rutas'
 
 	asociado = fields.Many2one('res.partner', string='Asociado')
 	estado = fields.Many2one("res.country.state", string='Estado', domain="[('country_id','=',157)]", required=True)
@@ -871,7 +879,7 @@ class trafitec_asoc_rutas(models.Model):
 
 class trafitec_unidades(models.Model):
 	_name = 'trafitec.unidades'
-
+	_description ='unidades'
 	asociado = fields.Many2one('res.partner', string='Asociado')
 	movil = fields.Many2one('trafitec.moviles', string='Móvil', required=True)
 	cantidad = fields.Integer(string='Cantidad', required=True)
@@ -879,7 +887,6 @@ class trafitec_unidades(models.Model):
 
 class trafitec_unidadmedida(models.Model):
 	_inherit = 'uom.uom'
-
 	trafitec = fields.Boolean(string='Es unidad de medida para Trafitec')
 
 
@@ -1095,6 +1102,7 @@ class trafitec_vehiculos(models.Model):
 
 class trafitec_remolques(models.Model):
 	_name = "trafitec.remolques"
+	_description ='remolques'
 	name = fields.Char(string='No. económico', required=True,
 						help='Número económico que identifica el remolque/dolly de manera única.')
 	placas = fields.Char(string='Placas', required=True, help='Número de placas.')
@@ -1116,7 +1124,7 @@ class trafitec_res_bank(models.Model):
 
 class trafitec_plazas_banxico(models.Model):
 	_name = 'trafitec.plazas.banxico'
-
+	_description ='plazas banxico'
 	name = fields.Char(string='Nombre', required=True)
 	numero_plaza = fields.Char(string='Número de plaza', required=True)
 
@@ -1137,14 +1145,14 @@ class trafitec_account(models.Model):
 
 class trafitec_concepto_anti(models.Model):
 	_name = 'trafitec.concepto.anticipo'
-
+	_description ='concepto anticipo'
 	name = fields.Char(string='Concepto', required=True)
 	requiere_orden = fields.Boolean(string='Requiere orden de carga')
 
 
 class trafitec_cliente_documentos(models.Model):
 	_name = 'trafitec.clientes.documentos'
-
+	_description ='Documentos clientes'
 	name = fields.Many2one('trafitec.tipodoc', string='Documento requerido', required=True)
 	tipo_tipo = fields.Selection(string='Tipo', related='name.tipo')
 	tipo_evidencia = fields.Boolean(string='Evidencia', related='name.evidencia')
@@ -1154,7 +1162,7 @@ class trafitec_cliente_documentos(models.Model):
 
 class trafitec_parametros(models.Model):
 	_name = 'trafitec.parametros'
-
+	_description ='parametros'
 	name = fields.Char(string='Nombre', default='', required=True)
 	company_id = fields.Many2one('res.company', 'Compañia',
 								default=lambda self: self.env['res.company']._company_default_get(
@@ -1238,7 +1246,7 @@ class trafitec_parametros(models.Model):
 
 class trafitec_sucursal(models.Model):
 	_name = 'trafitec.sucursal'
-
+	_description ='sucursal'
 	name = fields.Char(string='Nombre', required=True)
 	active = fields.Boolean(string="Activo", default=True)
 
@@ -1247,6 +1255,7 @@ class trafitec_sucursal(models.Model):
 
 class trafitec_seguridad_perfil(models.Model):
 	_name = 'trafitec.seguridad.perfiles'
+	_description ='Perfiles seguridad'
 	name = fields.Char(string='Nombre', default='', required=True)
 	detalles = fields.Char(string='Detalles', default='')
 	derechos = fields.One2many(string='Derechos', comodel_name='trafitec.seguridad.derechos.perfil',
@@ -1257,12 +1266,14 @@ class trafitec_seguridad_perfil(models.Model):
 
 class trafitec_seguridad_derechos(models.Model):
 	_name = 'trafitec.seguridad.derechos'
+	_description ='Seguridad derechos'
 	name = fields.Char(string='Nombre', required=True)
 	detalles = fields.Char(string='Detalles', required=True)
 
 
 class trafitec_seguridad_derechos_perfil(models.Model):
 	_name = 'trafitec.seguridad.derechos.perfil'
+	_description ='Seguridad derechos perfil'
 	perfil = fields.Many2one(string='Perfil', comodel_name='trafitec.seguridad.perfiles')
 	derecho = fields.Many2one(string='Derecho', comodel_name='trafitec.seguridad.derechos', required=True)
 	permitir = fields.Boolean(string='Permitir', default=True)
@@ -1273,6 +1284,7 @@ class trafitec_seguridad_derechos_perfil(models.Model):
 # -------------------------------------------------------------------------------------------------------------------------------------------
 class cancelacion_cuentas(models.Model):
 	_name = 'trafitec.cancelacioncuentas'
+	_description ='Cancelacion cuentas'
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 	_order = 'id desc'
 
@@ -1285,15 +1297,15 @@ class cancelacion_cuentas(models.Model):
 
 	name = fields.Char(string='Folio', default='')
 	persona_id = fields.Many2one(string='Persona', comodel_name='res.partner', required=True,
-									track_visibility='onchange', domain="[('supplier','=',True),('customer','=',True)]")
+									tracking=True, domain="[('supplier','=',True),('customer','=',True)]")
 
-	referencia = fields.Text(string='Referencia', default='', required=True, track_visibility='onchange')
-	detalles = fields.Text(string='Detalles', default='', required=True, track_visibility='onchange')
-	fecha = fields.Date(string='Fecha', required=True, default=datetime.datetime.today(), track_visibility='onchange')
+	referencia = fields.Text(string='Referencia', default='', required=True, tracking=True)
+	detalles = fields.Text(string='Detalles', default='', required=True, tracking=True)
+	fecha = fields.Date(string='Fecha', required=True, default=datetime.datetime.today(), tracking=True)
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency', required=True,
-								track_visibility='onchange')
+								tracking=True)
 	total = fields.Monetary(string='Total', currency_field='moneda_id', required=True, default=0,
-							track_visibility='onchange')
+							tracking=True)
 	total_txt = fields.Char(string='Total en texto', default='')
 	total_txt_ver = fields.Char(string='Cantidad con letra', related='total_txt')
 	abonos = fields.Monetary(string='Total', currency_field='moneda_id', default=0, strore=True, compute='_total')
@@ -1308,16 +1320,16 @@ class cancelacion_cuentas(models.Model):
 											inverse_name='cancelacion_cuentas_id')
 
 	diario_pago_cliente = fields.Many2one(string='Diario de pago a cliente', comodel_name='account.journal',
-											required=True, track_visibility='onchange')
+											required=True, tracking=True)
 	diario_pago_proveedor = fields.Many2one(string='Diario de pago a proveedor', comodel_name='account.journal',
-											required=True, track_visibility='onchange')
+											required=True, tracking=True)
 
-	persona_cobranza = fields.Char(string='Persona de cobranza', required=True, track_visibility='onchange')
+	persona_cobranza = fields.Char(string='Persona de cobranza', required=True, tracking=True)
 
-	estado = fields.Boolean(string='Activa', default=True, track_visibility='onchange')
+	estado = fields.Boolean(string='Activa', default=True, tracking=True)
 	state = fields.Selection(string='Estado',
 								selection=[('nuevo', 'Nuevo'), ('validado', 'Validado'), ('cancelado', 'Cancelado')],
-								default='nuevo', track_visibility='onchange')
+								default='nuevo', tracking=True)
 
 	@api.onchange('total', 'moneda_id')
 	def _onchange_total(self):
@@ -1598,6 +1610,7 @@ class cancelacion_cuentas(models.Model):
 
 class cancelacion_cuentas_facturas_proveedor(models.Model):
 	_name = 'trafitec.cancelacioncuentas.facturas.proveedor'
+	_description ='Cancelacion cuentas en facturas proveedor'
 	cancelacion_cuentas_id = fields.Many2one(string='Cancelación de cuentas',
 											comodel_name='trafitec.cancelacioncuentas')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
@@ -1614,6 +1627,7 @@ class cancelacion_cuentas_facturas_proveedor(models.Model):
 
 class cancelacion_cuentas_facturas_cliente(models.Model):
 	_name = 'trafitec.cancelacioncuentas.facturas.cliente'
+	_description ='Cancelacion cuentas en facturas cliente'
 	cancelacion_cuentas_id = fields.Many2one(string='Cancelación de cuentas',
 											comodel_name='trafitec.cancelacioncuentas')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency')
@@ -1630,6 +1644,7 @@ class cancelacion_cuentas_facturas_cliente(models.Model):
 
 class cancelacion_cuentas_relacion(models.Model):
 	_name = 'trafitec.cancelacioncuentas.relacion'
+	_description ='Cancelacion cuentas relacion'
 	cancelacion_cuentas_id = fields.Many2one(string='Cancelación de cuentas',
 											comodel_name='trafitec.cancelacioncuentas')
 	factura_cliente_id = fields.Many2one(string='Factura cliente', comodel_name='account.move')
@@ -1643,37 +1658,38 @@ class cancelacion_cuentas_relacion(models.Model):
 # -------------------------------------------------------------------------------------------------------------------------------------------
 class trafitec_pagosmasivos(models.Model):
 	_name = 'trafitec.pagosmasivos'
+	_description ='Pagos masivos'
 	_order = 'id desc'
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 
 	name = fields.Char(string='Folio', default='')
 	persona_id = fields.Many2one(string='Persona', comodel_name='res.partner', required=True,
 								domain="[(['company','person'],'in','company_type'),'|',('supplier','=',True),('customer','=',True)]",
-								track_visibility='onchange')
+								tracking=True)
 	fecha = fields.Date(string='Fecha', default=datetime.datetime.now().today(), required=True,
-						track_visibility='onchange')
+						tracking=True)
 
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency', required=True,
-								track_visibility='onchange')
+								tracking=True)
 
 	total = fields.Monetary(string='Total', default=0, currency_field='moneda_id', required=True,
-							track_visibility='onchange')
+							tracking=True)
 	total_txt = fields.Char(string='Total', default='')
 	total_txt_ver = fields.Char(string='Total', related='total_txt', default='')
 
 	facturas_id = fields.One2many(string='Facturas', comodel_name='trafitec.pagosmasivos.facturas',
 								inverse_name='pagomasivo_id')
-	referencia = fields.Char(string='Referenccia', default='', required=True, track_visibility='onchange')
-	detalles = fields.Char(string='Detalles', default='', track_visibility='onchange')
+	referencia = fields.Char(string='Referenccia', default='', required=True, tracking=True)
+	detalles = fields.Char(string='Detalles', default='', tracking=True)
 	diario_id = fields.Many2one(string='Diario', comodel_name='account.journal', required=True)
 	tipo = fields.Selection(string='Tipo',
 							selection=[('noespecificado', '(No especificado)'), ('proveedor', 'Proveedor'),
 										('cliente', 'Cliente')], default='noespecificado', required=True,
-							track_visibility='onchange')
+							tracking=True)
 	state = fields.Selection(string='Estado',
 								selection=[('nuevo', 'Nuevo'), ('validado', 'Validado'), ('aplicado', 'Aplicado'),
 										('cancelado', 'Cancelado')], default='nuevo', required=True,
-							track_visibility='onchange')
+							tracking=True)
 
 	busqueda_fecha_inicial = fields.Date(string='Búsqueda: Fecha inicial', default=datetime.datetime.now().today(),
 										required=True)
@@ -1966,6 +1982,7 @@ class trafitec_pagosmasivos(models.Model):
 
 class trafitec_pagosmasivos_facturas(models.Model):
 	_name = 'trafitec.pagosmasivos.facturas'
+	_description ='Facturas pagos masivos'
 	pagomasivo_id = fields.Many2one(string='Pago masivo', comodel_name='trafitec.pagosmasivos')
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency', required=True)
 	factura_id = fields.Many2one(string='Factura', comodel_name='account.move', required=True)
@@ -1982,6 +1999,7 @@ class trafitec_pagosmasivos_facturas(models.Model):
 # -------------------------------------------------------------------------------------------------------------------------------------------
 class trafitec_viajes_scan(models.Model):
 	_name = 'trafitec.viajes.scan'
+	_description ='viajes scan'
 	viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes', required=True)
 	st = fields.Selection([('not_started', 'No iniciado'), ('started', 'Iniciado')],string='Estado')
 
@@ -1991,6 +2009,7 @@ class trafitec_viajes_scan(models.Model):
 # -------------------------------------------------------------------------------------------------------------------------------------------
 class trafitec_clasificacionesg(models.Model):
 	_name = 'trafitec.clasificacionesg'
+	_description ='clasicaciones sg'
 	name = fields.Char(string='Nombre', default='', required=True)
 	aplica_viajes = fields.Boolean(string='Aplica a calificar viaje', default=False)
 	aplica_crm_trafico_rechazo = fields.Boolean(string='Aplica a CRM Tráfico en rechazo', default=False)
@@ -2007,6 +2026,7 @@ class trafitec_clasificacionesg(models.Model):
 # -------------------------------------------------------------------------------------------------------------------------------------------
 class trafitec_clasificacionesgxviaje(models.Model):
 	_name = 'trafitec.clasificacionesgxviaje'
+	_description ='clasificaciones sgxviaje'
 	viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes')
 	clasificacion_id = fields.Many2one(string='Calificación', comodel_name='trafitec.clasificacionesg', required=True)
 	operador_nombre = fields.Char(string='Operador', related='viaje_id.operador_id.display_name', store=True)
@@ -2022,6 +2042,7 @@ class trafitec_clasificacionesgxviaje(models.Model):
 # -------------------------------------------------------------------------------------------------------------------------------------------
 class trafitec_presupuestos(models.Model):
 	_name = 'trafitec.presupuestos'
+	_description ='presupuestos'
 	ano = fields.Integer(string='Año', default=2018)
 	# mes = fields.Selection(string='Mes', selection=[(1, 'Enero'), (2,'Febrero'), (3,'Marzo'), (4, 'Abril'),(5, 'Mayo'), (6, 'Junio'), (7, 'Julio'),(8,'Agosto'),(9,'Septiembre'),(10,'Octubre'),(11,'Noviembre'),(12,'Diciembre')])
 	monto_mes1 = fields.Float(string='Enero', default=0)
@@ -2041,11 +2062,13 @@ class trafitec_presupuestos(models.Model):
 
 class CustomPopMessage(models.TransientModel):
 	_name = 'custom.pop.message'
+	_description ='Custom pop message'
 	name = fields.Char('Mensaje', readonly=True)
 
 
 class TrafitecParametros(models.TransientModel):
 	_name = 'trafitec.reportes.parametros'
+	_description ='Parametros'
 	fecha_inicial = fields.Date(string="Fecha incial")
 	fecha_final = fields.Date(string="Fecha final")
 	archivo_nombre = fields.Char(string="Nombre del archivo")
@@ -2142,6 +2165,7 @@ class SalespersonWizard(models.TransientModel):
 
 class CrmReport(models.TransientModel):
 	_name = 'crm.won.lost.report'
+	_description ='crm won lost report'
 	sales_person = fields.Many2one('res.users', string="Sales Person")
 	start_date = fields.Date('Start Date')
 	end_date = fields.Date('End Date', default=fields.Date.today)
@@ -2173,6 +2197,7 @@ class CrmReport(models.TransientModel):
 
 class TrafitecReportesGeneralesPedidosAvance(models.Model):
 	_name = 'trafitec.reportes.generales.pedidos.avance.buscar'
+	_description ='Reportes generales pedidos avance buscar'
 	name = fields.Char(string='Nombre', required=True, help='Nombre')
 	buscar_tipo = fields.Selection(string='Tipo de busqueda', selection=[('general','General'),('detalles','Detalles')])
 	buscar_cliente = fields.Char(string='Cliente', default='', help='Cliente de cotizacion.')
@@ -2462,6 +2487,7 @@ order by ct.name,extract(year from v.create_date),extract(month from v.create_da
 
 class TrafitecReportesGeneralesPedidosAvanceResultado(models.Model):
 	_name = 'trafitec.reportes.generales.pedidos.avance.resultado'
+	_description ='Reportes generales pedidos avance resultado'
 	buscar_id = fields.Many2one(string='Buscar', comodel_name='trafitec.reportes.generales.pedidos.avance.buscar')
 	cotizacion_folio = fields.Char(string='Cotizacion', default='')
 	cotizacion_cliente = fields.Char(string='Cliente', default='')
@@ -2472,6 +2498,7 @@ class TrafitecReportesGeneralesPedidosAvanceResultado(models.Model):
 
 class TrafitecReportesGeneralesPedidosAvanceResultadoDetalles(models.Model):
 	_name = 'trafitec.reportes.generales.pedidos.avance.detalles'
+	_description ='Reportes generales pedidos avance detalles'
 	buscar_id = fields.Many2one(string='Buscar', comodel_name='trafitec.reportes.generales.pedidos.avance.buscar')
 	cotizacion_folio = fields.Char(string='Cotizacion', default='')
 	cotizacion_linea = fields.Char(string='Linea', default='')
@@ -2485,6 +2512,7 @@ class TrafitecReportesGeneralesPedidosAvanceResultadoDetalles(models.Model):
 
 class TrafitecReportesGeneralesPedidosAvanceResultadoXMes(models.Model):
 	_name = 'trafitec.reportes.generales.pedidos.avance.xmes'
+	_description ='Reportes generales pedidos avance xmes'
 	buscar_id = fields.Many2one(string='Buscar', comodel_name='trafitec.reportes.generales.pedidos.avance.buscar')
 	cotizacion = fields.Char(string='Cotizacion', default='')
 	cliente = fields.Char(string='Cliente', default='')
@@ -2495,6 +2523,7 @@ class TrafitecReportesGeneralesPedidosAvanceResultadoXMes(models.Model):
 
 class TrafitecReportesGeneralesPedidosAvanceResultadoXDia(models.Model):
 	_name = 'trafitec.reportes.generales.pedidos.avance.xdia'
+	_description ='Reportes generales pedidos avance xdia'
 	buscar_id = fields.Many2one(string='Buscar', comodel_name='trafitec.reportes.generales.pedidos.avance.buscar')
 	cotizacion = fields.Char(string='Cotizacion', default='')
 	cliente = fields.Char(string='Cliente', default='')

@@ -26,6 +26,7 @@ _logger = logging.getLogger(__name__)
 
 class TrafitecProgramacionPagosX(models.Model):
 	_name = "trafitec.programacionpagosx"
+	_description='programacion pagos x'
 	name = fields.Char(string="Folio", help="Folio de la programación.")
 	nombre = fields.Char(string="Nombre", help="Nombre de la programación.")
 	tipo = fields.Selection(string="Tipo", selection=[('proveedor', 'Proveedor'), ('cliente', 'Cliente')],
@@ -379,6 +380,7 @@ class TrafitecProgramacionPagosX(models.Model):
 				
 class TrafitecProgramacionPagosXFacturasAplicar(models.Model):
 	_name = "trafitec.programacionpagosx.facturas.aplicar"
+	_description='programacion pagosx facturas aplicar'
 	programacionpagos_id = fields.Many2one(string="Programacion de pagos", comodel_name="trafitec.programacionpagosx")
 	factura_id = fields.Many2one(string="Factura", comodel_name="account.move",
 								domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])
@@ -392,6 +394,7 @@ class TrafitecProgramacionPagosXFacturasAplicar(models.Model):
 
 class TrafitecProgramacionPagosXFacturasBuscar(models.TransientModel):
 	_name = "trafitec.programacionpagosx.facturas.buscar"
+	_description='programacion pagox facturas buscar'
 	programacionpagos_id = fields.Many2one(string="Programacion de pagos", comodel_name="trafitec.programacionpagosx")
 	factura_id = fields.Many2one(string="Factura", comodel_name="account.move",
 								domain=[('state', '=', 'open'), ('type', '=', 'in_invoice')])

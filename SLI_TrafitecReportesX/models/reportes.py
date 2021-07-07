@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 
 class TrafitecParametros(models.AbstractModel):
 	_name = 'trafitec.reportes.parametros'
+	_description='trafitec reportes parametros'
 	fecha_inicial = fields.Date(string="Fecha incial",default=datetime.datetime.today())
 	fecha_final = fields.Date(string="Fecha final",default=datetime.datetime.today())
 	tipo=fields.Selection(string="Tipo", selection=[('top_ten_clients', 'Top 10 de clientes'), 

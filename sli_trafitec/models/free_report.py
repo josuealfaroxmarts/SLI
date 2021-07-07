@@ -7,6 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class ReportFee(models.Model):
     _name = 'fee.report'
+    _description ='fee report'
     _auto = False
 
     id = fields.Integer(readonly=True)

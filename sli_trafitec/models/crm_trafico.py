@@ -25,6 +25,7 @@ _logger = logging.getLogger(__name__)
 class trafitec_crm_trafico(models.TransientModel):
     _name = 'trafitec.crm.trafico'
     _order = 'id desc'
+    _description ='crm trafico'
 
     name = fields.Char(string='Nombre', default='', required=True)
     buscar_folio = fields.Char(string='Folio')
@@ -216,6 +217,7 @@ class trafitec_crm_trafico(models.TransientModel):
 
 class trafitec_crm_trafico_resultado(models.TransientModel):
     _name = 'trafitec.crm.trafico.resultado'
+    _description ='crm trafico resultado'
     crm_trafico_id = fields.Many2one(string="", comodel_name="trafitec.crm.trafico")
     viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes')
     fecha = fields.Char(string='Fecha')
@@ -231,6 +233,7 @@ class trafitec_crm_trafico_resultado(models.TransientModel):
 
 class trafitec_crm_trafico_pedidos(models.TransientModel):
     _name = 'trafitec.crm.trafico.pedidos'
+    _description ='crm trafico pedidos'
     crm_trafico_id = fields.Many2one(string="CRM", comodel_name="trafitec.crm.trafico")
     cotizacion_id = fields.Many2one(string='Cotización', comodel_name='trafitec.cotizacion')
     cotizacion_linea_id = fields.Many2one(string='Cotización línea', comodel_name='trafitec.cotizaciones.linea')
@@ -360,6 +363,7 @@ class trafitec_crm_resultado(models.TransientModel):
 """
 class trafitec_crm_trafico_asociados(models.Model):
     _name = 'trafitec.crm.asociados'
+    _description ='crm asociados'
     _rec_name = 'id'
 
     buscar_nombre = fields.Char(string="Nombre", help='Nombre del asociado.')
@@ -437,17 +441,18 @@ class trafitec_crm_trafico_asociados(models.Model):
 
 class trafitec_crm_trafico_registro(models.Model):
     _name = 'trafitec.crm.trafico.registro'
+    _description ='trafico registro'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
     _rec_name = 'id'
-    asociado_id = fields.Many2one(string='Asociado', comodel_name='res.partner', track_visibility='onchange')
+    asociado_id = fields.Many2one(string='Asociado', comodel_name='res.partner', tracking=True)
     asociado_id_txt = fields.Char(string='Asociado', related='asociado_id.name', readonly=True)
 
-    detalles = fields.Char(string='Detalles', default='', required=True, track_visibility='onchange')
+    detalles = fields.Char(string='Detalles', default='', required=True, tracking=True)
     tipo = fields.Selection(string='Tipo',
                             selection=[('llamada_telefonica', 'Llamada telefónica'), ('email', 'Correo electrónico'),
                                         ('mensajero_instataneo', 'Mensajero instantaneo')], default='llamada_telefonica',
-                            required=True, track_visibility='onchange')
+                            required=True, tracking=True)
     generar_evento_st = fields.Boolean(string='Registrar evento en calendario', default=False)
     generar_evento_dias = fields.Integer(string='Dias para nuevo evento', default=3)
     generar_evento_fechahora = fields.Datetime(string='Fecha para nuevo evento')
@@ -457,19 +462,19 @@ class trafitec_crm_trafico_registro(models.Model):
     def _compute_numero_viajes(self):
         self.viajes_n = len(self.viajes_id)
 
-    seg_modificar = fields.Boolean(string='Permitir modificar', default=True, track_visibility='onchange')
+    seg_modificar = fields.Boolean(string='Permitir modificar', default=True, tracking=True)
     cotizacion_id = fields.Many2one(string='Cotización', comodel_name='trafitec.cotizacion',
-                                    track_visibility='onchange')
+                                    tracking=True)
     cotizacion_id_txt = fields.Char(string='Cotización', related='cotizacion_id.name', readonly=True)
     viajes_id = fields.One2many(string='Viajes', comodel_name='trafitec.crm.trafico.registro.viajes',
                                 inverse_name='registro_id')
     viajes_n = fields.Integer(string='Número de viajes', compute=_compute_numero_viajes, default=0, store=True)
     motivo_rechazo_id = fields.Many2one(string='Motivo de rechazo', comodel_name='trafitec.clasificacionesg',
-                                        track_visibility='onchange')
+                                        tracking=True)
     tarifa = fields.Float(string='Tarifa', default=0)
     state = fields.Selection(string='Estado',
                                 selection=[('nuevo', 'Nuevo'), ('aceptado', 'Aceptado'), ('rechazado', 'Rechazado')],
-                                default='nuevo', track_visibility='onchange', required=True)
+                                default='nuevo', tracking=True, required=True)
 
     @api.model
     def default_get(self, fields):
@@ -674,6 +679,7 @@ class trafitec_crm_trafico_registro(models.Model):
 
 class trafitec_crm_trafico_registro_viajes(models.Model):
     _name = 'trafitec.crm.trafico.registro.viajes'
+    _description ='crm traficos registros viajes'
     registro_id = fields.Many2one(string='Registro', comodel_name='trafitec.crm.trafico.registro')
     viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes', required=True)
 
@@ -693,6 +699,7 @@ class trafitec_crm_trafico_registro_viajes(models.Model):
 
 class trafitec_crm_trafico_tablero(models.Model):
     _name = "trafitec.crm.trafico.tablero"
+    _description ='crm trafico tablero'
 
     # def init(self):
     # print("---SELF INIT---")

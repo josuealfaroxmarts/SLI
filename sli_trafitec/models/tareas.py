@@ -14,27 +14,28 @@ _logger = logging.getLogger(__name__)
 
 class TrafitecTareas(models.Model):
 	_name = 'trafitec.tareas'
+	_description='trafitec tareas'
 	_order = 'id desc'
 	
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 	
-	name = fields.Char(string="Nombre", required=True, track_visibility='onchange')
-	detalles = fields.Text(string="Detalles", required=True, track_visibility='onchange')
+	name = fields.Char(string="Nombre", required=True, tracking=True)
+	detalles = fields.Text(string="Detalles", required=True, tracking=True)
 	
-	asignado_usuario_id = fields.Many2one(string="Asignado a", comodel_name='res.users',track_visibility='onchange')
+	asignado_usuario_id = fields.Many2one(string="Asignado a", comodel_name='res.users',tracking=True)
 	
-	revision_usuario_id = fields.Many2one(string="Usuario que reviso", comodel_name='res.users', track_visibility='onchange')
+	revision_usuario_id = fields.Many2one(string="Usuario que reviso", comodel_name='res.users', tracking=True)
 	revision_fechahora = fields.Datetime(string="Fecha y hora de revisión")
 	
-	validado_usuario_id = fields.Many2one(string="Usuario que valido", comodel_name='res.users', track_visibility='onchange')
+	validado_usuario_id = fields.Many2one(string="Usuario que valido", comodel_name='res.users', tracking=True)
 	validado_fechahora = fields.Datetime(string="Fecha y hora de validación")
 
-	cerrado_usuario_id = fields.Many2one(string="Usuario que cerro", comodel_name='res.users', track_visibility='onchange')
+	cerrado_usuario_id = fields.Many2one(string="Usuario que cerro", comodel_name='res.users', tracking=True)
 	cerrado_fechahora = fields.Datetime(string="Fecha y hora de cierre")
 	
-	clasificacion_principal_id = fields.Many2one(string="Clasificación principal", comodel_name='trafitec.tareas.clsificacion', track_visibility='onchange', domain="[('tipo','=','principal'),('state','=','activo')]")
-	clasificacion_secundaria_id = fields.Many2one(string="Clasificación secuendaria", comodel_name='trafitec.tareas.clsificacion', track_visibility='onchange', required=True, domain="[('tipo','=','secundaria'),('state','=','activo')]")
-	state = fields.Selection(string="Estado", selection=[('nuevo', 'Nuevo'), ('revisado', 'Revisado'), ('validado', 'Validado'), ('cerrado', 'Cerrado'), ('cancelado', 'Cancelado')], default='nuevo', track_visibility='onchange')
+	clasificacion_principal_id = fields.Many2one(string="Clasificación principal", comodel_name='trafitec.tareas.clsificacion', tracking=True, domain="[('tipo','=','principal'),('state','=','activo')]")
+	clasificacion_secundaria_id = fields.Many2one(string="Clasificación secuendaria", comodel_name='trafitec.tareas.clsificacion', tracking=True, required=True, domain="[('tipo','=','secundaria'),('state','=','activo')]")
+	state = fields.Selection(string="Estado", selection=[('nuevo', 'Nuevo'), ('revisado', 'Revisado'), ('validado', 'Validado'), ('cerrado', 'Cerrado'), ('cancelado', 'Cancelado')], default='nuevo', tracking=True)
 
 	
 	def action_revisar(self):
@@ -76,6 +77,7 @@ class TrafitecTareas(models.Model):
 		
 class TrafitecTareasClasificacion(models.Model):
 	_name = 'trafitec.tareas.clsificacion'
+	_description='Clasificaciones tareas'
 	name = fields.Char(string="Nombre", required=True)
 	asignara_id = fields.Many2one(string="Asignar a",comodel_name="res.users",help="Usuario al que se asignaran automaticamente las tareas al clasificarla.")
 	tipo = fields.Selection(string="Tipo", selection=[('principal','Principal'), ('secundaria','Secundaria')], required = True, help="")

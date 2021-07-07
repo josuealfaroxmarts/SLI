@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_facturas_comision(models.Model):
     _name = 'trafitec.facturas.comision'
+    _description ='comision facturas'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Folio',default='Nuevo')
@@ -257,6 +258,7 @@ class trafitec_facturas_comision(models.Model):
 
 class trafitec_con_comision(models.Model):
     _name = 'trafitec.fact.linea.comision'
+    _description ='fact linea comision'
 
     name = fields.Char(string='Folio del viaje', readonly=True)
     fecha = fields.Date(string='Fecha', readonly=True)

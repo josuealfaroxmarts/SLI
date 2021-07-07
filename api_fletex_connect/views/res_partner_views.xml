@@ -61,10 +61,10 @@
                 <xpath expr="//sheet/notebook/page[@name='cliente']" position="attributes">
                     <attribute name="invisible">['|',('status_record', '==', 'Rechazado'),('asociado', '==', True)]</attribute>
                 </xpath>
-                <xpath expr="//sheet/group/group[1]" position="after">
-                    <field name="name_rfc_bussiness" invisible='1'/>
-                    <field name="rfc_bussiness" filename="name_rfc_bussiness"/>
-                    <field name="rfc_approved"/>
+                <xpath expr="//sheet/group/group[1]" position="inside">                    
+                        <field name="name_rfc_bussiness" invisible='1'/>
+                        <field name="rfc_bussiness" filename="name_rfc_bussiness"/>
+                        <field name="rfc_approved"/>                    
                 </xpath>
             </field>
         </record>

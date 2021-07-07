@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 
 class TrafitecReportesGenerales(models.TransientModel):
 	_name = 'trafitec.reportes.generales'
+	_description='reportes generales'
 	_order = 'id desc'
 	name = fields.Char(string="Nombre", required=True)
 	fecha_inicial = fields.Date(string="Fecha incial")

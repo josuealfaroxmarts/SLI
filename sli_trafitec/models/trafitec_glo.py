@@ -11,6 +11,7 @@ Clase de utileria general del sistema.
 """
 class trafitec_glo(models.Model):
 	_name = 'trafitec.glo'
+	_description='glo'
 	_auto = False
 	
 	

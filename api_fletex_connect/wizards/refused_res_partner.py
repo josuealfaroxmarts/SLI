@@ -5,6 +5,7 @@ from odoo import api, fields, models
 
 class WizardRefusedResPartners(models.TransientModel):
     _name = "wizard.refused.res.partners"
+    _description ='Wizard refused'
 
     title=fields.Char('Titulo',required=True)
     description=fields.Text('Descripción',required=True)

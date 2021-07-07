@@ -15,6 +15,7 @@ from odoo import _, api, exceptions, fields, models
 class DownloadAttachment(models.Model):
 
 	_name = "download.attachment"
+	_description ='Download attachment'
 
 
 	file = fields.Binary(

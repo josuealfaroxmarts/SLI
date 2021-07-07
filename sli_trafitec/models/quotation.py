@@ -9,6 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class trafitec_cotizacion(models.Model):
     _name = 'trafitec.cotizacion'
+    _description='cotizacion'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
     
@@ -19,21 +20,21 @@ class trafitec_cotizacion(models.Model):
     codigo_postal = fields.Char(string="Código postal")
     ciudad = fields.Char(string="Ciudad")
     presentacion_carga = fields.Selection([('Granel', 'Granel'), ('Costal', 'Costal'), ('Contenedor', 'Contenedor')], string="Presentación de carga")
-    lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', track_visibility='onchange')
-    contacto = fields.Char(string='Contacto referenciado', required=False,track_visibility='onchange')
-    contacto2 = fields.Many2one(string='Contacto',comodel_name='res.partner', track_visibility='onchange')
-    email = fields.Char(string='Email', track_visibility='onchange')
-    telefono = fields.Char(string='Teléfono',track_visibility='onchange')
-    fecha = fields.Date(string='Fecha', required=True, default=fields.Datetime.now,track_visibility='onchange')
-    validohasta = fields.Date(string='Válido hasta',track_visibility='onchange')
-    cliente_refenciado = fields.Char(string='Cliente referenciado',track_visibility='onchange')
-    cliente = fields.Many2one('res.partner', string='Cliente', domain="[('customer','=',1), ('parent_id', '=', False)]",track_visibility='onchange')
-    direccion = fields.Many2one('res.partner', string='Dirección', domain="['|',('parent_id', '=', cliente),('id','=',cliente)]",track_visibility='onchange')
-    product = fields.Many2one('product.product', string='Producto',track_visibility='onchange')
-    producto_referen = fields.Char(string='Producto referenciado',track_visibility='onchange')
+    lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', tracking=True)
+    contacto = fields.Char(string='Contacto referenciado', required=False,tracking=True)
+    contacto2 = fields.Many2one(string='Contacto',comodel_name='res.partner', tracking=True)
+    email = fields.Char(string='Email', tracking=True)
+    telefono = fields.Char(string='Teléfono',tracking=True)
+    fecha = fields.Date(string='Fecha', required=True, default=fields.Datetime.now,tracking=True)
+    validohasta = fields.Date(string='Válido hasta',tracking=True)
+    cliente_refenciado = fields.Char(string='Cliente referenciado',tracking=True)
+    cliente = fields.Many2one('res.partner', string='Cliente', domain="[('customer','=',1), ('parent_id', '=', False)]",tracking=True)
+    direccion = fields.Many2one('res.partner', string='Dirección', domain="['|',('parent_id', '=', cliente),('id','=',cliente)]",tracking=True)
+    product = fields.Many2one('product.product', string='Producto',tracking=True)
+    producto_referen = fields.Char(string='Producto referenciado',tracking=True)
     #CAMBIOS AL MODULO
-    origen_id = fields.Many2one('trafitec.ubicacion', string='Ubicación origen', track_visibility='onchange', domain="[('cliente_ubicacion','=',cliente)]")
-    destino_id = fields.Many2one('trafitec.ubicacion', string='Ubicación destino', track_visibility='onchange', domain="[('cliente_ubicacion','=',cliente)]")
+    origen_id = fields.Many2one('trafitec.ubicacion', string='Ubicación origen', tracking=True, domain="[('cliente_ubicacion','=',cliente)]")
+    destino_id = fields.Many2one('trafitec.ubicacion', string='Ubicación destino', tracking=True, domain="[('cliente_ubicacion','=',cliente)]")
     lavada = fields.Boolean(string="Lavada")
     fumigada = fields.Boolean(string="Fumigada")
     limpia = fields.Boolean(string="Limpia")
@@ -56,34 +57,34 @@ class trafitec_cotizacion(models.Model):
     payment_term_id = fields.Many2one('account.payment.term', string='Plazos de pago')
     pay_method_id = fields.Many2one('pay.method', string='Metodo de pago')
     aplicanorma = fields.Boolean(string='Aplica norma SCT-012 por peso medido')
-    seguro_mercancia = fields.Boolean(string='Seguro de mercancia',track_visibility='onchange', store=True)
-    polizas_seguro = fields.Many2one('trafitec.polizas', string='Póliza de seguro',track_visibility='onchange')
-    porcen_seguro = fields.Float(string='Porcentaje de seguro',track_visibility='onchange')
-    seguro_entarifa = fields.Boolean(string='Seguro en tarifa', track_visibility='onchange', help='El seguro va incluido en la tarifa.')
-    costo_producto = fields.Float(string='Costo del producto', required=True,track_visibility='onchange')
+    seguro_mercancia = fields.Boolean(string='Seguro de mercancia',tracking=True, store=True)
+    polizas_seguro = fields.Many2one('trafitec.polizas', string='Póliza de seguro',tracking=True)
+    porcen_seguro = fields.Float(string='Porcentaje de seguro',tracking=True)
+    seguro_entarifa = fields.Boolean(string='Seguro en tarifa', tracking=True, help='El seguro va incluido en la tarifa.')
+    costo_producto = fields.Float(string='Costo del producto', required=True,tracking=True)
     reglas_merma = fields.Selection(
         [('No cobrar', 'No cobrar'), ('Porcentaje: Cobrar diferencia', '% Cobrar diferencia'),
         ('Porcentaje: Cobrar todo', '% Cobrar Todo'), ('Kg: Cobrar diferencia', 'Kilogramos cobrar diferencia'),
         ('Kg: Cobrar todo', 'Kilogramos cobrar todo'), ('Cobrar todo', 'Cobrar Todo')], string='Reglas de merma')
-    lista_precio = fields.Many2one('product.pricelist', string='Lista de precios', track_visibility='onchange')
+    lista_precio = fields.Many2one('product.pricelist', string='Lista de precios', tracking=True)
 
     iva = fields.Many2one('account.tax', string='IVAS')
     state = fields.Selection([('Nueva', 'Nueva'), ('Autorizada', 'Autorizada'), ('Enviada', 'Enviada'),
                             ('Disponible', 'Disponible'), ('EnEspera', 'En espera'), ('Cancelada', 'Cancelada'), ('Cerrada', 'Cerrada')],
-                            string='Estado', default='Nueva', track_visibility='onchange')
-    lineas_cotizacion_id = fields.One2many('trafitec.cotizaciones.linea', 'cotizacion_id', track_visibility='onchange')
+                            string='Estado', default='Nueva', tracking=True)
+    lineas_cotizacion_id = fields.One2many('trafitec.cotizaciones.linea', 'cotizacion_id', tracking=True)
     company_id = fields.Many2one('res.company', 'Company',
                                 default=lambda self: self.env['res.company']._company_default_get(
                                     'trafitec.cotizacion'))
-    motivo_cancelacion = fields.Text(string='Motivo cancelacion', track_visibility='onchange')
-    fecha_cancelacion = fields.Datetime(string='Fecha de cancelacion', track_visibility='onchange')
+    motivo_cancelacion = fields.Text(string='Motivo cancelacion', tracking=True)
+    fecha_cancelacion = fields.Datetime(string='Fecha de cancelacion', tracking=True)
     x_folio_trafitecw = fields.Char(string='Folio Trafitec Windows',
-                                    help="Folio de la orden de carga en Trafitec para windows.",track_visibility='onchange')
-    sucursal_id = fields.Many2one('trafitec.sucursal', string='Sucursal', track_visibility='onchange')
+                                    help="Folio de la orden de carga en Trafitec para windows.",tracking=True)
+    sucursal_id = fields.Many2one('trafitec.sucursal', string='Sucursal', tracking=True)
     evidencia_id = fields.One2many(string="Evidencias", comodel_name="trafitec.cotizaciones.evidencias",
-                                    inverse_name="cotizacion_id", track_visibility='onchange')
+                                    inverse_name="cotizacion_id", tracking=True)
 
-    detalles = fields.Text(string='Detalles', default='', track_visibility='onchange')
+    detalles = fields.Text(string='Detalles', default='', tracking=True)
     
     odoo_cotizacion_id = fields.Many2one(string='Cotización odoo', comodel_name='sale.order')
     
@@ -92,7 +93,7 @@ class trafitec_cotizacion(models.Model):
     asociado_plazo_pago_id = fields.Many2one(string='Plazo de pagos de asociado', comodel_name='account.payment.term')
     
     
-    semaforo_valor = fields.Selection(string='Semáforo', selection=[('verde', 'Verde'), ('amarillo', 'Amarillo'), ('rojo', 'Rojo')], default='verde', track_visibility='onchange')
+    semaforo_valor = fields.Selection(string='Semáforo', selection=[('verde', 'Verde'), ('amarillo', 'Amarillo'), ('rojo', 'Rojo')], default='verde', tracking=True)
     mostrar_en_crm_trafico = fields.Boolean(string='Mostrar en CRM Tráfico', help='Indica si la cotización se mostrara en el CRM Tráfico.', default=False)
 
     documentos_id = fields.One2many(string='Documentos requeridos', comodel_name='trafitec.cotizaciones.documentos', inverse_name='cotizacion_id', help='Documentos requeridos.')
@@ -746,6 +747,7 @@ order by des.name
 
 class trafitec_type_truck(models.Model):
     _name = 'trafitec.type_truck'
+    _description='type truck'
 
     tipo_camion = fields.Many2one('trafitec.cotizacion', string='Tipo camion')
     type_truck = fields.Selection([("Jaula", "Jaula"), ("Caja seca", "Caja seca"), ("Portacontenedor", "Portacontenedor"), ("Tolva", "Tolva"), ("Plataforma", "Plataforma"), ("Gondola", "Gondola"), ("Torton", "Torton"), ("Rabon", "Rabon"), ("Chasis", "Chasis"), ("Thermo 48", "Thermo 48"), ("Thermo 53", "Thermo 53")], string="Tipo Camion")
@@ -799,7 +801,7 @@ class trafitec_type_truck(models.Model):
 
 class trafitec_cotizacion_line(models.Model):
     _name = 'trafitec.cotizaciones.linea'
-
+    _description='cotizaciones linea'
     name = fields.Char(string='Folio de cliente')
     municipio_origen_id = fields.Char( tring='Municipio Origen', required=True)
     municipio_destino_id = fields.Char(string='Municipio Destino', required=True)
@@ -1010,7 +1012,7 @@ class trafitec_cotizacion_line(models.Model):
 
 class trafitec_cotizacion_line_cargos(models.Model):
     _name = 'trafitec.cotizaciones.linea.cargos'
-
+    _description='cotizaciones linea cargos'
     name = fields.Many2one('trafitec.tipocargosadicionales', string='Tipos de cargos adicionales', required=True)
     iva = fields.Many2one('account.tax', string='IVAS', required=True)
     tipocalculo = fields.Selection([('Suma', 'Suma'), ('Multiplicado', 'Multiplicado')], string='Tipo de cálculo',
@@ -1037,7 +1039,7 @@ class trafitec_cotizacion_line_cargos(models.Model):
 
 class trafitec_cotizacion_line_origen(models.Model):
     _name = 'trafitec.cotizaciones.linea.origen'
-
+    _description='cotizaciones linea origen'
     name = fields.Char(string='Folio', readonly=True)
     origen = fields.Many2one('trafitec.ubicacion', string='Ubicación origen', required=True)
     destino = fields.Many2one('trafitec.ubicacion', string='Ubicación destino', required=True)
@@ -1104,7 +1106,7 @@ class trafitec_cotizacion_line_origen(models.Model):
 
 class trafitec_cotizacion_line_negociacion(models.Model):
     _name = 'trafitec.cotizacion.linea.negociacion'
-
+    _description='cotizacion linea negociacion'
     tipo = fields.Selection(
         string='Tipo',
         selection=[
@@ -1172,7 +1174,7 @@ class trafitec_cotizacion_line_negociacion(models.Model):
 
 class trafitec_cotizacion_cancelar(models.TransientModel):
     _name = 'trafitec.cotizacion.cancelar.wizard'
-
+    _description='cotizacion cancelar wizard'
     def _get_cotizacionid(self):
         print(self._context.get('active_id'))
         cotizacion_obj = self.env['trafitec.cotizacion'].search([('id', '=', self._context.get('active_id'))])
@@ -1195,6 +1197,7 @@ class trafitec_cotizacion_cancelar(models.TransientModel):
 
 class trafitec_cotizaciones_evidencias(models.Model):
     _name = 'trafitec.cotizaciones.evidencias'
+    _description='evidencias cotizaciones'
     image_filename = fields.Char("Nombre del archivo")
     evidencia_file = fields.Binary(string="Archivo", required=True)
     cotizacion_id = fields.Many2one(comodel_name="trafitec.cotizaciones", string="Cotización", ondelete='cascade')
@@ -1222,6 +1225,7 @@ class trafitec_saleorder(models.Model):
 
 class trafitec_cotizaciones_documentos(models.Model):
     _name = 'trafitec.cotizaciones.documentos'
+    _description='cotizaciones documentos'
     cotizacion_id = fields.Many2one(string='Cotización', comodel_name='trafitec.cotizacion', help='Cotización')
     tipodocumento_id = fields.Many2one(string='Tipo de documento', comodel_name='trafitec.tipodoc', required=True, help='Tipo de documento')
 

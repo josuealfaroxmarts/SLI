@@ -12,6 +12,8 @@ _logger = logging.getLogger(__name__)
 
 class SyncDataFletex(models.Model):
     _name = 'sync.data.fletex'
+    _description ='Data Sync'
+
 
     def sync_data(self):
         """In this function, requests are made to FLETEX and calls 
