@@ -1308,7 +1308,7 @@ class cancelacion_cuentas(models.Model):
 							tracking=True)
 	total_txt = fields.Char(string='Total en texto', default='')
 	total_txt_ver = fields.Char(string='Cantidad con letra', related='total_txt')
-	abonos = fields.Monetary(string='Total', currency_field='moneda_id', default=0, strore=True, compute='_total')
+	abonos = fields.Monetary(string='Total', currency_field='moneda_id', default=0, store=True, compute='_total')
 
 	facturas_cliente_id = fields.One2many(string='Facturas cliente',
 											comodel_name='trafitec.cancelacioncuentas.facturas.cliente',

@@ -77,7 +77,7 @@ class trafitec_viajes(models.Model):
     active = fields.Boolean(default=True)
     # cotizacion_id=fields.Many2one(comodel_name='trafitec.cotizaciones',string='Cotización',required=True)
     linea_id = fields.Many2one('trafitec.cotizaciones.linea', string='Número de cotización',
-                                required=True, change_default=True, index=True, track_visibility='always')
+                                required=True, change_default=True, index=True, tracking=True)
     cotizacion_asegurado = fields.Boolean(string='Esta asegurado',related='linea_id.cotizacion_id.seguro_mercancia', readonly=True, store=True)
     vendedor_id = fields.Many2one(string='Vendedor',related='linea_id.cotizacion_id.create_uid', readonly=True, store=True)
 
@@ -671,7 +671,7 @@ class trafitec_viajes(models.Model):
 
     flete_asociado = fields.Float(string='Flete asociado', store=True, readonly=True, compute='_compute_flete')
 
-    pronto_pago = fields.Boolean(sring='Pronto pago', default=False)
+    pronto_pago = fields.Boolean(string='Pronto pago', default=False)
 
     flete_diferencia = fields.Float('Dieferencia en flete', compute='_compute_flete_diferencia', store=True)
 
@@ -837,7 +837,7 @@ class trafitec_viajes(models.Model):
     slitrack_gps_longitud = fields.Float(string='Longitud slitrack', default=0, digits=(10, 10))
     slitrack_gps_velocidad = fields.Float(string='Velocidad slitrack', default=0)
     slitrack_gps_fechahorar = fields.Datetime(string='Fecha y hora slitrack')
-    slitrack_comentarios = fields.Text(string='Comentarios slitrack', defaut='')
+    slitrack_comentarios = fields.Text(string='Comentarios slitrack', default='')
     slitrack_estado = fields.Selection(string='Estado slitrack', selection=[('noiniciado', '(No iniciado)'), ('iniciado', 'Iniciado'),('terminado', 'Terminado')], default='noiniciado')
     slitrack_codigo = fields.Char(string='Código slitrack', default='')
     slitrack_gps_contador = fields.Integer(string='Contador slitrack', default=0)
@@ -1824,9 +1824,9 @@ class trafitec_viajes_boletas(models.Model):
     _name = 'trafitec.viajes.boletas'
     _description='viajes boletas'
 
-    name = fields.Char(string='Folio de boleta', required=True, tracking=True)
+    name = fields.Char(string='Folio de boleta', required=True,tracking=True)
     tipo_boleta = fields.Selection(string="Tipo de boleta", selection=[('Origen', 'Origen'), ('Destino', 'Destino')],
-                                    required=True, tracking=True)
+                                    required=True,tracking=True)
     linea_id = fields.Many2one(comodel_name="trafitec.viajes", string="Folio de viaje", ondelete='cascade')
 
     fecha = fields.Date(related='linea_id.fecha_viaje', string='Fecha', store=True)

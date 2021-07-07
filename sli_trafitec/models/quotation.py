@@ -803,7 +803,7 @@ class trafitec_cotizacion_line(models.Model):
     _name = 'trafitec.cotizaciones.linea'
     _description='cotizaciones linea'
     name = fields.Char(string='Folio de cliente')
-    municipio_origen_id = fields.Char( tring='Municipio Origen', required=True)
+    municipio_origen_id = fields.Char( string='Municipio Origen', required=True)
     municipio_destino_id = fields.Char(string='Municipio Destino', required=True)
     distancia = fields.Float(string='Distancia', required=True)
     km_vacio = fields.Float(string='Km. vacio')
@@ -918,7 +918,7 @@ class trafitec_cotizacion_line(models.Model):
         return
 
     total_movimientos = fields.Monetary(string='Total movimientos', readonly=True, compute='_total_mov',
-                                        track_visibility='always')
+                                        tracking=True)
 
     @api.onchange('cantidad')
     def total_mov(self):
@@ -946,13 +946,13 @@ class trafitec_cotizacion_line(models.Model):
             })
 
     total_cargos = fields.Monetary(string='Total cargos', readonly=True, compute='_total_cargos',
-                                    track_visibility='always')
+                                    tracking=True)
 
     
     def _subtotal(self):
         self.subtotal = self.total_cargos + self.total_movimientos
         return
-    subtotal = fields.Monetary(string='Subtotal', readonly=True, compute='_subtotal', track_visibility='always')
+    subtotal = fields.Monetary(string='Subtotal', readonly=True, compute='_subtotal', tracking=True)
 
     
     def explict_subscription(self):
