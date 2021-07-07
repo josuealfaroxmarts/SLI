@@ -1248,6 +1248,7 @@ class trafitec_facturas_conceptos(models.Model): #Mike
 
 class trafitec_facturas_agregar_quitar(models.Model):
 	_name = 'trafitec.agregar.quitar'
+	_description='facturas agregar quitar'
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 
 	name = fields.Char(string='Folio', default='Nuevo')

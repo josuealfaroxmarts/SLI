@@ -795,10 +795,10 @@ class trafitec_viajes(models.Model):
 
     tipo_remolque = fields.Many2one('trafitec.moviles', string='Tipo de remolque',
                                     domain="['|',('lineanegocio','=',lineanegocio),('lineanegocio','=',False)]")
-    nombre_remolque = fields.Selection([('full', 'Full'), ('sencillo', 'Sencillo')], string="Tipo",
-                                    related='tipo_remolque.tipo')
+    nombre_remolque = fields.Selection(string="Tipo",
+                                        related='tipo_remolque.tipo')
     capacidad = fields.Float(string="Capacidad", related='tipo_remolque.capacidad', readonly=True, store=True)
-    tipo = fields.Selection([('full', 'Full'), ('sencillo', 'Sencillo')], string="Tipo", related='tipo_remolque.tipo',
+    tipo = fields.Selection(string="Tipo", related='tipo_remolque.tipo',
                             readonly=True, store=True,
                             tracking=True)  # Define si el remolque es full o sencillo
     celular_operador = fields.Char(string='Celular operador', required=True)

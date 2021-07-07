@@ -388,7 +388,7 @@ class trafitec_descuentos_abono(models.Model):
 
 class trafitec_comisiones_abono(models.Model):
     _name = 'trafitec.comisiones.abono'
-
+    _description='comisiones abono'
     name = fields.Float(string='Abono', required=True)
     fecha = fields.Date(string='Fecha', required=True, default=fields.Datetime.now)
     observaciones = fields.Text(string='Observaciones')

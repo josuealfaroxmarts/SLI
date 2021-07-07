@@ -61,6 +61,7 @@ class wizard_viaje(models.TransientModel):
 
     #CAMPOS
     _name="wizard.viaje"
+    _description='wizard viaje'
     nombre=fields.Char(string="Nombre:")
     apellidos=fields.Char(string="Apellidos:")
     asociado_id=fields.Many2one(comodel_name="res.partner",string="Asociado:", required=True)
