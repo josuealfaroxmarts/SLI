@@ -9,11 +9,12 @@
 'summary' : '',
 'depends': ['base','sli_trafitec'],
 'data': [
-          'views/busqueda_viajes.xml',
-          'views/busqueda_descuentos.xml',
-          'views/busqueda_comisiones.xml',
-          'views/busqueda_cotizaciones.xml'
-         ],
+        'security/ir.model.access.csv',
+        'views/busqueda_viajes.xml',
+        'views/busqueda_descuentos.xml',
+        'views/busqueda_comisiones.xml',
+        'views/busqueda_cotizaciones.xml'
+        ],
 'demo': [],
 'installable': True,
 'auto_install': False,

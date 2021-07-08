@@ -11,6 +11,7 @@
 	'author': 'Soluciones Logísticas Inteligentes SA de CV, Developer: Ing. Viridiana Cruz Santos',
 
 	'data': [
+		'security/ir.model.access.csv',
 		'views/menu_main_view.xml',
 		'views/supplier_invoice_view.xml',
 		'views/purchase_report_view.xml',

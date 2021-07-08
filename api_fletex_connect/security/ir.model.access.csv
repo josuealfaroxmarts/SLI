@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 info_syncfletex_api_connect,Sync Errors Fletex Api Connect,model_info_sync_fletex,,1,1,1,1
+access_sync_data_fletex,access_sync_data_fletex,model_sync_data_fletex,base.group_user,1,1,1,1 
