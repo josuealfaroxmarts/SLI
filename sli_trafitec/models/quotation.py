@@ -1200,7 +1200,7 @@ class trafitec_cotizaciones_evidencias(models.Model):
     _description='evidencias cotizaciones'
     image_filename = fields.Char("Nombre del archivo")
     evidencia_file = fields.Binary(string="Archivo", required=True)
-    cotizacion_id = fields.Many2one(comodel_name="trafitec.cotizaciones", string="Cotización", ondelete='cascade')
+    cotizacion_id = fields.Many2one(comodel_name="trafitec.cotizacion", string="Cotización", ondelete='cascade')
 
 
 class trafitec_saleorder(models.Model):

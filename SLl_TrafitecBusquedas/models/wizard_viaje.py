@@ -66,7 +66,7 @@ class wizard_viaje(models.TransientModel):
     apellidos=fields.Char(string="Apellidos:")
     asociado_id=fields.Many2one(comodel_name="res.partner",string="Asociado:", required=True)
     viajes_id=fields.Many2many("trafitec.viajes",string="Viajes:",default=_get_viaje_seleccionados)
-    factura_id=fields.Many2one("account.invoice",string="Carta porte:",required=True,domain=[('type','=','out_invoice')])
+    factura_id=fields.Many2one("account.move",string="Carta porte:",required=True,domain=[('type','=','out_invoice')])
     comisiones_id=fields.Many2many("trafitec.cargos",string="Comisiones:",required=True)
 
     subtotal=fields.Float(string="SubTotal:",compute='_total')
