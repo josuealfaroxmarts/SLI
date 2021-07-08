@@ -9,7 +9,7 @@ from odoo.tools import float_is_zero
 
 class SupplierInvoiceReport(models.Model):
 	_name = "supplier.invoice.report"
-	_description ='Supplier report'
+	_description ='Supplier invoice report'
 
 
 	partner_id = fields.Many2one('res.partner', string='Proveedor', required=True, domain=[('supplier', '=', True)])
