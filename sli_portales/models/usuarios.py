@@ -2,6 +2,7 @@ from odoo import models, fields, api, exceptions, tools
 
 class usuarios(models.Model):
     _name='sli.portales.usuarios'
+    _description = 'SLI portales usuarios'
     name=fields.Char(string="Usuario",required=True, default='')
     clave=fields.Char(string="Clave",required=True, default='')
     nombrecompleto=fields.Char(string="Nombre completo", required=True, default='')
