@@ -2034,7 +2034,7 @@
             <field name="arch" type="xml">
                 <graph string="Clasificaciones">
                     <!--field name="viaje_folio"/-->
-                    <field name="clasificacion_id" type="col" group="True"/>
+                    <field name="clasificacion_id" type="col" groups="True"/>
                     <field name="operador_nombre" type="row"/>
                     <!--field name="asociado_nombre"/-->
 
@@ -2060,7 +2060,7 @@
             <field name="arch" type="xml">
                 <form string="Warning" version="7.0">
                     <group>
-                        <img src='/sli_trafitec/static/image/icon.png'/>
+                        <img alt='icon' src='/sli_trafitec/static/image/icon.png'/>
                         <h2>
                             <field name="name" nolabel="1"/>
                         </h2>
