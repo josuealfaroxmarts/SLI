@@ -934,7 +934,6 @@ class trafitec_vehiculos(models.Model):
 	ambientales_fecha = fields.Char(string='Fecha de vigencia de poliza', compute='change_name_vehicle_documents')
 	model_id = fields.Many2one(required=False)
 
-	@api.depends('license_plate')
 	def change_name_vehicle_documents(self):
 		if self.license_plate :
 			self.nombre_circulacion = "Comprobante domicilio de Tarjeta de circulación ({}).{}".format(self.license_plate, self.ext_circulacion)
