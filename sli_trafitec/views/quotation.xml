@@ -117,14 +117,14 @@
                                     <field name="direccion" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
                                     <field name="producto_referen" invisible="1"/>
                                     <field name="product" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
-                                    <field name="presentacion_carga" attrs="{'readonly': ['|',('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" />
+                                    <field name="presentacion_carga" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" />
                                     <field name="tipo_camion" widget="one2many_list">
                                         <tree editable="bottom">
                                             <field name="type_truck"/>
                                         </tree>
                                     </field>
-                                    <field name="origen_id" attrs="{'readonly': ['|',('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}"/>
-                                    <field name="destino_id" attrs="{'readonly': ['|',('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}"/>
+                                    <field name="origen_id" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}"/>
+                                    <field name="destino_id" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}"/>
                                 </group>
                                 <group>
                                     <field name="currency_id" attrs="{'readonly': [('state', 'in', ('Cancelada','Disponible','Cerrada','EnEspera'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>

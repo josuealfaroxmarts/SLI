@@ -219,7 +219,7 @@
                                     <group>
 
                                         <field name="name"/>
-                                        <field name="fecha_viaje" invisible="0" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
+                                        <field name="fecha_viaje" invisible="0" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
                                         <field name="company_id" invisible="1"/>
                                         <field name="linea_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
                                         <field name="moneda" attrs="{'invisible': [('name', '=', 'Nuevo')]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
@@ -283,24 +283,24 @@
                                         <field name="peso_origen_remolque_1_ver" invisible="1" attrs="{'invisible':[('lineanegocio','=',1)]}"/>
                                         <field name="peso_origen_remolque_2_ver" invisible="1" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','=',1)]}"/>
 
-                                        <field name="peso_origen_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_contrarecibo','=',True)]}"/>
-                                        <field name="peso_origen_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_origen_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_origen_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso origen'),('en_contrarecibo','=',True)]}"/>
                                         <field name="peso_origen_total" style="color:black;font-weight:bold;"/>
                                     </group>
                                     <group string="Peso destino" attrs="{'invisible':[('lineanegocio','in',(2,3))]}">
                                         <field name="peso_destino_remolque_1_ver" invisible="1" attrs="{'invisible':[('lineanegocio','=',1)]}"/>
                                         <field name="peso_destino_remolque_2_ver" invisible="1" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','=',1)]}"/>
 
-                                        <field name="peso_destino_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_contrarecibo','=',True)]}"/>
-                                        <field name="peso_destino_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_destino_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_destino_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso destino'),('en_contrarecibo','=',True)]}"/>
                                         <field name="peso_destino_total" style="color:black;font-weight:bold;"/>
                                     </group>
                                     <group string="Peso convenido" attrs="{'invisible':[('lineanegocio','in',(2,3))]}">
                                         <field name="peso_convenido_remolque_1_ver" invisible="1" attrs="{'invisible':[('lineanegocio','=',1)]}"/>
                                         <field name="peso_convenido_remolque_2_ver" invisible="1" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','=',1)]}"/>
 
-                                        <field name="peso_convenido_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('facturar_con','=','Peso convenido'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso convenido'),('en_contrarecibo','=',True),'&amp;',('en_factura','=',True),('en_contrarecibo','=',True)]}"/>
-                                        <field name="peso_convenido_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('lineanegocio','=',33),'&amp;',('facturar_con','=','Peso convenido'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso convenido'),('en_contrarecibo','=',True),'&amp;',('en_factura','=',True),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_convenido_remolque_1" attrs="{'invisible':[('lineanegocio','in',(2,3))],'readonly': ['|','|','|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('facturar_con','=','Peso convenido'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso convenido'),('en_contrarecibo','=',True),'&amp;',('en_factura','=',True),('en_contrarecibo','=',True)]}"/>
+                                        <field name="peso_convenido_remolque_2" attrs="{'invisible': ['|',('tipo', '=', 'sencillo'),('lineanegocio','in',(2,3))], 'readonly': ['|','|','|',('state', 'in', ('Cancelado','Siniestrado')),('lineanegocio','=',33),'&amp;',('facturar_con','=','Peso convenido'),('en_factura','=',True),'&amp;',('facturar_con','=','Peso convenido'),('en_contrarecibo','=',True),'&amp;',('en_factura','=',True),('en_contrarecibo','=',True)]}"/>
                                         <field name="peso_convenido_total" style="color:black;font-weight:bold;"/>
                                     </group>
                                     <group>
@@ -309,8 +309,8 @@
                                 </group>
                                 <group>
                                     <group name="merma" string="Merma" attrs="{'invisible':[('lineanegocio','in',(2,3))]}">
-                                        <field name="facturar_con" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}"/>
-                                        <field name="facturar_con_cliente" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_factura', '=', True)]}"/>
+                                        <field name="facturar_con" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}"/>
+                                        <field name="facturar_con_cliente" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_factura', '=', True)]}"/>
                                         <field name="excedente_merma" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
                                         <field name="merma_kg"/>
                                         <field name="merma_permitida_kg"/>
@@ -480,8 +480,8 @@
                                 <group>
                                     <field name="observaciones" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
                                     <field name="especificaciones" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
-                                    <field name="folio_cliente" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_factura', '=', True)]}"/>
-                                    <field name="suger_pago" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}"/>
+                                    <field name="folio_cliente" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_factura', '=', True)]}"/>
+                                    <field name="suger_pago" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True)]}"/>
                                 </group>
                             </page>
                             <page name="routers" string="Ruta">
