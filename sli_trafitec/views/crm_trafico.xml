@@ -546,7 +546,7 @@
                             <table border="0">
                                 <tr>
                                     <td rowspan="3">
-                                        <img src='/sli_trafitec/static/image/indicadores_logo6.png'/>
+                                        <img alt='indicadores logo' src='/sli_trafitec/static/image/indicadores_logo6.png'/>
                                     </td>
                                     <td>
                                         <div class="trafitec_indicador_titulo">COTIZACIONES DISPONIBLES</div>
