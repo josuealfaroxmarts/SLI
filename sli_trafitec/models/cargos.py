@@ -126,7 +126,7 @@ class trafitec_descuentos(models.Model):
                                         compute='compute_es_combustible_comision',
                                         store=True,
                                         tracking=True)
-    es_combustible_totalcomision = fields.Float(string='Total', default=0,
+    es_combustible_totalcomision = fields.Float(string='Total comision', default=0,
                                                 compute='compute_es_combustible_totalcomision',
                                                 store=True,
                                                 tracking=True,

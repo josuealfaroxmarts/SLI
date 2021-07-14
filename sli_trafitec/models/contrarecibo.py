@@ -1513,10 +1513,10 @@ class trafitec_contrarecibo(models.Model):
     #----------------------------------------------------------------------------------------------------------------------------------------------
     # TOTALES
     #----------------------------------------------------------------------------------------------------------------------------------------------
-    fletes = fields.Float(string='+Fletes', compute='_compute_fletes', store=True)
+    fletes = fields.Float(string='Fletes', compute='_compute_fletes', store=True)
     fletes_ver = fields.Float(string='+Fletes', related='fletes', readonly=True)
     fletesx = fields.Float(string='+Fletes_')
-    maniobras = fields.Float(string='+Maniobras', compute='_compute_maniobras')
+    maniobras = fields.Float(string='Maniobras', compute='_compute_maniobras')
     maniobras_ver = fields.Float(string='+Maniobras', related='maniobras', readonly=True)
     cargosadicionales_total = fields.Float(
         string='+Cargos adicionales',
@@ -1525,7 +1525,7 @@ class trafitec_contrarecibo(models.Model):
         compute=_compute_otros,
         help='Total de cargos adicionales.'
     )
-    cargosadicionales_total_ver = fields.Float(string='+Cargos adicionales', related='cargosadicionales_total', default=0, help='Total de cargos adicionales.')
+    cargosadicionales_total_ver = fields.Float(string='Cargos adicionales', related='cargosadicionales_total', default=0, help='Total de cargos adicionales.')
     maniobrasx = fields.Float(string='+Maniobras_')
 
     total_abono_des = fields.Float(string='Total de abono descuento', compute='_check_descuentos')
@@ -1538,10 +1538,10 @@ class trafitec_contrarecibo(models.Model):
     total_saldo_coms = fields.Float(string='Total de saldo comision', compute='_check_comisiones')
     total_saldox_coms = fields.Float(string='Total de saldo comision_')
 
-    diferencia = fields.Float(string='Diferencia', compute='_compute_diferencia')
+    diferencia = fields.Float(string='Diferencias', compute='_compute_diferencia')
     diferencia_ver = fields.Float(string='Diferencia', related='diferencia')
     diferenciax = fields.Float(string='Diferencia_')
-    notacargo = fields.Float(string='Nota de cargo', compute='_compute_notacargo')
+    notacargo = fields.Float(string='Nota cargo', compute='_compute_notacargo')
     notacargo_ver = fields.Float(string='Nota de cargo', related='notacargo')
     notacargox = fields.Float(string='Nota de cargo_')
 

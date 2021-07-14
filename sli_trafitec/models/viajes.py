@@ -1119,9 +1119,9 @@ class trafitec_viajes(models.Model):
             self.peso_convenido_total = self.peso_convenido_remolque_1 + self.peso_convenido_remolque_2
 
 
-    peso_origen_total = fields.Float(string='Peso total Kg', compute='_compute_pesos_origen_total',store=True)
-    peso_destino_total = fields.Float(string='Peso total Kg', compute='_compute_pesos_destino_total',store=True)
-    peso_convenido_total = fields.Float(string='Peso total Kg', compute='_compute_pesos_convenido_total',store=True)
+    peso_origen_total = fields.Float(string='Peso origen total Kg', compute='_compute_pesos_origen_total',store=True)
+    peso_destino_total = fields.Float(string='Peso destino total Kg', compute='_compute_pesos_destino_total',store=True)
+    peso_convenido_total = fields.Float(string='Peso convenido total Kg', compute='_compute_pesos_convenido_total',store=True)
     
     
     facturar_con = fields.Selection(
