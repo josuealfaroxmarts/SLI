@@ -238,12 +238,12 @@ class trafitec_account_invoice(models.Model):
 
 	viajes_id = fields.Many2many(string='Viajes de trafitec', comodel_name='trafitec.viajes') #Mike
 	viajescp_id = fields.Many2many(
-		string='Viajes de trafitec',
+		string='Viajes trafitec',
 		comodel_name='trafitec.viajes',
 		relation='trafitec_facturas_viajescp_rel'
 	) #Mike
 	tipo = fields.Selection(string='Tipo de factura', selection=[('normal', 'Normal'), ('manual', 'Manual'), ('automatica','Automatica')], default='normal') #Mike
-	total_fletes = fields.Float(string="Total de fletes", store=True, compute='_compute_totales')
+	total_fletes = fields.Float(string="Total fletes", store=True, compute='_compute_totales')
 	total_fletescp = fields.Float(string="Total de fletes", store=True, compute='_compute_totalescp')
 	tipo_contiene = fields.Selection(string="", selection=[('ninguno', '(Ninguno)'), ('simple', 'Simple'), ('detallado','Detallado')], default='simple')
 
@@ -286,8 +286,8 @@ class trafitec_account_invoice(models.Model):
 	#DOCUMENTOS.
 	documentos_id = fields.One2many(string="Documentos", comodel_name="trafitec.facturas.documentos",
 									inverse_name="factura_id")
-	documentos_archivo_pdf = fields.Binary(string = "Archivo PDF")
-	documentos_archivo_xml = fields.Binary(string = "Archivo XML", compute='_compute_documentos_tiene_xml')
+	documentos_archivo_pdf = fields.Binary(string = "Archivos PDF")
+	documentos_archivo_xml = fields.Binary(string = "Archivos XML", compute='_compute_documentos_tiene_xml')
 	
 	documentos_nombre_pdf = fields.Char(string = "Nombre de archivo PDF", default="")
 	documentos_nombre_xml = fields.Char(string = "Nombre de archivo XML", default="")
@@ -1272,7 +1272,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 								string='Viajes',
 								domain="[('cliente_id','=',cliente_id),('lineanegocio','=',lineanegocio),('state','=','Nueva'),('tipo_viaje','=','Normal'),('en_factura','=',False),('csf','=',False)]")
 	viajes_cobrados_id =fields.Many2many('trafitec.viajes', 'facturas_cobrados_viaje', 'facturas_id', 'viajes_id',
-								string='Viajes')
+								string='Viajes cobrados')
 	observaciones = fields.Text(string='Observaciones')
 	company_id = fields.Many2one('res.company', 'Company',
 								default=lambda self: self.env['res.company']._company_default_get(

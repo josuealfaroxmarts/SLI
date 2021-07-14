@@ -229,7 +229,7 @@ class trafitec_respartner(models.Model):
 	_inherit = 'res.partner'
 	# Clientes
 	status = fields.Char(string="Status")
-	nueva_clasificacion = fields.Many2one(string="Nuevo clasificación")
+	nueva_clasificacion = fields.Many2one(string="Nueva clasificación")
 	aseguradora = fields.Boolean(string="Es aseguradorados")
 	excedente_merma = fields.Selection(
 		[('No cobrar', 'No cobrar'), ('Porcentaje: Cobrar diferencia', 'Porcentaje: Cobrar diferencia'),

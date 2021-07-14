@@ -236,7 +236,7 @@ class trafitec_crm_trafico_pedidos(models.TransientModel):
     _description ='crm trafico pedidos'
     crm_trafico_id = fields.Many2one(string="CRM", comodel_name="trafitec.crm.trafico")
     cotizacion_id = fields.Many2one(string='Cotización', comodel_name='trafitec.cotizacion')
-    cotizacion_linea_id = fields.Many2one(string='Cotización línea', comodel_name='trafitec.cotizaciones.linea')
+    cotizacion_linea_id = fields.Many2one(string='Cotizacion línea', comodel_name='trafitec.cotizaciones.linea')
     cotizacion_linea_xid = fields.Integer(string='Cotización línea', related='cotizacion_linea_id.id')
     folio = fields.Char(string='Folio')
     fecha = fields.Char(string='Fecha')
