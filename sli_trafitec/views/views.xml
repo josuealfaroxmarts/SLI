@@ -2034,7 +2034,7 @@
             <field name="arch" type="xml">
                 <graph string="Clasificaciones">
                     <!--field name="viaje_folio"/-->
-                    <field name="clasificacion_id" type="col" groups="True"/>
+                    <field name="clasificacion_id" type="col"/>
                     <field name="operador_nombre" type="row"/>
                     <!--field name="asociado_nombre"/-->
 

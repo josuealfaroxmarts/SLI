@@ -128,7 +128,7 @@ class trafitec_ubicaciones(models.Model):
 									string="Tipo de carga")
 	comentarios = fields.Text(string="Comentarios")
 	cliente_ubicacion = fields.Many2one('res.partner', string="Cliente")
-	responsable_id = fields.One2many('trafitec.responsable', 'responsable')
+	responsable_id = fields.One2many('trafitec.responsable','responsable', string='id responsable' )
 	#TODO HABLAR CON EL CONSULTOR LINEA 130
 	#municipio = fields.Many2one(string='Municipio', store=True, related='localidad.zip_sat_code.township_sat_code')
 	# FIN MODIFICACION RECIENTE ALTA DE UBICACIONES
@@ -229,7 +229,7 @@ class trafitec_respartner(models.Model):
 	_inherit = 'res.partner'
 	# Clientes
 	status = fields.Char(string="Status")
-	nueva_clasificacion = fields.Many2one(string="Clasificación")
+	nueva_clasificacion = fields.Many2one(string="Nuevo clasificación")
 	aseguradora = fields.Boolean(string="Es aseguradorados")
 	excedente_merma = fields.Selection(
 		[('No cobrar', 'No cobrar'), ('Porcentaje: Cobrar diferencia', 'Porcentaje: Cobrar diferencia'),
@@ -264,7 +264,7 @@ class trafitec_respartner(models.Model):
 	bloqueado_cliente_clasificacion_id = fields.Many2one(string='Motivo de bloqueo', comodel_name='trafitec.clasificacionesg', default=False, help='Clasificación del bloqueo.')
 	
 
-	name_license_driver = fields.Char(string="Licencia",
+	name_license_driver = fields.Char(string="Nombre Licencia",
 									compute='change_name')
 	ext_license_driver = fields.Char()
 	license_driver = fields.Binary(string='Licencia')
@@ -468,7 +468,7 @@ and f.partner_id={}
 	crm_trafico_info = fields.Text(string='Info', compute=_compute_crm_trafico_info, default='--')
 	crm_trafico_ultimo_rechazo_id = fields.Many2one(string="Último rechazo",
 													comodel_name='trafitec.crm.trafico.registro')
-	crm_trafico_ultimos_registros_info1 = fields.Text(string="Último registros",
+	crm_trafico_ultimos_registros_info1 = fields.Text(string="Últimos registros",
 													compute=_compute_crm_ultimosregistros_info1)
 	crm_trafico_ultimos_registros_info2 = fields.Text(string="Último registros",
 													compute=_compute_crm_ultimosregistros_info2)
@@ -769,7 +769,7 @@ class trafitec_asociados(models.Model):
 	calificacion = fields.Selection(
 		[('A-Administración total', 'A-Administración total'), ('B-Alianza estrategica', 'B-Alianza estrategica'),
 		('C-Asociado normal', 'C-Asociado normal'), ('D-No son asociados', 'D-No son asociados')],
-		string='Clasificación')
+		string='Calificación')
 	info_completa = fields.Boolean(string='Información completa')
 	doc_completa = fields.Boolean(string='Documentación completa')
 	validado = fields.Boolean(string='Validado')
@@ -894,7 +894,7 @@ class trafitec_vehiculos(models.Model):
 	_inherit = 'fleet.vehicle'
 	_order = 'id desc'
 
-	color_vehicle = fields.Char(string='Color')
+	color_vehicle = fields.Char(string='Color Vehiculo')
 	ejes_tracktocamion = fields.Selection([('C2', 'C2'), ('C3', 'C3'), ('T3', 'T3'), ('S2', 'S2'), ('S3', 'S3') ,('S2-R4', 'S2-R4') ], string='Tipo de Eje')
 	tiposervicio = fields.Selection([('Estatal', 'Estatal'), ('Federal', 'Federal')], string='Tipo de servicio')
 	asociado_id = fields.Many2one('res.partner',
@@ -914,22 +914,22 @@ class trafitec_vehiculos(models.Model):
 									domain=[('tipo', '=', 'remolque')])
 
 	#Cambios
-	vehicle_model = fields.Char(string='Marca y modelo')
+	vehicle_model = fields.Char(string='Marca y modelo vehiculo')
 	modelo = fields.Char(string='Marca y modelo')
 	numero_economico = fields.Char(string='Número Economico')
 	tipo_vehiculo = fields.Selection([("tractocamion", "Tractocamion"), ("remolque", "Remolque"), ("dolly", "Dolly")],string='Tipo de vehículo')
-	nombre_circulacion = fields.Char(string='Tarjeta de circulación', compute='change_name_vehicle_documents')
+	nombre_circulacion = fields.Char(string='Nombre tarjeta de circulación', compute='change_name_vehicle_documents')
 	ext_circulacion = fields.Char(string='Extension archivo ciculacion')
 	circulacion = fields.Binary(string='Tarjeta de circulación')
-	nombre_poliza_seguro = fields.Char(string='Poliza del seguro', compute='change_name_vehicle_documents')
+	nombre_poliza_seguro = fields.Char(string='Nombre poliza del seguro', compute='change_name_vehicle_documents')
 	ext_poliza_seguro = fields.Char(string='extension archivo Poliza del seguro')
 	poliza_seguro = fields.Binary(string='Poliza del seguro')
 	fecha_poliza = fields.Date(string='Fecha de poliza')
 	fecha_poliza = fields.Date(string='Fecha de vigencia de poliza')
 	nombre_fisio = fields.Char(string='Verificaciones fisiomecanicas', compute='change_name_vehicle_documents')
-	fisio = fields.Binary(string='Verificaciones fisiomecanicas')
-	fisio_fecha = fields.Date(string='Fecha de vigencia de poliza')
-	nombre_ambientales = fields.Char(string='Verificaciones ambientales', compute='change_name_vehicle_documents')
+	fisio = fields.Binary(string='Verificaciones fisio-mecanicas')
+	fisio_fecha = fields.Date(string='Fecha de vigencia de la poliza')
+	nombre_ambientales = fields.Char(string='Nombre verificaciones ambientales', compute='change_name_vehicle_documents')
 	ambientales = fields.Binary(string='Verificaciones ambientales')
 	ambientales_fecha = fields.Char(string='Fecha de vigencia de poliza', compute='change_name_vehicle_documents')
 	model_id = fields.Many2one(required=False)
@@ -1131,7 +1131,7 @@ class trafitec_plazas_banxico(models.Model):
 	def _compute_display_name(self):
 		self.display_name = '{} - {}'.format(self.name, self.numero_plaza)
 
-	display_name = fields.Char(string='Nombre', compute='_compute_display_name')
+	display_name = fields.Char(string='Nombres', compute='_compute_display_name')
 
 
 class trafitec_account(models.Model):
@@ -1173,14 +1173,14 @@ class trafitec_parametros(models.Model):
 	retencion = fields.Many2one('account.tax', string='Porcentaje de retencion', required=True)
 	pronto_pago = fields.Float(string='Porcentaje pronto pago', required=True)
 	journal_id_invoice = fields.Many2one('account.journal', string='Diario', required=True)
-	account_id_invoice = fields.Many2one('account.account', string='Plan contable', required=True)
-	product_invoice = fields.Many2one('product.product', string='Producto', required=True)
+	account_id_invoice = fields.Many2one('account.account', string='Planes contable', required=True)
+	product_invoice = fields.Many2one('product.product', string='Productos', required=True)
 
 	# diario = vals.env['account.journal'].search([('name', '=', 'Proveedores Transportistas')])  # Diario.
 	# plancontable = vals.env['account.account'].search([('name', '=', 'Proveedores Transportistas')])  # Plan contable.
 	# configuracion_trafitec = vals.env['trafitec.parametros'].search(
 	#	[('company_id', '=', vals.company_id.id)])  # Plan contable.
-	cr_diario_id = fields.Many2one(comodel_name='account.journal', string='Diario', required=True)
+	cr_diario_id = fields.Many2one(comodel_name='account.journal', string='Diario contable', required=True)
 	cr_plancontable_id = fields.Many2one(comodel_name='account.account', string='Plan contable', required=True)
 	cr_moneda_id = fields.Many2one(comodel_name='res.currency', string='Moneda predeterminada',
 								required=True)  # Moneda predeterminada para nuevo contra recibos.
@@ -1197,7 +1197,7 @@ class trafitec_parametros(models.Model):
 	metodo_pago_id = fields.Many2one('sat.metodo.pago', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
 									required=True)
 
-	cot_producto_id = fields.Many2one(string="Producto", comodel_name="product.product",
+	cot_producto_id = fields.Many2one(string="id Producto", comodel_name="product.product",
 										help="Producto que se utilizara para crear las ordenes de venta a partir de la cotización de trafitec.")
 
 	cot_envio_avance_pruebas_st = fields.Boolean(string='Pruebas', default=True,
@@ -1303,7 +1303,7 @@ class cancelacion_cuentas(models.Model):
 	fecha = fields.Date(string='Fecha', required=True, default=datetime.datetime.today(), tracking=True)
 	moneda_id = fields.Many2one(string='Moneda', comodel_name='res.currency', required=True,
 								tracking=True)
-	total = fields.Monetary(string='Total', currency_field='moneda_id', required=True, default=0,
+	total = fields.Monetary(string='Suma', currency_field='moneda_id', required=True, default=0,
 							tracking=True)
 	total_txt = fields.Char(string='Total en texto', default='')
 	total_txt_ver = fields.Char(string='Cantidad con letra', related='total_txt')

@@ -92,20 +92,20 @@
             <field name="name">sli.seguimiento.registro.search</field>
             <field name="model">sli.seguimiento.registro</field>
             <field name="arch" type="xml">
-						  <search>
-								 <field name="id" string="Folio"></field>
-								 <!--field name="name"></field-->
-								 <field name="create_uid" string="Asignado por"></field>
-							   <field name="create_date" string="Fecha de asignación"></field>
+							<search>
+									<field name="id" string="Folio"></field>
+									<!--field name="name"></field-->
+									<field name="create_uid" string="Asignado por"></field>
+								<field name="create_date" string="Fecha de asignación"></field>
 
-							   <field name="para_usuario_id"></field>
-							   <field name="viaje_id"></field>
-							   <field name="contrarecibo_id"></field>
-							   <field name="factura_id"></field>
-							   <field name="tipo"></field>
-							   <field name="clasificacion_id"></field>
-							   <field name="detalles"></field>
-						  </search>
+								<field name="para_usuario_id"></field>
+								<field name="viaje_id"></field>
+								<field name="contrarecibo_id"></field>
+								<field name="factura_id"></field>
+								<field name="tipo"></field>
+								<field name="clasificacion_id"></field>
+								<field name="detalles"></field>
+							</search>
             </field>
 	</record>
 

@@ -242,8 +242,7 @@
                                         <field name="tipo_lineanegocio" invisible="0" readonly="1" string="Línea de negocio"/>
 
                                         <field name="x_folio_trafitecw" invisible="1" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
-                                        <field name="sucursal_id"  invisible="1" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': ['|','|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
-
+                                        <field name="sucursal_id"  invisible="1" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': ['|',('state', 'in', ('Cancelado','Siniestrado')),'&amp;',('en_contrarecibo', '=', True),('en_factura', '=', True)]}"/>
                                         <field name="motivo_siniestrado" attrs="{'invisible': [('state', 'in', ('Cancelado','Nueva'))]}" readonly="1"/>
                                         <field name="motivo_cancelacion" attrs="{'invisible': [('state', 'in', ('Nueva','Siniestrado'))]}" readonly="1"/>
                                         <field name="fecha_cambio_estado" attrs="{'invisible': [('state', 'in', ('Nueva'))]}" readonly="1"/>

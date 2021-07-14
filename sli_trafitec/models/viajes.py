@@ -85,7 +85,7 @@ class trafitec_viajes(models.Model):
     cliente_id = fields.Many2one('res.partner', string='Cliente', required=True,
                                 domain="[('company_type','in',['company','person']),('customer','=',True)]")
     referencia_cliente = fields.Char(string="Referencia Viaje Cliente")
-    referencia_fletex = fields.Char(string="Referencia Viaje Cliente")
+    referencia_fletex = fields.Char(string="Referencia Viaje")
     referencia_asociado = fields.Char(string="Referencia Viaje Asociado")
     origen = fields.Many2one(related='linea_id.cotizacion_id.origen_id', string='Ubicación origen', store=True, required=True, readonly=True)
     destino = fields.Many2one(related='linea_id.cotizacion_id.destino_id', string='Ubicación destino', store=True, required=True, readonly=True)
@@ -795,7 +795,7 @@ class trafitec_viajes(models.Model):
 
     tipo_remolque = fields.Many2one('trafitec.moviles', string='Tipo de remolque',
                                     domain="['|',('lineanegocio','=',lineanegocio),('lineanegocio','=',False)]")
-    nombre_remolque = fields.Selection(string="Tipo",
+    nombre_remolque = fields.Selection(string="Nombre remolque",
                                         related='tipo_remolque.tipo')
     capacidad = fields.Float(string="Capacidad", related='tipo_remolque.capacidad', readonly=True, store=True)
     tipo = fields.Selection(string="Tipo", related='tipo_remolque.tipo',
@@ -918,7 +918,7 @@ class trafitec_viajes(models.Model):
                                 ('Cobrar cantidad especifica', 'Cobrar cantidad específica')], string='Comisión',
                                 default='Cobrar en contra-recibo', required=True, tracking=True)
     motivo = fields.Text(string='Motivo sin comisión', tracking=True)
-    porcent_comision = fields.Float(string='Porcentaje de comisión')
+    porcent_comision = fields.Float(string='Porcentaje comisión')
     cant_especifica = fields.Float(string='Cobrar cantidad específica')
     peso_autorizado = fields.Float(string='Peso autorizado (Kg)', required=True, help='Peso autorizado en toneladas.')
     tipo_viaje = fields.Selection([('Normal', 'Normal'), ('Directo', 'Directo'), ('Cobro destino', 'Cobro destino')],
@@ -1088,19 +1088,19 @@ class trafitec_viajes(models.Model):
 
             
 
-    peso_origen_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso origen del remolque 1 en kilogramos.', tracking=True)
-    peso_origen_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso origen del remolque 2 en kilogramos.', tracking=True)
-    peso_destino_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso destino del remolque 1 en kilogramos.', tracking=True)
-    peso_destino_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso destino del remolque 2 en kilogramos.', tracking=True)
-    peso_convenido_remolque_1 = fields.Float(string='Peso remolque 1 Kg', help='Peso convenido del remolque 1 en kilogramos.', tracking=True)
-    peso_convenido_remolque_2 = fields.Float(string='Peso remolque 2 Kg', help='Peso convenido del remolque 2 en kilogramos.', tracking=True)
+    peso_origen_remolque_1 = fields.Float(string='Peso remolque origen 1 Kg', help='Peso origen del remolque 1 en kilogramos.', tracking=True)
+    peso_origen_remolque_2 = fields.Float(string='Peso remolque origen 2 Kg', help='Peso origen del remolque 2 en kilogramos.', tracking=True)
+    peso_destino_remolque_1 = fields.Float(string='Peso remolque destino 1 Kg', help='Peso destino del remolque 1 en kilogramos.', tracking=True)
+    peso_destino_remolque_2 = fields.Float(string='Peso remolque destino 2 Kg', help='Peso destino del remolque 2 en kilogramos.', tracking=True)
+    peso_convenido_remolque_1 = fields.Float(string='Peso remolque convenido 1 Kg', help='Peso convenido del remolque 1 en kilogramos.', tracking=True)
+    peso_convenido_remolque_2 = fields.Float(string='Peso remolque convenido 2 Kg', help='Peso convenido del remolque 2 en kilogramos.', tracking=True)
 
-    peso_origen_remolque_1_ver = fields.Float(string='Peso remolque 1 Kg', related='peso_origen_remolque_1', readonly=True)
-    peso_origen_remolque_2_ver = fields.Float(string='Peso remolque 2 Kg', related='peso_origen_remolque_2', readonly=True)
-    peso_destino_remolque_1_ver = fields.Float(string='Peso remolque 1 Kg', related='peso_destino_remolque_1', readonly=True)
-    peso_destino_remolque_2_ver = fields.Float(string='Peso remolque 2 Kg', related='peso_destino_remolque_2', readonly=True)
-    peso_convenido_remolque_1_ver = fields.Float(string='Peso remolque 1 Kg', related='peso_convenido_remolque_1', readonly=True)
-    peso_convenido_remolque_2_ver = fields.Float(string='Peso remolque 2 Kg', related='peso_convenido_remolque_2', readonly=True)
+    peso_origen_remolque_1_ver = fields.Float(string='Peso origen remolque 1 Kg', related='peso_origen_remolque_1', readonly=True)
+    peso_origen_remolque_2_ver = fields.Float(string='Peso origen remolque 2 Kg', related='peso_origen_remolque_2', readonly=True)
+    peso_destino_remolque_1_ver = fields.Float(string='Peso destino remolque 1 Kg', related='peso_destino_remolque_1', readonly=True)
+    peso_destino_remolque_2_ver = fields.Float(string='Peso destino remolque 2 Kg', related='peso_destino_remolque_2', readonly=True)
+    peso_convenido_remolque_1_ver = fields.Float(string='Peso convenidoremolque 1 Kg', related='peso_convenido_remolque_1', readonly=True)
+    peso_convenido_remolque_2_ver = fields.Float(string='Peso convenido remolque 2 Kg', related='peso_convenido_remolque_2', readonly=True)
 
 
     

@@ -39,7 +39,7 @@ class trafitec_cotizacion(models.Model):
     fumigada = fields.Boolean(string="Fumigada")
     limpia = fields.Boolean(string="Limpia")
     otro = fields.Boolean(string="Otro")
-    otro_texto = fields.Char(string="Otro")
+    otro_texto = fields.Char(string="Otro texto")
     camisa = fields.Selection([("false", "No aplica"), ("corta", "Manga corta"), ("larga", "Manga Larga")], default='false')
     tipo_camion =  fields.One2many('trafitec.type_truck', 'tipo_camion')
     material_especial = fields.Char(string="Material Especial")
@@ -49,7 +49,7 @@ class trafitec_cotizacion(models.Model):
     lentes_seguridad = fields.Boolean(string="Lentes de seguridad")
     casco = fields.Boolean(string="Casco")
     cubre_bocas = fields.Boolean(string="Cubre bocas")
-    otro_operador = fields.Char(string="Otro")
+    otro_operador = fields.Char(string="Otro operador")
     sua = fields.Selection([("No", "No"), ("Si", "Si")])
     currency_id = fields.Many2one("res.currency", string="Moneda")
     factor_seguro = fields.Float(string="Factor de seguro", digits=(16, 3), default=0.004)
@@ -1206,7 +1206,7 @@ class trafitec_cotizaciones_evidencias(models.Model):
 class trafitec_saleorder(models.Model):
     _inherit = 'sale.order'
     trafitec_cotizacion_id = fields.Many2one(string='Cotización trafitec', comodel_name='trafitec.cotizacion')
-    trafitec_cotizacion_txt = fields.Char(string='Cotización trafitec', related='trafitec_cotizacion_id.name', readonly=True, store=True)
+    trafitec_cotizacion_txt = fields.Char(string='Cotizacion trafitec', related='trafitec_cotizacion_id.name', readonly=True, store=True)
     
     def action_cancel(self):
         contexto = self._context

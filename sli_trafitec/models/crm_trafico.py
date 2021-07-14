@@ -472,7 +472,7 @@ class trafitec_crm_trafico_registro(models.Model):
     motivo_rechazo_id = fields.Many2one(string='Motivo de rechazo', comodel_name='trafitec.clasificacionesg',
                                         tracking=True)
     tarifa = fields.Float(string='Tarifa', default=0)
-    state = fields.Selection(string='Estado',
+    state = fields.Selection(string='Estado cotizacion',
                                 selection=[('nuevo', 'Nuevo'), ('aceptado', 'Aceptado'), ('rechazado', 'Rechazado')],
                                 default='nuevo', tracking=True, required=True)
 
