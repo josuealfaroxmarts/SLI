@@ -1575,40 +1575,40 @@ class trafitec_contrarecibo(models.Model):
     #----------------------------------------------------------------------------------------------------------------------------------------------
     #despues
     mermas_bol = fields.Boolean(string='Merma', default=False, tracking=True)
-    mermas_des = fields.Float(string='-Merma', store=False, compute='_compute_mermas_despues')
+    mermas_des = fields.Float(string='Descuento de merma', store=False, compute='_compute_mermas_despues')
     mermas_des_ver = fields.Float(string='-Merma', related='mermas_des')
-    mermasx_des = fields.Float(string='-Merma', store=True)
+    mermasx_des = fields.Float(store=True)
 
-    mermas_antes = fields.Float(string='-Merma', store=False, compute='_compute_mermas_antes')
-    mermas_antes_ver = fields.Float(string='-Merma', related='mermas_antes')
-    mermasx_antes = fields.Float(string='-Merma', store=True)
+    mermas_antes = fields.Float(store=False, compute='_compute_mermas_antes')
+    mermas_antes_ver = fields.Float(string='Merma antes', related='mermas_antes')
+    mermasx_antes = fields.Float(store=True)
 
     descuento_bol = fields.Boolean(string='Descuento', default=False, tracking=True)
-    descuento_des = fields.Float(string='-Descuento', store=False, compute='_check_descuentos')
+    descuento_des = fields.Float(string='Descuentos', store=False, compute='_check_descuentos')
     descuento_des_ver = fields.Float(string='-Descuento', related='descuento_des')
-    descuentox_des = fields.Float(string='-Descuento_', store=True)
+    descuentox_des = fields.Float(store=True)
 
-    descuento_antes = fields.Float(string='-Descuento', store=False, compute='_check_descuentos')
+    descuento_antes = fields.Float(string='Descuento', store=False, compute='_check_descuentos')
     descuento_antes_ver = fields.Float(string='-Descuento', related='descuento_antes')
-    descuentox_antes = fields.Float(string='-Descuento_', store=True)
+    descuentox_antes = fields.Float(store=True)
 
     comision_bol = fields.Boolean(string='Comision', default=False, tracking=True)
-    comision_des = fields.Float(string='-Comision', store=False, compute='_check_comisiones')
+    comision_des = fields.Float(string='-Comisiones', store=False, compute='_check_comisiones')
     comision_des_ver = fields.Float(string='-Comision', related='comision_des')
-    comisionx_des = fields.Float(string='-Comision_', store=True)
+    comisionx_des = fields.Float(store=True)
 
     comisiones_antes = fields.Float(string='-Comisiones', store=False, compute='_check_comisiones')
-    comisiones_antes_ver = fields.Float(string='-Comisiones', related='comisiones_antes')
+    comisiones_antes_ver = fields.Float(string='- Comisiones', related='comisiones_antes')
     comisionesx_antes = fields.Float(string='-Comisiones_', store=True)
 
     prontopago_bol = fields.Boolean(string='Pronto pago', default=False, tracking=True)
-    prontopago_des = fields.Float(string='-Pronto pago', store=False, compute='_compute_prontopago')
+    prontopago_des = fields.Float(string='- Pronto pago', store=False, compute='_compute_prontopago')
     prontopago_des_ver = fields.Float(string='-Pronto pago', related='prontopago_des')
     prontopagox_des = fields.Float(string='-Pronto pago_', store=True)
 
     prontopago_antes = fields.Float(string='-Pronto pago', store=False, compute='_compute_prontopago')
-    prontopago_antes_ver = fields.Float(string='-Pronto pago', related='prontopago_antes')
-    prontopagox_antes = fields.Float(string='-Pronto pago_', store=True)
+    prontopago_antes_ver = fields.Float(string='- Pronto pago', related='prontopago_antes')
+    prontopagox_antes = fields.Float(string='- Pronto pago_', store=True)
 
 
     #CR Totales
@@ -1618,10 +1618,10 @@ class trafitec_contrarecibo(models.Model):
     r_iva_g = fields.Float(string='RIVA', store=True, compute='_compute_r_iva_g')
     total_g = fields.Float(string='Total', store=True, compute='_compute_total_g')
 
-    subtotal_g_ver = fields.Float(string='Subtotal', related="subtotal_g", readonly=True)
-    iva_g_ver = fields.Float(string='IVA', related="iva_g", readonly=True)
-    r_iva_g_ver = fields.Float(string='RIVA', related="r_iva_g", readonly=True)
-    total_g_ver = fields.Float(string='Total', related="total_g", readonly=True)
+    subtotal_g_ver = fields.Float(string='Subtotal ', related="subtotal_g", readonly=True)
+    iva_g_ver = fields.Float(string='IVA ', related="iva_g", readonly=True)
+    r_iva_g_ver = fields.Float(string='RIVA ', related="r_iva_g", readonly=True)
+    total_g_ver = fields.Float(string='Total ', related="total_g", readonly=True)
 
     subtotalx = fields.Float(string='Subtotal_', store=True)
     subtotalx_sm = fields.Float(string='Subtotal sm_', store=True)
@@ -1644,7 +1644,7 @@ class trafitec_contrarecibo(models.Model):
 
     carta_porte = fields.Boolean(string='Carta porte')
     cfd = fields.Boolean(string='CFD')
-    iva = fields.Float(string='IVA', compute='_compute_iva_carta')
+    iva = fields.Float(string='IVA ', compute='_compute_iva_carta')
 
     #Relaciones de descientos y comisiones relacionadas con el contra recibo
     descuento_id = fields.One2many(comodel_name="trafitec.con.descuentos", inverse_name="linea_id")
