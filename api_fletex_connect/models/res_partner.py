@@ -44,7 +44,7 @@ class fletex_respartner(models.Model):
     id_representative = fields.Binary(string="Identificacion del representante")
     id_approved = fields.Boolean(string='Identificacion aprobada')
     rfc_representative = fields.Char(string="RFC del representante")
-    rfc_representative_drop = fields.Binary(string="RFC del representante")
+    rfc_representative_drop = fields.Binary(string="RFC del representante ")
     rfc_representative_drop_approved = fields.Boolean(string='RFC representante Aprobado')
     name_rfc_representative_drop = fields.Char(compute='change_name')
     ext_representative_drop = fields.Char(string="RFC del representante")

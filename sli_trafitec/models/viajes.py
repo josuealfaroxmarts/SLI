@@ -1328,7 +1328,7 @@ class trafitec_viajes(models.Model):
         else:
             self.diferencia_porcentaje = 0
 
-    diferencia_porcentaje = fields.Float(string='diferencia_porcentaje kg', compute='_compute_diferencia_porcentaje',
+    diferencia_porcentaje = fields.Float(string='diferencia_porcentaje', compute='_compute_diferencia_porcentaje',
                                         readonly=True)
 
     @api.onchange('merma_kg', 'cliente_id')
