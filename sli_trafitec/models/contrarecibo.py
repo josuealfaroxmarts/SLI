@@ -1616,7 +1616,7 @@ class trafitec_contrarecibo(models.Model):
     subtotal_gSM = fields.Float(string='Subtotal SM (Sin maniobras)', store=True, compute='_compute_subtotalSM')
     iva_g = fields.Float(string='IVA', store=True, readonly=True, compute='_compute_iva_g')
     r_iva_g = fields.Float(string='RIVA', store=True, compute='_compute_r_iva_g')
-    total_g = fields.Float(string='Total', store=True, compute='_compute_total_g')
+    total_g = fields.Float( store=True, compute='_compute_total_g')
 
     subtotal_g_ver = fields.Float(string='Subtotal ', related="subtotal_g", readonly=True)
     iva_g_ver = fields.Float(string='IVA ', related="iva_g", readonly=True)
