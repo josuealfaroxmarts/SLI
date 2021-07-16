@@ -22,12 +22,16 @@
         </t>
     </template>
 
-    <report id="action_report_cotizacion"
-    string="Formato cotizacion 1"
-    model="trafitec.cotizacion"
-    report_type="qweb-pdf"
-    name="SLI_TrafitecReportesX.report_cotizacion"
-    />
+    <record id="action_report_cotizacion" model="ir.actions.report">
+        <field name="name">Formato cotizacion 1</field>
+        <field name="model">trafitec.cotizacion</field>
+        <field name="binding_model_id" ref="model_trafitec_cotizacion"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">SLI_TrafitecReportesX.report_cotizacion</field>
+        <field name="report_file">SLI_TrafitecReportesX.report_cotizacion</field>
+        <field name="attachment_use">True</field>
+        <field name="binding_view_types">list</field>
+    </record>
 
 
 
@@ -103,12 +107,16 @@
      </t><!--t-foreach-->
     </template>
 
-    <report id="action_report_viaje"
-    string="Formato viaje 1"
-    model="trafitec.viajes"
-    report_type="qweb-pdf"
-    name="SLI_TrafitecReportesX.report_viaje"
-    />
+    <record id="action_report_viaje" model="ir.actions.report">
+        <field name="name">Formato viaje 1</field>
+        <field name="model">trafitec.viajes</field>
+        <field name="binding_model_id" ref="model_trafitec_viajes"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">SLI_TrafitecReportesX.report_viaje</field>
+        <field name="report_file">SLI_TrafitecReportesX.report_viaje</field>
+        <field name="attachment_use">True</field>
+        <field name="binding_view_types">list</field>
+    </record>
 
 
 </odoo>

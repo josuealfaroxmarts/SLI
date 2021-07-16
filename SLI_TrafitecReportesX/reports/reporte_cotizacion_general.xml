@@ -166,12 +166,16 @@
      </t><!--t-foreach-->
     </template>
 
-    <report id="action_report_cotizacion_general"
-    string="Cotización Formato General"
-    model="trafitec.cotizacion"
-    report_type="qweb-pdf"
-    name="SLI_TrafitecReportesX.report_cotizacion_general"
-    />
+    <record id="action_report_cotizacion_general" model="ir.actions.report">
+      <field name="name">Cotización Formato General</field>
+      <field name="model">trafitec.cotizacion</field>
+      <field name="binding_model_id" ref="model_trafitec_cotizacion"/>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">SLI_TrafitecReportesX.report_cotizacion_general</field>
+      <field name="report_file">SLI_TrafitecReportesX.report_cotizacion_general</field>
+      <field name="attachment_use">True</field>
+      <field name="binding_view_types">list</field>
+    </record>
 
 
 </odoo>

@@ -682,12 +682,16 @@
 <!--FIN DE PLANTILLA XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
 </template>
 
-    <report id="action_report_factura_general"
-    string="Factura general"
-    model="account.invoice"
-    report_type="qweb-pdf"
-    name="SLI_TrafitecReportesX.report_factura_general"
-    />
+    <record id="action_report_factura_general" model="ir.actions.report">
+      <field name="name">Factura general</field>
+      <field name="model">account.invoice</field>
+      <field name="binding_model_id" ref="model_account_invoice"/>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">SLI_TrafitecReportesX.report_factura_general</field>
+      <field name="report_file">SLI_TrafitecReportesX.report_factura_general</field>
+      <field name="attachment_use">True</field>
+      <field name="binding_view_types">list</field>
+    </record>
 
 
 </odoo>

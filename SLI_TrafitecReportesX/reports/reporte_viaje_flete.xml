@@ -92,12 +92,16 @@
      </t><!--t-foreach-->
     </template>
 
-    <report id="action_report_viaje_flete"
-    string="Orden de carga Formato Flete"
-    model="trafitec.viajes"
-    report_type="qweb-pdf"
-    name="SLI_TrafitecReportesX.report_viaje_flete"
-    />
+    <record id="action_report_viaje_flete" model="ir.actions.report">
+      <field name="name">Orden de carga Formato Flete</field>
+      <field name="model">trafitec.viajes</field>
+      <field name="binding_model_id" ref="model_trafitec_viajes"/>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">SLI_TrafitecReportesX.report_viaje_flete</field>
+      <field name="report_file">SLI_TrafitecReportesX.report_viaje_flete</field>
+      <field name="attachment_use">True</field>
+      <field name="binding_view_types">list</field>
+    </record>
 
 
 </odoo>

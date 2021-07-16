@@ -47,11 +47,15 @@
        </t>
     </template>
 
-    <report id="reporte_venta_vendedor_action"
-    string="Ventas por vendedor"
-    model="trafitec.reportes.parametros"
-    report_type="qweb-pdf"
-    name="SLI_TrafitecReportesX.reporte_venta_vendedor"
-    />
+    <record id="reporte_venta_vendedor_action" model="ir.actions.report">
+      <field name="name">Ventas por vendedor</field>
+      <field name="model">trafitec.reportes.parametros</field>
+      <field name="binding_model_id" ref="model_trafitec_reportes_parametros"/>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">SLI_TrafitecReportesX.reporte_venta_vendedor</field>
+      <field name="report_file">SLI_TrafitecReportesX.reporte_venta_vendedor</field>
+      <field name="attachment_use">True</field>
+      <field name="binding_view_types">list</field>
+    </record>
    
 </odoo>

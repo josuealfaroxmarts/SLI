@@ -87,12 +87,16 @@
      </t><!--t-foreach-->
     </template>
 
-    <report id="action_report_viaje_cartaporte"
-    string="Orden de carga Formato Carta porte"
-    model="trafitec.viajes"
-    report_type="qweb-pdf"
-    name="SLI_TrafitecReportesX.report_viaje_cartaporte"
-    />
+    <record id="action_report_viaje_cartaporte" model="ir.actions.report">
+      <field name="name">Orden de carga Formato Carta porte</field>
+      <field name="model">trafitec.viajes</field>
+      <field name="binding_model_id" ref="model_trafitec_viajes"/>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">SLI_TrafitecReportesX.report_viaje_cartaporte</field>
+      <field name="report_file">SLI_TrafitecReportesX.report_viaje_cartaporte</field>
+      <field name="attachment_use">True</field>
+      <field name="binding_view_types">list</field>
+    </record>
 
 
 </odoo>
