@@ -1542,7 +1542,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	def _compute_total(self):
 		self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
 
-	total_g = fields.Monetary(string='Total', compute='_compute_total')
+	total_g = fields.Monetary(string='Total ', compute='_compute_total')
 
 	@api.model
 	def create(self, vals):

@@ -228,7 +228,7 @@ class trafitec_tipocargosadicionales(models.Model):
 class trafitec_respartner(models.Model):
 	_inherit = 'res.partner'
 	# Clientes
-	status = fields.Char(string="Status")
+	status = fields.Char(string="status ")
 	nueva_clasificacion = fields.Many2one(string="Nueva clasificación")
 	aseguradora = fields.Boolean(string="Es aseguradorados")
 	excedente_merma = fields.Selection(
@@ -931,7 +931,7 @@ class trafitec_vehiculos(models.Model):
 	fisio_fecha = fields.Date(string='Fecha de vigencia de la poliza')
 	nombre_ambientales = fields.Char(string='Nombre verificaciones ambientales', compute='change_name_vehicle_documents')
 	ambientales = fields.Binary(string='Verificaciones ambientales')
-	ambientales_fecha = fields.Char(string='Fecha de vigencia de poliza', compute='change_name_vehicle_documents')
+	ambientales_fecha = fields.Char(string='Fecha de vigencia poliza', compute='change_name_vehicle_documents')
 	model_id = fields.Many2one(required=False)
 
 	def change_name_vehicle_documents(self):
@@ -1673,8 +1673,8 @@ class trafitec_pagosmasivos(models.Model):
 
 	total = fields.Monetary(string='Total', default=0, currency_field='moneda_id', required=True,
 							tracking=True)
-	total_txt = fields.Char(string='Total', default='')
-	total_txt_ver = fields.Char(string='Total', related='total_txt', default='')
+	total_txt = fields.Char(string='Total texto cantidad', default='')
+	total_txt_ver = fields.Char(string='Total texto', related='total_txt', default='')
 
 	facturas_id = fields.One2many(string='Facturas', comodel_name='trafitec.pagosmasivos.facturas',
 								inverse_name='pagomasivo_id')

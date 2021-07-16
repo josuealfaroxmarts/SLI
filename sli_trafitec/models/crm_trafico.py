@@ -446,7 +446,7 @@ class trafitec_crm_trafico_registro(models.Model):
     _order = 'id desc'
     _rec_name = 'id'
     asociado_id = fields.Many2one(string='Asociado', comodel_name='res.partner', tracking=True)
-    asociado_id_txt = fields.Char(string='Asociado', related='asociado_id.name', readonly=True)
+    asociado_id_txt = fields.Char(string='Asociado texto', related='asociado_id.name', readonly=True)
 
     detalles = fields.Char(string='Detalles', default='', required=True, tracking=True)
     tipo = fields.Selection(string='Tipo',
@@ -465,7 +465,7 @@ class trafitec_crm_trafico_registro(models.Model):
     seg_modificar = fields.Boolean(string='Permitir modificar', default=True, tracking=True)
     cotizacion_id = fields.Many2one(string='Cotización', comodel_name='trafitec.cotizacion',
                                     tracking=True)
-    cotizacion_id_txt = fields.Char(string='Cotización', related='cotizacion_id.name', readonly=True)
+    cotizacion_id_txt = fields.Char(string='Cotización ', related='cotizacion_id.name', readonly=True)
     viajes_id = fields.One2many(string='Viajes', comodel_name='trafitec.crm.trafico.registro.viajes',
                                 inverse_name='registro_id')
     viajes_n = fields.Integer(string='Número de viajes', compute=_compute_numero_viajes, default=0, store=True)

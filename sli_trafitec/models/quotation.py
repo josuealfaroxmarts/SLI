@@ -71,7 +71,7 @@ class trafitec_cotizacion(models.Model):
     iva = fields.Many2one('account.tax', string='IVAS')
     state = fields.Selection([('Nueva', 'Nueva'), ('Autorizada', 'Autorizada'), ('Enviada', 'Enviada'),
                             ('Disponible', 'Disponible'), ('EnEspera', 'En espera'), ('Cancelada', 'Cancelada'), ('Cerrada', 'Cerrada')],
-                            string='Estado', default='Nueva', tracking=True)
+                            string='Estados', default='Nueva', tracking=True)
     lineas_cotizacion_id = fields.One2many('trafitec.cotizaciones.linea', 'cotizacion_id', tracking=True)
     company_id = fields.Many2one('res.company', 'Company',
                                 default=lambda self: self.env['res.company']._company_default_get(
