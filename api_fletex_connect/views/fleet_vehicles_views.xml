@@ -11,7 +11,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='fecha_poliza']" position="after">
                     <field name="status_vehicle"/>
-                    <field name="send_to_api" invisible="true"/>
+                    <field name="send_to_api" invisible="1"/>
                 </xpath>
             </field>
         </record>
