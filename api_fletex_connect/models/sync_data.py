@@ -33,7 +33,7 @@ class SyncDataFletex(models.Model):
                 'params': {}
             })
 
-        # If the request brings users, the user manager is called
+        # If the request brings users, user manager is called
         if len(users[0]['data']) > 0:
             for user in users[0]['data']:
                 if user['role'] == 'driver':
