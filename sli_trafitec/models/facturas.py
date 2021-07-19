@@ -966,9 +966,9 @@ class trafitec_account_invoice(models.Model):
 
 		#aumentar el saldo de las facturas en el cliente
 
-		saldo = self.partner_id.saldo_facturas + self.amount_total
-		saldo_restante = self.partner_id.limite_credito - saldo
-		self.partner_id.write({'saldo_facturas': saldo, 'limite_credito_fletex': saldo_restante})
+		saldo = self.partner_id.balance_invoices + self.amount_total
+		saldo_restante = self.partner_id.limit_credit - saldo
+		self.partner_id.write({'balance_invoices': saldo, 'limit_credit_fletex': saldo_restante})
 		
 		# --------------------------------------------------------------------------
 		# EVALUAR CREDITO DEL CLIENTE
