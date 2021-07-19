@@ -4,7 +4,6 @@
         <record id="action_report_custom_invoice" model="ir.actions.report">
             <field name="name">Factura personalizada</field>
             <field name="model">account.move</field>
-            <field name="binding_model_id" ref="model_account_move"/>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">sli_custom_invoice.report_custom_invoice</field>
             <field name="report_file">sli_custom_invoice.report_custom_invoice</field>

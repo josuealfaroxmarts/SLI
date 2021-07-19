@@ -214,7 +214,6 @@
 	<record id="report_purchases" model="ir.actions.report">
 		<field name="name">Cotización / Pedido de compra</field>
 		<field name="model">purchase.order</field>
-		<field name="binding_model_id" ref="model_account_move"/>
 		<field name="report_type">qweb-pdf</field>
 		<field name="report_name">sli_financial_report.report_purchase</field>
 		<field name="report_file">sli_financial_report.report_purchase</field>

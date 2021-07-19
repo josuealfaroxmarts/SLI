@@ -115,7 +115,6 @@
    <record id="action_report_viaje_contenedor" model="ir.actions.report">
       <field name="name">Orden de carga Formato Contenedor</field>
       <field name="model">trafitec.viajes</field>
-      <field name="binding_model_id" ref="model_trafitec_viajes"/>
       <field name="report_type">qweb-pdf</field>
       <field name="report_name">SLI_TrafitecReportesX.report_viaje_contenedor</field>
       <field name="report_file">SLI_TrafitecReportesX.report_viaje_contenedor</field>

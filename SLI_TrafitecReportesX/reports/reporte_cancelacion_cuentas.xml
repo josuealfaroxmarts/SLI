@@ -102,7 +102,6 @@
     <record id="action_report_cancelacioncuentas" model="ir.actions.report">
       <field name="name">Formato de Cancelación de cuentas</field>
       <field name="model"></field>
-      <field name="binding_model_id" ref="model_trafitec_cancelacioncuentas"/>
       <field name="report_type">qweb-pdf</field>
       <field name="report_name">SLI_TrafitecReportesX.report_cancelacioncuentas</field>
       <field name="report_file">SLI_TrafitecReportesX.report_cancelacioncuentasal</field>

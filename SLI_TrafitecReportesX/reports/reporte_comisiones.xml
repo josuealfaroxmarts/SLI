@@ -93,7 +93,6 @@
     <record id="action_report_cancelacioncuentas" model="ir.actions.report">
       <field name="name">Comisiones Formato general</field>
       <field name="model">trafitec.cargos</field>
-      <field name="binding_model_id" ref="model_trafitec_cargos"/>
       <field name="report_type">qweb-pdf</field>
       <field name="report_name">SLI_TrafitecReportesX.report_comisiones</field>
       <field name="report_file">SLI_TrafitecReportesX.report_comisiones</field>

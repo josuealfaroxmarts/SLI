@@ -105,7 +105,6 @@
     <record id="action_report_pagos_masivos" model="ir.actions.report">
       <field name="name">Formato de Pago masivo</field>
       <field name="model">trafitec.pagosmasivos</field>
-      <field name="binding_model_id" ref="model_trafitec_pagosmasivos"/>
       <field name="report_type">qweb-pdf</field>
       <field name="report_name">SLI_TrafitecReportesX.report_pagos_masivos</field>
       <field name="report_file">SLI_TrafitecReportesX.report_pagos_masivos</field>
