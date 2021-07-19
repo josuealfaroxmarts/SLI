@@ -181,7 +181,7 @@ class SyncDataFletex(models.Model):
                         if user['role'] == "client"
                         else False),
             'phone_representative': user['legal_representative']['phone'],
-            'image': user['profile_pic'],
+            'image_1920': user['profile_pic'],
             'name': "{} {}".format(user['account_name'], user['account_last_name'])
             if user['account_type'] != "moral"
             else "{}".format(user['social_reason']),
