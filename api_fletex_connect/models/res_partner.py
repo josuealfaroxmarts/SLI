@@ -77,10 +77,6 @@ class fletex_respartner(models.Model):
     limit_credit_fletex = fields.Float('Limite de credito en Fletex')
     balance_invoices = fields.Float('Saldo en facturas')
 
-    #deleted
-    saldo_facturas = fields.Float('dasd')
-    limit_credit = fields.Float('Limite de credito en Fletex')
-    limit_credit_fletex = fields.Float('Limite de credito en Fletex')
 
     @api.depends('name')
     def change_name(self):

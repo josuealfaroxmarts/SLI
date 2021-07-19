@@ -1077,13 +1077,3 @@ class SyncDataFletex(models.Model):
         }
 
         self.env['info.sync.fletex'].create(vals)
-
-    def run_revision_due_invoices(self, id=None):
-        domain = [('date_due', '=', fields.Date.today()),
-                  ('state', '=', 'open'), ('partner_id.customer', '=', True)]
-        for invoice in self.search(domain):
-            saldo = invoice.partner_id.saldo_facturas + invoice.amount_total
-            saldo_restante = invoice.partner_id.limite_credito - saldo
-            invoice.partner_id.write({
-                'saldo_facturas': saldo,
-                'limite_credito_fletex': saldo_restante})
