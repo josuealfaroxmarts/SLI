@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from requests.sessions import default_headers
-from odoo import models, fields, api
-from odoo.exceptions import UserError
+from openerp import models, fields, api, _
+from openerp.exceptions import UserError
 
 class FletexFleetVehicle(models.Model):
     _inherit = 'fleet.vehicle'
@@ -14,8 +14,10 @@ class FletexFleetVehicle(models.Model):
                                         ('onhold', 'En Espera')], 
                                         string='Status', 
                                         default='onhold')
+    """ poliza_approved = fields.boolean(string="Poliza aprobada",default=False)
+    circulacion_approved = fields.boolean(string="Tarjeta de circulacion aprobado",default=False) """
 
     @api.onchange('status_vehicle')
     def _change_send_to_api(self):
-        self.send_to_api = False
+        self.send_to_api = True
 

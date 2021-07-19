@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError
+from openerp import models, fields, api, _
+from openerp.exceptions import UserError
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class fletex_respartner(models.Model):
     _inherit = 'res.partner'
@@ -44,7 +47,7 @@ class fletex_respartner(models.Model):
     id_representative = fields.Binary(string="Identificacion del representante")
     id_approved = fields.Boolean(string='Identificacion aprobada')
     rfc_representative = fields.Char(string="RFC del representante")
-    rfc_representative_drop = fields.Binary(string="RFC del representante ")
+    rfc_representative_drop = fields.Binary(string="RFC del representante")
     rfc_representative_drop_approved = fields.Boolean(string='RFC representante Aprobado')
     name_rfc_representative_drop = fields.Char(compute='change_name')
     ext_representative_drop = fields.Char(string="RFC del representante")
@@ -55,7 +58,7 @@ class fletex_respartner(models.Model):
     name_address_representative = fields.Char(compute="change_name")
     ext_address_representative = fields.Char(string="Extension domicilio moral")
     address_representative = fields.Binary(string="Comprobante de domilicio fiscal")
-    address_approved = fields.Boolean(string='Comprobante de domilicio fiscal Aprovado')
+    address_approved = fields.Boolean(string='Comprobante de domilicio fiscal Aprobado')
     name_rfc_bussiness = fields.Char(compute='change_name')
     ext_rfc_bussiness = fields.Char()
     rfc_bussiness = fields.Binary(string="RFC Empresa")
@@ -71,11 +74,18 @@ class fletex_respartner(models.Model):
                                     default='draft')
     status_document = fields.Boolean()
     limit_credit = fields.Float('Limite de credito')
-    limit_credit_fletex = fields.Float('Limite de credito en FLETEX')
+    limit_credit_fletex = fields.Float('Limite de credito en Fletex')
     balance_invoices = fields.Float('Saldo en facturas')
 
+    #deleted
+    saldo_facturas = fields.Float('dasd')
+    limit_credit = fields.Float('Limite de credito en Fletex')
+    limit_credit_fletex = fields.Float('Limite de credito en Fletex')
+
+    @api.depends('name')
+    @api.one
     def change_name(self):
-        if self.name:
+        if self.name :
             self.name_license_driver = "Licencia de {}.{}".format(
                                     self.name, 
                                     self.ext_license_driver)
@@ -125,31 +135,24 @@ class fletex_respartner(models.Model):
         self.status_document = True
 
     def refuse_status(self):
-        self.send_to_api = False
+        self.send_to_api = True
         self.status_user = True
         self.status_record = "refused"
         self.approve_status_email()
 
-
     def approve_status(self):
         if self.status_document:		
-            if self.limit_credit <= 0 and self.customer == True :
+            if self.limit_credit <= 0 and self.customer \
+                and not self.operador :
                 raise UserError(_('Aviso !\n El límite de crédito debe ser mayor a 0.'))
             else :
-                self.send_to_api = False
+                _logger.debug("============================SEND TO API USERS============================>>>")
+                self.send_to_api = True
                 self.status_record = "approved"
                 self.approve_status_email()
         else :
             raise UserError(_('Aviso !\n Debe aprobar los documentos primero.'))
 
-    @api.onchange('status_record')
-    def _verify_limit_credit(self):
-        if self.operador == False:
-            if self.status_record == 'approved' and self.customer == True:
-                if self.limit_credit <= 0:
-                    raise UserError(
-                _('Aviso !\n El limite de credito debe ser mayor a 0.'))
-    	
     @api.onchange('status_record')
     def _verify_limit_credit(self):
         if self.operador == False:
