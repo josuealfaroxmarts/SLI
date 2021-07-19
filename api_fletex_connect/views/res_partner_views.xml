@@ -49,8 +49,8 @@
                                 <field name="rfc_representative_drop" filename="name_rfc_representative_drop"/>
                                 <field name="name_act_representative" invisible="1"/>
                                 <field name="rfc_representative_drop_approved"/>
-                                <field name="act_representative" filename="name_act_representative"/>
-                                <field name="act_approved"/>
+                                <field name="act_representative" filename="name_act_representative" attrs="{'invisible': [('company', '=', 'person')]}"/>
+                                <field name="act_approved" attrs="{'invisible': [('company', '=', 'person')]}"/>
                                 <field name="name_address_representative" invisible="1"/>
                                 <field name="address_representative" filename="name_address_representative"/>
                                 <field name="address_approved"/>
