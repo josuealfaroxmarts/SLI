@@ -188,7 +188,7 @@ class SyncDataFletex(models.Model):
             'legal_representative': "{} {}".format(user['account_name'], user['account_last_name'])
             if user['account_type'] == "moral"
             else "{}".format(user['social_reason']),
-            'company_type2': ("physical_person"
+            'company_type': ("person"
                                 if user['account_type'] != "moral"
                                 else "company"),
             'asociado_operador':  self.env['res.partner'].search([('id_fletex', '=', user['carrier_id'])])
@@ -199,15 +199,11 @@ class SyncDataFletex(models.Model):
             'street': user['street'],
             'l10n_mx_street3': user['ext_num'],
             'l10n_mx_street4': user['int_num'],
-            'zip_sat_id': self.search_record('res.country.zip.sat.code',
-                                            'code',
-                                            user['zip']),
+            'zip': user['zip'],
             'colonia_sat_id': self.search_record('res.colonia.zip.sat.code',
                                                 'name',
                                                 user['neighborhood']),
-            'township_sat_id': self.search_record('res.country.township.sat.code',
-                                                    'name',
-                                                    user['city']),
+            'city': user['city'],
             'state_id': self.search_record('res.country.state',
                                             'name',
                                             user['state']),
