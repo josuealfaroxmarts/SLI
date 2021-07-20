@@ -528,7 +528,7 @@ class SyncDataFletex(models.Model):
                     vehicle['documents']['file_insurance_policy']),
                 'color_vehicle': vehicle['model'],
                 'asociado_id': asociado_id,
-                'ejes_tractocamion': vehicle['tipe_ejes'],
+                'ejes_tracktocamion': vehicle['tipe_ejes'],
                 'es_flotilla': False
             }
 
