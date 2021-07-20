@@ -505,7 +505,7 @@ class SyncDataFletex(models.Model):
                 'id_fletex_trailer': vehicle['vehicle_id']
                 if vehicle['type'] == 'trailer'
                 else None,
-                'image_medium': vehicle['vehicle_picture'],
+                'image_128': vehicle['vehicle_picture'],
                 'model_id': model_id.id,
                 'license_plate': vehicle['license_plate'],
                 'numero_economico': vehicle['economic'],
