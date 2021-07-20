@@ -281,7 +281,7 @@ class SyncDataFletex(models.Model):
         vals = {
             'driver_id_fletex': user['user_id'],
             'operador': True,
-            'image': user['profile_pic'],
+            'image_1920': user['profile_pic'],
             'name': "{} {}".format(user['name'], user['last_name']),
             'asociado_operador': carrier_id['id'],
             'mobile': user['phone'],
