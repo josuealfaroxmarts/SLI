@@ -812,7 +812,7 @@ class trafitec_asociados(models.Model):
 	def _check_constrains(self):
 		if self.company_type != 'person':
 			if self.vat:
-				if len(self.vat) >= 12 and self.vat <= 13 :
+				if len(self.vat) >= 12 and len(self.vat) <= 13 :
 					vat_obj = self.env['res.partner'].search(
 						[('vat', 'ilike', self.vat), ('company_id', '=', self.company_id.id)])
 					if len(vat_obj) > 1:
