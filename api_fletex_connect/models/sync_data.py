@@ -669,8 +669,8 @@ class SyncDataFletex(models.Model):
                 else False,
                 'cliente': client_id['id'],
                 'contacto2': client_id['id'],
-                'codigo_postal': client_id['zip_sat_id']['code'],
-                'ciudad': client_id['township_sat_id']['name'],
+                'codigo_postal': client_id['zip'],
+                'ciudad': client_id['city'],
                 'email': client_id['email'],
                 'presentacion_carga': 'Granel'
                 if project['product_presentation'] == "Toneladas"
