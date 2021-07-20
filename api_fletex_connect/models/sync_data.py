@@ -83,6 +83,9 @@ class SyncDataFletex(models.Model):
                     'headers': headers,
                     'params': {}
                 })
+
+        print("responsables2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2")
+        print(responsables)
         if len(responsables['data']) > 0:
             for responsable in responsables['data']:
                 self.responsables_manager(responsable)
@@ -147,13 +150,13 @@ class SyncDataFletex(models.Model):
                 params=data['params'])
 
         
-            
+        print("response@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2")
+        print(response.content)   
         try :
             if response.status_code == 200:
-                _logger.debug(response)
                 return response.json()
             else:
-                return response.text
+                return False
         except : 
             return [];
 

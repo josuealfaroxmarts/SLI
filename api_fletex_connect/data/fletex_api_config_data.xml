@@ -4,7 +4,7 @@
     <data>
         <record id="token_api_fletex" model="ir.config_parameter">
             <field name="key">token_api_fletex</field>
-            <field name="value">Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBwLmZsZXRleC5teFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNDI5MjA5MCwibmJmIjoxNjI0MjkyMDkwLCJqdGkiOiJEeXBOQXRXak1uaXA1Z01QIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.L3HBNEvi4tf6g6-UOMqlSxl96zAkpef8ssvlLNbhks0</field>
+            <field name="value">Bearer</field>
         </record>
         <record id="api_fletex_url" model="ir.config_parameter">
             <field name="key">api_fletex_url</field>

@@ -61,6 +61,7 @@ class fletex_respartner(models.Model):
     address_approved = fields.Boolean(string='Comprobante de domilicio fiscal Aprobado')
     name_rfc_bussiness = fields.Char(compute='change_name')
     ext_rfc_bussiness = fields.Char()
+    ext_license_driver = fields.Char()
     rfc_bussiness = fields.Binary(string="RFC Empresa")
     rfc_approved = fields.Boolean(string='RFC Empresa Aprobado')
     vat_info = fields.Char(string='vat')
