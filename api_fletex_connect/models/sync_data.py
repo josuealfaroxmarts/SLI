@@ -149,9 +149,6 @@ class SyncDataFletex(models.Model):
                 headers=data['headers'],
                 params=data['params'])
 
-        
-        print("response@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2")
-        print(response.content)   
         try :
             if response.status_code == 200:
                 return response.json()
@@ -592,6 +589,7 @@ class SyncDataFletex(models.Model):
                     })
                 vehicle.write({'send_to_api': False})
 
+
     def projects_manager(self, project, headers):
         """ This function is in charge of managing the projects that are sent 
         from fletex :
@@ -618,8 +616,7 @@ class SyncDataFletex(models.Model):
 
                 record.write(vals)
         else:
-            _logger.debug("##########################################")
-            _logger.debug(project)
+            
             client_id = self.env['res.partner'].search(
                 [('id_fletex',
                     '=',
