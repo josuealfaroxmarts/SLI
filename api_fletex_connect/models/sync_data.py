@@ -677,40 +677,28 @@ class SyncDataFletex(models.Model):
                 else 'Costal',
                 'product': product_id['id'],
                 'lineanegocio': self.search_record('trafitec.lineanegocio',
-                                                    'name',
-                                                    project['product_presentation']),
+                                            'name',
+                                            project['product_presentation']),
                 'origen_id': self.search_record('trafitec.ubicacion',
                                                 'id_fletex',
                                                 project['location_id']),
                 'destino_id': self.search_record('trafitec.ubicacion',
-                                                    'id_fletex',
-                                                    project['destinations'][0]),
+                                                'id_fletex',
+                                                project['destinations'][0]),
             }
 
             quotation = self.env['trafitec.cotizacion'].create(vals)
-            origen_id = self.env['trafitec.ubicacion'].search(
-                [('id_fletex',
-                    '=',
-                    project['location_id'])])
+            origin = self.search_record('trafitec.ubicacion',
+                                        'id_fletex',
+                                        project['location_id'])
 
-            township_origin = self.env['res.country.township.sat.code'].search(
-                [('name',
-                    '=',
-                    origen_id['ciudad'])])
-
-            destino_id = self.env['trafitec.ubicacion'].search(
-                [('id_fletex',
-                    '=',
-                    project['destinations'][0])])
-
-            township_destination = self.env['res.country.township.sat.code'].search(
-                [('name',
-                    '=',
-                    destino_id['ciudad'])])
+            destination = self.search_record('trafitec.ubicacion',
+                                        'id_fletex',
+                                        project['destinations'][0])
 
             vals = {
-                'municipio_origen_id': township_origin[0]['id'],
-                'municipio_destino_id': township_destination[0]['id'],
+                'municipio_origen_id': origin,
+                'municipio_destino_id': destination,
                 'tarifa_cliente': project['initial_fare'],
                 'cantidad': project['total_weight'],
                 'product_uom': self.search_record('product.uom',
