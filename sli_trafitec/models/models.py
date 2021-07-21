@@ -341,7 +341,7 @@ sum(f.amount_residual) saldo
 from account_move as f
 where f.state = 'open'
 and f.move_type='out_invoice'
-and f.date_due<current_date
+and f.invoice_date_due<current_date
 and f.partner_id={}
 		""".format(persona_id)
 		self.env.cr.execute(sql)
