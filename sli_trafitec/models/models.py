@@ -372,7 +372,7 @@ and f.partner_id={}
 		if persona_dat.moroso_prorroga_fecha:
 			fecha_prorroga = datetime.datetime.strptime(persona_dat.moroso_prorroga_fecha, '%Y-%m-%d').date()
 
-		if saldo > 0:
+		if saldo and saldo > 0:
 			pasar = False
 			if persona_dat.moroso_prorroga_st and persona_dat.moroso_prorroga_fecha and datetime.datetime.today().date() <= fecha_prorroga:
 				pasar = True
