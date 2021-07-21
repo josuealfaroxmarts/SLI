@@ -674,7 +674,7 @@ and f.partner_id={}
 		sql_facturas = """
 	select
 	sum(f.amount_residual) total
-	from account_invoice as f
+	from account_move as f
 	where
 	f.state='open'
 	and f.partner_id={} and company_id={}
