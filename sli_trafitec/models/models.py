@@ -338,7 +338,7 @@ class trafitec_respartner(models.Model):
 		sql = """
 		select
 sum(f.amount_residual) saldo
-from account_invoice as f
+from account_move as f
 where f.state = 'open'
 and f.type='out_invoice'
 and f.date_due<current_date
