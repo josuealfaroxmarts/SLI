@@ -314,7 +314,7 @@ class trafitec_respartner(models.Model):
 	def _compute_saldo(self):
 		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
-			[('partner_id', '=', self.id), ('state', '=', 'open'), ('type', '=', 'in_invoice')])
+			[('partner_id', '=', self.id), ('state', '=', 'open'), ('move_type', '=', 'in_invoice')])
 		total = 0
 		for f in facturas_dat:
 			total += f.amount_residual
@@ -340,7 +340,7 @@ class trafitec_respartner(models.Model):
 sum(f.amount_residual) saldo
 from account_move as f
 where f.state = 'open'
-and f.type='out_invoice'
+and f.move_type='out_invoice'
 and f.date_due<current_date
 and f.partner_id={}
 		""".format(persona_id)
@@ -1358,7 +1358,7 @@ class cancelacion_cuentas(models.Model):
 			return
 
 		facturas_cliente = self.env['account.move'].search(
-			[('partner_id', '=', self.persona_id.id), ('type', '=', 'out_invoice'), ('amount_residual', '>', 0),
+			[('partner_id', '=', self.persona_id.id), ('move_type', '=', 'out_invoice'), ('amount_residual', '>', 0),
 				('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date asc')
 		# facturas.sorted(key=lamnda r: r.)
 		# facturas=self.env['account.move'].search([])
@@ -1370,7 +1370,7 @@ class cancelacion_cuentas(models.Model):
 		self.facturas_cliente_id = lista_clientes
 
 		facturas_proveedores = self.env['account.move'].search(
-			[('partner_id', '=', self.persona_id.id), ('type', '=', 'in_invoice'), ('amount_residual', '>', 0),
+			[('partner_id', '=', self.persona_id.id), ('move_type', '=', 'in_invoice'), ('amount_residual', '>', 0),
 				('state', '=', 'open'), ('currency_id', '=', self.moneda_id.id)], order='date asc')
 		# facturas=self.env['account.move'].search([])
 		print("***Facturas:" + str(facturas_proveedores))
@@ -1965,7 +1965,7 @@ class trafitec_pagosmasivos(models.Model):
 		print("----------------------TIPO: " + tipo)
 
 		facturas_cliente = self.env['account.move'].search(
-			[('partner_id', '=', self.persona_id.id), ('type', '=', tipo), ('amount_residual', '>', 0), ('state', '=', 'open'),
+			[('partner_id', '=', self.persona_id.id), ('move_type', '=', tipo), ('amount_residual', '>', 0), ('state', '=', 'open'),
 			('currency_id', '=', self.moneda_id.id), ('date', '>=', self.busqueda_fecha_inicial),
 			('date', '<=', self.busqueda_fecha_final)], order='date asc')
 		print("**Facturas cliente:" + str(facturas_cliente))
