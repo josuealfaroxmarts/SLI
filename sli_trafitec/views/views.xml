@@ -575,7 +575,7 @@
                         <div class="oe_title">
                             <label string="Nombre" for="name"/>
                             <h1>
-                                <field name="name" readonly="1"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
