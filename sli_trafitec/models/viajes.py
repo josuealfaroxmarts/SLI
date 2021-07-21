@@ -1262,7 +1262,7 @@ class trafitec_viajes(models.Model):
         else:
             self.merma_permitida_kg = 0
 
-    merma_permitida_kg = fields.Float(string='Merma permitida Kg', compute='_compute_merma_permitida_kg', readonly=True)
+    merma_permitida_kg = fields.Float(string='Merma permitida Kg', compute=_compute_merma_permitida_kg, readonly=True)
 
     @api.onchange('merma_permitida_kg', 'costo_producto')
     def _onchange_merma_permitida_pesos(self):
