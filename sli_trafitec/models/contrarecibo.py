@@ -1129,7 +1129,7 @@ class trafitec_contrarecibo(models.Model):
                     self.invoice_id.sudo().write(
                         {
                             'payment_term_id': viaje1.subpedido_id.linea_id.cotizacion_id.asociado_plazo_pago_id.id,
-                            'date_due': fecha_vencimiento
+                            'invoice_date_due': fecha_vencimiento
                         }
                     )
             except:

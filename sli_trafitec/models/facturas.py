@@ -330,14 +330,14 @@ class trafitec_account_invoice(models.Model):
 			date = fields.Date.context_today(self)
 		if not self.payment_term_id:
 			# When no payment term defined
-			self.date_due = self.date_due or date
+			self.invoice_date_due = self.invoice_date_due or date
 		else:
 			
 			#Obtener los de la cotizacion.
 			pterm = self.payment_term_id
 			pterm_list = \
 			pterm.with_context(currency_id=self.company_id.currency_id.id).compute(value=1, date_ref=date)[0]
-			self.date_due = max(line[0] for line in pterm_list)
+			self.invoice_date_due = max(line[0] for line in pterm_list)
 	"""
 	
 	

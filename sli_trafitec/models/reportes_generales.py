@@ -148,14 +148,14 @@ class TrafitecReportesGenerales(models.TransientModel):
 p.name persona,
 max(p.id) persona_id,
 --f.date fecha,
---f.date_due fecha_vencimiento,
---current_date-f.date_due dias,
+--f.invoice_date_due fecha_vencimiento,
+--current_date-f.invoice_date_due dias,
 sum(f.amount_total) total,
 sum(f.amount_residual) saldo,
-	sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.amount_residual else 0 end) v_d1a15,
-	sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.amount_residual else 0 end) v_d16a30,
-	sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.amount_residual else 0 end) v_d31a45,
-	sum(case when (current_date-f.date_due)>=46 then f.amount_residual else 0 end) v_d46aN
+	sum(case when (current_date-f.invoice_date_due)>1 and (current_date-f.invoice_date_due)<=15 then f.amount_residual else 0 end) v_d1a15,
+	sum(case when (current_date-f.invoice_date_due)>=16 and (current_date-f.invoice_date_due)<=30 then f.amount_residual else 0 end) v_d16a30,
+	sum(case when (current_date-f.invoice_date_due)>=31 and (current_date-f.invoice_date_due)<=45 then f.amount_residual else 0 end) v_d31a45,
+	sum(case when (current_date-f.invoice_date_due)>=46 then f.amount_residual else 0 end) v_d46aN
 
 from account_invoice as f
 	inner join res_partner p on(f.partner_id=p.id)
@@ -233,14 +233,14 @@ group by p.name
 p.name persona,
 max(p.id) persona_id,
 --f.date fecha,
---f.date_due fecha_vencimiento,
---current_date-f.date_due dias,
+--f.invoice_date_due fecha_vencimiento,
+--current_date-f.invoice_date_due dias,
 sum(f.amount_total) total,
 sum(f.amount_residual) saldo,
-	sum(case when (current_date-f.date_due)>1 and (current_date-f.date_due)<=15 then f.amount_residual else 0 end) v_d1a15,
-	sum(case when (current_date-f.date_due)>=16 and (current_date-f.date_due)<=30 then f.amount_residual else 0 end) v_d16a30,
-	sum(case when (current_date-f.date_due)>=31 and (current_date-f.date_due)<=45 then f.amount_residual else 0 end) v_d31a45,
-	sum(case when (current_date-f.date_due)>=46 then f.amount_residual else 0 end) v_d46an
+	sum(case when (current_date-f.invoice_date_due)>1 and (current_date-f.invoice_date_due)<=15 then f.amount_residual else 0 end) v_d1a15,
+	sum(case when (current_date-f.invoice_date_due)>=16 and (current_date-f.invoice_date_due)<=30 then f.amount_residual else 0 end) v_d16a30,
+	sum(case when (current_date-f.invoice_date_due)>=31 and (current_date-f.invoice_date_due)<=45 then f.amount_residual else 0 end) v_d31a45,
+	sum(case when (current_date-f.invoice_date_due)>=46 then f.amount_residual else 0 end) v_d46an
 
 from account_invoice as f
 	inner join res_partner p on(f.partner_id=p.id)
