@@ -991,8 +991,6 @@ class SyncDataFletex(models.Model):
                                     * shipment['tons'],
                 'costo_producto': quotation['costo_producto'],
                 'placas_id': vehicle['id'],
-                'vehicle': "{}/{}".format(vehicle['model_id']['name'],
-                    vehicle['model_id']['brand_id']['name']),
                 'operador_id': driver['id'],
                 'celular_operador': '00000000',
                 'asociado_id': business['id'],
