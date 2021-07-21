@@ -1246,8 +1246,8 @@ class trafitec_viajes(models.Model):
 
         print("**********MERMA KG: " + str(merma_kg))
 
-    @api.depends('peso_origen_total')
     def _compute_merma_permitida_kg(self):
+        self.merma_permitida_kg = 0
         if self.peso_origen_total and self.peso_destino_total:
             if self.excedente_merma:
                 if self.excedente_merma == 'No cobrar':
@@ -1259,6 +1259,10 @@ class trafitec_viajes(models.Model):
                             self.peso_origen_total / 100)
                         else:
                             self.merma_permitida_kg = 0
+                    else :
+                        self.merma_permitida_kg = 0
+            else:
+                self.merma_permitida_kg = 0
         else:
             self.merma_permitida_kg = 0
 
