@@ -894,7 +894,7 @@ class SyncDataFletex(models.Model):
 
                     invoice = self.env['invoice.from.fletex'].search([
                             ('fletexShipmentReference', '=', shipment['shipment_id'])])
-                    _logger.debug('Guardando Evidencias......')
+                    """ _logger.debug('Guardando Evidencias......')
                     
                     vals = {
                         'linea_id': shipment['shipment_id'],
@@ -910,7 +910,7 @@ class SyncDataFletex(models.Model):
                         'image_filename': "Evidencia de viaje {}".format(record['id']),
                         'name': "Evidencia de viaje"
                     }
-                    self.env['trafitec.viajes.enviencias'].create(vals)
+                    self.env['trafitec.viajes.enviencias'].create(vals) """
 
                     if not invoice :
                         if len(shipment['invoice_xml']) > 0:
