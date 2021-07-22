@@ -1171,6 +1171,8 @@ class trafitec_contrarecibo(models.Model):
     
     @api.depends('descuento_id', 'descuento_bol')
     def _check_descuentos(self):
+        self.descuento_antes = 0
+        self.descuento_des = 0
         if self.cobrar_descuentos:
             amount = 0
             saldo = 0
