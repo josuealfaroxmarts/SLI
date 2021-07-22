@@ -8,7 +8,7 @@ import datetime
 import logging
 
 
-#from openerp.tools import amount_to_text
+#from odoo.tools import amount_to_text
 
 _logger = logging.getLogger(__name__)
 
