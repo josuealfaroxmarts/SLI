@@ -21,7 +21,7 @@ class trafitec_facturas_comision(models.Model):
                                             required=True)
     product_invoice = fields.Many2one('product.product', string='Producto', required=True)
     payment_term_id = fields.Many2one('account.payment.term', string='Forma de pago', required=True)
-    metodo_pago_id = fields.Many2one('sat.metodo.pago', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
+    metodo_pago_id = fields.Many2one('l10n_mx_edi.payment.method', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
                                         required=True)
     uso_cfdi_id = fields.Many2one('sat.uso.cfdi', 'Uso CFDI', required=True, help='Define el motivo de la compra.')
     comision_id = fields.One2many(comodel_name="trafitec.fact.linea.comision", inverse_name="line_id")

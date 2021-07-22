@@ -1194,7 +1194,7 @@ class trafitec_parametros(models.Model):
 											required=True)
 	nca_diario_cobros_id = fields.Many2one(string='Diario para cobro automatico:', comodel_name='account.journal',
 											required=True)
-	metodo_pago_id = fields.Many2one('sat.metodo.pago', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
+	metodo_pago_id = fields.Many2one('l10n_mx_edi.payment.method', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
 									required=True)
 
 	cot_producto_id = fields.Many2one(string="id Producto", comodel_name="product.product",
