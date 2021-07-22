@@ -876,31 +876,11 @@ class SyncDataFletex(models.Model):
                 _logger.debug(status)
 
                 vals = {
-                    'linea_id': line_quotation['id'],
                     'id_fletex': shipment['shipment_id'],
-                    'cliente_id': quotation['cliente']['id'],
-                    'origen': quotation['origen_id']['id'],
-                    'destino': quotation['destino_id']['id'],
-                    'tarifa_asociado': line_quotation['tarifa_asociado'],
-                    'tarifa_cliente': line_quotation['tarifa_cliente'],
-                    'flete_cliente': line_quotation['tarifa_cliente'] 
-                                        * shipment['tons'],
-                    'flete_asociado': line_quotation['tarifa_asociado'] 
-                                        * shipment['tons'],
-                    'costo_producto': quotation['costo_producto'],
-                    'placas_id': vehicle['id'],
-                    'operador_id': driver['id'],
-                    'celular_operador': '00000000',
-                    'asociado_id': business['id'],
-                    'celular_asociado': business['phone_representative'],
                     'peso_autorizado': 1,
                     'asociado_id': business['id'],
                     'estado_viaje': status,
                     'peso_autorizado': shipment['tons'],
-                    'peso_origen_remolque_1': shipment['tons'] * 1000,
-                    'peso_origen_remolque_2': shipment['tons_full'] * 1000,
-                    'peso_convenido_remolque_1': shipment['tons'] * 1000,
-                    'peso_convenido_remolque_2': shipment['tons_full'] * 1000,
                     'peso_destino_remolque_1': shipment['tons'] * 1000,
                     'peso_destino_remolque_2': shipment['tons_full'] * 1000,
                     'tipo_lineanegocio': quotation['lineanegocio']['name'],
