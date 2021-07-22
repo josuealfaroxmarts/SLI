@@ -941,9 +941,6 @@ class SyncDataFletex(models.Model):
 
             vehicle = self.env['fleet.vehicle'].search([
                 ('id_fletex_truck', '=', shipment['vehicle_id'])])
-            
-            currency = self.env['res.currency'].search([
-                ('name', '=', 'MXN')])
 
             vehicle.write({
                 'operador_id': driver['id']
@@ -958,9 +955,10 @@ class SyncDataFletex(models.Model):
 
             vals = {
                 'linea_id': line_quotation['id'],
+                'moneda': self.env['res.currency'].search([(
+                                                        'name', '=', 'MXN')]),
                 'id_fletex': shipment['shipment_id'],
                 'cliente_id': quotation['cliente']['id'],
-                'moneda': currency['id'],
                 'origen': quotation['origen_id']['id'],
                 'destino': quotation['destino_id']['id'],
                 'tarifa_asociado': line_quotation['tarifa_asociado'],
@@ -990,9 +988,6 @@ class SyncDataFletex(models.Model):
                 'referencia_asociado':  shipment['shipment_id'],
                 'referencia_cliente':  shipment['shipment_id']
             }
-
-            _logger.debug("KIKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-            _logger.debug(vals)
 
             self.env['trafitec.viajes'].create(vals)
 

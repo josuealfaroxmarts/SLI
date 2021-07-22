@@ -23,7 +23,7 @@ class trafitec_facturas_automaticas(models.Model):
                                 string='Viajes',
                                 domain="[('cliente_id','=',cliente_id),('lineanegocio','=',lineanegocio),('state','=','Nueva'),('tipo_viaje','=','Normal'),('en_factura','=',False)]")
     payment_term_id = fields.Many2one('account.payment.term', string='Forma de pago', required=True)
-    metodo_pago_id = fields.Many2one('sat.metodo.pago', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
+    metodo_pago_id = fields.Many2one('l10n_mx_edi.payment.method', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
                                         required=True)
     uso_cfdi_id = fields.Many2one('sat.uso.cfdi', 'Uso CFDI', required=True, help='Define el motivo de la compra.')
     cargo_id = fields.One2many('trafitec.fact.aut.cargo', 'line_cargo_id')
