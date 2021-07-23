@@ -93,6 +93,7 @@ class trafitec_account_invoice(models.Model):
 			concepts_xml = xml.getElementsByTagName('cfdi:Conceptos')[0]
 			concept_xml = xml.getElementsByTagName('cfdi:Concepto')
 			for x in concept_xml:
+				
 				flete = {
 					'id': False,
 					'product_id': product.id,
