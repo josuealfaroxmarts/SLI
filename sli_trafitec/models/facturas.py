@@ -105,9 +105,7 @@ class trafitec_account_invoice(models.Model):
 				}
 				concepts.append(flete)
 				break
-			
-			for concept in concepts:
-				self.invoice_line_ids.extend(concept)
+			self.invoice_line_ids = concepts
 
 	@api.depends('documentos_archivo_xml')
 	def _compute_documentos_tiene_xml(self):
