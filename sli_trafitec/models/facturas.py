@@ -83,7 +83,7 @@ class trafitec_account_invoice(models.Model):
 			product = self.env['product.product'].search([('name', '=', 'Flete')])
 			tax_one = self.env['account.tax'].search([('amount', '=', 16.0000)])
 			tax_two = self.env['account.tax'].search([('amount', '=', -4.0000)])
-			taxes = [tax_one.id, tax_two.id]
+			taxes = [tax_one[0].id, tax_two[0].id]
 			self.partner_id = id_distributor.id
 			self.ref = id_distributor.name
 			voucher = xml.getElementsByTagName('cfdi:Comprobante')[0]
@@ -93,7 +93,7 @@ class trafitec_account_invoice(models.Model):
 			concepts_xml = xml.getElementsByTagName('cfdi:Conceptos')[0]
 			concept_xml = xml.getElementsByTagName('cfdi:Concepto')
 			for x in concept_xml:
-				
+
 				flete = {
 					'id': False,
 					'product_id': product.id,
