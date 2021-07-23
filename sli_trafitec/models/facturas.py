@@ -79,10 +79,10 @@ class trafitec_account_invoice(models.Model):
 			xml = minidom.parseString(base64.b64decode(self.invoice_from_xml.invoiceXml))
 			issuing = xml.getElementsByTagName('cfdi:Emisor')[0]
 			id_distributor = self.env['res.partner'].search([('name', '=', issuing.getAttribute('Nombre'))])
-			id_account = self.env['account.analytic.account'].search([('code', '=', '11-701-0001')])
-			product = self.env['product.template'].search([('name', '=', 'Flete')])
-			tax_one = self.env['account.tax'].search([('name', '=', '16 % Compra')])
-			tax_two = self.env['account.tax'].search([('name', '=', '4 % Compra')])
+			id_account = self.env['account.analytic.account'].search([('name', '=', '11-701-0001')])
+			product = self.env['product.product'].search([('name', '=', 'Flete')])
+			tax_one = self.env['account.tax'].search([('amount', '=', 16.0000)])
+			tax_two = self.env['account.tax'].search([('amount', '=', -4.0000)])
 			taxes = [tax_one.id, tax_two.id]
 			self.partner_id = id_distributor.id
 			self.ref = id_distributor.name
@@ -98,7 +98,7 @@ class trafitec_account_invoice(models.Model):
 					'product_id': product.id,
 					'name': x.getAttribute('Descripcion'),
 					'quantity': x.getAttribute('Cantidad'),
-					'analytic_account_account_id': id_account.id,
+					'analytic_account_id': id_account.id,
 					'invoice_line_tax_ids': taxes,
 					'price_unit': subtotal,
 					'sistema': False
