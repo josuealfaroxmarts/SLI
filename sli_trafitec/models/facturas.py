@@ -73,7 +73,7 @@ class trafitec_account_invoice(models.Model):
 	@api.onchange('invoice_from_xml')
 	def xml_invoice(self):
 		if self.invoice_from_xml:
-			self.documentos_archivo_xml = self.invoice_from_xml.invoiceXml
+			self.documentos_archivo_xml = base64.b64decode(self.invoice_from_xml.invoiceXml)
 			self.documentos_archivo_pdf = self.invoice_from_xml.invoicePdf
 			self.documentos_nombre_pdf = "Factura PDF de {} Folio viaje: {}.pdf".format(self.invoice_from_xml.clientId.name, self.invoice_from_xml.shipmentId.name)
 			xml = minidom.parseString(base64.b64decode(self.invoice_from_xml.invoiceXml))
