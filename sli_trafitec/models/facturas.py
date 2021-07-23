@@ -100,7 +100,8 @@ class trafitec_account_invoice(models.Model):
 					'analytic_account_id': id_account.id,
 					'tax_ids': taxes,
 					'price_unit': subtotal,
-					'sistema': False
+					'sistema': False,
+					'price_subtotal': subtotal
 				}
 				concepts = flete
 				break
