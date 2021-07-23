@@ -293,7 +293,7 @@
                     <field name="name"/>
                     <field name="x_folio_trafitecw"/>
                     <field name="asociado_id"/>
-                    <field name="viaje_id" widget="many2many_checkboxes"/>
+                    <field name="viaje_id"/>
                     <field name="fecha"/>
                     <field name="lineanegocio"/>
                     <field name="fletes" />
