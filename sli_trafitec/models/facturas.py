@@ -98,7 +98,7 @@ class trafitec_account_invoice(models.Model):
 					'product_id': product.id,
 					'name': x.getAttribute('Descripcion'),
 					'quantity': x.getAttribute('Cantidad'),
-					'account_id': id_account.id,
+					'analytic_account_account_id': id_account.id,
 					'invoice_line_tax_ids': taxes,
 					'price_unit': subtotal,
 					'sistema': False
