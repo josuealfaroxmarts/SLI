@@ -102,9 +102,9 @@ class trafitec_account_invoice(models.Model):
 					'invoice_line_tax_ids': taxes,
 					'price_unit': subtotal
 				}
-				concepts.append(flete)
+				concepts.append(tuple(flete))
 				break
-			self.invoice_line_ids = tuple(concepts)
+			self.invoice_line_ids = concepts
 
 	@api.depends('documentos_archivo_xml')
 	def _compute_documentos_tiene_xml(self):
