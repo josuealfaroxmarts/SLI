@@ -95,18 +95,16 @@ class trafitec_account_invoice(models.Model):
 			for x in concept_xml:
 
 				flete = {
-					'id': False,
 					'product_id': product.id,
 					'name': x.getAttribute('Descripcion'),
 					'quantity': x.getAttribute('Cantidad'),
 					'analytic_account_id': id_account.id,
 					'invoice_line_tax_ids': taxes,
-					'price_unit': subtotal,
-					'sistema': False
+					'price_unit': subtotal
 				}
 				concepts.append(flete)
 				break
-			self.invoice_line_ids = concepts
+			self.invoice_line_ids = tuple(concepts)
 
 	@api.depends('documentos_archivo_xml')
 	def _compute_documentos_tiene_xml(self):
