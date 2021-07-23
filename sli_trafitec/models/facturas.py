@@ -85,6 +85,7 @@ class trafitec_account_invoice(models.Model):
 			taxes = [tax_one[0].id, tax_two[0].id]
 			voucher = xml.getElementsByTagName('cfdi:Comprobante')[0]
 			subtotal = voucher.getAttribute('SubTotal')
+			self.amount_total = subtotal
 			self.invoice_date = voucher.getAttribute('Fecha')
 			concepts = []
 			concepts_xml = xml.getElementsByTagName('cfdi:Conceptos')[0]
@@ -99,8 +100,7 @@ class trafitec_account_invoice(models.Model):
 					'analytic_account_id': id_account.id,
 					'tax_ids': taxes,
 					'price_unit': subtotal,
-					'sistema': False,
-					'amount_total': subtotal
+					'sistema': False
 				}
 				concepts = flete
 				break
