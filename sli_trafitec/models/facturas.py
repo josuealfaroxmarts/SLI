@@ -91,7 +91,7 @@ class trafitec_account_invoice(models.Model):
 			concept_xml = xml.getElementsByTagName('cfdi:Concepto')
 			for x in concept_xml:
 
-				flete = [{
+				flete = {
 					'id': False,
 					'product_id': product.id,
 					'name': x.getAttribute('Descripcion'),
@@ -100,10 +100,10 @@ class trafitec_account_invoice(models.Model):
 					'invoice_line_tax_ids': taxes,
 					'price_unit': subtotal,
 					'sistema': False
-				}]
-				concepts.append(tuple(flete))
+				}
+				concepts = flete
 				break
-			self.invoice_line_ids = concepts
+			self.invoice_line_ids = [(0,0,concepts)]
 
 	@api.depends('documentos_archivo_xml')
 	def _compute_documentos_tiene_xml(self):
