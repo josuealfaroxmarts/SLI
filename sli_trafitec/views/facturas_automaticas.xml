@@ -38,7 +38,7 @@
                             <group>
                                 <field name="lineanegocio" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
                                 <field name="csf" />
-                                <field name="invoice_id" readonly="1"/>
+                                <field name="move_id" readonly="1"/>
                             </group>
                         </group>
                         <group>

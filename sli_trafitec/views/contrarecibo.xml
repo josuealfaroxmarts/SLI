@@ -169,7 +169,7 @@
                             <page name="cartaporte" string="Carta porte">
                                 <group>
                                     <group>
-                                        <field name="invoice_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"/>
+                                        <field name="move_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"/>
                                         <field name="folio"/>
                                         <field name="factura_actual" invisible="1"/>
                                         <field name="fecha_porte"/>

@@ -44,8 +44,8 @@ class DownloadAttachment(models.Model):
 	# def download_attachment(self):
 	# 	config_obj = self.env['ir.config_parameter']
 
-	# 	invoice_ids = self._context.get('active_ids')
-	# 	attachment_obj = self.env['ir.attachment'].search([('res_id', 'in', invoice_ids), ('res_model', '=', 'account.move')])
+	# 	move_ids = self._context.get('active_ids')
+	# 	attachment_obj = self.env['ir.attachment'].search([('res_id', 'in', move_ids), ('res_model', '=', 'account.move')])
 	# 	active_ids = []
 	# 	for att in attachment_obj:
 	# 		active_ids.append(att.id)

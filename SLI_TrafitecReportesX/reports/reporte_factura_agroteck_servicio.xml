@@ -66,8 +66,8 @@
                 <th>FOLIO FISCAL</th>
             </tr>
             <tr t-foreach="o.type_rel_cfdi_ids" t-as="fs">
-                <td><span t-field="fs.invoice_id"/></td>
-                <td><span t-field="fs.invoice_id.cfdi_folio_fiscal"/></td>
+                <td><span t-field="fs.move_id"/></td>
+                <td><span t-field="fs.move_id.cfdi_folio_fiscal"/></td>
             </tr>
             <hr/>
         </table>
@@ -398,8 +398,8 @@
                 <th>FOLIO FISCAL</th>
             </tr>
             <tr t-foreach="o.type_rel_cfdi_ids" t-as="fs">
-                <td><span t-field="fs.invoice_id"/></td>
-                <td><span t-field="fs.invoice_id.cfdi_folio_fiscal"/></td>
+                <td><span t-field="fs.move_id"/></td>
+                <td><span t-field="fs.move_id.cfdi_folio_fiscal"/></td>
             </tr>
             <hr/>
         </table>

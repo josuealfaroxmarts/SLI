@@ -357,7 +357,7 @@ class trafitec_account_invoice(models.Model):
 		#Flete.
 		flete = {
 			'id': False,
-			'invoice_id': id,
+			'move_id': id,
 			'product_id': cfg.product_invoice.id,
 			'name': cfg.product.name,
 			'quantity': 1,# Cantidad.
@@ -411,7 +411,7 @@ class trafitec_account_invoice(models.Model):
 				#Concepto.
 					cargo = {
 					'id': False,
-					'invoice_id': id,
+					'move_id': id,
 					'product_id': c.name.product_id.id,
 					'name': c.name.product_id.name,
 					'quantity': 1,  # Cantidad.
@@ -443,7 +443,7 @@ class trafitec_account_invoice(models.Model):
 				#Concepto.
 					cargo = {
 					'id': False,
-					'invoice_id': id,
+					'move_id': id,
 					'product_id': c.name.product_id.id,
 					'name': c.name.product_id.name,
 					'quantity': 1,  # Cantidad.
@@ -465,7 +465,7 @@ class trafitec_account_invoice(models.Model):
 			if l.sistema == True:
 				concepto = {
 					'id': l.id,
-					'invoice_id': l.invoice_id.id,
+					'move_id': l.move_id.id,
 					'product_id': l.product_id.id,
 					'name': l.name,
 					'quantity': l.quantity,  # Cantidad.
@@ -780,7 +780,7 @@ class trafitec_account_invoice(models.Model):
 		print("*******************Actualizar viajes....")
 		lista=[]
 		if self.id:
-			sql = "select trafitec_viajes_id from account_invoice_trafitec_viajes_rel where account_invoice_id=" + str(self.id)
+			sql = "select trafitec_viajes_id from account_invoice_trafitec_viajes_rel where account_move_id=" + str(self.id)
 			self.env.cr.execute(sql)
 			viajessql = self.env.cr.fetchall()
 			for v in viajessql:
@@ -1277,7 +1277,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	company_id = fields.Many2one('res.company', 'Company',
 								default=lambda self: self.env['res.company']._company_default_get(
 									'trafitec.agregar.quitar'))
-	invoice_id = fields.Many2one('account.move', string='Factura excedente',readonly=True)
+	move_id = fields.Many2one('account.move', string='Factura excedente',readonly=True)
 
 	
 	def unlink(self):
@@ -1287,9 +1287,9 @@ class trafitec_facturas_agregar_quitar(models.Model):
 					'Aviso !\nNo se puede eliminar ({}) si esta validada.'.format(reg.name)))
 		return super(trafitec_facturas_agregar_quitar, self).unlink()
 
-	@api.onchange('invoice_id')
+	@api.onchange('move_id')
 	def _onchange_abono(self):
-		if self.invoice_id:
+		if self.move_id:
 			res = {'warning': {
 				'title': _('Advertencia'),
 				'message': _('Se ha generado una factura excedente.')
@@ -1374,7 +1374,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			'account_id': fact.account_id.id,
 			'ref': 'Factura generada por excedente en el folio {} '.format(vals.name)
 		}
-		invoice_id = vals.env['account.move'].create(valores)
+		move_id = vals.env['account.move'].create(valores)
 
 		product = self.env['product.product'].search([('product_tmpl_id','=',parametros_obj.product_invoice.id)])
 
@@ -1389,7 +1389,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		total = subtotal + iva + riva
 
 		inv_line = {
-			'invoice_id': invoice_id.id,
+			'move_id': move_id.id,
 			'product_id': product.id,
 			'name': product.name,
 			'quantity': 1,
@@ -1404,7 +1404,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 
 
 		inv_tax = {
-			'invoice_id': invoice_id.id,
+			'move_id': move_id.id,
 			'name': parametros_obj.iva.name,
 			'account_id': parametros_obj.iva.account_id.id,
 			'amount': (iva - riva),
@@ -1413,7 +1413,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		vals.env['account.move.tax'].create(inv_tax)
 
 		inv_ret = {
-			'invoice_id': invoice_id.id,
+			'move_id': move_id.id,
 			'name': parametros_obj.retencion.name,
 			'account_id': parametros_obj.retencion.account_id.id,
 			'amount': riva,
@@ -1421,7 +1421,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		}
 		vals.env['account.move.tax'].create(inv_ret)
 
-		return invoice_id
+		return move_id
 
 	
 	def action_available(self):
@@ -1455,8 +1455,8 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	#
 	#def confirmation_button(self):
 		#parametros_obj = self._get_parameter_company(self)
-		#invoice_id = self._generar_factura_excedente(self, parametros_obj)
-		#self.invoice_id = invoice_id
+		#move_id = self._generar_factura_excedente(self, parametros_obj)
+		#self.move_id = move_id
 
 	
 	def action_cancel(self):

@@ -1509,7 +1509,7 @@ class cancelacion_cuentas(models.Model):
 					'payment_method_id': metodo,  # account_payment_method 1=Manual inbound, 2=Manual outbound.
 					'payment_date': datetime.datetime.now().date(),  # Ok.
 					'communication': 'Pago por cancelación de cuentas {}.'.format(str(self.name)),  # Ok.
-					'invoice_ids': [(4, factura_id, None)],  # [(4, inv.id, None) for inv in self._get_invoices()],
+					'move_ids': [(4, factura_id, None)],  # [(4, inv.id, None) for inv in self._get_invoices()],
 					'payment_type': subtipo,  # inbound,outbound
 					'amount': abono,  # Ok.
 					'currency_id': moneda_id,  # Ok.           s
@@ -1695,7 +1695,7 @@ class trafitec_pagosmasivos(models.Model):
 	busqueda_fecha_final = fields.Date(string='Búsqueda: Fecha final', default=datetime.datetime.now().today(),
 										required=True)
 
-	# context="{'form_view_ref': 'account.view_account_payment_from_invoices', 'invoice_ids' : facturas_id}"
+	# context="{'form_view_ref': 'account.view_account_payment_from_invoices', 'move_ids' : facturas_id}"
 	def LlamarABatch(self):
 		losids = []
 		lasfids = []
@@ -1712,7 +1712,7 @@ class trafitec_pagosmasivos(models.Model):
 				'view_type': 'form', 'view_mode': 'form', 'form_view_ref': 'action_invoice_invoice_batch_process',
 				# 'form_view_ref': 'account.view_account_payment_from_invoices',
 				'target': 'new', 'multi': True,
-				'context': {'invoice_ids': lasfids, 'active_ids': losids, 'active_model': 'account.move', 'batch': True,
+				'context': {'move_ids': lasfids, 'active_ids': losids, 'active_model': 'account.move', 'batch': True,
 							'programacionpagosx': True}}
 
 	def EjecutaAbonar(self):
@@ -1763,7 +1763,7 @@ class trafitec_pagosmasivos(models.Model):
 			cantidad = f.abono
 			# Pago de cliente.
 			valor = {'move_id': move_id.id, 'account_id': f.factura_id.account_id.id, 'partner_id': self.persona_id.id,
-					'journal_id': self.diario_id.id, 'user_type_id': 2, 'invoice_id': f.factura_id.id,
+					'journal_id': self.diario_id.id, 'user_type_id': 2, 'move_id': f.factura_id.id,
 					'ref': '' + str(f.factura_id.name), 'name': '' + str(f.factura_id.name), 'credit': total,
 					'debit': 0, 'payment_id': pago_id.id}
 			print("*****Valor1:")
@@ -1773,7 +1773,7 @@ class trafitec_pagosmasivos(models.Model):
 			# Factura.
 			valor = {'move_id': move_id.id, 'account_id': self.diario_id.default_debit_account_id.id,
 					'partner_id': self.persona_id.id, 'journal_id': self.diario_id.id, 'user_type_id': 3,
-					'invoice_id': f.factura_id.id, 'ref': '' + str(f.factura_id.name),
+					'move_id': f.factura_id.id, 'ref': '' + str(f.factura_id.name),
 					'name': '' + str(f.factura_id.name), 'credit': 0, 'debit': total, 'payment_id': pago_id.id}
 			print("*****Valor2:")
 			print(valor)
@@ -1815,7 +1815,7 @@ class trafitec_pagosmasivos(models.Model):
 					'communication': 'Pago desde codigo por:{} de tipo:{} desde Pago masivo {}.'.format(str(abono), tipo,
 																										self.name),
 					# Ok.
-					'invoice_ids': [(4, factura_id, None)],  # [(4, inv.id, None) for inv in self._get_invoices()],
+					'move_ids': [(4, factura_id, None)],  # [(4, inv.id, None) for inv in self._get_invoices()],
 					'payment_type': subtipo,  # inbound,outbound
 					'amount': abono,  # Ok.
 					'currency_id': moneda_id,  # Ok.           s
@@ -1841,7 +1841,7 @@ class trafitec_pagosmasivos(models.Model):
 					'payment_date': datetime.datetime.now().date(),  # Ok.
 					'communication': '',
 					# 'Pago desde codigo por:{} de tipo:{} desde Pago masivo {}.'.format(str(abono),self.name), # Ok.
-					'invoice_ids': [], 'payment_type': subtipo,  # inbound,outbound
+					'move_ids': [], 'payment_type': subtipo,  # inbound,outbound
 					'amount': abono,  # Ok.
 					'currency_id': moneda_id,  # Ok.           s
 					'partner_id': persona_id,  # Ok.

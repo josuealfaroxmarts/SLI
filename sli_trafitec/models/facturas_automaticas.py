@@ -30,7 +30,7 @@ class trafitec_facturas_automaticas(models.Model):
     state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
                                 ('Cancelada', 'Cancelada')], string='Estado',
                                 default='Nueva')
-    invoice_id = fields.Many2one('account.move', string='Factura cliente',
+    move_id = fields.Many2one('account.move', string='Factura cliente',
                                     domain="[('type','=','out_invoice'),('partner_id','=',cliente_id)]")
 
     
@@ -173,7 +173,7 @@ class trafitec_facturas_automaticas(models.Model):
 
     
     def action_available(self):
-        if self.invoice_id.id == False:
+        if self.move_id.id == False:
             parametros_obj = self._get_parameter_company(self)
             print("**************Parametros:"+str(parametros_obj))
             valores = {
@@ -191,14 +191,14 @@ class trafitec_facturas_automaticas(models.Model):
                 'ref': 'Factura generada automaticamente.'
             }
             print("X**************Valores:" + str(valores))
-            invoice_id = self.env['account.move'].create(valores)
+            move_id = self.env['account.move'].create(valores)
 
             amount = 0
             for viaje in self.viaje_id:
                 amount += viaje.flete_cliente
 
             inv_line = {
-                'invoice_id': invoice_id.id,
+                'move_id': move_id.id,
                 'product_id': parametros_obj.product_invoice.id,
                 'name': parametros_obj.product_invoice.name,
                 'quantity': 1,
@@ -213,7 +213,7 @@ class trafitec_facturas_automaticas(models.Model):
 
             for cargo in self.cargo_id:
                 inv_line = {
-                    'invoice_id': invoice_id.id,
+                    'move_id': move_id.id,
                     'product_id': cargo.name.product_id.id,
                     'name': cargo.name.product_id.name,
                     'quantity': 1,
@@ -229,7 +229,7 @@ class trafitec_facturas_automaticas(models.Model):
 
             if account_tax_obj:
                 inv_tax = {
-                    'invoice_id': invoice_id.id,
+                    'move_id': move_id.id,
                     'name': 'Impuestos',
                     'account_id': account_tax_obj.id,
                     'amount': self.iva_g + self.r_iva_g,
@@ -238,7 +238,7 @@ class trafitec_facturas_automaticas(models.Model):
                 print("**************Valores Tax:" + str(inv_tax))
                 self.env['account.move.tax'].create(inv_tax)
 
-            self.invoice_id = invoice_id
+            self.move_id = move_id
 
             for viaje in self.viaje_id:
                 viaje.write({'en_factura':True})

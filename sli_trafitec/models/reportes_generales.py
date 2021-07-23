@@ -159,7 +159,7 @@ sum(f.amount_residual) saldo,
 
 from account_invoice as f
 	inner join res_partner p on(f.partner_id=p.id)
-	left join trafitec_contrarecibo as cr on(cr.invoice_id=f.id)
+	left join trafitec_contrarecibo as cr on(cr.move_id=f.id)
 where
 f.amount_residual>1 and f.state='open' and f.type='out_invoice'
 and f.company_id={}
@@ -244,7 +244,7 @@ sum(f.amount_residual) saldo,
 
 from account_invoice as f
 	inner join res_partner p on(f.partner_id=p.id)
-	left join trafitec_contrarecibo as cr on(cr.invoice_id=f.id)
+	left join trafitec_contrarecibo as cr on(cr.move_id=f.id)
 where
 f.amount_residual>1 and f.state='open' and f.type='in_invoice'
 and f.company_id={}
@@ -579,7 +579,7 @@ from contrarecibo_viaje_relation x
 where x.contrarecibo_id=cr.id
 ) cliente
 from trafitec_contrarecibo as cr
-	inner join account_invoice as f on(cr.invoice_id=f.id)
+	inner join account_invoice as f on(cr.move_id=f.id)
 	inner join res_partner as p on(f.partner_id=p.id and p.asociado=True)
 where
 cr.state='Validada'

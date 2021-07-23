@@ -58,7 +58,7 @@ class SupplierInvoiceReport(models.Model):
 		if account_invoice_obj:
 			for data in account_invoice_obj:
 				invoice = {
-					'invoice_id': data.id,
+					'move_id': data.id,
 					'invoice_number' : data.number,
 					'invoice_date' : data.date_invoice,
 					'amount_total' : data.amount_total,
@@ -90,7 +90,7 @@ class SupplierInvoiceReport(models.Model):
 				
 				row += 1
 
-				invoice = self.env['account.move'].search([('id', '=', rec.get('invoice_id'))])
+				invoice = self.env['account.move'].search([('id', '=', rec.get('move_id'))])
 
 				if invoice.payment_move_line_ids:
 					sheet.write(row, 0, 'FOLIO PAGO', format5)

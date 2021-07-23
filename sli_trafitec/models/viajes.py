@@ -770,7 +770,7 @@ class trafitec_viajes(models.Model):
             #dict(self._fields['type'].selection).get(self.type)
             
             cr = self.contrarecibo_id
-            cp = cr.invoice_id
+            cp = cr.move_id
             f = self.factura_cliente_id
         
             info += "CR: " + (cr.name or "") + " " + (cr.fecha or "") + " " + (cr.state or "") + "  "

@@ -30,7 +30,7 @@ class trafitec_facturas_comision(models.Model):
     state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
                                 ('Cancelada', 'Cancelada')], string='Estado',
                                 default='Nueva')
-    invoice_id = fields.Many2one('account.move', string='Factura cliente',
+    move_id = fields.Many2one('account.move', string='Factura cliente',
                                 domain="[('type','=','out_invoice'),('partner_id','=',asociado_id)]")
 
 
@@ -183,7 +183,7 @@ class trafitec_facturas_comision(models.Model):
 
     
     def action_available(self):
-        if self.comision_id and self.invoice_id.id == False:
+        if self.comision_id and self.move_id.id == False:
             for comisi in self.comision_id:
                 self.env['trafitec.comisiones.abono'].create({
                     'name': comisi.saldo,
@@ -209,11 +209,11 @@ class trafitec_facturas_comision(models.Model):
                 'account_id': parametros_obj.account_id_invoice.id,
                 'ref': 'Factura de cobro por comision {}.'.format(self.name)
             }
-            invoice_id = self.env['account.move'].create(valores)
+            move_id = self.env['account.move'].create(valores)
 
 
             inv_line = {
-                'invoice_id': invoice_id.id,
+                'move_id': move_id.id,
                 'product_id': self.product_invoice.id,
                 'name': self.product_invoice.name,
                 'quantity': 1,
@@ -228,14 +228,14 @@ class trafitec_facturas_comision(models.Model):
             account_tax_obj = self.env['account.account'].search([('name', '=', 'IVA Retenido Efectivamente Cobrado')])
 
             inv_tax = {
-                'invoice_id': invoice_id.id,
+                'move_id': move_id.id,
                 'name': 'Impuestos',
                 'account_id': account_tax_obj.id,
                 'amount': self.iva_g - self.r_iva_g,
                 'sequence': '0'
             }
             self.env['account.move.tax'].create(inv_tax)
-            self.invoice_id = invoice_id
+            self.move_id = move_id
             self.write({'state': 'Validada'})
 
     

@@ -171,7 +171,7 @@ class TrafitecProgramacionPagosX(models.Model):
 	def action_cancelar(self):
 		self.state = 'cancelado'
 	
-	# context="{'form_view_ref': 'account.view_account_payment_from_invoices', 'invoice_ids' : facturas_id}"
+	# context="{'form_view_ref': 'account.view_account_payment_from_invoices', 'move_ids' : facturas_id}"
 	def action_batch_payments(self):
 		losids = []
 		lasfids = []
@@ -190,7 +190,7 @@ class TrafitecProgramacionPagosX(models.Model):
 				#'form_view_ref': 'sli_account_register_payments_formx2',
 				# 'form_view_ref': 'account.view_account_payment_from_invoices',
 			'target': 'new', 'multi': True,
-			'context': {'invoice_ids': lasfids, 'active_ids': losids, 'active_model': 'account.move', 'batch': True,
+			'context': {'move_ids': lasfids, 'active_ids': losids, 'active_model': 'account.move', 'batch': True,
 				'programacionpagosx': True, 'programacionpagosx_id': self.id, 'default_programacionpagos_id': 1}}
 	
 	@api.model
@@ -240,7 +240,7 @@ class TrafitecProgramacionPagosX(models.Model):
 				'name': 'DETALLE' + str(movimiento_id),
 				'journal_id': diario_id,
 				'currency_id': moneda_id,
-				'invoice_id': factura_id,
+				'move_id': factura_id,
 				'partner_id': persona_id,
 				'amount_base': monto,
 				'debit': debito,
@@ -278,7 +278,7 @@ class TrafitecProgramacionPagosX(models.Model):
 			'payment_date': datetime.datetime.today(),
 			'communication': folios,
 			'move_line_ids': [(4, mov['id'], None) for mov in movimientos],
-			'invoice_ids': [(4, inv['id'], None) for inv in lista_facturas],
+			'move_ids': [(4, inv['id'], None) for inv in lista_facturas],
 			'payment_type': 'outbound',# outbound=Enviar dinero,inbound=Recibir dinero.
 			'amount': total,
 			'currency_id': moneda_id,

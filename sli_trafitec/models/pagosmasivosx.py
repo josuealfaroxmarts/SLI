@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 class trafitec_pagosmasivosx(models.TransientModel):
 	_inherit = 'account.register.payments'
 	
-	facturas_id=fields.Many2many('account.move', 'account_invoice_payment_pagosmasivosx_rel', 'payment_id', 'invoice_id', string="Invoices")
+	facturas_id=fields.Many2many('account.move', 'account_invoice_payment_pagosmasivosx_rel', 'payment_id', 'move_id', string="Invoices")
 	detalles=fields.Char(string='Detalles')
 	
 	@api.model
@@ -30,7 +30,7 @@ class trafitec_pagosmasivosx(models.TransientModel):
 			f=self.env['account.move'].browse(x)
 			print("***FACK:***"+str(f))
 			n = {
-				'id' : f.invoice_id ,
+				'id' : f.move_id ,
 				'name' : f.name ,
 				'name' : f.name ,
 				'pay_method_id' : f.pay_method_id ,

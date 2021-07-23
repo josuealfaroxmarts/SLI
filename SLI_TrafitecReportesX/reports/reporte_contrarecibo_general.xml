@@ -199,9 +199,9 @@
                   <td width="25%">
                     <table width="100%">
                     <tr><td colspan="2"><div class="barrah">CARTA PORTE</div></td></tr>
-                    <tr><td>FOLIO:</td><td><span t-field="o.invoice_id.reference"/> <span class="color_gris"><span t-field="o.invoice_id.number"/></span></td></tr>
-                    <tr><td>FECHA:</td><td><span t-field="o.invoice_id.date_invoice"/></td></tr>
-                    <tr><td>TOTAL:</td><td><t t-esc="'{0:,.2f}'.format(float(o.invoice_id.amount_total))"/></td></tr>
+                    <tr><td>FOLIO:</td><td><span t-field="o.move_id.reference"/> <span class="color_gris"><span t-field="o.move_id.number"/></span></td></tr>
+                    <tr><td>FECHA:</td><td><span t-field="o.move_id.date_invoice"/></td></tr>
+                    <tr><td>TOTAL:</td><td><t t-esc="'{0:,.2f}'.format(float(o.move_id.amount_total))"/></td></tr>
                     <tr><td height="100%"></td></tr>
                     </table>
                   </td>
