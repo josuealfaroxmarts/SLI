@@ -79,7 +79,7 @@ class trafitec_account_invoice(models.Model):
 			xml = minidom.parseString(base64.b64decode(self.invoice_from_xml.invoiceXml))
 			issuing = xml.getElementsByTagName('cfdi:Emisor')[0]
 			id_distributor = self.env['res.partner'].search([('name', '=', issuing.getAttribute('Nombre'))])
-			id_account = self.env['account.account'].search([('code', '=', '11-701-0001')])
+			id_account = self.env['account.analytic.account'].search([('code', '=', '11-701-0001')])
 			product = self.env['product.template'].search([('name', '=', 'Flete')])
 			tax_one = self.env['account.tax'].search([('name', '=', '16 % Compra')])
 			tax_two = self.env['account.tax'].search([('name', '=', '4 % Compra')])
