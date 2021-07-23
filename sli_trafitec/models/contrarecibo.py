@@ -1356,9 +1356,6 @@ class trafitec_contrarecibo(models.Model):
             else:
                 self.prontopago_antes = amount
                 self.prontopago_des = 0
-        else :
-            self.prontopago_antes = 0
-            self.prontopago_des = 0
 
     @api.onchange('viaje_id','prontopago_bol')
     def _onchange_prontopago(self):
