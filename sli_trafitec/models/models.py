@@ -262,7 +262,12 @@ class trafitec_respartner(models.Model):
 	moroso_prorroga_fecha = fields.Date(string="Moroso Fecha de prorroga", help="Indica la fecha de la prorroga para los morosos.")
 	bloqueado_cliente_bloqueado = fields.Boolean(string='Cliente bloqueado', default=False, help='Cliente bloqueado, no se permitira hacer: cotizaciones, viajes y facturas.')
 	bloqueado_cliente_clasificacion_id = fields.Many2one(string='Motivo de bloqueo', comodel_name='trafitec.clasificacionesg', default=False, help='Clasificación del bloqueo.')
-	
+	license_approved = fields.Boolean(string="licencia aprobada")
+	nss_approved = fields.Boolean(string="Numero de seguro social aprobado")
+	name_healthcare_number = fields.Char()
+	adj_healthcare_number = fields.Binary(string="Adjunto numero de seguro social")
+	ext_healthcare_number = fields.Char()
+	healthcare_number = fields.Char(string="Numero de seguro social")
 
 	name_license_driver = fields.Char(string="Nombre Licencia",
 									compute='change_name')

@@ -14,8 +14,8 @@ class FletexFleetVehicle(models.Model):
                                         ('onhold', 'En Espera')], 
                                         string='Status', 
                                         default='onhold')
-    """ poliza_approved = fields.boolean(string="Poliza aprobada",default=False)
-    circulacion_approved = fields.boolean(string="Tarjeta de circulacion aprobado",default=False) """
+    poliza_approved = fields.Boolean(string="Poliza aprobada",default=False)
+    circulacion_approved = fields.Boolean(string="Tarjeta de circulacion aprobada",default=False)
 
     @api.onchange('status_vehicle')
     def _change_send_to_api(self):

@@ -726,14 +726,6 @@
                     <attribute name="states"></attribute>
                     <attribute name="invisible">True</attribute>
                 </xpath>
-                <xpath expr="//sheet[1]/group[1]/group[2]/div/field[@name='lang']" position="after">
-                    <field name="asociado"/>
-                    <field name="operador"/>
-                </xpath>
-                <xpath expr="//sheet[1]/group[1]/group[2]/div/field[@name='lang']" position="after">
-                    <field name="aseguradora" invisible="1"/>
-                </xpath>
-                
                 <xpath expr="//sheet[1]/group[1]/group[2]/field[@name='email']" position="after">
                     <field name="crmt_logistico_correo"/>
                     <field name="crmt_unidades_txt" attrs="{'invisible':True}"/>
@@ -770,6 +762,10 @@
                 <xpath expr="//notebook/page[@name='internal_notes']" position="attributes">
                      <attribute name="attrs">{'invisible': [('operador','!=',False)]}</attribute>
                 </xpath>  
+                <xpath expr="//sheet/group/group[2]/field[@name='title']" position="after">
+                    <field name="asociado"/>
+                    <field name="operador"/>
+                </xpath>
             </field>
         </record>
         <!-- TODO codigo comentado al migrar en la version 14, por favor revisar su funcionamiento -->
@@ -957,11 +953,11 @@
                                 <field name="celular_enlazado"/>
                                 <field name="name_license_driver" invisible="1"/>
                                 <field name="license_driver" filename="name_license_driver"/>
-<!--                                 
-                                Revisar cuando se migre la api de fletex
-                                <field name="healthcare_move_name"/>
-                                <field name="name_healthcare_move_name" invisible="1"/>
-                                <field name="adj_healthcare_move_name" filename="name_healthcare_move_name"/> -->
+                                <field name="license_approved"/>
+                                <field name="healthcare_number"/>
+                                <field name="name_healthcare_number" invisible="1"/>
+                                <field name="adj_healthcare_number" filename="name_healthcare_move_name"/>
+                                <field name="nss_approved" />
                             </group>
                             <group>
                                 <field name="activo_slitrack"/>
