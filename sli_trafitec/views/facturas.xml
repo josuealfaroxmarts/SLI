@@ -146,7 +146,7 @@
                 <xpath expr="//sheet/group/group[1]/field[@name='lineanegocio']" position="after">
                     <field name="invoice_from_xml" invisible="0" attrs="{'readonly': [('state','not in',['draft'])]}"/>
                 </xpath>
-                <xpath expr="//sheet/group/group[2]/div[3]/field[@name='currency_id']" position="after">
+                <xpath expr="//sheet/group/group[2]/div[3]" position="after">
                     <field name="es_cartaporte" invisible="0" attrs="{'readonly': [('state','not in',['draft'])]}"/>
                     <field name="es_provision" invisible="0"/>
                 </xpath>

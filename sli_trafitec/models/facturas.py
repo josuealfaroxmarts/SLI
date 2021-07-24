@@ -32,8 +32,8 @@ class trafitec_account_invoice(models.Model):
 	pagada = fields.Boolean(string='Pagada', default=False)
 	factura_encontrarecibo = fields.Boolean(string='Factura en contra recibo',default=False)
 	x_folio_trafitecw = fields.Char(string="Folio Trafitec Windows")
-	es_cartaporte = fields.Boolean(string="Es carta porte", default=False,help='Indica si la factura es una factura de flete (Carta porte).')
-	es_provision = fields.Boolean(string="Es provisión", default=False, help='Indica si la factura esta provisionada.')
+	es_cartaporte = fields.Boolean(string="Es carta porte", default=False)
+	es_provision = fields.Boolean(string="Es provisión", default=False)
 	contrarecibo_id = fields.Many2one(string='Contra recibo', comodel_name='trafitec.contrarecibo')
 	invoice_from_xml = fields.Many2one('invoice.from.fletex', string="Factura XML", domain="[('clientId' ,'=', partner_id)]")
 
