@@ -13,6 +13,12 @@
                     <field name="status_vehicle"/>
                     <field name="send_to_api" invisible="1"/>
                 </xpath>
+                <xpath expr="//field[@name='circulacion']" position="after">
+                    <field name="circulacion_approved"/>
+                </xpath>
+                <xpath expr="//field[@name='poliza_seguro']" position="after">
+                    <field name="poliza_approved"/>
+                </xpath>
             </field>
         </record>
     

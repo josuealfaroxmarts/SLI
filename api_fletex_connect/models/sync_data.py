@@ -84,8 +84,6 @@ class SyncDataFletex(models.Model):
                     'params': {}
                 })
 
-        print("responsables2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2")
-        print(responsables)
         if len(responsables['data']) > 0:
             for responsable in responsables['data']:
                 self.responsables_manager(responsable)
@@ -335,9 +333,14 @@ class SyncDataFletex(models.Model):
             [('send_to_api', '=', True)])
         for res_partner in res_partners:
             if res_partner['operador']:
+                rejected_files = []
                 if res_partner['status_record'] == 'refused':
                     new_driver = 0
                     status = 'refused'
+                    if not res_partner['id_approved']:
+                        rejected_files.append('file_nss')
+                    if not res_partner['act_approved']:
+                        rejected_files.append('file_licence')
                 elif res_partner['status_record'] == 'draft':
                     continue
                 else:
@@ -544,13 +547,15 @@ class SyncDataFletex(models.Model):
             )
 
     def change_status_vehicle(self, headers):
+
         vehicles_change = self.env['fleet.vehicle'].search(
             [('send_to_api', '=', True)])
 
         if len(vehicles_change) > 0:
             for vehicle in vehicles_change:
+                
                 rejected_files = []
-                if vehicle['status_vehicle'] == 'refused':
+                if vehicle['status_vehicle'] == 'rejected':
                     status = 'rejected'
                     if not vehicle['circulacion_approved']:
                         rejected_files.append('file_circulation_card,')
@@ -560,6 +565,7 @@ class SyncDataFletex(models.Model):
                     status = 'active'
                 else:
                     continue
+                
                 self.response_fletex(
                     self.get_endpoint('read_vehicles_fletex_endpoint'),
                     'post',
@@ -587,6 +593,7 @@ class SyncDataFletex(models.Model):
                         'headers': headers,
                         'params': {}
                     })
+                
                 vehicle.write({'send_to_api': False})
 
 
