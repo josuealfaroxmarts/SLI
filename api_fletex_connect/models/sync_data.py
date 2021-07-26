@@ -32,7 +32,6 @@ class SyncDataFletex(models.Model):
                 'headers': headers,
                 'params': {}
             })
-
         # If the request brings users, the user manager is called
         if users:
             for user in users['data']:
