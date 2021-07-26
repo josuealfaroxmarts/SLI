@@ -899,7 +899,7 @@ class SyncDataFletex(models.Model):
                 }
 
                 record.write(vals)
-
+""" 
                 if shipment['evidences'] :
                     for evidence in shipment['evidences'] :
                         vals = {
@@ -909,7 +909,7 @@ class SyncDataFletex(models.Model):
                                                         self.find_extension_document(evidence)),
                             'name': "Evidencia de viaje"
                         }
-                        self.env['trafitec.viajes.evidencias'].create(vals)
+                        self.env['trafitec.viajes.evidencias'].create(vals) """
 
                 """ if record['estado_viaje'] == 'finalizado' :
 
