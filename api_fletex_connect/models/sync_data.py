@@ -932,7 +932,7 @@ class SyncDataFletex(models.Model):
                                 self.env['invoice.from.fletex'].create(vals) """
 
         else:
-            quotation = self.env['trafitec.cotizacion'].search([
+            """ quotation = self.env['trafitec.cotizacion'].search([
                 ('id_fletex', '=', shipment['project_id'])])
 
             line_quotation = self.env['trafitec.cotizaciones.linea'].search([
@@ -995,7 +995,7 @@ class SyncDataFletex(models.Model):
                 'referencia_cliente':  shipment['shipment_id']
             }
 
-            self.env['trafitec.viajes'].create(vals)
+            self.env['trafitec.viajes'].create(vals) """
 
 
     def search_record(self, model, field, value):
