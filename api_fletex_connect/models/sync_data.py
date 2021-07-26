@@ -120,7 +120,7 @@ class SyncDataFletex(models.Model):
         if shipments : 
             if len(shipments['data']['shipments']) > 0:
                 for shipment in shipments['data']['shipments']:
-                    """ self.shipments_manager(shipment) """
+                    self.shipments_manager(shipment)
 
     def response_fletex(self, endpoint, method, data={}):
         """ This function makes the call to the different endpoints 
@@ -860,7 +860,7 @@ class SyncDataFletex(models.Model):
         records = self.env['trafitec.viajes'].search([
             ('id_fletex', '=', shipment['shipment_id'])])
         if records:
-            for record in records:
+            """ for record in records:
                 quotation = self.env['trafitec.cotizacion'].search([
                 ('id_fletex', '=', shipment['project_id'])])
 
@@ -901,7 +901,7 @@ class SyncDataFletex(models.Model):
 
                 record.write(vals)
 
-                """for evidence in shipment['evidences'] :
+                for evidence in shipment['evidences'] :
                     vals = {
                         'linea_id': shipment['shipment_id'],
                         'evidencia_file': evidence,
@@ -909,7 +909,7 @@ class SyncDataFletex(models.Model):
                                                     self.find_extension_document(evidence)),
                         'name': "Evidencia de viaje"
                     }
-                    self.env['trafitec.viajes.evidencias'].create(vals) """
+                    self.env['trafitec.viajes.evidencias'].create(vals)
 
                 if record['estado_viaje'] == 'finalizado' :
 
@@ -928,7 +928,7 @@ class SyncDataFletex(models.Model):
                                 'invoicePdf': shipment['invoice_pdf'],
                             }
 
-                            self.env['invoice.from.fletex'].create(vals)
+                            self.env['invoice.from.fletex'].create(vals) """
 
         else:
             quotation = self.env['trafitec.cotizacion'].search([
