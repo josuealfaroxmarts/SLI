@@ -107,7 +107,7 @@ class SyncDataFletex(models.Model):
 
         self.change_status_projects(headers)
 
-        """ shipments = self.response_fletex(
+        shipments = self.response_fletex(
             self.get_endpoint('read_shipments_fletex_endpoint'),
             'get',
             {
@@ -119,8 +119,8 @@ class SyncDataFletex(models.Model):
         # If the request brings locations, the locations manager is called
         if shipments : 
             if len(shipments['data']['shipments']) > 0:
-                for shipment in shipments['data']['shipments']:
-                    self.shipments_manager(shipment)"""
+                """ for shipment in shipments['data']['shipments']:
+                    self.shipments_manager(shipment) """
 
     def response_fletex(self, endpoint, method, data={}):
         """ This function makes the call to the different endpoints 
