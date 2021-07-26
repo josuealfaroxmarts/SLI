@@ -901,15 +901,18 @@ class SyncDataFletex(models.Model):
 
                     invoice = self.env['invoice.from.fletex'].search([
                             ('fletexShipmentReference', '=', shipment['shipment_id'])])
-                    
-                    for evidence in shipment['evicences'] :
-                        vals = {
-                            'linea_id': shipment['shipment_id'],
-                            'evidencia_file': evidence,
-                            'image_filename': "Evidencia de viaje {}".format(record['id']),
-                            'name': "Evidencia de viaje"
-                        }
-                        self.env['trafitec.viajes.enviencias'].create(vals)
+                    evidence_ids = self.env['trafitec.viajes.enviencias'].search([
+                            ('shipment_id', '=', shipment['shipment_id'])])
+
+                    if not evidence_ids :
+                        for evidence in shipment['evicences'] :
+                            vals = {
+                                'shipment_id': shipment['shipment_id'],
+                                'evidencia_file': evidence,
+                                'image_filename': "Evidencia de viaje {}".format(record['id']),
+                                'name': "Evidencia de viaje"
+                            }
+                            self.env['trafitec.viajes.enviencias'].create(vals)
 
                     if not invoice :
                         if len(shipment['invoice_xml']) > 0:
