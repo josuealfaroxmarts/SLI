@@ -52,7 +52,7 @@ class SyncDataFletex(models.Model):
                 'params': {}
             })
 
-        if len(vehicles) > 0:
+        if vehicles:
             for vehicle in vehicles['data']:
                 self.vehicles_manager(vehicle)
 
@@ -69,9 +69,7 @@ class SyncDataFletex(models.Model):
             })
 
         # If the request brings locations, the locations manager is called
-        _logger.debug("asdsadsadasdasdasasd")
-        _logger.debug(locations)
-        if len(locations) > 0:
+        if locations:
             for location in locations['data']:
                 self.locations_manager(location, headers)
 
@@ -84,7 +82,7 @@ class SyncDataFletex(models.Model):
                     'params': {}
                 })
 
-        if len(responsables['data']) > 0:
+        if responsables['data']:
             for responsable in responsables['data']:
                 self.responsables_manager(responsable)
 
@@ -113,7 +111,7 @@ class SyncDataFletex(models.Model):
                 'params': {}
             })
         # If the request brings locations, the locations manager is called
-        if len(shipments['data']['shipments']) > 0:
+        if shipments['data']['shipments']:
             for shipment in shipments['data']['shipments']:
                 self.shipments_manager(shipment, headers)
 
