@@ -34,7 +34,7 @@ class SyncDataFletex(models.Model):
             })
 
         # If the request brings users, the user manager is called
-        if len(users) > 0:
+        if users:
             for user in users['data']:
                 if user['role'] == 'driver':
                     self.res_partner_drivers_manager(user)
