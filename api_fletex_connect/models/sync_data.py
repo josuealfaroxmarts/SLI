@@ -34,7 +34,7 @@ class SyncDataFletex(models.Model):
             })
 
         # If the request brings users, the user manager is called
-        if len(users['data']) > 0:
+        if len(users) > 0:
             for user in users['data']:
                 if user['role'] == 'driver':
                     self.res_partner_drivers_manager(user)
@@ -901,7 +901,6 @@ class SyncDataFletex(models.Model):
 
                     invoice = self.env['invoice.from.fletex'].search([
                             ('fletexShipmentReference', '=', shipment['shipment_id'])])
-                    _logger.debug('Guardando Evidencias......')
                     
                     for evidence in shipment['evicences'] :
                         vals = {
