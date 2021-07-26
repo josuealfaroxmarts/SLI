@@ -898,9 +898,9 @@ class SyncDataFletex(models.Model):
                     'referencia_cliente':  shipment['shipment_id']
                 }
 
-                
+                record.write(vals)
 
-                """ if shipment['evidences'] :
+                if shipment['evidences'] :
                     for evidence in shipment['evidences'] :
                         vals = {
                             'linea_id': record['id'],
@@ -909,9 +909,9 @@ class SyncDataFletex(models.Model):
                                                         self.find_extension_document(evidence)),
                             'name': "Evidencia de viaje"
                         }
-                        self.env['trafitec.viajes.evidencias'].create(vals) """
+                        self.env['trafitec.viajes.evidencias'].create(vals)
 
-                """ if record['estado_viaje'] == 'finalizado' :
+                if record['estado_viaje'] == 'finalizado' :
 
                     invoice = self.env['invoice.from.fletex'].search([
                             ('fletexShipmentReference', '=', shipment['shipment_id'])])
@@ -929,10 +929,10 @@ class SyncDataFletex(models.Model):
                                     'invoicePdf': shipment['invoice_pdf'],
                                 }
 
-                                self.env['invoice.from.fletex'].create(vals) """
+                                self.env['invoice.from.fletex'].create(vals)
 
         else:
-            """ quotation = self.env['trafitec.cotizacion'].search([
+            quotation = self.env['trafitec.cotizacion'].search([
                 ('id_fletex', '=', shipment['project_id'])])
 
             line_quotation = self.env['trafitec.cotizaciones.linea'].search([
@@ -995,7 +995,7 @@ class SyncDataFletex(models.Model):
                 'referencia_cliente':  shipment['shipment_id']
             }
 
-            self.env['trafitec.viajes'].create(vals) """
+            self.env['trafitec.viajes'].create(vals)
 
 
     def search_record(self, model, field, value):
