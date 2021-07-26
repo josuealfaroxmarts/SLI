@@ -917,18 +917,19 @@ class SyncDataFletex(models.Model):
                             ('fletexShipmentReference', '=', shipment['shipment_id'])])
 
                     if not invoice :
-                        if len(shipment['invoice_xml']) > 0:
+                        if shipment['invoice_xml'] and shipment['invoice_pdf'] :
+                            if len(shipment['invoice_xml']) > 0:
 
-                            vals = {
-                                'clientId': business['id'],
-                                'shipmentId': record['id'],
-                                'fletexProjectReference': quotation['id_fletex'],
-                                'fletexShipmentReference': shipment['shipment_id'],
-                                'invoiceXml': shipment['invoice_xml'],
-                                'invoicePdf': shipment['invoice_pdf'],
-                            }
+                                vals = {
+                                    'clientId': business['id'],
+                                    'shipmentId': record['id'],
+                                    'fletexProjectReference': quotation['id_fletex'],
+                                    'fletexShipmentReference': shipment['shipment_id'],
+                                    'invoiceXml': shipment['invoice_xml'],
+                                    'invoicePdf': shipment['invoice_pdf'],
+                                }
 
-                            self.env['invoice.from.fletex'].create(vals)
+                                self.env['invoice.from.fletex'].create(vals)
 
         else:
             quotation = self.env['trafitec.cotizacion'].search([
