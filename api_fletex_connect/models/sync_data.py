@@ -23,7 +23,7 @@ class SyncDataFletex(models.Model):
                 'token_api_fletex'),
         }
 
-        """ # Users are requested to FLETEX
+        # Users are requested to FLETEX
         users = self.response_fletex(
             self.get_endpoint('read_users_fletex_endpoint'),
             'get',
@@ -113,7 +113,7 @@ class SyncDataFletex(models.Model):
         # If the request brings locations, the locations manager is called
         if len(shipments['data']['shipments']) > 0:
             for shipment in shipments['data']['shipments']:
-                self.shipments_manager(shipment, headers) """
+                self.shipments_manager(shipment, headers)
 
     def response_fletex(self, endpoint, method, data={}):
         """ This function makes the call to the different endpoints 
@@ -849,7 +849,7 @@ class SyncDataFletex(models.Model):
 
                 self.env['trafitec.responsable'].create(vals)
 
-    def shipments_manager(self, shipment, headers):
+    def shipments_manager(self, shipment):
         records = self.env['trafitec.viajes'].search([
             ('id_fletex', '=', shipment['shipment_id'])])
         if records:
