@@ -903,7 +903,7 @@ class SyncDataFletex(models.Model):
                         'image_filename': "Evidencia de viaje {}".format(record['id']),
                         'name': "Evidencia de viaje"
                     }
-                    self.env['trafitec.viajes.enviencias'].create(vals)
+                    self.env['trafitec.viajes.envidencias'].create(vals)
 
                 if record['estado_viaje'] == 'finalizado' :
 
