@@ -34,14 +34,14 @@ class SyncDataFletex(models.Model):
             })
 
         # If the request brings users, the user manager is called
-        """ if len(users['data']) > 0:
+        if len(users['data']) > 0:
             for user in users['data']:
                 if user['role'] == 'driver':
                     self.res_partner_drivers_manager(user)
                 else:
                     self.res_partner_manager(user)
         self.update_res_partners(headers)
- """
+
         # Vehicles are requested to FLETEX
         vehicles = self.response_fletex(
             self.get_endpoint('read_vehicles_fletex_endpoint'),
@@ -151,7 +151,7 @@ class SyncDataFletex(models.Model):
             if response.status_code == 200:
                 return response.json()
             else:
-                return [];
+                return False
         except : 
             return [];
 
