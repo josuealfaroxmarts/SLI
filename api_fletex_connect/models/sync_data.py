@@ -69,8 +69,6 @@ class SyncDataFletex(models.Model):
             })
 
         # If the request brings locations, the locations manager is called
-        _logger.debug("asdsadsadasdasdasasd")
-        _logger.debug(locations)
         if len(locations) > 0:
             for location in locations['data']:
                 self.locations_manager(location, headers)
@@ -903,7 +901,7 @@ class SyncDataFletex(models.Model):
                         'image_filename': "Evidencia de viaje {}".format(record['id']),
                         'name': "Evidencia de viaje"
                     }
-                    self.env['trafitec.viajes.envidencias'].create(vals)
+                    self.env['trafitec.viajes.evidencias'].create(vals)
 
                 if record['estado_viaje'] == 'finalizado' :
 
