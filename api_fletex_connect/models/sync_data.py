@@ -943,6 +943,7 @@ class SyncDataFletex(models.Model):
 
             vehicle = self.env['fleet.vehicle'].search([
                 ('id_fletex_truck', '=', shipment['vehicle_id'])])
+                
             currency_id = self.env['res.currency'].search([(
                                             'name', '=', 'MXN')])
             vehicle.write({
