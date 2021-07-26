@@ -120,7 +120,7 @@ class SyncDataFletex(models.Model):
         if shipments : 
             if len(shipments['data']['shipments']) > 0:
                 for shipment in shipments['data']['shipments']:
-                    self.shipments_manager(shipment """)
+                    self.shipments_manager(shipment)"""
 
     def response_fletex(self, endpoint, method, data={}):
         """ This function makes the call to the different endpoints 
