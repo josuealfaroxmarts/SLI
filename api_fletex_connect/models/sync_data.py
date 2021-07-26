@@ -34,12 +34,13 @@ class SyncDataFletex(models.Model):
             })
 
         # If the request brings users, the user manager is called
-        if len(users['data']) > 0:
-            for user in users['data']:
-                if user['role'] == 'driver':
-                    self.res_partner_drivers_manager(user)
-                else:
-                    self.res_partner_manager(user)
+        if users :
+            if len(users['data']) > 0:
+                for user in users['data']:
+                    if user['role'] == 'driver':
+                        self.res_partner_drivers_manager(user)
+                    else:
+                        self.res_partner_manager(user)
         self.update_res_partners(headers)
 
         # Vehicles are requested to FLETEX
@@ -52,9 +53,10 @@ class SyncDataFletex(models.Model):
                 'params': {}
             })
 
-        if len(vehicles) > 0:
-            for vehicle in vehicles['data']:
-                self.vehicles_manager(vehicle)
+        if vehicles :
+            if len(vehicles) > 0:
+                for vehicle in vehicles['data']:
+                    self.vehicles_manager(vehicle)
 
         self.change_status_vehicle(headers)
 
@@ -69,9 +71,10 @@ class SyncDataFletex(models.Model):
             })
 
         # If the request brings locations, the locations manager is called
-        if len(locations) > 0:
-            for location in locations['data']:
-                self.locations_manager(location, headers)
+        if locations: 
+            if len(locations) > 0:
+                for location in locations['data']:
+                    self.locations_manager(location, headers)
 
         responsables = self.response_fletex(
                 self.get_endpoint('read_responsibles_fletex_endpoint'),
@@ -82,9 +85,10 @@ class SyncDataFletex(models.Model):
                     'params': {}
                 })
 
-        if len(responsables['data']) > 0:
-            for responsable in responsables['data']:
-                self.responsables_manager(responsable)
+        if responsables :
+            if len(responsables['data']) > 0:
+                for responsable in responsables['data']:
+                    self.responsables_manager(responsable)
 
         # projects are requested to FLETEX
         projects = self.response_fletex(
@@ -96,9 +100,10 @@ class SyncDataFletex(models.Model):
                 'params': {}
             })
         # If the request brings locations, the locations manager is called
-        if len(projects['data']) > 0:
-            for project in projects['data']:
-                self.projects_manager(project, headers)
+        if projects :
+            if len(projects['data']) > 0:
+                for project in projects['data']:
+                    self.projects_manager(project, headers)
 
         self.change_status_projects(headers)
 
@@ -110,10 +115,12 @@ class SyncDataFletex(models.Model):
                 'headers': headers,
                 'params': {}
             })
+            
         # If the request brings locations, the locations manager is called
-        if len(shipments['data']['shipments']) > 0:
-            for shipment in shipments['data']['shipments']:
-                self.shipments_manager(shipment, headers)
+        if shipments : 
+            if len(shipments['data']['shipments']) > 0:
+                for shipment in shipments['data']['shipments']:
+                    self.shipments_manager(shipment, headers)
 
     def response_fletex(self, endpoint, method, data={}):
         """ This function makes the call to the different endpoints 
