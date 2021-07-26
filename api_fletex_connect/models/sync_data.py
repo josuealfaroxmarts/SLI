@@ -881,7 +881,7 @@ class SyncDataFletex(models.Model):
 
                 vals = {
                     'id_fletex': shipment['shipment_id'],
-                    'peso_autorizado': 1,
+                    'peso_autorizado': shipment['tons'] * 1000,
                     'asociado_id': business['id'],
                     'estado_viaje': status,
                     'peso_autorizado': shipment['tons'],
@@ -894,14 +894,15 @@ class SyncDataFletex(models.Model):
 
                 record.write(vals)
 
-                for evidence in shipment['evidences'] :
+                """for evidence in shipment['evidences'] :
                     vals = {
                         'linea_id': shipment['shipment_id'],
                         'evidencia_file': evidence,
-                        'image_filename': "Evidencia de viaje {}".format(record['id']),
+                        'image_filename': "Evidencia de viaje {}.{}".format(record['id'],
+                                                    self.find_extension_document(evidence)),
                         'name': "Evidencia de viaje"
                     }
-                    self.env['trafitec.viajes.evidencias'].create(vals)
+                    self.env['trafitec.viajes.evidencias'].create(vals)"""
 
                 if record['estado_viaje'] == 'finalizado' :
 
@@ -912,12 +913,12 @@ class SyncDataFletex(models.Model):
                         if len(shipment['invoice_xml']) > 0:
 
                             vals = {
-                            'clientId': business['id'],
-                            'shipmentId': record['id'],
-                            'fletexProjectReference': quotation['id_fletex'],
-                            'fletexShipmentReference': shipment['shipment_id'],
-                            'invoiceXml': shipment['invoice_xml'],
-                            'invoicePdf': shipment['invoice_pdf'],
+                                'clientId': business['id'],
+                                'shipmentId': record['id'],
+                                'fletexProjectReference': quotation['id_fletex'],
+                                'fletexShipmentReference': shipment['shipment_id'],
+                                'invoiceXml': shipment['invoice_xml'],
+                                'invoicePdf': shipment['invoice_pdf'],
                             }
 
                             self.env['invoice.from.fletex'].create(vals)
