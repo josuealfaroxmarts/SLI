@@ -793,7 +793,6 @@ class SyncDataFletex(models.Model):
                 "Nombre: {}".format(location['alias']),
                 "Exitoso")
         else:
-            _logger.debug('CREADASSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!!!!1')
             
             client_id = self.env['res.partner'].search([
                 ('id_fletex', '=', location['user_id'])])
@@ -860,7 +859,7 @@ class SyncDataFletex(models.Model):
         records = self.env['trafitec.viajes'].search([
             ('id_fletex', '=', shipment['shipment_id'])])
         if records:
-            """ for record in records:
+            for record in records:
                 quotation = self.env['trafitec.cotizacion'].search([
                 ('id_fletex', '=', shipment['project_id'])])
 
@@ -901,15 +900,16 @@ class SyncDataFletex(models.Model):
 
                 record.write(vals)
 
-                for evidence in shipment['evidences'] :
-                    vals = {
-                        'linea_id': shipment['shipment_id'],
-                        'evidencia_file': evidence,
-                        'image_filename': "Evidencia de viaje {}.{}".format(record['id'],
-                                                    self.find_extension_document(evidence)),
-                        'name': "Evidencia de viaje"
-                    }
-                    self.env['trafitec.viajes.evidencias'].create(vals)
+                if shipment['evidences'] :
+                    for evidence in shipment['evidences'] :
+                        vals = {
+                            'linea_id': shipment['shipment_id'],
+                            'evidencia_file': evidence,
+                            'image_filename': "Evidencia de viaje {}.{}".format(record['id'],
+                                                        self.find_extension_document(evidence)),
+                            'name': "Evidencia de viaje"
+                        }
+                        self.env['trafitec.viajes.evidencias'].create(vals)
 
                 if record['estado_viaje'] == 'finalizado' :
 
@@ -928,7 +928,7 @@ class SyncDataFletex(models.Model):
                                 'invoicePdf': shipment['invoice_pdf'],
                             }
 
-                            self.env['invoice.from.fletex'].create(vals) """
+                            self.env['invoice.from.fletex'].create(vals)
 
         else:
             quotation = self.env['trafitec.cotizacion'].search([
