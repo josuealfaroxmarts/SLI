@@ -898,7 +898,7 @@ class SyncDataFletex(models.Model):
                     'referencia_cliente':  shipment['shipment_id']
                 }
 
-                record.write(vals)
+                
 
                 """ if shipment['evidences'] :
                     for evidence in shipment['evidences'] :
