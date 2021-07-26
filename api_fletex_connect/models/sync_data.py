@@ -151,7 +151,7 @@ class SyncDataFletex(models.Model):
             if response.status_code == 200:
                 return response.json()
             else:
-                return False
+                return [];
         except : 
             return [];
 
