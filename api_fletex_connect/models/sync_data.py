@@ -903,7 +903,7 @@ class SyncDataFletex(models.Model):
                 if shipment['evidences'] :
                     for evidence in shipment['evidences'] :
                         vals = {
-                            'linea_id': shipment['shipment_id'],
+                            'linea_id': record['id'],
                             'evidencia_file': evidence,
                             'image_filename': "Evidencia de viaje {}.{}".format(record['id'],
                                                         self.find_extension_document(evidence)),
