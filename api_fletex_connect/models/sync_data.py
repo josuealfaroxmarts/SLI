@@ -115,12 +115,12 @@ class SyncDataFletex(models.Model):
                 'headers': headers,
                 'params': {}
             })
-            
+
         # If the request brings locations, the locations manager is called
         if shipments : 
             if len(shipments['data']['shipments']) > 0:
                 for shipment in shipments['data']['shipments']:
-                    self.shipments_manager(shipment, headers)
+                    self.shipments_manager(shipment)
 
     def response_fletex(self, endpoint, method, data={}):
         """ This function makes the call to the different endpoints 
