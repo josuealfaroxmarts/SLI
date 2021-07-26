@@ -905,7 +905,7 @@ class SyncDataFletex(models.Model):
                             ('linea_id', '=', shipment['shipment_id'])])
 
                     if not evidence_ids :
-                        for evidence in shipment['evicences'] :
+                        for evidence in shipment['evidences'] :
                             vals = {
                                 'linea_id': shipment['shipment_id'],
                                 'evidencia_file': evidence,
