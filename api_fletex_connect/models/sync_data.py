@@ -337,7 +337,6 @@ class SyncDataFletex(models.Model):
         res_partners = self.env['res.partner'].search(
             [('send_to_api', '=', True)])
         _logger.info('RESPARTNESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS')
-        _logger.info(res_partners)
         for res_partner in res_partners:
             if res_partner['operador']:
                 rejected_files = []
@@ -353,6 +352,7 @@ class SyncDataFletex(models.Model):
                 else:
                     status = 'active'
                     new_driver = None
+                _logger.info(rejected_files)
                 response = self.response_fletex(
                     self.get_endpoint('read_users_fletex_endpoint'),
                     'post',
