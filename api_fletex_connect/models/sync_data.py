@@ -966,18 +966,19 @@ class SyncDataFletex(models.Model):
             vehicle.write({
                 'operador_id': driver['id']
             })
+            status = 'enespera'
             
             if shipment['status'] == 'finalized':
                 status = 'finalizado'
             elif shipment['status'] == 'active': 
                 status = 'enproceso'
-            else :
-                status = 'enespera'
+
             _logger.debug('#############STATUS###########################')
             _logger.debug(shipment)
             vals = {
                 'linea_id': line_quotation['id'],
                 'id_fletex': shipment['shipment_id'],
+                'moneda': currency_id['id'],
                 'cliente_id': quotation['cliente']['id'],
                 'origen': quotation['origen_id']['id'],
                 'destino': quotation['destino_id']['id'],
