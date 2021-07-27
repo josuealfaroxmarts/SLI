@@ -858,6 +858,7 @@ class SyncDataFletex(models.Model):
     def shipments_manager(self, shipment):
         records = self.env['trafitec.viajes'].search([
             ('id_fletex', '=', shipment['shipment_id'])])
+        
         if records:
             for record in records:
                 quotation = self.env['trafitec.cotizacion'].search([
@@ -897,8 +898,8 @@ class SyncDataFletex(models.Model):
                     'referencia_asociado':  shipment['shipment_id'],
                     'referencia_cliente':  shipment['shipment_id']
                 }
-
-                record.write(vals)
+                _logger.debug(record)
+                #record.write(vals)
 
                 if shipment['evidences'] :
                     for evidence in shipment['evidences'] :
