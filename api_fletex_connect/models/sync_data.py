@@ -998,7 +998,7 @@ class SyncDataFletex(models.Model):
                 'referencia_cliente':  shipment['shipment_id']
             }
 
-            #self.env['trafitec.viajes'].create(vals)
+            self.env['trafitec.viajes'].create(vals)
 
 
     def search_record(self, model, field, value):
