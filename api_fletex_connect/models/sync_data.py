@@ -899,9 +899,9 @@ class SyncDataFletex(models.Model):
                     'referencia_cliente':  shipment['shipment_id']
                 }
                 _logger.info(record)
-                #record.write(vals)
+                record.write(vals)
 
-                """ if shipment['evidences'] :
+                if shipment['evidences'] :
                     for evidence in shipment['evidences'] :
                         vals = {
                             'linea_id': record['id'],
@@ -930,7 +930,7 @@ class SyncDataFletex(models.Model):
                                     'invoicePdf': shipment['invoice_pdf'],
                                 }
 
-                                self.env['invoice.from.fletex'].create(vals) """
+                                self.env['invoice.from.fletex'].create(vals)
 
         else:
             _logger.info("##################################################")
