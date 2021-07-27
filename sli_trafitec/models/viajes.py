@@ -270,11 +270,12 @@ class trafitec_viajes(models.Model):
     
     @api.depends('seguro_pcliente', 'costo_producto', 'peso_origen_total', 'seguro_id')
     def copute_seguro_total(self):
-        total = 0
+        for rec in self :
+            total = 0
 
-        #Calculo del seguro.
-        total = (self.peso_origen_total * self.costo_producto * self.seguro_pcliente)
-        self.seguro_total = total
+            #Calculo del seguro.
+            total = (rec.peso_origen_total * rec.costo_producto * rec.seguro_pcliente)
+            rec.seguro_total = total
 
     seguro_id = fields.Many2one(string='Poliza de seguro', comodel_name='trafitec.polizas', related='linea_id.cotizacion_id.polizas_seguro') #Poliza relacionada.
     seguro = fields.Boolean(string="Seguro", related='linea_id.cotizacion_id.seguro_mercancia')
