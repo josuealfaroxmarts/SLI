@@ -1670,9 +1670,9 @@ class trafitec_contrarecibo(models.Model):
 
     
     def _compute_iva_carta(self):
-        if self.move_id:
-            if self.move_id.tax_ids:
-                for tax in self.move_id.tax_ids:
+        if self.move_id.invoice_line_ids:
+            if self.move_id.invoice_line_ids.tax_ids:
+                for tax in self.move_id.invoice_line_idstax_ids:
                     if tax.tax_id:
                         if 'IVA' in tax.tax_id.name and 'RET' not in tax.tax_id.name:
                             self.iva = tax.amount
@@ -1683,8 +1683,8 @@ class trafitec_contrarecibo(models.Model):
     @api.onchange('move_id')
     def _onchange_r_iva_carta(self):
         if self.move_id:
-            if self.move_id.tax_ids:
-                for tax in self.move_id.tax_ids:
+            if self.move_id.invoice_line_ids.tax_ids:
+                for tax in self.move_id.invoice_line_ids.tax_ids:
                     if tax.tax_id:
                         if 'IVA' in tax.tax_id.name and 'RET' in tax.tax_id.name:
                             self.r_iva = tax.amount
@@ -1695,8 +1695,8 @@ class trafitec_contrarecibo(models.Model):
     
     def _compute_r_iva_carta(self):
         if self.move_id:
-            if self.move_id.tax_ids:
-                for tax in self.move_id.tax_ids:
+            if self.move_id.invoice_line_ids.tax_ids:
+                for tax in self.move_id.invoice_line_ids.tax_ids:
                     if tax.tax_id:
                         if 'IVA' in tax.tax_id.name and 'RET' in tax.tax_id.name:
                             self.r_iva = tax.amount
