@@ -935,7 +935,7 @@ class SyncDataFletex(models.Model):
         else:
             _logger.info("##################################################")
             _logger.info(shipment['shipment_id'])
-            if shipment['shipment_id'] > 1 :
+            if shipment['shipment_id'] == 1 :
                 quotation = self.env['trafitec.cotizacion'].search([
                     ('id_fletex', '=', shipment['project_id'])])
 
