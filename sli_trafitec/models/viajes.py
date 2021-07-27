@@ -515,100 +515,100 @@ class trafitec_viajes(models.Model):
                     'flete_cliente')
     
     def _valida(self):
-        
-        if not self.cliente_id:
-            raise UserError(_('Alerta !\n--Debe especificar el cliente.'))
+        for rec in self :
+            if not rec.cliente_id:
+                raise UserError(_('Alerta !\n--Debe especificar el cliente.'))
 
-        if not self.lineanegocio:
-            raise UserError(_('Alerta !\nDebe especificar la línea de negocio.'))
+            if not rec.lineanegocio:
+                raise UserError(_('Alerta !\nDebe especificar la línea de negocio.'))
 
-        if not self.asociado_id:
-            raise UserError(_('Alerta !\nDebe especificar el asociado.'))
+            if not rec.asociado_id:
+                raise UserError(_('Alerta !\nDebe especificar el asociado.'))
 
-        if not self.operador_id:
-            raise UserError(_('Alerta !\nDebe especificar el operador.'))
+            if not rec.operador_id:
+                raise UserError(_('Alerta !\nDebe especificar el operador.'))
 
-        if not self.placas_id:
-            raise UserError(_('Alerta !\nDebe especificar el vehículo.'))
+            if not rec.placas_id:
+                raise UserError(_('Alerta !\nDebe especificar el vehículo.'))
 
-        if not self.asociado_id:
-            raise UserError(_('Alerta !\nDebe especificar el asociado.'))
+            if not rec.asociado_id:
+                raise UserError(_('Alerta !\nDebe especificar el asociado.'))
 
-        if not self.operador_id:
-            raise UserError(_('Alerta !\nDebe especificar el operador.'))
+            if not rec.operador_id:
+                raise UserError(_('Alerta !\nDebe especificar el operador.'))
 
-        #Validacion del seguro.
-        
-        #Si esta asegurado
-        if self.flete_cliente > 0:
-            if self.seguro_id:
-                if not self.seguro_entarifa:
-                    if self.costo_producto <= 0:
-                        raise UserError(_('Alerta..\nEste viaje esta asegurado, debe especificar el costo del producto por kg.'))
-                    
-                    if self.seguro_pcliente <= 0:
-                        raise UserError(_('Alerta..\nEste viaje esta asegurado, debe especificar el porcentaje de seguro.'))
-        
-                    if self.seguro_total <= 0:
-                        raise UserError(_('Alerta..\nEste viaje esta asegurado, el total del seguro debe ser mayor a cero.'))
-
+            #Validacion del seguro.
             
-        total_viajes = self.total_viajes()
-        total_subpedido = self.cantidad
-
-        print("================Total viajes:: " + str(total_viajes) + " Total subpedido:: " + str(total_subpedido))
-        if total_viajes > 0 and total_subpedido > 0 and total_viajes > total_subpedido:
-            raise UserError(_(
-                'Alerta..\nCon el viaje actual se excede el peso de lo especificado en la cotización ({}/{}).'.format(
-                    total_viajes, total_subpedido)))
-        
-        #Cargos adicionales.
-        """
-        for c in self.cargo_id:
-            if c.valor <= 0:
-                raise UserError(_('El valor de los cargos adicionales deben ser mayor a cero.'))
+            #Si esta asegurado
+            if rec.flete_cliente > 0:
+                if rec.seguro_id:
+                    if not rec.seguro_entarifa:
+                        if rec.costo_producto <= 0:
+                            raise UserError(_('Alerta..\nEste viaje esta asegurado, debe especificar el costo del producto por kg.'))
+                        
+                        if rec.seguro_pcliente <= 0:
+                            raise UserError(_('Alerta..\nEste viaje esta asegurado, debe especificar el porcentaje de seguro.'))
             
-            if c.valor > 5000:
-                raise UserError(_('El valor de los cargos adicionales deben ser menor a 10,000.00'))
-        """
+                        if rec.seguro_total <= 0:
+                            raise UserError(_('Alerta..\nEste viaje esta asegurado, el total del seguro debe ser mayor a cero.'))
 
-        # Pesos
-        if self.lineanegocio.id == 1:  # Si es granel.
-            if self.peso_origen_remolque_1 > 0 and (self.peso_origen_remolque_1 > 150000):
-                raise UserError(_('Alerta !\nEl peso origen del remolque 1 debe estar entre 1 y 150,000.'))
+                
+            total_viajes = rec.total_viajes()
+            total_subpedido = rec.cantidad
 
-            if self.peso_origen_remolque_2 > 0 and (self.peso_origen_remolque_2 > 150000):
-                raise UserError(_('Alerta !\nEl peso origen del remolque 2 debe estar entre 1 y 150,000.'))
-
-            if self.peso_destino_remolque_1 > 0 and (self.peso_destino_remolque_1 > 150000):
-                raise UserError(_('Alerta !\nEl peso destino del remolque 1 debe estar entre 1 y 150,000.'))
-
-            if self.peso_destino_remolque_2 > 0 and (self.peso_destino_remolque_2 > 150000):
-                raise UserError(_('Alerta !\nEl peso destino del remolque 2 debe estar entre 1 y 150,000.'))
-
-            if self.peso_convenido_remolque_1 > 0 and (self.peso_convenido_remolque_1 > 150000):
-                raise UserError(_('Alerta !\nEl peso convenido del remolque 1 debe estar entre 1 y 150,000.'))
-
-            if self.peso_convenido_remolque_2 > 0 and (self.peso_convenido_remolque_2 > 150000):
-                raise UserError(_('Alerta !\nEl peso convenido del remolque 2 debe estar entre 1 y 150,000.'))
+            print("================Total viajes:: " + str(total_viajes) + " Total subpedido:: " + str(total_subpedido))
+            if total_viajes > 0 and total_subpedido > 0 and total_viajes > total_subpedido:
+                raise UserError(_(
+                    'Alerta..\nCon el viaje actual se excede el peso de lo especificado en la cotización ({}/{}).'.format(
+                        total_viajes, total_subpedido)))
             
-            if (self.peso_autorizado <= 0) or (self.peso_autorizado > 150000):
-                raise UserWarning(_('Alerta !\nEl peso autorizado debe estar entre 1 y 150,000 toneladas.'))
-            
-        #--------------------------------------------
-        #Licitación.
-        #--------------------------------------------
-        #if self.asociado_id.para_licitacion:
-        #    if not self.asociado_id.para_licitacion_aprobado:
-        #        raise UserError(_('El asociado no esta aprobado para licitación.'))
-        
-        #if self.operador_id.para_licitacion:
-        #    if not self.operador_id.para_licitacion_aprobado:
-        #        raise UserError(_('El operador no esta aprobado para licitación.'))
+            #Cargos adicionales.
+            """
+            for c in rec.cargo_id:
+                if c.valor <= 0:
+                    raise UserError(_('El valor de los cargos adicionales deben ser mayor a cero.'))
+                
+                if c.valor > 5000:
+                    raise UserError(_('El valor de los cargos adicionales deben ser menor a 10,000.00'))
+            """
 
-        #if self.placas_id.para_licitacion:
-        #    if not self.placas_id.para_licitacion_aprobado:
-        #        raise UserError(_('El vehículo no esta aprobado para licitación.'))
+            # Pesos
+            if rec.lineanegocio.id == 1:  # Si es granel.
+                if rec.peso_origen_remolque_1 > 0 and (rec.peso_origen_remolque_1 > 150000):
+                    raise UserError(_('Alerta !\nEl peso origen del remolque 1 debe estar entre 1 y 150,000.'))
+
+                if rec.peso_origen_remolque_2 > 0 and (rec.peso_origen_remolque_2 > 150000):
+                    raise UserError(_('Alerta !\nEl peso origen del remolque 2 debe estar entre 1 y 150,000.'))
+
+                if rec.peso_destino_remolque_1 > 0 and (rec.peso_destino_remolque_1 > 150000):
+                    raise UserError(_('Alerta !\nEl peso destino del remolque 1 debe estar entre 1 y 150,000.'))
+
+                if rec.peso_destino_remolque_2 > 0 and (rec.peso_destino_remolque_2 > 150000):
+                    raise UserError(_('Alerta !\nEl peso destino del remolque 2 debe estar entre 1 y 150,000.'))
+
+                if rec.peso_convenido_remolque_1 > 0 and (rec.peso_convenido_remolque_1 > 150000):
+                    raise UserError(_('Alerta !\nEl peso convenido del remolque 1 debe estar entre 1 y 150,000.'))
+
+                if rec.peso_convenido_remolque_2 > 0 and (rec.peso_convenido_remolque_2 > 150000):
+                    raise UserError(_('Alerta !\nEl peso convenido del remolque 2 debe estar entre 1 y 150,000.'))
+                
+                if (rec.peso_autorizado <= 0) or (rec.peso_autorizado > 150000):
+                    raise UserWarning(_('Alerta !\nEl peso autorizado debe estar entre 1 y 150,000 toneladas.'))
+                
+            #--------------------------------------------
+            #Licitación.
+            #--------------------------------------------
+            #if rec.asociado_id.para_licitacion:
+            #    if not rec.asociado_id.para_licitacion_aprobado:
+            #        raise UserError(_('El asociado no esta aprobado para licitación.'))
+            
+            #if rec.operador_id.para_licitacion:
+            #    if not rec.operador_id.para_licitacion_aprobado:
+            #        raise UserError(_('El operador no esta aprobado para licitación.'))
+
+            #if rec.placas_id.para_licitacion:
+            #    if not rec.placas_id.para_licitacion_aprobado:
+            #        raise UserError(_('El vehículo no esta aprobado para licitación.'))
 
     @api.constrains('tarifa_asociado')
     def _check_tarifa_asociado(self):
