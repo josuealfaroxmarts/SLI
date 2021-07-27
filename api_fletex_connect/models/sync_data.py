@@ -941,7 +941,7 @@ class SyncDataFletex(models.Model):
                                 self.env['invoice.from.fletex'].create(vals)
 
         else:
-            _logger.info("##################################################")
+            _logger.info("######################d############################")
             _logger.info(shipment['shipment_id'])
             _logger.debug('#############SHIPMENT###########################')
             _logger.debug(shipment)
@@ -967,7 +967,7 @@ class SyncDataFletex(models.Model):
                 'operador_id': driver['id']
             })
             status = 'enespera'
-            
+
             if shipment['status'] == 'finalized':
                 status = 'finalizado'
             elif shipment['status'] == 'active': 
