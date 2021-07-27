@@ -100,8 +100,7 @@ class SyncDataFletex(models.Model):
                 'params': {}
             })
         # If the request brings locations, the locations manager is called
-        _logger.info('@@@@@@@@@@@@@s@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-        _logger.info(projects)
+        
         if projects :
             if len(projects['data']) > 0:
                 for project in projects['data']:
@@ -117,7 +116,8 @@ class SyncDataFletex(models.Model):
                 'headers': headers,
                 'params': {}
             })
-
+        _logger.info('@@@@@@@@@@@@@s@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        _logger.info(projects)
         # If the request brings locations, the locations manager is called
         if shipments : 
             if len(shipments['data']['shipments']) > 0:
@@ -960,8 +960,8 @@ class SyncDataFletex(models.Model):
                 
             currency_id = self.env['res.currency'].search([(
                                             'name', '=', 'MXN')])
-            _logger.info("MONEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-            _logger.info(currency_id)
+            _logger.info('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOPEEEEEEEEEEEEEEEEEEERAAAAAAAAAAAAAAAAAAA')
+            _logger.info(driver['id'])
 
             vehicle.write({
                 'operador_id': driver['id']
