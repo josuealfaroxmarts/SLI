@@ -964,7 +964,8 @@ class SyncDataFletex(models.Model):
             vehicle.write({
                 'operador_id': driver['id']
             })
-
+            _logger.debug('#############SHIPMENT###########################')
+            _logger.debug(shipment)
             if shipment['status'] == 'finalized':
                 status = 'finalizado'
             elif shipment['status'] == 'active': 
