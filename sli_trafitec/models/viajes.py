@@ -809,8 +809,6 @@ class trafitec_viajes(models.Model):
     costo_km_vacio = fields.Float(string='Costo por km vacío', default=0, help='Costo por kilómetro vacío.')
     costo_km_cargado = fields.Float(string='Costo por km cargado', default=0, help='Costo por kilómetro cargado.')
     
-        
-    
     @api.depends('flete_cliente', 'flete_asociado')
     def _compute_utilidad_txt(self):
         for rec in self :
