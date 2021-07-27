@@ -68,7 +68,8 @@ class trafitec_account_invoice(models.Model):
 			_logger.info("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
 			_logger.info(v.id)
 			numbers = [int(temp)for temp in str(v.id).split() if temp.isdigit()]
-			viaje_dat = self.env['trafitec.viajes'].search([('id', '=', numbers[0])])
+			_logger.info(numbers)
+			viaje_dat = self.env['trafitec.viajes'].search([('id', '=', numbers)])
 			totalflete += viaje_dat.flete_asociado
 
 		self.total_fletescp = totalflete
