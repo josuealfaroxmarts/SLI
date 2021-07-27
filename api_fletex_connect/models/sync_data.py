@@ -960,13 +960,10 @@ class SyncDataFletex(models.Model):
                 
             currency_id = self.env['res.currency'].search([(
                                             'name', '=', 'MXN')])
-            _logger.info('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOPEEEEEEEEEEEEEEEEEEERAAAAAAAAAAAAAAAAAAA')
-            _logger.info(driver['id'])
 
             vehicle.write({
                 'operador_id': driver['id']
             })
-            _logger.info("OPERADORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
 
             if shipment['status'] == 'finalized':
                 status = 'finalizado'
@@ -974,7 +971,8 @@ class SyncDataFletex(models.Model):
                 status = 'enproceso'
             else :
                 status = 'enespera'
-
+            _logger.debug('#############STATUS###########################')
+            _logger.debug(shipment)
             vals = {
                 'linea_id': line_quotation['id'],
                 'id_fletex': shipment['shipment_id'],
@@ -996,7 +994,7 @@ class SyncDataFletex(models.Model):
                 'peso_autorizado': 1,
                 'asociado_id': business['id'],
                 'estado_viaje': status,
-                'peso_autorizado': shipment['tons'],
+                'peso_autorizado': shipment['tons'] * 1000,
                 'peso_origen_remolque_1': shipment['tons'] * 1000,
                 'peso_origen_remolque_2': shipment['tons_full'] * 1000,
                 'peso_convenido_remolque_1': shipment['tons'] * 1000,
