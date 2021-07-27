@@ -341,10 +341,10 @@
                                             <field widget="binary" height="64" name="evidencia_file" filename="image_filename" />
                                         </tree>
                                     </field>
+                                    <field name="documentacion_completa" attrs="{'readonly': [('state', 'in', ('Cancelado','Siniestrado'))]}"/>
                                 </group>
                                 <group>
                                     <group>
-                                    <field name="documentacion_completa" attrs="{'readonly': [('state', 'in', ('Cancelado','Siniestrado'))]}"/>
                                     <!--label string="Asignado a"/-->
                                     <field name="asignadoa_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': [('state','!=','Nueva')]}"/>
                                     </group>

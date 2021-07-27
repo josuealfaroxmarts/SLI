@@ -109,7 +109,7 @@ class trafitec_viajes(models.Model):
     state = fields.Selection([('Nueva', 'Nueva'), ('Siniestrado', 'Siniestrado'), ('Cancelado', 'Cancelado')],
                                 string='Estado',
                                 default='Nueva', tracking=True)
-    documentacion_completa = fields.Boolean(string='Documentanción completada')
+    documentacion_completa = fields.Boolean(string='Documentanción completa')
     fecha_viaje = fields.Date(string='Fecha del viaje', readonly=False, index=True, copy=False,
                                 default=fields.Datetime.now, required=True)
     user_id = fields.Many2one('res.users', string='Usuario que genero viaje', index=True, tracking=True,
