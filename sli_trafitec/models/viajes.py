@@ -270,12 +270,11 @@ class trafitec_viajes(models.Model):
     
     @api.depends('seguro_pcliente', 'costo_producto', 'peso_origen_total', 'seguro_id')
     def copute_seguro_total(self):
-        for rec in self :
-            total = 0
+        total = 0
 
-            #Calculo del seguro.
-            total = (self.peso_origen_total * self.costo_producto * self.seguro_pcliente)
-            self.seguro_total = total
+        #Calculo del seguro.
+        total = (self.peso_origen_total * self.costo_producto * self.seguro_pcliente)
+        self.seguro_total = total
 
     seguro_id = fields.Many2one(string='Poliza de seguro', comodel_name='trafitec.polizas', related='linea_id.cotizacion_id.polizas_seguro') #Poliza relacionada.
     seguro = fields.Boolean(string="Seguro", related='linea_id.cotizacion_id.seguro_mercancia')
@@ -388,7 +387,7 @@ class trafitec_viajes(models.Model):
         for c in self.cargo_id:
             total += c.valor
             
-            self.cargo_total = total
+        self.cargo_total = total
     
     
     
@@ -679,10 +678,7 @@ class trafitec_viajes(models.Model):
     
     @api.depends('flete_cliente', 'flete_asociado')
     def _compute_flete_diferencia(self):
-        for rec in self :
-            rec.flete_diferencia = rec.flete_cliente - rec.flete_asociado
-
-    
+        self.flete_diferencia = self.flete_cliente - self.flete_asociado
 
     @api.onchange('linea_id')
     def _onchange_subpedido(self):
@@ -816,18 +812,17 @@ class trafitec_viajes(models.Model):
     
     @api.depends('flete_cliente', 'flete_asociado')
     def _compute_utilidad_txt(self):
-        for rec in self :
-            if rec.flete_cliente <= 0 and rec.flete_asociado <= 0:
-                rec.utilidad_txt = "--"
-                return
-                        
-            #Calculos.
-            utilidad = rec.flete_cliente-rec.flete_asociado
-            cantidad = rec.flete_cliente*0.05 #Cinco porciento.
-            if utilidad >= cantidad:
-                rec.utilidad_txt = "si"
-            else:
-                rec.utilidad_txt = "no"
+        if self.flete_cliente <= 0 and self.flete_asociado <= 0:
+            self.utilidad_txt = "--"
+            return
+                    
+        #Calculos.
+        utilidad = self.flete_cliente-self.flete_asociado
+        cantidad = self.flete_cliente*0.05 #Cinco porciento.
+        if utilidad >= cantidad:
+            self.utilidad_txt = "si"
+        else:
+            self.utilidad_txt = "no"
         
     
     utilidad_txt=fields.Selection(string='Utilidad', compute='_compute_utilidad_txt',selection=[('no','NO'),('si','SI'),('--','--')],default='--',store=True)
@@ -968,52 +963,51 @@ class trafitec_viajes(models.Model):
 
     
     def _compute_comision_calculada(self):
-        for rec in self:
-            if rec.regla_comision == 'No cobrar':
-                rec.comision_calculada = 0
-            elif rec.regla_comision == 'Cobrar cantidad especifica':
-                rec.comision_calculada = rec.cant_especifica
+        if self.regla_comision == 'No cobrar':
+            self.comision_calculada = 0
+        elif self.regla_comision == 'Cobrar cantidad especifica':
+            self.comision_calculada = self.cant_especifica
+        else:
+            peso = 0
+            if self.facturar_con == 'Peso convenido':
+                peso = self.peso_convenido_total
+            elif self.facturar_con == 'Peso origen':
+                peso = self.peso_origen_total
+            elif self.facturar_con == 'Peso destino':
+                peso = self.peso_destino_total
+            if self.usar_porcentaje == True:
+                linea_tran = (self.comision_linea / 100)
             else:
-                peso = 0
-                if rec.facturar_con == 'Peso convenido':
-                    peso = rec.peso_convenido_total
-                elif rec.facturar_con == 'Peso origen':
-                    peso = rec.peso_origen_total
-                elif rec.facturar_con == 'Peso destino':
-                    peso = rec.peso_destino_total
-                if rec.usar_porcentaje == True:
-                    linea_tran = (rec.comision_linea / 100)
-                else:
-                    linea_tran = (rec.porcentaje_comision / 100)
-                if peso != 0 or peso is not None:
-                    pesototal_asociado = (peso / 1000) * rec.tarifa_asociado
-                    if rec.regla_comision == 'Con % linea transportista y peso origen' or rec.regla_comision == 'Con % linea transportista y peso destino' or rec.regla_comision == 'Con % linea transportista y peso convenido':
-                        rec.comision_calculada = pesototal_asociado * linea_tran
-                    if rec.regla_comision == 'Con % linea transportista y capacidad de remolque':
-                        rec.comision_calculada = ((rec.capacidad / 1000) * rec.tarifa_asociado) * linea_tran
+                linea_tran = (self.porcentaje_comision / 100)
+            if peso != 0 or peso is not None:
+                pesototal_asociado = (peso / 1000) * self.tarifa_asociado
+                if self.regla_comision == 'Con % linea transportista y peso origen' or self.regla_comision == 'Con % linea transportista y peso destino' or self.regla_comision == 'Con % linea transportista y peso convenido':
+                    self.comision_calculada = pesototal_asociado * linea_tran
+                if self.regla_comision == 'Con % linea transportista y capacidad de remolque':
+                    self.comision_calculada = ((self.capacidad / 1000) * self.tarifa_asociado) * linea_tran
 
-                    if rec.regla_comision == 'Con % especifico y peso origen' or rec.regla_comision == 'Con % especifico y peso destino' or rec.regla_comision == 'Con % especifico y peso convenido':
-                        rec.comision_calculada = pesototal_asociado * (rec.porcent_comision / 100)
-                    if rec.regla_comision == 'Con % especifico y capacidad de remolque':
-                        rec.comision_calculada = ((rec.capacidad / 1000) * rec.tarifa_asociado) * (
-                        rec.porcent_comision / 100)
-            if rec.comision_calculada > 0:
-                valores = {'viaje_id': rec.id, 'monto': rec.comision_calculada, 'tipo_cargo': 'comision',
-                            'asociado_id': rec.asociado_id.id}
-                obc_cargos = rec.env['trafitec.cargos'].search(
-                    ['&', ('viaje_id', '=', rec.id), ('tipo_cargo', '=', 'comision')])
-                if len(obc_cargos) == 0:
-                    rec.env['trafitec.cargos'].create(valores)
-                else:
-                    obc_cargos.write(valores)
+                if self.regla_comision == 'Con % especifico y peso origen' or self.regla_comision == 'Con % especifico y peso destino' or self.regla_comision == 'Con % especifico y peso convenido':
+                    self.comision_calculada = pesototal_asociado * (self.porcent_comision / 100)
+                if self.regla_comision == 'Con % especifico y capacidad de remolque':
+                    self.comision_calculada = ((self.capacidad / 1000) * self.tarifa_asociado) * (
+                    self.porcent_comision / 100)
+        if self.comision_calculada > 0:
+            valores = {'viaje_id': self.id, 'monto': self.comision_calculada, 'tipo_cargo': 'comision',
+                        'asociado_id': self.asociado_id.id}
+            obc_cargos = self.env['trafitec.cargos'].search(
+                ['&', ('viaje_id', '=', self.id), ('tipo_cargo', '=', 'comision')])
+            if len(obc_cargos) == 0:
+                self.env['trafitec.cargos'].create(valores)
+            else:
+                obc_cargos.write(valores)
 
-                    # Genera el cargo por comision.
-                    # obj_cargo=self.env['trafitec.cargosx'].search([('viaje_id','=',self.id)])
-                    # cargo_nuevo={'viaje_id':self.id,'asociado_id':self.asociado_id.id,'total':self.comision_calculada,'abonos':0,'saldo':0,'tipo':'comision'}
-                    # if len(obj_cargo)==1: #Si existe lo actualiza.
-                    #    obj_cargo.write(cargo_nuevo)
-                    # else: #Si no existe lo crea.
-                    #    obj_cargo.create(cargo_nuevo)
+                # Genera el cargo por comision.
+                # obj_cargo=self.env['trafitec.cargosx'].search([('viaje_id','=',self.id)])
+                # cargo_nuevo={'viaje_id':self.id,'asociado_id':self.asociado_id.id,'total':self.comision_calculada,'abonos':0,'saldo':0,'tipo':'comision'}
+                # if len(obj_cargo)==1: #Si existe lo actualiza.
+                #    obj_cargo.write(cargo_nuevo)
+                # else: #Si no existe lo crea.
+                #    obj_cargo.create(cargo_nuevo)
 
     comision_calculada = fields.Float(string='Comisión calculada', compute='_compute_comision_calculada', readonly=True)
 
@@ -1110,20 +1104,17 @@ class trafitec_viajes(models.Model):
     
     @api.depends('peso_origen_remolque_1','peso_origen_remolque_2')
     def _compute_pesos_origen_total(self):
-        for rec in self:
-            rec.peso_origen_total = rec.peso_origen_remolque_1 + rec.peso_origen_remolque_2
+            self.peso_origen_total = self.peso_origen_remolque_1 + self.peso_origen_remolque_2
 
     
     @api.depends('peso_destino_remolque_1','peso_destino_remolque_2')
     def _compute_pesos_destino_total(self):
-        for rec in self:
-            rec.peso_destino_total = rec.peso_destino_remolque_1 + rec.peso_destino_remolque_2
+            self.peso_destino_total = self.peso_destino_remolque_1 + self.peso_destino_remolque_2
 
     
     @api.depends('peso_convenido_remolque_1','peso_convenido_remolque_2')
     def _compute_pesos_convenido_total(self):
-        for rec in self:
-            rec.peso_convenido_total = rec.peso_convenido_remolque_1 + rec.peso_convenido_remolque_2
+            self.peso_convenido_total = self.peso_convenido_remolque_1 + self.peso_convenido_remolque_2
 
 
     peso_origen_total = fields.Float(string='Peso origen total Kg', compute='_compute_pesos_origen_total',store=True)
@@ -1152,133 +1143,126 @@ class trafitec_viajes(models.Model):
 
     @api.onchange('peso_origen_total', 'peso_destino_total')
     def _onchange_merma_kg_(self):
-        for rec in self :
-            rec.merma_kg = 0
-            if rec.peso_origen_total and rec.peso_destino_total:
-                if rec.peso_destino_total > rec.peso_origen_total:
-                    rec.merma_kg = 0
-                else:
-                    rec.merma_kg = rec.peso_origen_total - rec.peso_destino_total
+        self.merma_kg = 0
+        if self.peso_origen_total and self.peso_destino_total:
+            if self.peso_destino_total > self.peso_origen_total:
+                self.merma_kg = 0
             else:
-                rec.merma_kg = 0
+                self.merma_kg = self.peso_origen_total - self.peso_destino_total
+        else:
+            self.merma_kg = 0
 
     
     def _compute_merma_kg_(self):
-        for rec in self :
-            rec.merma_kg = 0
-            if rec.peso_origen_total and rec.peso_destino_total:
-                if rec.peso_destino_total > rec.peso_origen_total:
-                    rec.merma_kg = 0
-                else:
-                    rec.merma_kg = rec.peso_origen_total - rec.peso_destino_total
+        self.merma_kg = 0
+        if self.peso_origen_total and self.peso_destino_total:
+            if self.peso_destino_total > self.peso_origen_total:
+                self.merma_kg = 0
             else:
-                rec.merma_kg = 0
+                self.merma_kg = self.peso_origen_total - self.peso_destino_total
+        else:
+            self.merma_kg = 0
 
     merma_kg = fields.Float(string='Merma Kg', compute='_compute_merma_kg_', readonly=True)
 
     @api.onchange('peso_origen_total', 'peso_destino_total', 'tipo_remolque')
     def _onchange_merma_pesos(self):
-        for rec in self:
-            if rec.peso_origen_total and rec.peso_destino_total:
-                # if 'Contenedor' in self.tipo_remolque.name:
-                if rec.lineanegocio.id == 3:  # Contenedores.
-                    rec.merma_pesos = 0
-                else:
-                    rec.merma_pesos = (rec.merma_kg) * rec.costo_producto
+        if self.peso_origen_total and self.peso_destino_total:
+            # if 'Contenedor' in self.tipo_remolque.name:
+            if self.lineanegocio.id == 3:  # Contenedores.
+                self.merma_pesos = 0
             else:
-                rec.merma_pesos = 0
+                self.merma_pesos = (self.merma_kg) * self.costo_producto
+        else:
+            self.merma_pesos = 0
 
     @api.depends('merma_kg')
     
     def _compute_merma_pesos(self):
-        for rec in self :
-            if rec.peso_origen_total and rec.peso_destino_total:
-                if rec.lineanegocio.id == 3:  # Contenedores.
-                    rec.merma_pesos = 0
-                else:
-                    rec.merma_pesos = (rec.merma_kg / 1000) * rec.costo_producto
+        if self.peso_origen_total and self.peso_destino_total:
+            if self.lineanegocio.id == 3:  # Contenedores.
+                self.merma_pesos = 0
             else:
-                rec.merma_pesos = 0
+                self.merma_pesos = (self.merma_kg / 1000) * self.costo_producto
+        else:
+            self.merma_pesos = 0
 
     merma_pesos = fields.Float(string='Merma $', compute='_compute_merma_pesos', readonly=True)
 
     @api.onchange('excedente_merma', 'peso_origen_total', 'peso_destino_total')
     def _onchange_merma_permitida_kg(self):
-        for rec in self :
-            if rec.peso_origen_total and rec.peso_destino_total:
-                if rec.excedente_merma:
-                    if rec.excedente_merma == 'No cobrar':
-                        rec.merma_permitida_kg = 0
-                    else:
-                        if rec.cliente_id.merma_permitida_por:
-                            if rec.peso_origen_total > rec.peso_destino_total:
-                                rec.merma_permitida_kg = rec.cliente_id.merma_permitida_por * (
-                                rec.peso_origen_total / 100)
-                            else:
-                                rec.merma_permitida_kg = 0
-            else:
-                rec.merma_permitida_kg = 0
+        if self.peso_origen_total and self.peso_destino_total:
+            if self.excedente_merma:
+                if self.excedente_merma == 'No cobrar':
+                    self.merma_permitida_kg = 0
+                else:
+                    if self.cliente_id.merma_permitida_por:
+                        if self.peso_origen_total > self.peso_destino_total:
+                            self.merma_permitida_kg = self.cliente_id.merma_permitida_por * (
+                            self.peso_origen_total / 100)
+                        else:
+                            self.merma_permitida_kg = 0
+        else:
+            self.merma_permitida_kg = 0
 
     @api.onchange('peso_origen_remolque_1', 'peso_origen_remolque_2', 'peso_destino_remolque_1',
                     'peso_destino_remolque_2')
     def _calcula_cargosx(self):
-        for rec in self :
-            pesoo_r1 = 0
-            pesoo_r2 = 0
-            pesod_r1 = 0
-            pesod_r2 = 0
-            pesoo = 0
-            pesod = 0
+        pesoo_r1 = 0
+        pesoo_r2 = 0
+        pesod_r1 = 0
+        pesod_r2 = 0
+        pesoo = 0
+        pesod = 0
 
-            merma_kg = 0
-            merma_m = 0
+        merma_kg = 0
+        merma_m = 0
 
-            merma_c_kg = 0
-            merma_c_m = 0
+        merma_c_kg = 0
+        merma_c_m = 0
 
-            if rec.peso_origen_remolque_1:
-                pesoo_r1 = rec.peso_origen_remolque_1
+        if self.peso_origen_remolque_1:
+            pesoo_r1 = self.peso_origen_remolque_1
 
-            if rec.peso_origen_remolque_2:
-                pesoo_r2 = rec.peso_origen_remolque_2
+        if self.peso_origen_remolque_2:
+            pesoo_r2 = self.peso_origen_remolque_2
 
-            if rec.peso_destino_remolque_1:
-                pesod_r1 = rec.peso_destino_remolque_1
+        if self.peso_destino_remolque_1:
+            pesod_r1 = self.peso_destino_remolque_1
 
-            if rec.peso_destino_remolque_2:
-                pesod_r2 = rec.peso_destino_remolque_2
+        if self.peso_destino_remolque_2:
+            pesod_r2 = self.peso_destino_remolque_2
 
-            if pesoo_r1 > 0 and pesod_r1 > 0 and pesoo_r1 > pesod_r1:
-                merma_kg += pesoo_r1 - pesod_r1
+        if pesoo_r1 > 0 and pesod_r1 > 0 and pesoo_r1 > pesod_r1:
+            merma_kg += pesoo_r1 - pesod_r1
 
-            if pesoo_r2 > 0 and pesod_r2 > 0 and pesoo_r2 > pesod_r2:
-                merma_kg += pesoo_r2 - pesod_r2
+        if pesoo_r2 > 0 and pesod_r2 > 0 and pesoo_r2 > pesod_r2:
+            merma_kg += pesoo_r2 - pesod_r2
 
-            pesoo = pesoo_r1 + pesoo_r2
-            pesod = pesod_r1 + pesod_r2
+        pesoo = pesoo_r1 + pesoo_r2
+        pesod = pesod_r1 + pesod_r2
 
-            print("**********MERMA KG: " + str(merma_kg))
+        print("**********MERMA KG: " + str(merma_kg))
 
     def _compute_merma_permitida_kg(self):
-        for rec in self :
-            rec.merma_permitida_kg = 0
-            if rec.peso_origen_total and rec.peso_destino_total:
-                if rec.excedente_merma:
-                    if rec.excedente_merma == 'No cobrar':
-                        rec.merma_permitida_kg = 0
-                    else:
-                        if rec.cliente_id.merma_permitida_por:
-                            if rec.peso_origen_total > rec.peso_destino_total:
-                                rec.merma_permitida_kg = rec.cliente_id.merma_permitida_por * (
-                                rec.peso_origen_total / 100)
-                            else:
-                                rec.merma_permitida_kg = 0
-                        else :
-                            rec.merma_permitida_kg = 0
+        self.merma_permitida_kg = 0
+        if self.peso_origen_total and self.peso_destino_total:
+            if self.excedente_merma:
+                if self.excedente_merma == 'No cobrar':
+                    self.merma_permitida_kg = 0
                 else:
-                    rec.merma_permitida_kg = 0
+                    if self.cliente_id.merma_permitida_por:
+                        if self.peso_origen_total > self.peso_destino_total:
+                            self.merma_permitida_kg = self.cliente_id.merma_permitida_por * (
+                            self.peso_origen_total / 100)
+                        else:
+                            self.merma_permitida_kg = 0
+                    else :
+                        self.merma_permitida_kg = 0
             else:
-                rec.merma_permitida_kg = 0
+                self.merma_permitida_kg = 0
+        else:
+            self.merma_permitida_kg = 0
 
     merma_permitida_kg = fields.Float(string='Merma permitida Kg', 
                                     compute='_compute_merma_permitida_kg', 
@@ -1286,25 +1270,23 @@ class trafitec_viajes(models.Model):
 
     @api.onchange('merma_permitida_kg', 'costo_producto')
     def _onchange_merma_permitida_pesos(self):
-        for rec in self :
-            if rec.peso_origen_total and rec.peso_destino_total:
-                if rec.merma_permitida_kg:
-                    rec.merma_permitida_pesos = (rec.merma_permitida_kg) * rec.costo_producto
-                else:
-                    rec.merma_permitida_pesos = 0
+        if self.peso_origen_total and self.peso_destino_total:
+            if self.merma_permitida_kg:
+                self.merma_permitida_pesos = (self.merma_permitida_kg) * self.costo_producto
             else:
-                rec.merma_permitida_pesos = 0
+                self.merma_permitida_pesos = 0
+        else:
+            self.merma_permitida_pesos = 0
 
     
     def _compute_merma_permitida_pesos(self):
-        for rec in self :
-            if rec.peso_origen_total and rec.peso_destino_total:
-                if rec.merma_permitida_kg:
-                    rec.merma_permitida_pesos = (rec.merma_permitida_kg ) * rec.costo_producto
-                else:
-                    rec.merma_permitida_pesos = 0
+        if self.peso_origen_total and self.peso_destino_total:
+            if self.merma_permitida_kg:
+                self.merma_permitida_pesos = (self.merma_permitida_kg ) * self.costo_producto
             else:
-                rec.merma_permitida_pesos = 0
+                self.merma_permitida_pesos = 0
+        else:
+            self.merma_permitida_pesos = 0
 
     merma_permitida_pesos = fields.Float(string='Merma permitida $', compute='_compute_merma_permitida_pesos',
                                         readonly=True)
@@ -1312,66 +1294,60 @@ class trafitec_viajes(models.Model):
     @api.onchange('peso_origen_remolque_1', 'peso_origen_remolque_2', 'peso_destino_remolque_1',
                     'peso_destino_remolque_2')
     def _onchange_merma_total(self):
-        for rec in self :
-            if rec.peso_origen_remolque_1 > rec.peso_destino_remolque_1:
-                merma_origen = rec.peso_origen_remolque_1 - rec.peso_destino_remolque_1
-            else:
-                merma_origen = 0
-            if rec.peso_origen_remolque_2 > rec.peso_destino_remolque_2:
-                merma_destino = rec.peso_origen_remolque_2 - rec.peso_destino_remolque_2
-            else:
-                merma_destino = 0
-            rec.merma_total = merma_origen + merma_destino
+        if self.peso_origen_remolque_1 > self.peso_destino_remolque_1:
+            merma_origen = self.peso_origen_remolque_1 - self.peso_destino_remolque_1
+        else:
+            merma_origen = 0
+        if self.peso_origen_remolque_2 > self.peso_destino_remolque_2:
+            merma_destino = self.peso_origen_remolque_2 - self.peso_destino_remolque_2
+        else:
+            merma_destino = 0
+        self.merma_total = merma_origen + merma_destino
 
     
     def _compute_merma_total(self):
-        for rec in self :
-            if rec.peso_origen_remolque_1 > rec.peso_destino_remolque_1:
-                merma_origen = rec.peso_origen_remolque_1 - rec.peso_destino_remolque_1
-            else:
-                merma_origen = 0
-            if rec.peso_origen_remolque_2 > rec.peso_destino_remolque_2:
-                merma_destino = rec.peso_origen_remolque_2 - rec.peso_destino_remolque_2
-            else:
-                merma_destino = 0
-            rec.merma_total = merma_origen + merma_destino
+        if self.peso_origen_remolque_1 > self.peso_destino_remolque_1:
+            merma_origen = self.peso_origen_remolque_1 - self.peso_destino_remolque_1
+        else:
+            merma_origen = 0
+        if self.peso_origen_remolque_2 > self.peso_destino_remolque_2:
+            merma_destino = self.peso_origen_remolque_2 - self.peso_destino_remolque_2
+        else:
+            merma_destino = 0
+        self.merma_total = merma_origen + merma_destino
 
     merma_total = fields.Float(string='Merma total kg', compute='_compute_merma_total', readonly=True)
 
     @api.onchange('merma_kg', 'merma_permitida_kg')
     def _onchange_diferencia_porcentaje(self):
-        for rec in self :
-            if rec.merma_kg > rec.merma_permitida_kg:
-                rec.diferencia_porcentaje = rec.merma_kg - rec.merma_permitida_kg
-            else:
-                rec.diferencia_porcentaje = 0
+        if self.merma_kg > self.merma_permitida_kg:
+            self.diferencia_porcentaje = self.merma_kg - self.merma_permitida_kg
+        else:
+            self.diferencia_porcentaje = 0
 
     
     def _compute_diferencia_porcentaje(self):
-        for rec in self: 
-            if rec.merma_kg > rec.merma_permitida_kg:
-                rec.diferencia_porcentaje = rec.merma_kg - rec.merma_permitida_kg
-            else:
-                rec.diferencia_porcentaje = 0
+        if self.merma_kg > self.merma_permitida_kg:
+            self.diferencia_porcentaje = self.merma_kg - self.merma_permitida_kg
+        else:
+            self.diferencia_porcentaje = 0
 
     diferencia_porcentaje = fields.Float(string='diferencia_porcentaje', compute='_compute_diferencia_porcentaje',
                                         readonly=True)
 
     @api.onchange('merma_kg', 'cliente_id')
     def _onchange_diferencia_kg(self):
-        for rec in self :
-            if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                rec.diferencia_kg = rec.merma_kg - rec.cliente_id.merma_permitida_kg
-            else:
-                rec.diferencia_kg = 0
+        if self.merma_kg > self.cliente_id.merma_permitida_kg:
+            self.diferencia_kg = self.merma_kg - self.cliente_id.merma_permitida_kg
+        else:
+            self.diferencia_kg = 0
 
     
     def _compute_diferencia_kg(self):
-        for rec in self:
-            if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                rec.diferencia_kg = rec.merma_kg - rec.cliente_id.merma_permitida_kg
-            else:
-                rec.diferencia_kg = 0
+        if self.merma_kg > self.cliente_id.merma_permitida_kg:
+            self.diferencia_kg = self.merma_kg - self.cliente_id.merma_permitida_kg
+        else:
+            self.diferencia_kg = 0
 
     diferencia_kg = fields.Float(string='diferencia_porcentaje kg', compute='_compute_diferencia_kg',
                                 readonly=True)
@@ -1379,110 +1355,106 @@ class trafitec_viajes(models.Model):
     @api.onchange('excedente_merma', 'merma_permitida_kg', 'diferencia_porcentaje', 'diferencia_kg',
                     'peso_origen_total', 'peso_destino_total')
     def _onchange_merma_cobrar_kg(self):
-        for rec in self :
-            if rec.peso_origen_total > rec.peso_destino_total:
-                if rec.excedente_merma:
-                    if rec.excedente_merma == 'No cobrar':
-                        rec.merma_cobrar_kg = 0
-                    if rec.excedente_merma == 'Porcentaje: Cobrar diferencia':
-                        if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                            rec.merma_cobrar_kg = (rec.merma_kg / 1000) - rec.merma_permitida_kg
-                            rec.merma_permitida_kg = (rec.peso_origen_total * rec.cliente_id.merma_permitida_por) / 100
-                        else:
-                            rec.merma_cobrar_kg = 0
-                    if rec.excedente_merma == 'Porcentaje: Cobrar todo':
-                        if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                            rec.merma_cobrar_kg = (rec.merma_kg / 1000)
-                            rec.merma_permitida_kg = (rec.peso_origen_total * rec.cliente_id.merma_permitida_por) / 100
-                        else:
-                            rec.merma_cobrar_kg = 0
-                    if rec.excedente_merma == 'Kg: Cobrar diferencia':
-                        if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                            rec.merma_cobrar_kg = (rec.merma_kg / 1000) - rec.cliente_id.merma_permitida_kg
-                            rec.merma_permitida_kg = rec.cliente_id.merma_permitida_kg
-                        else:
-                            rec.merma_cobrar_kg = 0
-                            rec.merma_permitida_kg = rec.cliente_id.merma_permitida_kg
-                    if rec.excedente_merma == 'Kg: Cobrar todo':
-                        if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                            rec.merma_cobrar_kg = (rec.merma_kg / 1000)
-                            rec.merma_permitida_kg = rec.cliente_id.merma_permitida_kg
-                        else:
-                            rec.merma_cobrar_kg = 0
-                            rec.merma_permitida_kg = rec.cliente_id.merma_permitida_kg
-                    if rec.excedente_merma == 'Cobrar todo':
-                        rec.merma_cobrar_kg = (rec.merma_kg / 1000)
-                        rec.merma_permitida_kg = rec.cliente_id.merma_permitida_kg
-            else:
-                rec.merma_cobrar_kg = 0
-                rec.merma_permitida_kg = rec.cliente_id.merma_permitida_kg
+        if self.peso_origen_total > self.peso_destino_total:
+            if self.excedente_merma:
+                if self.excedente_merma == 'No cobrar':
+                    self.merma_cobrar_kg = 0
+                if self.excedente_merma == 'Porcentaje: Cobrar diferencia':
+                    if self.merma_kg > self.cliente_id.merma_permitida_kg:
+                        self.merma_cobrar_kg = (self.merma_kg / 1000) - self.merma_permitida_kg
+                        self.merma_permitida_kg = (self.peso_origen_total * self.cliente_id.merma_permitida_por) / 100
+                    else:
+                        self.merma_cobrar_kg = 0
+                if self.excedente_merma == 'Porcentaje: Cobrar todo':
+                    if self.merma_kg > self.cliente_id.merma_permitida_kg:
+                        self.merma_cobrar_kg = (self.merma_kg / 1000)
+                        self.merma_permitida_kg = (self.peso_origen_total * self.cliente_id.merma_permitida_por) / 100
+                    else:
+                        self.merma_cobrar_kg = 0
+                if self.excedente_merma == 'Kg: Cobrar diferencia':
+                    if self.merma_kg > self.cliente_id.merma_permitida_kg:
+                        self.merma_cobrar_kg = (self.merma_kg / 1000) - self.cliente_id.merma_permitida_kg
+                        self.merma_permitida_kg = self.cliente_id.merma_permitida_kg
+                    else:
+                        self.merma_cobrar_kg = 0
+                        self.merma_permitida_kg = self.cliente_id.merma_permitida_kg
+                if self.excedente_merma == 'Kg: Cobrar todo':
+                    if self.merma_kg > self.cliente_id.merma_permitida_kg:
+                        self.merma_cobrar_kg = (self.merma_kg / 1000)
+                        self.merma_permitida_kg = self.cliente_id.merma_permitida_kg
+                    else:
+                        self.merma_cobrar_kg = 0
+                        self.merma_permitida_kg = self.cliente_id.merma_permitida_kg
+                if self.excedente_merma == 'Cobrar todo':
+                    self.merma_cobrar_kg = (self.merma_kg / 1000)
+                    self.merma_permitida_kg = self.cliente_id.merma_permitida_kg
+        else:
+            self.merma_cobrar_kg = 0
+            self.merma_permitida_kg = self.cliente_id.merma_permitida_kg
 
 
     
     @api.depends('peso_origen_total', 'peso_destino_total', 'merma_kg', 'merma_permitida_kg', 'diferencia_porcentaje',
                     'diferencia_kg')
     def _compute_merma_cobrar_kg(self):
-        for rec in self:
-            if rec.peso_origen_total > rec.peso_destino_total:
-                if rec.excedente_merma:
-                    if rec.excedente_merma == 'No cobrar':
-                        rec.merma_cobrar_kg = 0
-                    if rec.excedente_merma == 'Porcentaje: Cobrar diferencia':
-                        if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                            rec.merma_cobrar_kg = rec.merma_kg - rec.merma_permitida_kg
-                            rec.merma_permitida_kg = (rec.peso_origen_total * rec.cliente_id.merma_permitida_por) / 100
-                        else:
-                            rec.merma_cobrar_kg = 0
-                            rec.merma_permitida_kg = (rec.peso_origen_total * rec.cliente_id.merma_permitida_por) / 100
-                    if rec.excedente_merma == 'Porcentaje: Cobrar todo':
-                        if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                            rec.merma_cobrar_kg = rec.merma_kg
-                            rec.merma_permitida_kg = (rec.peso_origen_total * rec.cliente_id.merma_permitida_por) / 100
-                        else:
-                            rec.merma_cobrar_kg = 0
-                            rec.merma_permitida_kg = (rec.peso_origen_total * rec.cliente_id.merma_permitida_por) / 100
-                    if rec.excedente_merma == 'Kg: Cobrar diferencia':
-                        if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                            rec.merma_cobrar_kg = rec.merma_kg - rec.cliente_id.merma_permitida_kg
-                        else:
-                            rec.merma_cobrar_kg = 0
-                    if rec.excedente_merma == 'Kg: Cobrar todo':
-                        if rec.merma_kg > rec.cliente_id.merma_permitida_kg:
-                            rec.merma_cobrar_kg = rec.merma_kg
-                        else:
-                            rec.merma_cobrar_kg = 0
-                    if rec.excedente_merma == 'Cobrar todo':
-                        rec.merma_cobrar_kg = rec.merma_kg
-            else:
-                rec.merma_cobrar_kg = 0
+        if self.peso_origen_total > self.peso_destino_total:
+            if self.excedente_merma:
+                if self.excedente_merma == 'No cobrar':
+                    self.merma_cobrar_kg = 0
+                if self.excedente_merma == 'Porcentaje: Cobrar diferencia':
+                    if self.merma_kg > self.cliente_id.merma_permitida_kg:
+                        self.merma_cobrar_kg = self.merma_kg - self.merma_permitida_kg
+                        self.merma_permitida_kg = (self.peso_origen_total * self.cliente_id.merma_permitida_por) / 100
+                    else:
+                        self.merma_cobrar_kg = 0
+                        self.merma_permitida_kg = (self.peso_origen_total * self.cliente_id.merma_permitida_por) / 100
+                if self.excedente_merma == 'Porcentaje: Cobrar todo':
+                    if self.merma_kg > self.cliente_id.merma_permitida_kg:
+                        self.merma_cobrar_kg = self.merma_kg
+                        self.merma_permitida_kg = (self.peso_origen_total * self.cliente_id.merma_permitida_por) / 100
+                    else:
+                        self.merma_cobrar_kg = 0
+                        self.merma_permitida_kg = (self.peso_origen_total * self.cliente_id.merma_permitida_por) / 100
+                if self.excedente_merma == 'Kg: Cobrar diferencia':
+                    if self.merma_kg > self.cliente_id.merma_permitida_kg:
+                        self.merma_cobrar_kg = self.merma_kg - self.cliente_id.merma_permitida_kg
+                    else:
+                        self.merma_cobrar_kg = 0
+                if self.excedente_merma == 'Kg: Cobrar todo':
+                    if self.merma_kg > self.cliente_id.merma_permitida_kg:
+                        self.merma_cobrar_kg = self.merma_kg
+                    else:
+                        self.merma_cobrar_kg = 0
+                if self.excedente_merma == 'Cobrar todo':
+                    self.merma_cobrar_kg = self.merma_kg
+        else:
+            self.merma_cobrar_kg = 0
 
     merma_cobrar_kg = fields.Float(string='Merma cobrar kg', compute='_compute_merma_cobrar_kg', readonly=True)
 
     @api.onchange('merma_cobrar_kg', 'costo_producto')
     def _onchange_merma_cobrar_pesos(self):
-        for rec in self :
-            if rec.merma_cobrar_kg > 0:
-                rec.merma_cobrar_pesos = (rec.merma_cobrar_kg) * rec.costo_producto
-            else:
-                rec.merma_cobrar_pesos = 0
+        if self.merma_cobrar_kg > 0:
+            self.merma_cobrar_pesos = (self.merma_cobrar_kg) * self.costo_producto
+        else:
+            self.merma_cobrar_pesos = 0
 
     
     @api.depends('merma_cobrar_kg', 'costo_producto')
     def _compute_merma_cobrar_pesos(self):
-        for rec in self :
-            if rec.merma_cobrar_kg > 0:
-                rec.merma_cobrar_pesos = (rec.merma_cobrar_kg) * rec.costo_producto
-                # rec.merma_cobrar_pesos = merma_cobrar_pesos
-                valores = {'viaje_id': rec.id, 'monto': rec.merma_cobrar_pesos, 'tipo_cargo': 'merma',
-                            'asociado_id': rec.asociado_id.id}
-                obc_cargos = rec.env['trafitec.cargos'].search(
-                    ['&', ('viaje_id', '=', rec.id), ('tipo_cargo', '=', 'merma')])
-                if len(obc_cargos) == 0:
-                    rec.env['trafitec.cargos'].create(valores)
-                else:
-                    obc_cargos.write(valores)
+        if self.merma_cobrar_kg > 0:
+            self.merma_cobrar_pesos = (self.merma_cobrar_kg) * self.costo_producto
+            # self.merma_cobrar_pesos = merma_cobrar_pesos
+            valores = {'viaje_id': self.id, 'monto': self.merma_cobrar_pesos, 'tipo_cargo': 'merma',
+                        'asociado_id': self.asociado_id.id}
+            obc_cargos = self.env['trafitec.cargos'].search(
+                ['&', ('viaje_id', '=', self.id), ('tipo_cargo', '=', 'merma')])
+            if len(obc_cargos) == 0:
+                self.env['trafitec.cargos'].create(valores)
             else:
-                rec.merma_cobrar_pesos = 0
+                obc_cargos.write(valores)
+        else:
+            self.merma_cobrar_pesos = 0
 
     merma_cobrar_pesos = fields.Float(string='Merma cobrar $', compute='_compute_merma_cobrar_pesos', readonly=True)
 
@@ -1500,44 +1472,41 @@ class trafitec_viajes(models.Model):
 
     @api.constrains('evidencia_id', 'documentacion_completa', 'name')
     def _check_evidencia(self):
-        for rec in self :
-            if rec.documentacion_completa == True:
-                obj_eviden = rec.env['trafitec.viajes.evidencias'].search(
-                    ['&', ('linea_id', '=', rec.id), ('name', '=', 'Evidencia de viaje')])
-                if len(obj_eviden) == 0:
-                    raise UserError(
-                        _('Aviso !\nNo puede aplicar como documentación completa, si no tiene ninguna evidencia de viaje'))
+        if self.documentacion_completa == True:
+            obj_eviden = self.env['trafitec.viajes.evidencias'].search(
+                ['&', ('linea_id', '=', self.id), ('name', '=', 'Evidencia de viaje')])
+            if len(obj_eviden) == 0:
+                raise UserError(
+                    _('Aviso !\nNo puede aplicar como documentación completa, si no tiene ninguna evidencia de viaje'))
 
     @api.constrains('regla_comision', 'motivo', 'porcent_comision', 'cant_especifica')
     def _check_comision_motivo(self):
-        for rec in self :
-            if rec.regla_comision == 'No cobrar':
-                if rec.motivo == False:
-                    raise UserError(
-                        _('Aviso !\nDebe capturar el motivo por el cual no se cobra comisión'))
-            if 'Con % especifico' in rec.regla_comision:
-                if rec.porcent_comision == 0 or rec.porcent_comision == 0.00:
-                    raise UserError(
-                        _('Aviso !\nDebe capturar el porcentaje de la comisión'))
-            if rec.regla_comision == 'Cobrar cantidad especifica':
-                if rec.cant_especifica == 0 or rec.cant_especifica == 0.00:
-                    raise UserError(
-                        _('Aviso !\nDebe capturar la cantidad especifica'))
+        if self.regla_comision == 'No cobrar':
+            if self.motivo == False:
+                raise UserError(
+                    _('Aviso !\nDebe capturar el motivo por el cual no se cobra comisión'))
+        if 'Con % especifico' in self.regla_comision:
+            if self.porcent_comision == 0 or self.porcent_comision == 0.00:
+                raise UserError(
+                    _('Aviso !\nDebe capturar el porcentaje de la comisión'))
+        if self.regla_comision == 'Cobrar cantidad especifica':
+            if self.cant_especifica == 0 or self.cant_especifica == 0.00:
+                raise UserError(
+                    _('Aviso !\nDebe capturar la cantidad especifica'))
 
     @api.depends('peso_origen_remolque_1')
     @api.onchange('peso_origen_remolque_1')
     def YOUR_onchange(self):
-        for rec in self :
-            res = {'value': {}}
-            if not rec.peso_origen_remolque_1:
-                return res
-
-                # if rec.peso_origen_remolque_1 >= 10000:
-                # res['value']['peso_origen_remolque_1'] = '123'
-                # res['warning'] = {'title': 'Alerta', 'messagge': 'Esta es una alerta personalizada'}
-                # return {'warning':{'title':_('Alerta'),'message':_('Esta es una alerta.')}}
-
+        res = {'value': {}}
+        if not self.peso_origen_remolque_1:
             return res
+
+            # if self.peso_origen_remolque_1 >= 10000:
+            # res['value']['peso_origen_remolque_1'] = '123'
+            # res['warning'] = {'title': 'Alerta', 'messagge': 'Esta es una alerta personalizada'}
+            # return {'warning':{'title':_('Alerta'),'message':_('Esta es una alerta.')}}
+
+        return res
 
     
     def _compute_conteo(self):
@@ -1569,45 +1538,161 @@ class trafitec_viajes(models.Model):
     
     @api.model
     def create(self, vals):
-        for rec in self:
-            if vals.get('name', _('New')) == _('New'):
-                vals['name'] = rec.env['ir.sequence'].next_by_code('trafitec.viajes') or _('New')
-            cliente_obj = None
-            cliente_dat = None
-            error = False
-            errores = ""
-            
-            rec.Valida(1, vals)
-            
-            if rec._context.get('validar_credito_cliente', True):
-                rec._valida_credito(vals, 1)
-
-            if rec._context.get('validar_cliente_moroso', True):
-                rec._valida_moroso(vals)
-
-            #try:
-            
-            cliente_obj = rec.env['res.partner']
-            cliente_dat = cliente_obj.browse([vals.get('cliente_id')])
-            if cliente_dat:
-                if cliente_dat.bloqueado_cliente_bloqueado:
-                    raise UserError(_('El cliente esta bloqueado, motivo: '+(cliente_dat.bloqueado_cliente_clasificacion_id.name or '')))
-            
-            #except:
-            #    print("Error al validar cliente bloqueado.")
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('trafitec.viajes') or _('New')
+        cliente_obj = None
+        cliente_dat = None
+        error = False
+        errores = ""
         
-            #trafitec.viajes->tipo_remolque (trafitec.moviles)
-            #trafitec.viajes->tipo_remolque->capacidad (trafitec.moviles)
-            #trafitec.viajes->capacidad (trafitec.moviles)
-            #trafitec.viajes->tipo full, sencillo
-            
-            error = False
-            errores = ""
+        self.Valida(1, vals)
+        
+        if self._context.get('validar_credito_cliente', True):
+            self._valida_credito(vals, 1)
+
+        if self._context.get('validar_cliente_moroso', True):
+            self._valida_moroso(vals)
+
+        #try:
+        
+        cliente_obj = self.env['res.partner']
+        cliente_dat = cliente_obj.browse([vals.get('cliente_id')])
+        if cliente_dat:
+            if cliente_dat.bloqueado_cliente_bloqueado:
+                raise UserError(_('El cliente esta bloqueado, motivo: '+(cliente_dat.bloqueado_cliente_clasificacion_id.name or '')))
+        
+        #except:
+        #    print("Error al validar cliente bloqueado.")
     
-            #--------------------------------
-            # VEHICULO
-            #--------------------------------
-            placas_id = rec.env['fleet.vehicle'].search([('id', '=', vals['placas_id'])])
+        #trafitec.viajes->tipo_remolque (trafitec.moviles)
+        #trafitec.viajes->tipo_remolque->capacidad (trafitec.moviles)
+        #trafitec.viajes->capacidad (trafitec.moviles)
+        #trafitec.viajes->tipo full, sencillo
+        
+        error = False
+        errores = ""
+  
+        #--------------------------------
+        # VEHICULO
+        #--------------------------------
+        placas_id = self.env['fleet.vehicle'].search([('id', '=', vals['placas_id'])])
+        vals['asociado_id'] = placas_id.asociado_id.id
+        vals['porcentaje_comision'] = placas_id.asociado_id.porcentaje_comision
+        vals['usar_porcentaje'] = placas_id.asociado_id.usar_porcentaje
+        vals['creditocomision'] = placas_id.asociado_id.creditocomision
+        vals['operador_id'] = placas_id.operador_id.id
+        vals['no_economico'] = placas_id.no_economico
+        marca = placas_id.name
+        
+        #ACTUALIZAR EL ESTADO DE FLOTILLA
+        if placas_id.es_flotilla:
+            vals.update(
+                {
+                    'estado_viaje': 'iniciado',
+                    'slitrack_proveedor': 'geotab',
+                    'slitrack_estado': 'iniciado'
+                }
+            )
+            
+            viajes_dat = self.env['trafitec.viajes'].search([('placas_id', '=', placas_id.id), ('estado_viaje', '=', 'iniciado')])
+            print("-----------------------VIAJES ENCONTRADOS:"+str(viajes_dat))
+            for v in viajes_dat:
+                v.with_context(validar_credito_cliente=False).write(
+                    {
+                        'estado_viaje': 'terminado',
+                        'slitrack_estado': 'terminado'
+                    }
+                )
+        
+        if placas_id.modelo:
+            modelo = placas_id.modelo
+        else:
+            modelo = ''
+
+        if placas_id.color:
+            color = placas_id.color
+        else:
+            color = ''
+
+        str_vehiculo = '{}, {}, {}'.format(marca, modelo, color)
+        vals['vehiculo'] = str_vehiculo
+        #-------------------------------
+        # FOLIO
+        #-------------------------------
+
+        if 'tipo_remolque' in vals:
+            tipo_remol = self.env['trafitec.moviles'].search([('id', '=', vals['tipo_remolque'])])
+
+            if vals['lineanegocio'] == 3 or vals['lineanegocio'] == 2:  # Contenedores o Flete.
+                vals['peso_origen_total'] = 1000
+                vals['peso_destino_total'] = 1000
+                vals['peso_convenido_total'] = 1000
+        
+                if tipo_remol.tipo == 'sencillo':
+                    vals['peso_origen_remolque_1'] = 1000
+                    vals['peso_origen_remolque_2'] = 0
+                    
+                    vals['peso_destino_remolque_1'] = 1000
+                    vals['peso_destino_remolque_2'] = 0
+                    
+                    vals['peso_convenido_remolque_1'] = 1000
+                    vals['peso_convenido_remolque_2'] = 0
+                    
+                else:
+                    vals['peso_origen_remolque_1'] = 500
+                    vals['peso_origen_remolque_2'] = 500
+                    vals['peso_destino_remolque_1'] = 500
+                    vals['peso_destino_remolque_2'] = 500
+                    vals['peso_convenido_remolque_1'] = 500
+                    vals['peso_convenido_remolque_2'] = 500
+                
+
+
+
+
+        viaje_nuevo = super(trafitec_viajes, self).create(vals)
+        """
+        try:
+            if 'asignadoa_id' in vals:
+                self.env['trafitec.asignaciones'].create({'asignadoa_id' : vals['asignadoa_id'], 'viaje_id': viaje_nuevo.id,'tipo' : 'alcrear'})
+        except:
+            print('**Error al registrar la asignación al crear el viaje.')
+        """
+        return viaje_nuevo
+
+    def write(self, vals):
+        #if self._context.get('omitir_write', False):
+        #    return super(trafitec_viajes, self).write(vals)
+        
+        self.Valida(2, vals)
+        if self._context.get('validar_credito_cliente', True):
+            self._valida_credito(vals, 2)
+            
+        
+        error_titulo = "Hay descuentos con abonos:"
+        error = False
+        errores = ""
+
+        
+        if 'asociado_id' in vals:
+            descuentos_obj = self.env['trafitec.descuentos']
+            descuentos_dat = descuentos_obj.search([('viaje_id', '=', self.id)])
+            for d in descuentos_dat:
+                if d.abono_total > 0:
+                    error = True
+                    errores += "Descuento {} total: {:20,.2f}\n".format(d.id, d.monto)
+            
+            if not error:
+                for d in descuentos_dat:
+                    d.asociado_id = vals['asociado_id']
+
+        if error:
+            raise UserError(_(error_titulo+"\n"+errores))
+        
+        
+        
+        if 'placas_id' in vals:
+            placas_id = self.env['fleet.vehicle'].search([('id', '=', vals['placas_id'])])
             vals['asociado_id'] = placas_id.asociado_id.id
             vals['porcentaje_comision'] = placas_id.asociado_id.porcentaje_comision
             vals['usar_porcentaje'] = placas_id.asociado_id.usar_porcentaje
@@ -1615,247 +1700,127 @@ class trafitec_viajes(models.Model):
             vals['operador_id'] = placas_id.operador_id.id
             vals['no_economico'] = placas_id.no_economico
             marca = placas_id.name
-            
-            #ACTUALIZAR EL ESTADO DE FLOTILLA
-            if placas_id.es_flotilla:
-                vals.update(
-                    {
-                        'estado_viaje': 'iniciado',
-                        'slitrack_proveedor': 'geotab',
-                        'slitrack_estado': 'iniciado'
-                    }
-                )
-                
-                viajes_dat = rec.env['trafitec.viajes'].search([('placas_id', '=', placas_id.id), ('estado_viaje', '=', 'iniciado')])
-                print("-----------------------VIAJES ENCONTRADOS:"+str(viajes_dat))
-                for v in viajes_dat:
-                    v.with_context(validar_credito_cliente=False).write(
-                        {
-                            'estado_viaje': 'terminado',
-                            'slitrack_estado': 'terminado'
-                        }
-                    )
-            
             if placas_id.modelo:
                 modelo = placas_id.modelo
             else:
                 modelo = ''
-
             if placas_id.color:
                 color = placas_id.color
             else:
                 color = ''
-
             str_vehiculo = '{}, {}, {}'.format(marca, modelo, color)
             vals['vehiculo'] = str_vehiculo
-            #-------------------------------
-            # FOLIO
-            #-------------------------------
 
-            if 'tipo_remolque' in vals:
-                tipo_remol = rec.env['trafitec.moviles'].search([('id', '=', vals['tipo_remolque'])])
+        if 'tipo_remolque' in vals:
+            tipo_remolque = vals['tipo_remolque']
+        else:
+            tipo_remolque = self.tipo_remolque.id
 
-                if vals['lineanegocio'] == 3 or vals['lineanegocio'] == 2:  # Contenedores o Flete.
-                    vals['peso_origen_total'] = 1000
-                    vals['peso_destino_total'] = 1000
-                    vals['peso_convenido_total'] = 1000
+        #tipo_remol = self.env['trafitec.moviles'].search([('id', '=', tipo_remolque)])
+        #if 'Contenedor' in tipo_remol.name:
+        #    if tipo_remol.tipo == 'sencillo':
+        #        vals['peso_origen_remolque_1'] = 1000
+        #        vals['peso_destino_remolque_1'] = 1000
+        #    else:
+        #        vals['peso_origen_remolque_1'] = 500
+        #        vals['peso_origen_remolque_2'] = 500
+        #        vals['peso_destino_remolque_1'] = 500
+        #        vals['peso_destino_remolque_2'] = 500
+        
+        # Registrar en bitacora la asignacion.
+        
+        """
+        try:
+            if 'asignadoa_id' in vals:
+                self.env['trafitec.asignaciones'].create({'asignadoa_id': vals['asignadoa_id'],'viaje_id': self.id,'tipo':'almodificar'})
+        except:
+            print('**Error al registrar la asignación al modificar el viaje.')
+        """
             
-                    if tipo_remol.tipo == 'sencillo':
-                        vals['peso_origen_remolque_1'] = 1000
-                        vals['peso_origen_remolque_2'] = 0
-                        
-                        vals['peso_destino_remolque_1'] = 1000
-                        vals['peso_destino_remolque_2'] = 0
-                        
-                        vals['peso_convenido_remolque_1'] = 1000
-                        vals['peso_convenido_remolque_2'] = 0
-                        
-                    else:
-                        vals['peso_origen_remolque_1'] = 500
-                        vals['peso_origen_remolque_2'] = 500
-                        vals['peso_destino_remolque_1'] = 500
-                        vals['peso_destino_remolque_2'] = 500
-                        vals['peso_convenido_remolque_1'] = 500
-                        vals['peso_convenido_remolque_2'] = 500
-                    
-
-
-
-
-            viaje_nuevo = super(trafitec_viajes, rec).create(vals)
-            """
-            try:
-                if 'asignadoa_id' in vals:
-                    rec.env['trafitec.asignaciones'].create({'asignadoa_id' : vals['asignadoa_id'], 'viaje_id': viaje_nuevo.id,'tipo' : 'alcrear'})
-            except:
-                print('**Error al registrar la asignación al crear el viaje.')
-            """
-            return viaje_nuevo
-
-    def write(self, vals):
-        for rec in self :
-            #if rec._context.get('omitir_write', False):
-            #    return super(trafitec_viajes, rec).write(vals)
-            
-            rec.Valida(2, vals)
-            if rec._context.get('validar_credito_cliente', True):
-                rec._valida_credito(vals, 2)
-                
-            
-            error_titulo = "Hay descuentos con abonos:"
-            error = False
-            errores = ""
-
-            
-            if 'asociado_id' in vals:
-                descuentos_obj = rec.env['trafitec.descuentos']
-                descuentos_dat = descuentos_obj.search([('viaje_id', '=', rec.id)])
-                for d in descuentos_dat:
-                    if d.abono_total > 0:
-                        error = True
-                        errores += "Descuento {} total: {:20,.2f}\n".format(d.id, d.monto)
-                
-                if not error:
-                    for d in descuentos_dat:
-                        d.asociado_id = vals['asociado_id']
-
-            if error:
-                raise UserError(_(error_titulo+"\n"+errores))
-            
-            
-            
-            if 'placas_id' in vals:
-                placas_id = rec.env['fleet.vehicle'].search([('id', '=', vals['placas_id'])])
-                vals['asociado_id'] = placas_id.asociado_id.id
-                vals['porcentaje_comision'] = placas_id.asociado_id.porcentaje_comision
-                vals['usar_porcentaje'] = placas_id.asociado_id.usar_porcentaje
-                vals['creditocomision'] = placas_id.asociado_id.creditocomision
-                vals['operador_id'] = placas_id.operador_id.id
-                vals['no_economico'] = placas_id.no_economico
-                marca = placas_id.name
-                if placas_id.modelo:
-                    modelo = placas_id.modelo
-                else:
-                    modelo = ''
-                if placas_id.color:
-                    color = placas_id.color
-                else:
-                    color = ''
-                str_vehiculo = '{}, {}, {}'.format(marca, modelo, color)
-                vals['vehiculo'] = str_vehiculo
-
-            if 'tipo_remolque' in vals:
-                tipo_remolque = vals['tipo_remolque']
-            else:
-                tipo_remolque = rec.tipo_remolque.id
-
-            #tipo_remol = rec.env['trafitec.moviles'].search([('id', '=', tipo_remolque)])
-            #if 'Contenedor' in tipo_remol.name:
-            #    if tipo_remol.tipo == 'sencillo':
-            #        vals['peso_origen_remolque_1'] = 1000
-            #        vals['peso_destino_remolque_1'] = 1000
-            #    else:
-            #        vals['peso_origen_remolque_1'] = 500
-            #        vals['peso_origen_remolque_2'] = 500
-            #        vals['peso_destino_remolque_1'] = 500
-            #        vals['peso_destino_remolque_2'] = 500
-            
-            # Registrar en bitacora la asignacion.
-            
-            """
-            try:
-                if 'asignadoa_id' in vals:
-                    rec.env['trafitec.asignaciones'].create({'asignadoa_id': vals['asignadoa_id'],'viaje_id': rec.id,'tipo':'almodificar'})
-            except:
-                print('**Error al registrar la asignación al modificar el viaje.')
-            """
-                
-            return super(trafitec_viajes, rec).write(vals)
+        return super(trafitec_viajes, self).write(vals)
 
     def copy(self):
         raise UserError(_('Alerta..\nNo esta permitido duplicar viajes.'))
 
 
     def _valida_moroso(self, vals = None):
-        for rec in self :
-            if vals is None:
-                return
-            
-            persona_id = 'cliente_id' in vals and vals['cliente_id'] or rec.cliente_id.id
-            
-            # ---------------------------------
-            # OBJETOS
-            # ---------------------------------
-            saldo = 0.00
-            es_moroso = False
-            
-            persona_obj = rec.env['res.partner']
-            saldo = persona_obj.saldo_vencido(persona_id)
-            es_moroso = persona_obj.es_moroso(persona_id)
-            
-            if es_moroso:
-                raise UserError(_("El cliente tiene facturas vencidas por: {:20,.2f}.".format(saldo)))
+        if vals is None:
+            return
+        
+        persona_id = 'cliente_id' in vals and vals['cliente_id'] or self.cliente_id.id
+        
+        # ---------------------------------
+        # OBJETOS
+        # ---------------------------------
+        saldo = 0.00
+        es_moroso = False
+        
+        persona_obj = self.env['res.partner']
+        saldo = persona_obj.saldo_vencido(persona_id)
+        es_moroso = persona_obj.es_moroso(persona_id)
+        
+        if es_moroso:
+            raise UserError(_("El cliente tiene facturas vencidas por: {:20,.2f}.".format(saldo)))
 
     def _valida_credito(self, vals, tipo=1):
-        for rec in self :
-            if not rec._context.get('validar_credito_cliente', True):
-                return
-                
-            #tipo: 1=Al crear, 2= Al modificar, 3=Al borrar.
-            error = False
-            errores = ""
-            viaje_obj = rec.env['trafitec.viajes']
+        if not self._context.get('validar_credito_cliente', True):
+            return
             
-            
-            #---------------------------------
-            # VALORES
-            #---------------------------------
-            persona_id = 'cliente_id' in vals and vals['cliente_id'] or rec.cliente_id.id
-            tiporemolque_id = 'tipo_remolque' in vals and vals['tipo_remolque'] or rec.tipo_remolque.id
-            peso_origen_remolque_1 = 'peso_origen_remolque_1' in vals and vals['peso_origen_remolque_1'] or rec.peso_origen_remolque_1
-            peso_origen_remolque_2 = 'peso_origen_remolque_2' in vals and vals['peso_origen_remolque_2'] or rec.peso_origen_remolque_2
-            tarifa_cliente = 'tarifa_cliente' in vals and vals['tarifa_cliente'] or rec.tarifa_cliente
-            peso_autorizado = 'peso_autorizado' in vals and vals['peso_autorizado'] or rec.peso_autorizado
+        #tipo: 1=Al crear, 2= Al modificar, 3=Al borrar.
+        error = False
+        errores = ""
+        viaje_obj = self.env['trafitec.viajes']
+        
+        
+        #---------------------------------
+        # VALORES
+        #---------------------------------
+        persona_id = 'cliente_id' in vals and vals['cliente_id'] or self.cliente_id.id
+        tiporemolque_id = 'tipo_remolque' in vals and vals['tipo_remolque'] or self.tipo_remolque.id
+        peso_origen_remolque_1 = 'peso_origen_remolque_1' in vals and vals['peso_origen_remolque_1'] or self.peso_origen_remolque_1
+        peso_origen_remolque_2 = 'peso_origen_remolque_2' in vals and vals['peso_origen_remolque_2'] or self.peso_origen_remolque_2
+        tarifa_cliente = 'tarifa_cliente' in vals and vals['tarifa_cliente'] or self.tarifa_cliente
+        peso_autorizado = 'peso_autorizado' in vals and vals['peso_autorizado'] or self.peso_autorizado
 
-            #---------------------------------
-            # OBJETOS
-            #---------------------------------
-            persona_obj = rec.env['res.partner']
-            tiporemolque_obj = rec.env['trafitec.moviles']
-            
-            #---------------------------------
-            # TIPO DE REMOLQUE DEL VIAJE ACTUAL
-            #---------------------------------
-            tiporemolque_dat = tiporemolque_obj.search([('id', '=', tiporemolque_id)])
-            #capacidad = tiporemolque_dat.capacidad
-            capacidad = peso_autorizado
-            flete_cliente = tarifa_cliente * (peso_origen_remolque_1 + peso_origen_remolque_2) / 1000
-            
-            
-            if flete_cliente <= 0:
-                flete_cliente = tarifa_cliente * (capacidad / 1000)
-                print("***FLETE CLIENTE***")
-                print(flete_cliente)
+        #---------------------------------
+        # OBJETOS
+        #---------------------------------
+        persona_obj = self.env['res.partner']
+        tiporemolque_obj = self.env['trafitec.moviles']
+        
+        #---------------------------------
+        # TIPO DE REMOLQUE DEL VIAJE ACTUAL
+        #---------------------------------
+        tiporemolque_dat = tiporemolque_obj.search([('id', '=', tiporemolque_id)])
+        #capacidad = tiporemolque_dat.capacidad
+        capacidad = peso_autorizado
+        flete_cliente = tarifa_cliente * (peso_origen_remolque_1 + peso_origen_remolque_2) / 1000
+        
+        
+        if flete_cliente <= 0:
+            flete_cliente = tarifa_cliente * (capacidad / 1000)
+            print("***FLETE CLIENTE***")
+            print(flete_cliente)
 
-            #--------------------------------
-            # CLIENTE
-            #--------------------------------
-            try:
-                persona_datos = persona_obj.search([('id', '=', persona_id)])
-                cliente_nombre = persona_datos.name
-                cliente_saldo = persona_obj.cliente_saldo_total(persona_id, (rec.id and rec.id or None)) + flete_cliente
-                cliente_limite_credito = persona_datos.limite_credito
-            
-                #print(cliente_nombre, cliente_saldo, cliente_limite_credito)
-                #if persona_obj.cliente_saldo_excedido(persona_id, flete_cliente, (rec.id and rec.id or None)):
-                #    error = True
-                #    errores = "El cliente {} con saldo {:20,.2f} ha excedido su crédito {:20,.2f} por {:20,.2f}".format(cliente_nombre, cliente_saldo, cliente_limite_credito, cliente_saldo - cliente_limite_credito)
-            except:
-                print("**Error al evaluar el crédito del cliente al crear el viaje." + str(sys.exc_info()[0] or ""))
-                # raise UserError(_("Error al evaluar el crédito del cliente al crear viaje."))
+        #--------------------------------
+        # CLIENTE
+        #--------------------------------
+        try:
+            persona_datos = persona_obj.search([('id', '=', persona_id)])
+            cliente_nombre = persona_datos.name
+            cliente_saldo = persona_obj.cliente_saldo_total(persona_id, (self.id and self.id or None)) + flete_cliente
+            cliente_limite_credito = persona_datos.limite_credito
+        
+            #print(cliente_nombre, cliente_saldo, cliente_limite_credito)
+            #if persona_obj.cliente_saldo_excedido(persona_id, flete_cliente, (self.id and self.id or None)):
+            #    error = True
+            #    errores = "El cliente {} con saldo {:20,.2f} ha excedido su crédito {:20,.2f} por {:20,.2f}".format(cliente_nombre, cliente_saldo, cliente_limite_credito, cliente_saldo - cliente_limite_credito)
+        except:
+            print("**Error al evaluar el crédito del cliente al crear el viaje." + str(sys.exc_info()[0] or ""))
+            # raise UserError(_("Error al evaluar el crédito del cliente al crear viaje."))
 
-            if error:
-                raise UserError(_(errores))
+        if error:
+            raise UserError(_(errores))
 
     
     
@@ -1878,46 +1843,44 @@ class trafitec_viajes_boletas(models.Model):
 
     @api.model
     def create(self, vals):
-        for rec in self :
-            object_boletas = rec.env['trafitec.viajes.boletas'].search([('name', '=ilike', vals['name'])])
-            object_viaje = rec.env['trafitec.viajes'].search([('id', '=', vals['linea_id'])])
+        object_boletas = self.env['trafitec.viajes.boletas'].search([('name', '=ilike', vals['name'])])
+        object_viaje = self.env['trafitec.viajes'].search([('id', '=', vals['linea_id'])])
 
-            for object_bolets in object_boletas:
-                if vals['tipo_boleta'] == 'Origen':
-                    if object_viaje.origen.id == object_bolets.linea_id.origen.id and object_viaje.cliente_id.id == object_bolets.linea_id.cliente_id.id and object_bolets.tipo_boleta == 'Origen':
-                        raise UserError(
-                            _('Alerta..\nYa existe un folio para este cliente y bodega de origen.'))
-                else:
-                    if object_viaje.destino.id == object_bolets.linea_id.destino.id and object_viaje.cliente_id.id == object_bolets.linea_id.cliente_id.id and object_bolets.tipo_boleta == 'Destino':
-                        raise UserError(
-                            _('Alerta..\nYa existe un folio para este cliente y bodega de destino.'))
+        for object_bolets in object_boletas:
+            if vals['tipo_boleta'] == 'Origen':
+                if object_viaje.origen.id == object_bolets.linea_id.origen.id and object_viaje.cliente_id.id == object_bolets.linea_id.cliente_id.id and object_bolets.tipo_boleta == 'Origen':
+                    raise UserError(
+                        _('Alerta..\nYa existe un folio para este cliente y bodega de origen.'))
+            else:
+                if object_viaje.destino.id == object_bolets.linea_id.destino.id and object_viaje.cliente_id.id == object_bolets.linea_id.cliente_id.id and object_bolets.tipo_boleta == 'Destino':
+                    raise UserError(
+                        _('Alerta..\nYa existe un folio para este cliente y bodega de destino.'))
 
-            return super(trafitec_viajes_boletas, rec).create(vals)
+        return super(trafitec_viajes_boletas, self).create(vals)
 
     
     def write(self, vals):
-        for rec in self :
-            if 'name' in vals:
-                name = vals['name']
+        if 'name' in vals:
+            name = vals['name']
+        else:
+            name = self.name
+        if 'tipo_boleta' in vals:
+            tipo_boleta = vals['tipo_boleta']
+        else:
+            tipo_boleta = self.tipo_boleta
+        object_boletas = self.env['trafitec.viajes.boletas'].search([('name', '=ilike', name)])
+        object_viaje = self.env['trafitec.viajes'].search([('id', '=', self.linea_id.id)])
+        for object_bolets in object_boletas:
+            if tipo_boleta == 'Origen':
+                if object_viaje.origen.id == object_bolets.linea_id.origen.id and object_viaje.cliente_id.id == object_bolets.linea_id.cliente_id.id and object_bolets.tipo_boleta == 'Origen':
+                    raise UserError(
+                        _('Aviso !\nYa existe un folio para este cliente y bodega de origen.'))
             else:
-                name = rec.name
-            if 'tipo_boleta' in vals:
-                tipo_boleta = vals['tipo_boleta']
-            else:
-                tipo_boleta = rec.tipo_boleta
-            object_boletas = rec.env['trafitec.viajes.boletas'].search([('name', '=ilike', name)])
-            object_viaje = rec.env['trafitec.viajes'].search([('id', '=', rec.linea_id.id)])
-            for object_bolets in object_boletas:
-                if tipo_boleta == 'Origen':
-                    if object_viaje.origen.id == object_bolets.linea_id.origen.id and object_viaje.cliente_id.id == object_bolets.linea_id.cliente_id.id and object_bolets.tipo_boleta == 'Origen':
-                        raise UserError(
-                            _('Aviso !\nYa existe un folio para este cliente y bodega de origen.'))
-                else:
-                    if object_viaje.destino.id == object_bolets.linea_id.destino.id and object_viaje.cliente_id.id == object_bolets.linea_id.cliente_id.id and object_bolets.tipo_boleta == 'Destino':
-                        raise UserError(
-                            _('Aviso !\nYa existe un folio para este cliente y bodega de destino.'))
+                if object_viaje.destino.id == object_bolets.linea_id.destino.id and object_viaje.cliente_id.id == object_bolets.linea_id.cliente_id.id and object_bolets.tipo_boleta == 'Destino':
+                    raise UserError(
+                        _('Aviso !\nYa existe un folio para este cliente y bodega de destino.'))
 
-            return super(trafitec_viajes_boletas, rec).write(vals)
+        return super(trafitec_viajes_boletas, self).write(vals)
 
 
 class trafitec_viajes_evidencias(models.Model):
