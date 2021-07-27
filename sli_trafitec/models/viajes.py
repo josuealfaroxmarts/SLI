@@ -1107,7 +1107,8 @@ class trafitec_viajes(models.Model):
     
     @api.depends('peso_destino_remolque_1','peso_destino_remolque_2')
     def _compute_pesos_destino_total(self):
-            self.peso_destino_total = self.peso_destino_remolque_1 + self.peso_destino_remolque_2
+        for rec in self :
+            rec.peso_destino_total = rec.peso_destino_remolque_1 + rec.peso_destino_remolque_2
 
     
     @api.depends('peso_convenido_remolque_1','peso_convenido_remolque_2')
