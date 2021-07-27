@@ -975,7 +975,7 @@ class SyncDataFletex(models.Model):
 
             vals = {
                 'linea_id': line_quotation['id'],
-                'moneda': currency_id['id'],
+                'moneda': currency_id[0]['id'],
                 'id_fletex': shipment['shipment_id'],
                 'cliente_id': quotation['cliente']['id'],
                 'origen': quotation['origen_id']['id'],
