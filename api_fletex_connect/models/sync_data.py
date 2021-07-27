@@ -933,6 +933,8 @@ class SyncDataFletex(models.Model):
                                 self.env['invoice.from.fletex'].create(vals) """
 
         else:
+            _logger.info("##################################################")
+            _logger.info(shipment['id'])
             quotation = self.env['trafitec.cotizacion'].search([
                 ('id_fletex', '=', shipment['project_id'])])
 
