@@ -935,70 +935,71 @@ class SyncDataFletex(models.Model):
         else:
             _logger.info("##################################################")
             _logger.info(shipment['shipment_id'])
-            quotation = self.env['trafitec.cotizacion'].search([
-                ('id_fletex', '=', shipment['project_id'])])
+            if shipment['shipment_id'] > 1 :
+                quotation = self.env['trafitec.cotizacion'].search([
+                    ('id_fletex', '=', shipment['project_id'])])
 
-            line_quotation = self.env['trafitec.cotizaciones.linea'].search([
-                ('cotizacion_id', '=', quotation['id'])])
+                line_quotation = self.env['trafitec.cotizaciones.linea'].search([
+                    ('cotizacion_id', '=', quotation['id'])])
 
-            business = self.env['res.partner'].search([
-                ('id_fletex', '=', shipment['business_id'])])
+                business = self.env['res.partner'].search([
+                    ('id_fletex', '=', shipment['business_id'])])
 
-            driver = self.env['res.partner'].search([
-                ('driver_id_fletex', '=', shipment['user_id'])])
+                driver = self.env['res.partner'].search([
+                    ('driver_id_fletex', '=', shipment['user_id'])])
 
-            vehicle = self.env['fleet.vehicle'].search([
-                ('id_fletex_truck', '=', shipment['vehicle_id'])])
-                
-            currency_id = self.env['res.currency'].search([(
-                                            'name', '=', 'MXN')])
-            vehicle.write({
-                'operador_id': driver['id']
-            })
+                vehicle = self.env['fleet.vehicle'].search([
+                    ('id_fletex_truck', '=', shipment['vehicle_id'])])
+                    
+                currency_id = self.env['res.currency'].search([(
+                                                'name', '=', 'MXN')])
+                vehicle.write({
+                    'operador_id': driver['id']
+                })
 
-            if shipment['status'] == 'finalized':
-                status = 'finalizado'
-            elif shipment['status'] == 'active': 
-                status = 'enproceso'
-            else :
-                status = 'enespera'
+                if shipment['status'] == 'finalized':
+                    status = 'finalizado'
+                elif shipment['status'] == 'active': 
+                    status = 'enproceso'
+                else :
+                    status = 'enespera'
 
-            vals = {
-                'linea_id': line_quotation['id'],
-                'moneda': currency_id['id'],
-                'id_fletex': shipment['shipment_id'],
-                'cliente_id': quotation['cliente']['id'],
-                'origen': quotation['origen_id']['id'],
-                'destino': quotation['destino_id']['id'],
-                'tarifa_asociado': line_quotation['tarifa_asociado'],
-                'tarifa_cliente': line_quotation['tarifa_cliente'],
-                'flete_cliente': line_quotation['tarifa_cliente'] 
-                                    * shipment['tons'],
-                'flete_asociado': line_quotation['tarifa_asociado'] 
-                                    * shipment['tons'],
-                'costo_producto': quotation['costo_producto'],
-                'placas_id': vehicle['id'],
-                'operador_id': driver['id'],
-                'celular_operador': '00000000',
-                'asociado_id': business['id'],
-                'celular_asociado': business['phone_representative'],
-                'peso_autorizado': 1,
-                'asociado_id': business['id'],
-                'estado_viaje': status,
-                'peso_autorizado': shipment['tons'],
-                'peso_origen_remolque_1': shipment['tons'] * 1000,
-                'peso_origen_remolque_2': shipment['tons_full'] * 1000,
-                'peso_convenido_remolque_1': shipment['tons'] * 1000,
-                'peso_convenido_remolque_2': shipment['tons_full'] * 1000,
-                'peso_destino_remolque_1': shipment['tons'] * 1000,
-                'peso_destino_remolque_2': shipment['tons_full'] * 1000,
-                'lineanegocio': quotation['lineanegocio']['id'],
-                'tipo_lineanegocio': quotation['lineanegocio']['name'],
-                'referencia_asociado':  shipment['shipment_id'],
-                'referencia_cliente':  shipment['shipment_id']
-            }
+                vals = {
+                    'linea_id': line_quotation['id'],
+                    'moneda': currency_id['id'],
+                    'id_fletex': shipment['shipment_id'],
+                    'cliente_id': quotation['cliente']['id'],
+                    'origen': quotation['origen_id']['id'],
+                    'destino': quotation['destino_id']['id'],
+                    'tarifa_asociado': line_quotation['tarifa_asociado'],
+                    'tarifa_cliente': line_quotation['tarifa_cliente'],
+                    'flete_cliente': line_quotation['tarifa_cliente'] 
+                                        * shipment['tons'],
+                    'flete_asociado': line_quotation['tarifa_asociado'] 
+                                        * shipment['tons'],
+                    'costo_producto': quotation['costo_producto'],
+                    'placas_id': vehicle['id'],
+                    'operador_id': driver['id'],
+                    'celular_operador': '00000000',
+                    'asociado_id': business['id'],
+                    'celular_asociado': business['phone_representative'],
+                    'peso_autorizado': 1,
+                    'asociado_id': business['id'],
+                    'estado_viaje': status,
+                    'peso_autorizado': shipment['tons'],
+                    'peso_origen_remolque_1': shipment['tons'] * 1000,
+                    'peso_origen_remolque_2': shipment['tons_full'] * 1000,
+                    'peso_convenido_remolque_1': shipment['tons'] * 1000,
+                    'peso_convenido_remolque_2': shipment['tons_full'] * 1000,
+                    'peso_destino_remolque_1': shipment['tons'] * 1000,
+                    'peso_destino_remolque_2': shipment['tons_full'] * 1000,
+                    'lineanegocio': quotation['lineanegocio']['id'],
+                    'tipo_lineanegocio': quotation['lineanegocio']['name'],
+                    'referencia_asociado':  shipment['shipment_id'],
+                    'referencia_cliente':  shipment['shipment_id']
+                }
 
-            self.env['trafitec.viajes'].create(vals)
+                self.env['trafitec.viajes'].create(vals)
 
 
     def search_record(self, model, field, value):
