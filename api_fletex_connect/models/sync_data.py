@@ -941,10 +941,6 @@ class SyncDataFletex(models.Model):
                                 self.env['invoice.from.fletex'].create(vals)
 
         else:
-            _logger.info("######################d############################")
-            _logger.info(shipment['shipment_id'])
-            _logger.debug('#############SHIPMENT###########################')
-            _logger.debug(shipment)
             quotation = self.env['trafitec.cotizacion'].search([
                 ('id_fletex', '=', shipment['project_id'])])
 
@@ -973,8 +969,6 @@ class SyncDataFletex(models.Model):
             elif shipment['status'] == 'active': 
                 status = 'enproceso'
 
-            _logger.debug('#############STATUS###########################')
-            _logger.debug(shipment)
             vals = {
                 'linea_id': line_quotation['id'],
                 'id_fletex': shipment['shipment_id'],
@@ -1009,10 +1003,6 @@ class SyncDataFletex(models.Model):
                 'referencia_asociado':  shipment['shipment_id'],
                 'referencia_cliente':  shipment['shipment_id']
             }
-            _logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            _logger.info(vals)
-
-
             self.env['trafitec.viajes'].create(vals)
 
 
