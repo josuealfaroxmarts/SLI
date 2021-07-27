@@ -100,9 +100,12 @@ class SyncDataFletex(models.Model):
                 'params': {}
             })
         # If the request brings locations, the locations manager is called
-        if len(projects['data']) > 0:
-            for project in projects['data']:
-                self.projects_manager(project, headers)
+        _logger.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        _logger.info(projects)
+        if projects :
+            if len(projects['data']) > 0:
+                for project in projects['data']:
+                    self.projects_manager(project, headers)
 
         self.change_status_projects(headers)
 
