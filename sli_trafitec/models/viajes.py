@@ -678,7 +678,8 @@ class trafitec_viajes(models.Model):
     
     @api.depends('flete_cliente', 'flete_asociado')
     def _compute_flete_diferencia(self):
-        self.flete_diferencia = self.flete_cliente - self.flete_asociado
+        for rec in self : 
+            rec.flete_diferencia = rec.flete_cliente - rec.flete_asociado
 
     @api.onchange('linea_id')
     def _onchange_subpedido(self):
