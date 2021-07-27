@@ -343,10 +343,11 @@
                                     </field>
                                 </group>
                                 <group>
-                                    <!--label string="Documentación completa" /-->
+                                    <group>
                                     <field name="documentacion_completa" attrs="{'readonly': [('state', 'in', ('Cancelado','Siniestrado'))]}"/>
                                     <!--label string="Asignado a"/-->
                                     <field name="asignadoa_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}" attrs="{'readonly': [('state','!=','Nueva')]}"/>
+                                    </group>
                                 </group>
                             </page>
                             <page name="boletas_id" string="Boletas">
