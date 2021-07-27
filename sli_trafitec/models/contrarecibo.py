@@ -1565,7 +1565,7 @@ class trafitec_contrarecibo(models.Model):
     move_id = fields.Many2one(
         'account.move',
         string='Factura proveedor',
-        domain="[('move_type','=','in_invoice'),('partner_id','=',asociado_id),('amount_total','>',0),('factura_encontrarecibo','=',False),('state','=','posted'),('es_cartaporte','=',True)]",
+        domain="[('move_type','=','out_invoice'),('partner_id','=',asociado_id),('amount_total','>',0),('factura_encontrarecibo','=',False),('state','=','posted'),('es_cartaporte','=',True)]",
         tracking=True
     )
     fecha = fields.Date(string='Fecha', readonly=True, index=True, copy=False, default=fields.Datetime.now,tracking=True)
