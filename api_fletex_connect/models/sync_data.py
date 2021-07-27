@@ -145,8 +145,6 @@ class SyncDataFletex(models.Model):
                 json=data['data'],
                 headers=data['headers'],
                 params=data['params'])
-
-            _logger.debug(response)
         elif method == "get":
             response = requests.get(
                 "{}{}".format(url, endpoint),
@@ -158,6 +156,8 @@ class SyncDataFletex(models.Model):
             if response.status_code == 200:
                 return response.json()
             else:
+                _logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@RESPOSNE@@@@@@@@@@@@@@@@@@@@@@")
+                _logger.info(response)
                 return False
         except : 
             return [];
