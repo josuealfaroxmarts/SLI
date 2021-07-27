@@ -813,17 +813,18 @@ class trafitec_viajes(models.Model):
     
     @api.depends('flete_cliente', 'flete_asociado')
     def _compute_utilidad_txt(self):
-        if self.flete_cliente <= 0 and self.flete_asociado <= 0:
-            self.utilidad_txt = "--"
-            return
-                    
-        #Calculos.
-        utilidad = self.flete_cliente-self.flete_asociado
-        cantidad = self.flete_cliente*0.05 #Cinco porciento.
-        if utilidad >= cantidad:
-            self.utilidad_txt = "si"
-        else:
-            self.utilidad_txt = "no"
+        for rec in self :
+            if rec.flete_cliente <= 0 and rec.flete_asociado <= 0:
+                rec.utilidad_txt = "--"
+                return
+                        
+            #Calculos.
+            utilidad = rec.flete_cliente-rec.flete_asociado
+            cantidad = rec.flete_cliente*0.05 #Cinco porciento.
+            if utilidad >= cantidad:
+                rec.utilidad_txt = "si"
+            else:
+                rec.utilidad_txt = "no"
         
     
     utilidad_txt=fields.Selection(string='Utilidad', compute='_compute_utilidad_txt',selection=[('no','NO'),('si','SI'),('--','--')],default='--',store=True)
