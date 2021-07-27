@@ -823,7 +823,6 @@ class trafitec_viajes(models.Model):
                 rec.utilidad_txt = "si"
             else:
                 rec.utilidad_txt = "no"
-        
     
     utilidad_txt=fields.Selection(string='Utilidad', compute='_compute_utilidad_txt',selection=[('no','NO'),('si','SI'),('--','--')],default='--',store=True)
     
