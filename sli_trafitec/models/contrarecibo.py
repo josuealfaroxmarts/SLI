@@ -1685,8 +1685,8 @@ class trafitec_contrarecibo(models.Model):
         if self.move_id:
             if self.move_id.invoice_line_ids.tax_ids:
                 for tax in self.move_id.invoice_line_ids.tax_ids:
-                    if tax.tax_id:
-                        if 'IVA' in tax.tax_id.name and 'RET' in tax.tax_id.name:
+                    if tax:
+                        if 'IVA(16%) COMPRAS' in tax.name and 'RET IVA FLETES 4%' in tax.name:
                             self.r_iva = tax.amount
                             break
                         else:
@@ -1697,8 +1697,8 @@ class trafitec_contrarecibo(models.Model):
         if self.move_id:
             if self.move_id.invoice_line_ids.tax_ids:
                 for tax in self.move_id.invoice_line_ids.tax_ids:
-                    if tax.tax_id:
-                        if 'IVA' in tax.tax_id.name and 'RET' in tax.tax_id.name:
+                    if tax:
+                        if 'IVA(16%) COMPRAS' in tax.name and 'RET IVA FLETES 4%' in tax.name:
                             self.r_iva = tax.amount
                             break
                         else:
