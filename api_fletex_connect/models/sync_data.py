@@ -962,9 +962,11 @@ class SyncDataFletex(models.Model):
                                             'name', '=', 'MXN')])
             _logger.info("MONEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             _logger.info(currency_id)
+
             vehicle.write({
                 'operador_id': driver['id']
             })
+            _logger.info("OPERADORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
 
             if shipment['status'] == 'finalized':
                 status = 'finalizado'
@@ -975,7 +977,7 @@ class SyncDataFletex(models.Model):
 
             vals = {
                 'linea_id': line_quotation['id'],
-                'moneda': currency_id[0]['id'],
+                'moneda': 33,
                 'id_fletex': shipment['shipment_id'],
                 'cliente_id': quotation['cliente']['id'],
                 'origen': quotation['origen_id']['id'],
