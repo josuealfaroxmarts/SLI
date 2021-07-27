@@ -943,6 +943,8 @@ class SyncDataFletex(models.Model):
         else:
             _logger.info("##################################################")
             _logger.info(shipment['shipment_id'])
+            _logger.debug('#############SHIPMENT###########################')
+            _logger.debug(shipment)
             quotation = self.env['trafitec.cotizacion'].search([
                 ('id_fletex', '=', shipment['project_id'])])
 
@@ -964,8 +966,7 @@ class SyncDataFletex(models.Model):
             vehicle.write({
                 'operador_id': driver['id']
             })
-            _logger.debug('#############SHIPMENT###########################')
-            _logger.debug(shipment)
+            
             if shipment['status'] == 'finalized':
                 status = 'finalizado'
             elif shipment['status'] == 'active': 
