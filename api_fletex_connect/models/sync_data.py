@@ -902,15 +902,21 @@ class SyncDataFletex(models.Model):
                 record.write(vals)
 
                 if shipment['evidences'] :
+                    evidences_ids = self.env['trafitec.viajes.evidencias'].search([
+                        ('linea_id','=',record['id'])
+                    ])
                     for evidence in shipment['evidences'] :
-                        vals = {
-                            'linea_id': record['id'],
-                            'evidencia_file': evidence,
-                            'image_filename': "Evidencia de viaje {}.{}".format(record['id'],
-                                                        self.find_extension_document(evidence)),
-                            'name': "Evidencia de viaje"
-                        }
-                        self.env['trafitec.viajes.evidencias'].create(vals)
+                        if evidence in evidences_ids :
+                            continue;
+                        else :
+                            vals = {
+                                'linea_id': record['id'],
+                                'evidencia_file': evidence,
+                                'image_filename': "Evidencia de viaje {}.{}".format(record['id'],
+                                                            self.find_extension_document(evidence)),
+                                'name': "Evidencia de viaje"
+                            }
+                            self.env['trafitec.viajes.evidencias'].create(vals)
 
                 if record['estado_viaje'] == 'finalizado' :
 
