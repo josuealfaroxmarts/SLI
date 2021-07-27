@@ -65,8 +65,10 @@ class trafitec_account_invoice(models.Model):
 	def _compute_totalescp(self):
 		totalflete = 0.0
 		for v in self.viajescp_id:
+			_logger.info("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+			_logger.info(v.id)
 			numbers = [int(temp)for temp in v.id.split() if temp.isdigit()]
-			viaje_dat = self.env['trafitec.viajes'].search([('id', '=', v.numbers[0])])
+			viaje_dat = self.env['trafitec.viajes'].search([('id', '=', numbers[0])])
 			totalflete += viaje_dat.flete_asociado
 
 		self.total_fletescp = totalflete
