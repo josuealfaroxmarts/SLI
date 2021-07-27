@@ -341,12 +341,12 @@ class SyncDataFletex(models.Model):
             if res_partner['operador']:
                 rejected_files = []
                 if res_partner['status_record'] == 'refused':
-                    new_driver = 0
+                    new_driver = 1
                     status = 'refused'
-                    if not res_partner['id_approved']:
+                    if not res_partner['nss_approved']:
                         rejected_files.append('file_nss')
-                    if not res_partner['act_approved']:
-                        rejected_files.append('file_licence')
+                    if not res_partner['license_approved']:
+                        rejected_files.append('file_license')
                 elif res_partner['status_record'] == 'draft':
                     continue
                 else:
