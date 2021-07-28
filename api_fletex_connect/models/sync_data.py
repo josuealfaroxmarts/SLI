@@ -369,6 +369,8 @@ class SyncDataFletex(models.Model):
                         'headers': headers,
                         'params': {}
                     })
+                _logger.info(response)
+                
 
             else:
                 if res_partner['status_record'] == 'refused':
