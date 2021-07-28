@@ -699,6 +699,8 @@ class SyncDataFletex(models.Model):
                 'destino_id': self.search_record('trafitec.ubicacion',
                                                 'id_fletex',
                                                 project['destinations'][0]),
+                'currency_id': self.search_record('res.currency',
+                                            'name','MXN')
             }
 
             quotation = self.env['trafitec.cotizacion'].create(vals)
