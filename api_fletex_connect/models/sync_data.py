@@ -329,6 +329,7 @@ class SyncDataFletex(models.Model):
             )
 
     def update_res_partners(self, headers):
+        rejected_files = []
         """
             If the status in odoo is rejected, 
             it is verified which document was rejected.
@@ -373,7 +374,6 @@ class SyncDataFletex(models.Model):
                 
 
             else:
-                rejected_files = []
                 if res_partner['status_record'] == 'refused':
                     status = "rejected"
                     if not res_partner['id_approved']:
