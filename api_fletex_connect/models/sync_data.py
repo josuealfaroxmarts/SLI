@@ -342,7 +342,7 @@ class SyncDataFletex(models.Model):
                 rejected_files = []
                 if res_partner['status_record'] == 'refused':
                     new_driver = 1
-                    status = 'refused'
+                    status = 'rejected'
                     if not res_partner['nss_approved']:
                         rejected_files.append('file_nss')
                     if not res_partner['license_approved']:
@@ -361,8 +361,8 @@ class SyncDataFletex(models.Model):
                             'users': [
                                 {
                                     'user_id': res_partner['driver_id_fletex'],
-                                    'create_new_driver': new_driver,
-                                    'status': status
+                                    'status': status,
+                                    'rejected_files': rejected_files
                                 }
                             ]
                         },
@@ -373,6 +373,7 @@ class SyncDataFletex(models.Model):
                 
 
             else:
+                rejected_files = []
                 if res_partner['status_record'] == 'refused':
                     status = "rejected"
                     if not res_partner['id_approved']:
