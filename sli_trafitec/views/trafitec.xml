@@ -92,7 +92,7 @@
         <menuitem name="Pagos" action="account.action_account_payments" id="menu_cxc_pagos" parent="menu_trafitec_facturacion" sequence="200" />
         <menuitem name="Descuentos" action="descuentos_action_generic" id="menu_descuentos_generic" parent="menu_trafitec_facturacion" sequence="300" />
         <menuitem name="Comisiones" action="comisiones_action_generic" id="menu_comision_generic" parent="menu_trafitec_facturacion" sequence="400" />
-        <menuitem name="Clientes" action="base.action_partner_customer_form" id="menu_concepto_clientes" parent="menu_trafitec_facturacion" sequence="500" />
+        <menuitem name="Clientes" action="action_partner_clientes_form" id="menu_concepto_clientes" parent="menu_trafitec_facturacion" sequence="500" />
 
         <!--CUENTAS POR PAGAR-->
         <menuitem name="Facturas de proveedor" action="account.action_move_out_invoice_type" id="menu_facturas_proveedor" parent="menu_trafitec_cuentasxpagar" sequence="100" />
