@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError
 
 from odoo import api, fields, models
 
 
-class FletexTrafitecUbicaciones(models.Model):
-    _inherit = 'trafitec.ubicacion'
+class TrafitecUbicacion(models.Model):
+    _inherit = "trafitec.ubicacion"
     
     id_fletex = fields.Integer()
 

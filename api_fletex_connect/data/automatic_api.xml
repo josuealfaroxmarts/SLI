@@ -1,6 +1,6 @@
-
 <odoo>
     <data>
+
         <record id="api_sync_data_api_fletex" model="ir.cron">
             <field name="name">Sincronización de datos Fletex Odoo</field>
             <field name="active" eval="True" />
@@ -13,5 +13,6 @@
             <field name="code">model.sync_data()</field>
             <field name="state">code</field>
         </record>
+
     </data>
 </odoo>

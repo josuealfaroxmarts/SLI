@@ -1,23 +1,30 @@
 # -*- coding: utf-8 -*-
-from requests.sessions import default_headers
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
 
-class FletexFleetVehicle(models.Model):
-    _inherit = 'fleet.vehicle'
+
+class FleetVehicle(models.Model):
+    _inherit = "fleet.vehicle"
 
     id_fletex_truck = fields.Integer()
     id_fletex_trailer = fields.Integer()
     send_to_api = fields.Boolean(default=False)
-    status_vehicle = fields.Selection([('approved', 'Aprobado'), 
-                                        ('rejected', 'Rechazado'), 
-                                        ('onhold', 'En Espera')], 
-                                        string='Status', 
-                                        default='onhold')
-    poliza_approved = fields.Boolean(string="Poliza aprobada",default=False)
-    circulacion_approved = fields.Boolean(string="Tarjeta de circulacion aprobada",default=False)
+    status_vehicle = fields.Selection(
+	    [("approved", "Aprobado"),
+	     ("rejected", "Rechazado"),
+	     ("onhold", "En Espera")],
+	    string="Status",
+	    default="onhold"
+    )
+    poliza_approved = fields.Boolean(
+	    string="Poliza aprobada",
+	    default=False
+    )
+    circulacion_approved = fields.Boolean(
+	    string="Tarjeta de circulacion aprobada",
+	    default=False
+    )
 
-    @api.onchange('status_vehicle')
+    @api.onchange("status_vehicle")
     def _change_send_to_api(self):
         self.send_to_api = True
 
