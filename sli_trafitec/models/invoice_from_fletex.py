@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 
 from odoo import _, api, fields, models, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
-_logger = logging.getLogger(__name__)
 
 
-class trafitec_invoice_fletex(models.Model):
-    _name = 'invoice.from.fletex'
-    _description ='invoice from fletex'
-    _rec_name = 'fletexShipmentReference'
+class InvoiceFromFletex(models.Model):
+    _name = "invoice.from.fletex"
+    _description ="invoice from fletex"
+    _rec_name = "fletexShipmentReference"
 
-    clientId = fields.Many2one('res.partner', string='Asociado', required=True)
+    clientId = fields.Many2one(
+	    "res.partner",
+	    string="Asociado",
+	    required=True
+    )
     shipmentId = fields.Many2one(
-        'trafitec.viajes', string="Folio Viaje", required=True)
+        "trafitec.viajes",
+	    string="Folio Viaje",
+	    required=True
+    )
     fletexProjectReference = fields.Char(string="Referencia Projecto Fletex")
     fletexShipmentReference = fields.Char(string="Referencia Viaje Fletex")
     invoiceXmlName = fields.Char(compute="changeNameAttachment")
@@ -21,8 +25,7 @@ class trafitec_invoice_fletex(models.Model):
     invoicePdfName = fields.Char(compute="changeNameAttachment")
     invoicePdf = fields.Binary(string="Factura PDF")
 
-    @api.depends('shipmentId')
-    
+    @api.depends("shipmentId")
     def changeNameAttachment(self):
         if self.shipmentId:
             self.invoicePdfName = "Factura PDF del viaje ({}).pdf".format(

@@ -1,10 +1,13 @@
 ## -*- coding: utf-8 -*-
-from odoo import models, fields, api, tools, _
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
+
 import datetime
+import logging
 import random
 import sys
+
+from odoo import models, fields, api, tools, _
+from odoo.exceptions import UserError, RedirectWarning, ValidationError
+
 
 _logger = logging.getLogger(__name__)
 

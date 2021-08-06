@@ -1,34 +1,26 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class RoutersShipments(models.Model):
-    _name = 'trafitec.routers'
-    _description = 'Rutas de los viajes realizados en FLETEX'
+    _name = "trafitec.routers"
+    _description = "Rutas de los viajes realizados en FLETEX"
 
-    shipment_id_fletex = fields.Char(
-        string='ID Viaje asociado',
-    )
-
+    shipment_id_fletex = fields.Char(string="ID Viaje asociado",)
     shipment_id_odoo = fields.Many2one(
-        'trafitec.viajes',
-        string='Viaje',
+        "trafitec.viajes",
+        string="Viaje",
     )
-
     associated_id = fields.Many2one(
-        'res.partner',
-        string='Asociado',
+        "res.partner",
+        string="Asociado",
     )
-
     quotation_id = fields.Many2one(
-        'trafitec.cotizacion',
-        string='Cotización',
+        "trafitec.cotizacion",
+        string="Cotización",
     )
-
-    google_maps = fields.Char(
-        string='Google Maps'
-    )
+    google_maps = fields.Char(string="Google Maps")
 
     @api.onchange()
     def change_data(self):
@@ -38,7 +30,7 @@ class RoutersShipments(models.Model):
         origin_lenght = self.shipment_id_odoo.origen.longitud
         destination_latitude = self.shipment_id_odoo.destino.latitud
         destination_lenght = self.shipment_id_odoo.destino.longitud
-        self.google_maps = 'https://www.google.com/maps/dir/{},{}/{},{}/?hl=es'.format(
+        self.google_maps = "https://www.google.com/maps/dir/{},{}/{},{}/?hl=es".format(
             origin_latitude, origin_lenght, destination_latitude, destination_lenght)
 
     @api.constrains()
@@ -49,5 +41,5 @@ class RoutersShipments(models.Model):
         origin_lenght = self.shipment_id_odoo.origen.longitud
         destination_latitude = self.shipment_id_odoo.destino.latitud
         destination_lenght = self.shipment_id_odoo.destino.longitud
-        self.google_maps = 'https://www.google.com/maps/dir/{},{}/{},{}/?hl=es'.format(
+        self.google_maps = "https://www.google.com/maps/dir/{},{}/{},{}/?hl=es".format(
             origin_latitude, origin_lenght, destination_latitude, destination_lenght)

@@ -1,34 +1,21 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "sli_trafitec",
-    'summary': """
-       SLI Trafitec, software de logística integral.
-    """,
-
-    'description': """
-       Modulo de logística SLI Trafitec.
-    """,
+    'name': "Sli Trafitec",
+    'summary': """ SLI Trafitec, software de logística integral.""",
+    'description': """ Módulo de logística SLI Trafitec.""",
     'author':  "XMarts, Luis Alfredo Valencia Díaz",
     'website': "http://www.xmarts.com",
 
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/module/module_data.xml
-    # for the full list
     'category': 'SLI',
-    'version': '14.0.411',
-
-    # any module necessary for this one to work correctly
+    'version': '14.0.0.0.1',
     'depends': [        
         'account_accountant',
         'fleet',
         'product',
-        #'l10n_mx_sat_models',
-        #'argil_invoice_cancel',
-        'web',
-        'sale_management'
+	    'sale_management'
+	    'web',
     ],
 
-    # always loaded
     'data': [
         'views/assets_backend.xml',
         'security/seguridad.xml',
@@ -54,15 +41,9 @@
         'data/email_refuse.xml',
         'data/email_approve.xml',
     ],
-    
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
     'css': ['static/src/css/trafitec.css'],
     'installable': True,
     'auto_install': False,
     'application': True
-
 }
 
