@@ -2,30 +2,13 @@
 
 from odoo import models, fields, api, _, tools
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import xlrd
-import shutil
-import datetime
-import logging
-from datetime import timedelta
 
-# from odoo.tools import amount_to_text
+import datetime
+
 from . import amount_to_text
 
 import xlsxwriter
 import base64
-
-# from amount_to_text import *
-
-
-# from odoo.addons.report_xlsx.report.report_xlsx import ReportXlsx
-
-_logger = logging.getLogger(__name__)
-
-class alta_choferes(models.Model):
-	_inherit = 'res.partner'
-
-class nif_mod(models.Model):
-	_inherit = 'sale.order'
 
 
 class trafitec_municipios(models.Model):
