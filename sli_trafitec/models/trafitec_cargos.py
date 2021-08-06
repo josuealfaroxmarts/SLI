@@ -18,6 +18,11 @@ class TrafitecCargos(models.Model):
         ondelete="cascade",
         readonly=False
     )
+    saldo = fields.Float(
+        compute="_compute_saldo",
+        string="Saldo",
+        store=True
+    )
     monto = fields.Float(
         string="Monto",
         readonly=False
@@ -78,17 +83,12 @@ class TrafitecCargos(models.Model):
 
     @api.depends("abono_id.name")
     def _compute_abonado(self):
-        self.abonado = sum(line.name for line in self.abono_id)
+        for cargo in self:
+            cargo.abonado = sum(line.name for line in cargo.abono_id)
 
-
-    
-    @api.depends("abono_id","monto","abonado")
+    @api.depends("abono_id", "monto", "abonado")
     def _compute_saldo(self):
-        #if self.tipo_cargo == "comision":
-        #    if self.abonado:
-                self.saldo = self.monto - self.abonado
-        #    else:
-        #        self.saldo = self.monto
+        for cargo in self:
+            cargo.saldo = cargo.monto - cargo.abonado
 
-    saldo = fields.Float(compute="_compute_saldo",string="Saldo",store=True)
 
