@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
         <record id="fletex_api_res_partner" model="ir.ui.view">
             <field name="name">fletex.api.res.partner</field>
             <field name="model">res.partner</field>
@@ -62,11 +63,12 @@
                     <attribute name="invisible">['|',('status_record', '==', 'Rechazado'),('asociado', '==', True)]</attribute>
                 </xpath>
                 <xpath expr="//sheet/group/group[1]" position="inside">                    
-                        <field name="name_rfc_bussiness" invisible='1'/>
-                        <field name="rfc_bussiness" filename="name_rfc_bussiness"/>
-                        <field name="rfc_approved"/>                    
+                    <field name="name_rfc_bussiness" invisible='1'/>
+                    <field name="rfc_bussiness" filename="name_rfc_bussiness"/>
+                    <field name="rfc_approved"/>
                 </xpath>
             </field>
         </record>
+
     </data>
 </odoo>

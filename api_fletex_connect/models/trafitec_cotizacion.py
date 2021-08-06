@@ -9,6 +9,7 @@ class TrafitecCotizacion(models.Model):
     send_to_api = fields.Boolean()
 
     def action_available(self):
-        if self.state == "Enviada":
-            self.send_to_api = True
+        for cot in self:
+            if cot.state == "Enviada":
+                cot.send_to_api = True
         super(TrafitecCotizacion, self).action_available()

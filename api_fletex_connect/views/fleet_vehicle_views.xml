@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <data>
-    
+
         <record id="new_vehiculo_tab" model="ir.ui.view">
             <field name="name">vehiculo.add.text.field</field>
             <field name="model">fleet.vehicle</field>
@@ -23,7 +22,5 @@
         </record>
     
     </data>
-    
-
 </odoo>
 

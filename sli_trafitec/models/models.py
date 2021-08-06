@@ -778,8 +778,7 @@ class trafitec_asociados(models.Model):
 										string='Celular Enlazado')
 	activo_slitrack = fields.Boolean(string='Activo para SLITrack')
 	combustible_convenio_st = fields.Boolean(string='Convenio de combustible', default=False, help='Indica si el asociado tiene convenio para carga de combustible a crédito.')
-	customer = fields.Boolean(string='Es cliente')
-	supplier = fields.Boolean(string='Es proveedor')
+
 
 	@api.constrains('vat')
 	def check_vat(self):

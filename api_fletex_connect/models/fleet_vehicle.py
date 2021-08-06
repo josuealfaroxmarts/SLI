@@ -9,22 +9,23 @@ class FleetVehicle(models.Model):
     id_fletex_trailer = fields.Integer()
     send_to_api = fields.Boolean(default=False)
     status_vehicle = fields.Selection(
-	    [("approved", "Aprobado"),
-	     ("rejected", "Rechazado"),
-	     ("onhold", "En Espera")],
-	    string="Status",
-	    default="onhold"
+        [("approved", "Aprobado"),
+         ("rejected", "Rechazado"),
+         ("onhold", "En Espera")],
+        string="Status",
+        default="onhold"
     )
     poliza_approved = fields.Boolean(
-	    string="Poliza aprobada",
-	    default=False
+        string="Poliza aprobada",
+        default=False
     )
     circulacion_approved = fields.Boolean(
-	    string="Tarjeta de circulacion aprobada",
-	    default=False
+        string="Tarjeta de circulacion aprobada",
+        default=False
     )
 
     @api.onchange("status_vehicle")
     def _change_send_to_api(self):
-        self.send_to_api = True
+        for fleet in self:
+            fleet.send_to_api = True
 
