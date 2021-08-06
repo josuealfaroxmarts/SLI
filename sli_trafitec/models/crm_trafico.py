@@ -22,7 +22,7 @@ import base64
 _logger = logging.getLogger(__name__)
 
 
-class trafitec_crm_trafico(models.TransientModel):
+class TrafitecCrmTrafico(models.TransientModel):
     _name = 'trafitec.crm.trafico'
     _order = 'id desc'
     _description ='crm trafico'
@@ -215,7 +215,7 @@ class trafitec_crm_trafico(models.TransientModel):
         return result
 
 
-class trafitec_crm_trafico_resultado(models.TransientModel):
+class TrafitecCrmTraficoResultado(models.TransientModel):
     _name = 'trafitec.crm.trafico.resultado'
     _description ='crm trafico resultado'
     crm_trafico_id = fields.Many2one(string="", comodel_name="trafitec.crm.trafico")
@@ -231,7 +231,7 @@ class trafitec_crm_trafico_resultado(models.TransientModel):
     estado = fields.Char(string='Estado')
 
 
-class trafitec_crm_trafico_pedidos(models.TransientModel):
+class TrafitecCrmTraficoPedidos(models.TransientModel):
     _name = 'trafitec.crm.trafico.pedidos'
     _description ='crm trafico pedidos'
     crm_trafico_id = fields.Many2one(string="CRM", comodel_name="trafitec.crm.trafico")
@@ -361,7 +361,7 @@ class trafitec_crm_resultado(models.TransientModel):
     asociado_id = fields.Many2one(string="Asociado", comodel_name="res.partner")
     buscar_id = fields.Many2one(string="Buscar", comodel_name="trafitec.crm.buscar")
 """
-class trafitec_crm_trafico_asociados(models.Model):
+class TrafitecCrmTraficoAsociados(models.Model):
     _name = 'trafitec.crm.asociados'
     _description ='crm asociados'
     _rec_name = 'id'
@@ -439,7 +439,7 @@ class trafitec_crm_trafico_asociados(models.Model):
     def action_cerrar(self):
         return {}
 
-class trafitec_crm_trafico_registro(models.Model):
+class TrafitecCrmTraficoRegistro(models.Model):
     _name = 'trafitec.crm.trafico.registro'
     _description ='trafico registro'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -677,7 +677,7 @@ class trafitec_crm_trafico_registro(models.Model):
         return
 
 
-class trafitec_crm_trafico_registro_viajes(models.Model):
+class TrafitecCrmTraficoRegistroViajes(models.Model):
     _name = 'trafitec.crm.trafico.registro.viajes'
     _description ='crm traficos registros viajes'
     registro_id = fields.Many2one(string='Registro', comodel_name='trafitec.crm.trafico.registro')
@@ -697,7 +697,7 @@ class trafitec_crm_trafico_registro_viajes(models.Model):
         return borrado
 
 
-class trafitec_crm_trafico_tablero(models.Model):
+class TrafitecCrmTraficoTablero(models.Model):
     _name = "trafitec.crm.trafico.tablero"
     _description ='crm trafico tablero'
 

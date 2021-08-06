@@ -9,7 +9,7 @@ import math
 _logger = logging.getLogger(__name__)
 
 
-class trafitec_contrarecibo(models.Model):
+class TrafitecContrarecibo(models.Model):
     _name = 'trafitec.contrarecibo'
     _description ='Contrarecibo'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -1769,7 +1769,7 @@ class trafitec_contrarecibo(models.Model):
             raise UserError(_('Alerta..\n'+str(errores)))
 
 #Mike
-class trafitec_cargospendientes(models.TransientModel):
+class TrafitecCargosPendientes(models.TransientModel):
     _name = 'trafitec.cargospendientes'
     _description ='Cargos pendientes'
     descuento_id = fields.Integer(string="Id descuento", default=0)
@@ -1780,7 +1780,7 @@ class trafitec_cargospendientes(models.TransientModel):
     abonos = fields.Float(string='Abonos', default=0)
     saldo = fields.Float(string='Saldo', default=0)
 
-class trafitec_con_descuentos(models.Model):
+class TrafitecConDescuentos(models.Model):
     _name = 'trafitec.con.descuentos'
     _description ='Descuentos'
 
@@ -1832,7 +1832,7 @@ class trafitec_con_descuentos(models.Model):
             raise UserError(_(
                 'Aviso !\nEl monto del abono debe ser mayor a cero.'))
 
-class trafitec_con_comision(models.Model):
+class TrafitecConComision(models.Model):
     _name = 'trafitec.con.comision'
     _description ='Comision'
 
@@ -1849,7 +1849,7 @@ class trafitec_con_comision(models.Model):
     cobrado = fields.Boolean(string='Cobrado', default=False)
 
 #Descuentos por cobrar.
-class trafitec_contrarecibo_descuentosx(models.TransientModel):
+class TrafitecContrareciboDescuentosX(models.TransientModel):
     _name = 'trafitec.contrarecibos.descuentosx'
     _description ='Contrarecibos descuentos'
     descuento_id=fields.Many2one(comodel_name='trafitec.descuentos',string='Descuentos')
@@ -1859,7 +1859,7 @@ class trafitec_contrarecibo_descuentosx(models.TransientModel):
     saldo=fields.Float(string='Saldo', default=0)
     abono=fields.Float(string='Abono', default=0)
     
-class viajesxcontrarecibo(models.Model):
+class ViajesXContrarecibo(models.Model):
     _name='trafitec.viajesxcontrarecibo'
     _description ='Viajesx contrarecibo'
     viaje_id=fields.Many2one(string='Viaje', comodel_name='trafitec.viajes')
@@ -1879,7 +1879,7 @@ class viajesxcontrarecibo(models.Model):
             viaje.write({'en_contrarecibo':False, 'factura_proveedor_id':False})
         return super(viajesxcontrarecibo, self).unlink()
 
-class trafitec_contrarecibos_cargos(models.Model):
+class TrafitecContrarecibosCargos(models.Model):
     _name = 'trafitec.contrarecibos.cargos'
     _description ='Contrarecibos cargos'
     tipo_cargo_id = fields.Many2one(
