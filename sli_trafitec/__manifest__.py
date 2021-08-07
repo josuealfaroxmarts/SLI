@@ -20,7 +20,8 @@
         'views/assets_backend.xml',
         'security/seguridad.xml',
         'security/ir.model.access.csv',
-        'views/views.xml',
+	    'data/email_template.xml',
+	    'views/views.xml',
         'views/quotation.xml',
         'views/viajes.xml',
         'views/contrarecibo.xml',
@@ -38,8 +39,6 @@
         'views/routers.xml',
         'views/trafitec.xml',
 
-        'data/email_refuse.xml',
-        'data/email_approve.xml',
     ],
     'css': ['static/src/css/trafitec.css'],
     'installable': True,

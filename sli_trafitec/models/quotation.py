@@ -145,39 +145,16 @@ class trafitec_cotizacion(models.Model):
             }
         }
 
-    
-    #
-    #@api.depends('')
-    #def _compute_totales_origenes_destinos(self):
-    #    total = 0
-        #trafitec.cotizaciones.linea
-    #    self.totales_origenes_destinos = total
-
-    #
-    #@api.depends('')
-    #def _compute_totales_viajes(self):
-    #    total = 0
-    #    self.totales_viajes = total
-
-    #Totales.
-    #totales_origenes_destinos=fields.Float('Total origenes y destinos',default=0,compute='_compute_totales_origenes_destinos',store=True)
-    #totales_viajes=fields.Float('Total de viajes',default=0,compute='_compute_totales_viajes',store=True)
-    
-    
-
     @api.onchange('contacto2')
     def onchange_contacto2(self):
         self.email = self.contacto2.email
         self.telefono = self.contacto2.phone or self.contacto2.mobile
-    
-    
+
     @api.onchange('semaforo_valor')
     def onchange_semaforo_valor(self):
         if self.semaforo_valor:
             if self.semaforo_valor == "rojo":
-                print("----------------------------CAMBIO A ROJO")
 
-    
     def action_enviar_info_cliente(self):
         contenido = ""
         para = ""
@@ -1201,27 +1178,6 @@ class trafitec_cotizaciones_evidencias(models.Model):
     image_filename = fields.Char("Nombre del archivo")
     evidencia_file = fields.Binary(string="Archivo", required=True)
     cotizacion_id = fields.Many2one(comodel_name="trafitec.cotizacion", string="Cotización", ondelete='cascade')
-
-
-class trafitec_saleorder(models.Model):
-    _inherit = 'sale.order'
-    trafitec_cotizacion_id = fields.Many2one(string='Cotización trafitec', comodel_name='trafitec.cotizacion')
-    trafitec_cotizacion_txt = fields.Char(string='Cotizacion trafitec', related='trafitec_cotizacion_id.name', readonly=True, store=True)
-    
-    def action_cancel(self):
-        contexto = self._context
-        print("--CONTEXTO AL CANCELAR SALE.ORDER--")
-        print(contexto)
-        trafitec_cancelar = contexto.get("trafitec_cancelar", False)
-        if not trafitec_cancelar:
-            if self.trafitec_cotizacion_id:
-                raise UserError(_("Este pedido de ventas esta relacionado con una cotización de trafitec."))
-        
-        return super(trafitec_saleorder, self).action_cancel()
-    
-    @api.model
-    def create(self, vals):
-        return super(trafitec_saleorder, self).create(vals)
 
 class trafitec_cotizaciones_documentos(models.Model):
     _name = 'trafitec.cotizaciones.documentos'

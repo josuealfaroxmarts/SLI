@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="account_approve" model="mail.template">
+        <field name="name">Actualización de estado de su cuenta de Fletex</field>
+        <field name="email_from">${object.company_id and object.company_id.email or ''}</field>
+        <field name="subject">Actualización de estado de su cuenta de Fletex</field>
+        <field name="email_to">${object.email}</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+            <p>Estimado ${object.name}</p>
+            <p>El siguiente correo electronico es para informarle que el status de su cuenta en Fletex es ${object.status_client} .</p>
+        </field>
+    </record>
+
+    <record id="account_refuse" model="mail.template">
+        <field name="name">Actualización de estado de su cuenta de Fletex</field>
+        <field name="email_from">${object.company_id and object.company_id.email or ''}</field>
+        <field name="subject">Actualización de estado de su cuenta de Fletex</field>
+        <field name="email_to">${object.email}</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+            <p>Estimado ${object.name}</p>
+            <p>El siguiente correo electronico es para informarle que su cuenta de fletex ha sido rechazada.</p>
+            <p>Motivo: ${object.motive_refuse}</p>
+        </field>
+    </record>
+
+</odoo>

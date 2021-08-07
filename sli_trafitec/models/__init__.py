@@ -14,6 +14,7 @@ from . import trafitec_abonos
 from . import trafitec_cargos
 from . import trafitec_cargosx
 from . import trafitec_cargosx_abonos
+from . import trafitec_contrarecibo
 from . import trafitec_polizas
 from . import trafitec_remolques
 
@@ -27,7 +28,6 @@ from . import trafitec_tareas
 from . import trafitec_tareas_clasificacion
 
 
-from . import contrarecibo
 
 from . import facturas_automaticas
 from . import facturas_comision
