@@ -7,5 +7,3 @@ class TrafitecViajes(models.Model):
     _inherit = "trafitec.viajes"
     
     id_fletex = fields.Integer()
-
-    

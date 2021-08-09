@@ -87,31 +87,44 @@ class ResPartner(models.Model):
 	balance_invoices = fields.Float(string="Saldo en facturas")
 
 	def change_name(self):
-		if not self.name:
-			return
-		self.name_license_driver = "Licencia de {}.{}".format(
-			self.name, self.ext_license_driver
-		)
-		self.name_id_representative = "Identificacion del representante de {}.{}".format(
-			self.name, self.ext_id_representative
-		)
-		self.name_act_representative = "Acta constitutiva del representante de {}.{}".format(
-			self.name, self.ext_act_representative
-		)
-		self.name_address_representative = "Comprobante del domicilio del representante de {}.{}".format(
-			self.name, self.ext_address_representative
-		)
-		self.name_rfc_bussiness = "RFC de {}.{}".format(
-			self.name, self.ext_rfc_bussiness
-		)
-		self.name_rfc_representative_drop = "RFC de {} {}.{}".format(
-			self.name_representative,
-			self.lastname_representative,
-			self.ext_representative_drop
-		)
-		self.name_healthcare_number = "Numero de seguro social de {}.{}".format(
-			self.name, self.ext_healthcare_number
-		)
+		for partner in self:
+			if not self.name:
+				return
+			partner.name_license_driver = "Licencia de {}.{}".format(
+				partner.name, partner.ext_license_driver
+			)
+			partner.name_id_representative = (
+				"Identificacion del representante de {}.{}".format(
+					partner.name, partner.ext_id_representative
+				)
+			)
+			partner.name_act_representative = (
+				"Acta constitutiva del representante de {}.{}".format(
+					partner.name, partner.ext_act_representative
+				)
+			)
+			partner.name_address_representative = (
+				"Comprobante del domicilio del representante de {}.{}".format(
+					partner.name, partner.ext_address_representative
+				)
+			)
+			partner.name_rfc_bussiness = (
+				"RFC de {}.{}".format(
+					partner.name, partner.ext_rfc_bussiness
+				)
+			)
+			partner.name_rfc_representative_drop = (
+				"RFC de {} {}.{}".format(
+					partner.name_representative,
+					partner.lastname_representative,
+					partner.ext_representative_drop
+				)
+			)
+			partner.name_healthcare_number = (
+				"Numero de seguro social de {}.{}".format(
+					partner.name, partner.ext_healthcare_number
+				)
+			)
 
 	def approve_status_email(self):
 		for partner in self:

@@ -5,15 +5,15 @@ from odoo import api, fields, models
 
 class WizardRefusedResPartners(models.TransientModel):
     _name = "wizard.refused.res.partners"
-    _description ="Wizard refused"
+    _description = "Wizard refused"
 
     title = fields.Char(
-	    string="Título",
-	    required=True
+        string="Título",
+        required=True
     )
     description = fields.Text(
-	    string="Descripción",
-	    required=True
+        string="Descripción",
+        required=True
     )
     date_init = fields.Date(string="Fecha")
 
@@ -34,8 +34,9 @@ class WizardRefusedResPartners(models.TransientModel):
             domain = [("create_date", "<", self.date_init)]
         fields = ["name", "creation_date", "state_id"]
         communals_data = self.env["tcc.communal.council"].search_read(
-	        domain, fields)
+            domain, fields
+        )
         datas["communals_data"] = communals_data
         return self.env["report"].get_action(
-	        [], "tcc_communal_council.council_admin", data=datas
+            [], "tcc_communal_council.council_admin", data=datas
         )

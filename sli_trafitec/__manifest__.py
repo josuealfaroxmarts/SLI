@@ -12,7 +12,7 @@
         'account_accountant',
         'fleet',
         'product',
-	    'sale_management'
+	    'sale_management',
 	    'web',
     ],
 
