@@ -6,11 +6,11 @@
 'author': 'SOLUCIONES LOGISTICAS INTELIGENTES SA DE CV',
 'depends': ['base', 'hr', 'sli_trafitec'],
 'data': [
+    'security/ir.model.access.csv',
+    'security/seguridad.xml',
     'views/sli_documentos.xml',
     'views/sli_seguimiento.xml',
     'views/cron.xml',
-    'security/seguridad.xml',
-    'security/ir.model.access.csv'
 ],
 'demo': [],
 'installable': True,
