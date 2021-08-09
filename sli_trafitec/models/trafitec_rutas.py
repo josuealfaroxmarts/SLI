@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 	
-class trafitec_asoc_rutas(models.Model):
+class TrafitecRutas(models.Model):
 	_name = 'trafitec.rutas'
 	_description ='rutas'
 

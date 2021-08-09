@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
-class trafitec_comisiones_abono(models.Model):
+class TrafitecComisionesAbono(models.Model):
 	_name = 'trafitec.comisiones.abono'
 	_description='comisiones abono'
 
@@ -40,11 +39,6 @@ class trafitec_comisiones_abono(models.Model):
 
 
 	def unlink(self):
-
-		# if self.tipo == 'contrarecibo':
-		# if self.permitir_borrar != False:
-		#     raise UserError(_(
-		#         'Aviso !\nNo se puede eleminar un abono de un contra recibo.'))
 		if self.tipo == 'manual':
 			obj = self.env['trafitec.con.comision'].search(
 				[('cargo_id', '=', self.abonos_id.id), ('line_id.state', '=', 'Nueva')])
@@ -66,7 +60,8 @@ class trafitec_comisiones_abono(models.Model):
 
 	@api.constrains('name')
 	def _check_monto_mayor(self):
-		obj_abono = self.env['trafitec.comisiones.abono'].search([('abonos_id', '=', self.abonos_id.id)])
+		obj_abono = self.env['trafitec.comisiones.abono'].search(
+			[('abonos_id', '=', self.abonos_id.id)])
 		amount = 0
 		for abono in obj_abono:
 			amount += abono.name
@@ -95,7 +90,8 @@ class trafitec_comisiones_abono(models.Model):
 		self.env['trafitec.abonos'].create(valores)
 
 		if tipo == 'manual':
-			obj = self.env['trafitec.con.comision'].search([('cargo_id', '=', vals['abonos_id']), ('line_id.state','=','Nueva')])
+			obj = self.env['trafitec.con.comision'].search(
+				[('cargo_id', '=', vals['abonos_id']), ('line_id.state','=','Nueva')])
 			for con in obj:
 				res = con.saldo - vals['name']
 				abonado = con.comision - res
@@ -119,11 +115,13 @@ class trafitec_comisiones_abono(models.Model):
 			'monto': monto,
 			'detalle': detalle
 		}
-		obj = self.env['trafitec.abonos'].search([('comision_abono_id', '=', self.id)])
+		obj = self.env['trafitec.abonos'].search(
+			[('comision_abono_id', '=', self.id)])
 		obj.write(valores)
 
 		if self.tipo == 'manual' and 'name' in vals:
-			obj = self.env['trafitec.con.comision'].search([('cargo_id', '=', self.abonos_id.id), ('line_id.state', '=', 'Nueva')])
+			obj = self.env['trafitec.con.comision'].search(
+				[('cargo_id', '=', self.abonos_id.id), ('line_id.state', '=', 'Nueva')])
 			for con in obj:
 
 				if self.name > vals['name']:

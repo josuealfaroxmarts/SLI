@@ -7,7 +7,7 @@ import datetime
 from xml.dom import minidom
 
 
-class trafitec_change_balance_client(models.Model):
+class AccountPayment(models.Model):
 	_inherit = 'account.payment'
 
 	def post(self):
@@ -20,4 +20,4 @@ class trafitec_change_balance_client(models.Model):
 		except:
 			pass
 
-		return super(trafitec_change_balance_client, self).post()
+		return super(AccountPayment, self).post()

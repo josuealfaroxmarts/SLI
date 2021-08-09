@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, tools,_
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
-import datetime
-
-_logger = logging.getLogger(__name__)
+from odoo.exceptions import UserError
 
 
-class trafitec_cotizacion_line_cargos(models.Model):
+class TrafitecCotizacionLineCargos(models.Model):
     _name = 'trafitec.cotizaciones.linea.cargos'
     _description='cotizaciones linea cargos'
 

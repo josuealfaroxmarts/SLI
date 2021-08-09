@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, tools,_
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
-import datetime
+from odoo.exceptions import UserError
 
-_logger = logging.getLogger(__name__)
-
-
-class trafitec_cotizacion(models.Model):
+class TrafitecCotizacion(models.Model):
     _name = 'trafitec.cotizacion'
     _description = 'cotizacion'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -344,9 +339,7 @@ class trafitec_cotizacion(models.Model):
         
         cliente = (self.cliente.name or self.cliente_refenciado or '')
         
-        contenido = 'Estimado ' + str(jefe.name or '') + ' el usuario ' + str(empleado.name or '') + 
-        ' solicita la autorización de la cotización con folio: ' + str(self.name or '') + 
-        ' para el cliente: ' + str(cliente or '') + ' Odoo: http://odoo.sli.mx.'
+        contenido = 'Estimado ' + str(jefe.name or '') + ' el usuario ' + str(empleado.name or '') + ' solicita la autorización de la cotización con folio: ' + str(self.name or '') + ' para el cliente: ' + str(cliente or '') + ' Odoo: http://odoo.sli.mx.'
     
         action_ctx = dict(self.env.context)
         view_id = self.env.ref('mail.view_mail_form').id
@@ -359,7 +352,6 @@ class trafitec_cotizacion(models.Model):
             'views': [(view_id, 'form')],
             'view_id': view_id,
             'target': 'new',
-            # 'res_id': self.ids[0],
             'context': {
                 'default_subject': asunto,
                 'default_email_from': de,
@@ -380,18 +372,14 @@ class trafitec_cotizacion(models.Model):
     def onchange_semaforo_valor(self):
         if self.semaforo_valor:
             if self.semaforo_valor == 'rojo':
-
-
-    def action_enviar_info_cliente(self):
-        contenido = ''
-        para = ''
-        para2 = ''
-        contenido += ''
-        
-        sql = ''
-        lista = []
-        
-        sql = '''
+                def action_enviar_info_cliente(self):
+                    contenido = ''
+                    para = ''
+                    para2 = ''
+                    contenido += ''
+                    sql = ''
+                    lista = []
+                    sql = '''
         select
 ct.name folio,
 cl.name folio_cliente,
@@ -785,7 +773,7 @@ order by des.name
         #         raise UserError(
         #             _('Aviso !\nDebe seleccionar una regla de merma para granel.'))
             
-        nuevo = super(trafitec_cotizacion, self).create(vals)
+        nuevo = super(TrafitecCotizacion, self).create(vals)
 
         return nuevo
 
@@ -876,7 +864,7 @@ order by des.name
                         glo = data.env['trafitec.glo']
                         glo.enviar_correo(correo, 'Cotización en Rojo', mensaje)
                     
-            return super(trafitec_cotizacion, data).write(vals)
+            return super(TrafitecCotizacion, data).write(vals)
 
 
     @api.onchange('cliente')
@@ -973,15 +961,11 @@ order by des.name
             )
 
         for lineas in self.lineas_cotizacion_id:
-           
-        linea_nego_obj = self.env['trafitec.lineanegocio'].search([('id', '=', self.lineanegocio.id)])
-
-        if linea_nego_obj.name == 'Granel' or linea_nego_obj.name == 'GRANEL' or linea_nego_obj.name == 'granel':
-
-            if not self.reglas_merma:
-                raise UserError(
-                    ('Debe seleccionar una regla de merma.')
-                )
+            linea_nego_obj = self.env['trafitec.lineanegocio'].search([('id', '=', self.lineanegocio.id)])
+            
+            if linea_nego_obj.name == 'Granel' or linea_nego_obj.name == 'GRANEL' or linea_nego_obj.name == 'granel':
+                if not self.reglas_merma:
+                    raise UserError(('Debe seleccionar una regla de merma.'))
 
         self.genera_pedido_venta()
         

@@ -3,7 +3,7 @@
 import datetime
 import math
 from odoo import models, fields, api, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo.exceptions import UserError
 
 
 class TrafitecContrarecibo(models.Model):
@@ -164,8 +164,9 @@ class TrafitecContrarecibo(models.Model):
     @api.model
     def _predeterminados_moneda(self):
         emp = self.env['res.company']._company_default_get('sli_trafitec')
-        res = self.env['trafitec.parametros'].search(
-	        [('company_id', '=', emp.id)])
+        res = self.env['trafitec.parametros'].search([
+            ('company_id', '=', emp.id)
+        ])
 
         return res[0].cr_moneda_id or False
 
@@ -209,10 +210,11 @@ class TrafitecContrarecibo(models.Model):
         self.cargospendientes_id = []
         cargosx = []
         cargos = self.env['trafitec.cargospendientes']
-        cargospendientes = self.env['trafitec.cargos'].search([('asociado_id', '=', self.asociado_id.id), 
-            ('tipo_cargo', '=', 'descuentos')])
+        cargospendientes = self.env['trafitec.cargos'].search([
+            ('asociado_id', '=', self.asociado_id.id), 
+            ('tipo_cargo', '=', 'descuentos')
+        ])
         
-        # cargospendientes = self.env['trafitec.cargos'].search([('asociado_id', '=', self.asociado_id.id), ('saldo', '>', 0), ('tipo_cargo', '=', 'descuentos')])
         for c in cargospendientes:
             nuevo = {
                 'descuento_id': c.id,
@@ -260,8 +262,12 @@ class TrafitecContrarecibo(models.Model):
 
     def _crear_factura_proveedor(self, vals):
         self._validar_viajes_seleccionados(vals)
-        journal_obj = vals.env['account.journal'].search([('name', '=', 'Proveedores Transportistas')])
-        account_obj = vals.env['account.account'].search([('name', '=', 'Proveedores Transportistas')])
+        journal_obj = vals.env['account.journal'].search([
+            ('name', '=', 'Proveedores Transportistas')
+        ])
+        account_obj = vals.env['account.account'].search([
+            ('name', '=', 'Proveedores Transportistas')
+        ])
         valores = {
             'origin': vals.name,
             'move_type': 'in_invoice',
@@ -274,21 +280,24 @@ class TrafitecContrarecibo(models.Model):
             'ref': 'Factura generada del contra recibo {} '.format(vals.name)
         }
         move_id = vals.env['account.move'].create(valores)
-        product_obj = vals.env['product.product'].search([('default_code', '=', 'ServFletGran')])
+        product_obj = vals.env['product.product'].search([
+            ('default_code', '=', 'ServFletGran')
+        ])
         inv_line = {
             'move_id': move_id.id,
             'product_id': product_obj.id,
             'name': 'Factura generada del contra recibo {} '.format(vals.name),
             'quantity': 1,
             'account_id': account_obj.id,
-            # order.lines[0].product_id.property_account_income_id.id or order.lines[0].product_id.categ_id.property_account_income_categ_id.id,
             'uom_id': product_obj.product_tmpl_id.uom_id.id,
             'price_unit': vals.subtotal,
             'price_unit': vals.subtotal,
             'discount': 0
         }
         vals.env['account.move.line'].create(inv_line)
-        account_tax_obj = vals.env['account.account'].search([('name', '=', 'IVA Retenido Efectivamente Cobrado')])
+        account_tax_obj = vals.env['account.account'].search([
+            ('name', '=', 'IVA Retenido Efectivamente Cobrado')
+        ])
         inv_tax = {
             'move_id': move_id.id,
             'name': vals.iva_option,
@@ -322,7 +331,8 @@ class TrafitecContrarecibo(models.Model):
 
             if self.cobrar_descuentos == 'Todos':
                 for descuento in self.descuento_id:
-                    obj_descuento=self.env['trafitec.descuentos'].search([('id', '=', descuento.descuento_fk.id)])
+                    obj_descuento=self.env['trafitec.descuentos'].search(
+                        [('id', '=', descuento.descuento_fk.id)])
 
                     if descuento.abono>obj_descuento.saldo:
                         raise UserError(
@@ -350,7 +360,8 @@ class TrafitecContrarecibo(models.Model):
                 for descuento in self.descuento_id:
 
                     if descuento.viaje_id in self.viaje_id:
-                        obj_descuento = self.env['trafitec.descuentos'].search([('id', '=', descuento.descuento_fk.id)])
+                        obj_descuento = self.env['trafitec.descuentos'].search(
+                            [('id', '=', descuento.descuento_fk.id)])
 
                         if descuento.abono > obj_descuento.saldo:
                             raise UserError(
@@ -379,7 +390,8 @@ class TrafitecContrarecibo(models.Model):
 
             if self.cobrar_comisiones == 'Todos los viajes':
                 for comisi in self.comision_id:
-                    obj_comisi = self.env['trafitec.cargos'].search([('id', '=', comisi.cargo_id.id)])
+                    obj_comisi = self.env['trafitec.cargos'].search(
+                        [('id', '=', comisi.cargo_id.id)])
 
                     if obj_comisi.saldo!=comisi.saldo:
                         raise UserError(
@@ -403,7 +415,9 @@ class TrafitecContrarecibo(models.Model):
                 for comisi in self.comision_id:
 
                     if comisi.viaje_id in self.viaje_id:
-                        obj_comisi = self.env['trafitec.cargos'].search([('id', '=', comisi.cargo_id.id)])
+                        obj_comisi = self.env['trafitec.cargos'].search([
+                            ('id', '=', comisi.cargo_id.id)
+                        ])
 
                         if obj_comisi.saldo != comisi.saldo:
                             raise UserError(
@@ -435,16 +449,16 @@ class TrafitecContrarecibo(models.Model):
             metodo = 1
 
         valores = {
-            'journal_id': diario_id, # Ok
-            'payment_method_id': metodo, # account_payment_method 1 = Manual inbound, 2 = Manual outbound
-            'payment_date': datetime.datetime.now().date(), # Ok
-            'communication': 'Pago desde codigo por:{} de tipo:{} '.format(str(abono), tipo), # Ok
-            'move_ids': [(4, factura_id, None)], # [(4, inv.id, None) for inv in self._get_invoices()],
-            'payment_type': subtipo, # inbound, outbound
-            'amount': abono, # Ok
-            'currency_id': moneda_id, # Ok
-            'partner_id': persona_id, # Ok
-            'partner_type': tipo, # Ok. customer, supplier
+            'journal_id': diario_id,
+            'payment_method_id': metodo,
+            'payment_date': datetime.datetime.now().date(),
+            'communication': 'Pago desde codigo por:{} de tipo:{} '.format(str(abono), tipo), 
+            'move_ids': [(4, factura_id, None)],
+            'payment_type': subtipo,
+            'amount': abono,
+            'currency_id': moneda_id,
+            'partner_id': persona_id,
+            'partner_type': tipo,
         }
 
         pago = self.env['account.payment'].create(valores)
@@ -546,15 +560,22 @@ class TrafitecContrarecibo(models.Model):
     def _generar_nota_cargo(self, vals, tipo, parametros_obj):
         configuracion_trafitec = vals.env['trafitec.parametros'].search([('company_id', '=', vals.company_id.id)]) # Plan contable
 
-        diario = vals.env['account.journal'].search([('id', '=', configuracion_trafitec.cr_diario_id.id)]) # Diario
-        nca_diario_pagos_id = vals.env['account.journal'].search([('id', '=', configuracion_trafitec.nca_diario_pagos_id.id)]) # Diario para pagos de nota de cargo
-        nca_diario_cobros_id = vals.env['account.journal'].search([('id', '=', configuracion_trafitec.nca_diario_cobros_id.id)]) # Diario para cobros de notas de cargo
-        plancontable = vals.env['account.account'].search([('id', '=', configuracion_trafitec.cr_plancontable_id.id)]) # Plan contable
+        diario = vals.env['account.journal'].search([
+            ('id', '=', configuracion_trafitec.cr_diario_id.id)
+        ]) # Diario
+        nca_diario_pagos_id = vals.env['account.journal'].search([
+            ('id', '=', configuracion_trafitec.nca_diario_pagos_id.id)
+        ]) # Diario para pagos de nota de cargo
+        nca_diario_cobros_id = vals.env['account.journal'].search([
+            ('id', '=', configuracion_trafitec.nca_diario_cobros_id.id)
+        ]) # Diario para cobros de notas de cargo
+        plancontable = vals.env['account.account'].search([
+            ('id', '=', configuracion_trafitec.cr_plancontable_id.id)
+        ]) # Plan contable
 
         error = False
         errores = ''
 
-        # print('***********ENTRO NOTA CAGO 2***************')
         if not vals.asociado_id.customer:
             error = True
             errores += '\nEl asociado tambien debe ser cliente.'
@@ -630,8 +651,6 @@ class TrafitecContrarecibo(models.Model):
 
         valores = {
             'origin': vals.name,
-
-            # 'type': 'in_refund',
             'move_type': 'out_invoice',
             'date': datetime.datetime.now(),
             'partner_id': vals.asociado_id.id,
@@ -640,7 +659,7 @@ class TrafitecContrarecibo(models.Model):
             'currency_id': vals.currency_id.id,
 
             # Datos de cfdi
-            'uso_cfdi_id': vals.asociado_id.uso_cfdi_id.id, # Mike
+            'uso_cfdi_id': vals.asociado_id.uso_cfdi_id.id,
             'pay_method_id': vals.asociado_id.pay_method_id.id, # Mike. pay.method
             'metodo_pago_id': configuracion_trafitec.metodo_pago_id.id, # Mike. sat.metodo.pago
             'account_id': plancontable.id,
@@ -648,15 +667,9 @@ class TrafitecContrarecibo(models.Model):
         }
         move_id = vals.env['account.move'].create(valores)
 
-        # move_id.update({'tax_ids': [(6, 0, [parametros_obj.iva.id, parametros_obj.retencion.id])]})
-
         # Registra los metodos de pago
         move_id.update({'pay_method_ids': [(6, 0, [vals.asociado_id.pay_method_id.id])]})
-        # move_id.update({'invoice_tax_ids': [(6, 0, [parametros_obj.iva.id, parametros_obj.retencion.id])]})
 
-        # Metodos de pago relacionados
-
-        # account_invoice_pay_method_rel move_id->account_invoice pay_method_id->pay_method
         valores={
             'move_id': move_id,
             'pay_method_id': vals.asociado_id.pay_method_id.id
@@ -670,7 +683,6 @@ class TrafitecContrarecibo(models.Model):
             'product_id': product.id,
             'name': 'Nota de cargo por {} generada del contra recibo {} / {} '.format(tipo, vals.name, self.move_id.ref),
             'account_id': product.property_account_income_id.id,
-            # order.lines[0].product_id.property_account_income_id.id or order.lines[0].product_id.categ_id.property_account_income_categ_id.id,
             'uom_id': parametros_obj.uom.uom_id.id,
             'quantity': 1,
             'price_unit': subtotal,
@@ -862,13 +874,9 @@ class TrafitecContrarecibo(models.Model):
                 error = True
                 errores += 'El viaje con el folio {} no tiene boletas.\r\n'.format(viaje.name)
             
-            # relacion = self.env['trafitec.viajesxcontrarecibo']
-            # relacion.create({'viaje_id':viaje.id,'contrarecibo_id': self.id,'factura_id': self.move_id.id})
-
         # Totales:
         totales = self.totales()
 
-        # print('------------------Totales:'+str(totales))
         if totales['subtotal'] <= 0:
             error = True
             errores += 'El subtotal debe ser mayor a cero.\n'
@@ -1001,20 +1009,15 @@ class TrafitecContrarecibo(models.Model):
 
             # Marca los viajes como que ya no tienen contra recibo
             for viaje in self.viaje_id:
-                # vobj=self.env['trafitec.viajes'].search([('id','=',viaje.id)])
-                # if vobj.en_contrarecibo: #and vobj.factura_proveedor_id.id==self.move_id.id:
                 viaje.with_context(validar_credito_cliente=False).write({'en_contrarecibo': False, 'factura_proveedor_id': False, 'contrarecibo_id': False})
 
         # Quitar viajes relacionados:
-        self.viaje_id = [(5, _, _)]
+        self.viaje_id = [(5, 0, 0)]
         self.fletes = 0
 
         # Quitar cargos adicionales:
-        self.cargosadicionales_id = [(5, _, _)]
+        self.cargosadicionales_id = [(5, 0, 0)]
         self.cargosadicionales_total = 0
-
-        # TODO
-        # Quitar comisiones:
 
         # Quitar carta porte:
         self.move_id = False
@@ -1032,8 +1035,12 @@ class TrafitecContrarecibo(models.Model):
 
         if self.state == 'Nueva' and self.asociado_id and self.currency_id and self.lineanegocio and self.iva_option:
             self.viaje_id = []
-            viajes=self.env['trafitec.viajes'].search([('asociado_id', '=', self.asociado_id.id), 
-                ('en_contrarecibo', '=', False), ('tipo_viaje', '=', 'Normal'), ('state', '=', 'Nueva')])
+            viajes=self.env['trafitec.viajes'].search([
+                ('asociado_id', '=', self.asociado_id.id), 
+                ('en_contrarecibo', '=', False), 
+                ('tipo_viaje', '=', 'Normal'), 
+                ('state', '=', 'Nueva')
+            ])
             self.viaje_id=viajes
 
    
@@ -1045,8 +1052,11 @@ class TrafitecContrarecibo(models.Model):
         if self.asociado_id:
 
             # Carga los decuentos con saldo
-            obj = self.env['trafitec.descuentos'].search([('asociado_id', '=', self.asociado_id.id), 
-                ('saldo', '>', 0), ('state', '=', 'activo')])
+            obj = self.env['trafitec.descuentos'].search([
+                ('asociado_id', '=', self.asociado_id.id), 
+                ('saldo', '>', 0), 
+                ('state', '=', 'activo')
+            ])
 
             rd = []
             rc = []
@@ -1080,11 +1090,13 @@ class TrafitecContrarecibo(models.Model):
 
             self.descuento_id = rd
 
-            # print('******Descuentos: '+str(rd))
 
             # Carga las comisiones con saldo
-            obj_comi = self.env['trafitec.cargos'].search([('asociado_id', '=', self.asociado_id.id), 
-                ('tipo_cargo', '=', 'comision'), ('saldo', '>', 0)])
+            obj_comi = self.env['trafitec.cargos'].search([
+                ('asociado_id', '=', self.asociado_id.id), 
+                ('tipo_cargo', '=', 'comision'), 
+                ('saldo', '>', 0)
+            ])
 
             rc = []
 
@@ -1103,8 +1115,6 @@ class TrafitecContrarecibo(models.Model):
                     rc.append(valores)
 
             self.comision_id = rc
-
-            # print('******Comisiones: ' + str(rc))
 
 
     @api.onchange('viaje_id', 'asociado_id', 'lineanegocio')
@@ -1149,9 +1159,6 @@ class TrafitecContrarecibo(models.Model):
         self.diferencia = 0
         if self.total and self.total_g:
             self.diferencia = self.total - self.total_g
-            # self.notacargo = self.total - self.total_g
-        # print('*********************Diferencia:'+str(self.diferencia))
-
 
     @api.onchange('mermas_des', 'descuento_des', 'comision_des', 'prontopago_des')
     def _onchange_notacargo(self):
@@ -1160,7 +1167,6 @@ class TrafitecContrarecibo(models.Model):
     
     @api.depends('diferencia')
     def _compute_notacargo(self):
-        # self.notacargo = self.mermas_des + self.descuento_des + self.comision_des + self.prontopago_des
         self.notacargo = self.diferencia
 
     
@@ -1280,7 +1286,7 @@ class TrafitecContrarecibo(models.Model):
     # Mermas
     @api.onchange('viaje_id', 'asociado_id')
     def _onchange_viaje_id(self):
-        self.cargosadicionales_id = [(5, _, _)]
+        self.cargosadicionales_id = [(5, 0, 0)]
         conceptos = []
         total = 0
 
@@ -1306,8 +1312,6 @@ class TrafitecContrarecibo(models.Model):
                 conceptos.append(cargo)
                 total += c.valor
 
-        _logger.info('-------------------------CARGOS ADICIONAES--------------------')
-        _logger.info(str(conceptos))
         self.cargosadicionales_id = conceptos
 
     
@@ -1326,14 +1330,11 @@ class TrafitecContrarecibo(models.Model):
         total = 0
         self.mermas_antes = 0
 
-        # print('MERMAS ANTES BOOL: '+str(self.mermas_bol))
         for v in self.viaje_id:
             total += v.merma_cobrar_pesos
 
         if self.mermas_bol == False:
             self.mermas_antes = total
-
-        # print('=================Compute mermas antes:'+str(self.mermas_antes)+' Mermas bol:'+str(self.mermas_bol))
 
 
     @api.onchange('viaje_id','mermas_bol')
@@ -1341,7 +1342,6 @@ class TrafitecContrarecibo(models.Model):
         total = 0
         self.mermas_antes = 0
 
-        # print('MERMAS ANTES BOOL: ' + str(self.mermas_bol))
         for v in self.viaje_id:
             total += v.merma_cobrar_pesos
 
@@ -1498,8 +1498,6 @@ class TrafitecContrarecibo(models.Model):
     @api.depends('viaje_id', 'viaje_id.flete_asociado')
     def _compute_fletes(self):
 
-            # for rec in self:
-            # print('>>>>>>VIAJES:::: ' + str(self.viaje_id))
             self.fletes = 0
             for v in self.viaje_id:
                 self.fletes += v.flete_asociado
@@ -1522,7 +1520,6 @@ class TrafitecContrarecibo(models.Model):
             if self.mermas_bol == False:
                 x_mermas_antes = self.TotalMermas()
 
-            # print('***COMPUTE SUBTOTAL mermas_antes: ' + str(self.mermas_antes))
             self.subtotal_g = self.fletes + self.maniobras+self.cargosadicionales_total - x_mermas_antes - self.descuento_antes - self.comisiones_antes - self.prontopago_antes
 
     
@@ -1536,14 +1533,12 @@ class TrafitecContrarecibo(models.Model):
     )
     def _compute_subtotalSM(self):
 
-        # Subtotal sin maniobras
         self.subtotal_gSM = self.fletes+self.cargosadicionales_total - self.mermas_antes - self.descuento_antes - self.comisiones_antes - self.prontopago_antes
 
 
     @api.depends('subtotal_g', 'iva_option', 'fletes')
     def _compute_iva_g(self):
 
-        # for rec in self:
         self.iva_g = 0
 
         if self.iva_option == 'CIR' or self.iva_option == 'CISR':
@@ -1553,7 +1548,6 @@ class TrafitecContrarecibo(models.Model):
     @api.depends('subtotal_gSM', 'iva_option', 'fletes')
     def _compute_r_iva_g(self):
 
-        # for rec in self:
         self.r_iva_g = 0
 
         if self.iva_option == 'CIR':
@@ -1563,7 +1557,6 @@ class TrafitecContrarecibo(models.Model):
     @api.depends('subtotal_g', 'iva_g', 'r_iva_g')
     def _compute_total_g(self):
 
-        # for rec in self:
         self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
 
 
@@ -1672,13 +1665,12 @@ class TrafitecContrarecibo(models.Model):
         domain=[
             ('asociado_id', '=', asociado_id), 
             ('moneda', '=', currency_id), 
-            ('lineanegocio', '=', lineanegocio), 
+            ('lineanegocio', '=', 'lineanegocio'), 
             ('state', '=', 'Nueva'), 
             ('en_contrarecibo', '=', False), 
             ('tipo_viaje', '=', 'Normal')
         ]
     )
-    # viajex_id = fields.Many2many(string='Viajes X',comodel_name='trafitec.viajes')
     cobrar_descuentos = fields.Selection(
         [
             ('No cobrar', 'No cobrar'), 
@@ -2038,8 +2030,6 @@ class TrafitecContrarecibo(models.Model):
         string='Folio por pronto pago'
     )
 
-    # notascargo_diario_id=fields.Many2one(string='Diario de notas de cargo',comodel_name='account.journal')
-
     observaciones = fields.Text(string='Observaciones')
 
 
@@ -2098,9 +2088,9 @@ class TrafitecContrarecibo(models.Model):
         # print('****CR CREATE:'+str(vals))
         if 'company_id' in vals:
             vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-                'Trafitec.Contrarecibo') or _('Nuevo')
+                'Trafitec.Contrarecibo') or ('Nuevo')
         else:
-            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Contrarecibo') or _('Nuevo')
+            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Contrarecibo') or ('Nuevo')
 
         self._factura_relacionada(True,vals)
         cr = super(trafitec_contrarecibo, self).create(vals)

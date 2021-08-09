@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
-import datetime
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 
-_logger = logging.getLogger(__name__)
-
-
-class trafitec_cotizacion_line_origen(models.Model):
+class TrafitecCotizacionLineOrigen(models.Model):
     _name = 'trafitec.cotizaciones.linea.origen'
     _description='cotizaciones linea origen'
 
@@ -113,8 +108,8 @@ class trafitec_cotizacion_line_origen(models.Model):
     def create(self, vals):
         if 'company_id' in vals:
             vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-                'Trafitec.Cotizaciones.Linea.Origen') or _('Nuevo')
+                'Trafitec.Cotizaciones.Linea.Origen') or ('Nuevo')
         else:
-            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Cotizaciones.Linea.Origen') or _('Nuevo')
+            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Cotizaciones.Linea.Origen') or ('Nuevo')
 
         return super(trafitec_cotizacion_line_origen, self).create(vals)

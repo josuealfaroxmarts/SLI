@@ -1,17 +1,39 @@
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 
-
-
-class trafitec_descuentos_abono(models.Model):
+class TrafitecDescuentosAbono(models.Model):
 	_name = "trafitec.descuentos.abono"
 	_description = "Descuentos y abonos"
 
-	name = fields.Float(string="Abono", required=True)
-	fecha = fields.Date(string="Fecha", required=True, default=fields.Datetime.now)
+	name = fields.Float(
+		string="Abono", 
+		required=True
+	)
+	fecha = fields.Date(
+		string="Fecha", 
+		required=True, 
+		default=fields.Datetime.now
+	)
 	observaciones = fields.Text(string="Observaciones")
-	tipo = fields.Selection([("manual","Manual"),("contrarecibo","Contra recibo")],string="Tipo", default="manual")
-	abonos_id = fields.Many2one("trafitec.descuentos", ondelete="cascade")
-	contrarecibo_id = fields.Many2one("trafitec.contrarecibo", ondelete="restrict")
-	permitir_borrar = fields.Boolean(string="Permitir borrar", default=False)
+	tipo = fields.Selection([
+		("manual","Manual"),
+		("contrarecibo","Contra recibo")
+	],
+	string="Tipo", 
+	default="manual"
+	)
+	abonos_id = fields.Many2one(
+		"trafitec.descuentos", 
+		ondelete="cascade"
+	)
+	contrarecibo_id = fields.Many2one(
+		"trafitec.contrarecibo", 
+		ondelete="restrict"
+	)
+	permitir_borrar = fields.Boolean(
+		string="Permitir borrar", 
+		default=False
+	)
 
 
 	def unlink(self):
@@ -25,27 +47,25 @@ class trafitec_descuentos_abono(models.Model):
 		#    res = des.saldo + self.name
 		#    abonado = des.anticipo - res
 		#    des.write({"saldo": res, "abonos": abonado, "abono": res})
-		return super(trafitec_descuentos_abono, self).unlink()
+		return super(TrafitecDescuentosAbono, self).unlink()
 
 	@api.constrains("name")
 	def _check_abono(self):
 		if self.name <= 0:
-			raise UserError(_("Aviso !\nEl monto del abono debe ser mayor a cero."))
+			raise UserError(("Aviso !\nEl monto del abono debe ser mayor a cero."))
 
 	@api.constrains("name")
 	def _check_monto_mayor(self):
-		obj_abono = self.env["trafitec.descuentos.abono"].search([("abonos_id","=",self.abonos_id.id)])
+		obj_abono = self.env["trafitec.descuentos.abono"].search([
+			("abonos_id","=",self.abonos_id.id)
+		])
 		amount = 0
 		for abono in obj_abono:
 			amount += abono.name
 
-		#if amount > self.abonos_id.monto:
-		#   raise UserError(_("Aviso !\nEl monto de abonos ha sido superado al monto del descuento."))
-
-
 	@api.model
 	def create(self, vals):
-		id =  super(trafitec_descuentos_abono, self).create(vals)
+		id =  super(TrafitecDescuentosAbono, self).create(vals)
 		if "tipo" in vals:
 			tipo = vals["tipo"]
 		else:
@@ -58,7 +78,9 @@ class trafitec_descuentos_abono(models.Model):
 		}
 		self.env["trafitec.abonos"].create(valores)
 		if tipo == "manual":
-			obj = self.env["trafitec.con.descuentos"].search([("descuento_fk","=",vals["abonos_id"]),("linea_id.state","=","Nueva")])
+			obj = self.env["trafitec.con.descuentos"].search([
+				("descuento_fk","=",vals["abonos_id"]),("linea_id.state","=","Nueva")
+			])
 			for des in obj:
 				res = des.saldo - vals["name"]
 				abonado = des.anticipo - res
@@ -82,7 +104,10 @@ class trafitec_descuentos_abono(models.Model):
 		obj = self.env["trafitec.abonos"].search([("descuento_abono_id","=",self.id)])
 		obj.write(valores)
 		if self.tipo == "manual" and "name" in vals:
-			obj = self.env["trafitec.con.descuentos"].search([("descuento_fk","=",self.abonos_id.id),("linea_id.state","=","Nueva")])
+			obj = self.env["trafitec.con.descuentos"].search([
+				("descuento_fk","=",self.abonos_id.id),
+				("linea_id.state","=","Nueva")
+			])
 			for des in obj:
 				if self.name > vals["name"]:
 					res = des.saldo + (self.name - vals["name"])
@@ -94,4 +119,4 @@ class trafitec_descuentos_abono(models.Model):
 					abonado = des.anticipo - res
 					des.write({"saldo":res, "abonos": abonado, "abono":res})
 
-		return super(trafitec_descuentos_abono, self).write(vals)
+		return super(TrafitecDescuentosAbono, self).write(vals)

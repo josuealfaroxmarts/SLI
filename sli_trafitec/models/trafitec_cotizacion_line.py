@@ -2,13 +2,8 @@
 
 from odoo import models, fields, api, tools,_
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
-import datetime
 
-_logger = logging.getLogger(__name__)
-
-
-class trafitec_cotizacion_line(models.Model):
+class TrafitecCotizacionLine(models.Model):
     _name = 'trafitec.cotizaciones.linea'
     _description='cotizaciones linea'
 

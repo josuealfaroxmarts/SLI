@@ -1,10 +1,5 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, tools
+from odoo import api, models, fields, tools
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
-
-_logger = logging.getLogger(__name__)
 
 
 class ReportFee(models.Model):
@@ -22,8 +17,7 @@ class ReportFee(models.Model):
     state = fields.Char(readonly=True)
 
     
-    def button_create_inv(self):
-
+    #def button_create_inv(self):
 
     @api.model_cr
     def init(self):

@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo import models, fields, api
 import datetime
 from datetime import timedelta
 
@@ -11,15 +8,49 @@ class TrafitecCrmTraficoAsociados(models.Model):
     _description ='crm asociados'
     _rec_name = 'id'
 
-    buscar_nombre = fields.Char(string="Nombre", help='Nombre del asociado.')
-    buscar_tiporemolque = fields.Many2one(string="Tipo remolque", comodel_name='trafitec.moviles', help='Tipo de remolque que tiene el asociado.')
-    buscar_estado = fields.Many2one(string="Estado", comodel_name='res.country.state', help='Estado del país donde radica el asociado.')
+    buscar_nombre = fields.Char(
+        string="Nombre", 
+        help='Nombre del asociado.'
+    )
+    buscar_tiporemolque = fields.Many2one(
+        string="Tipo remolque", 
+        comodel_name='trafitec.moviles', 
+        help='Tipo de remolque que tiene el asociado.'
+    )
+    buscar_estado = fields.Many2one(
+        string="Estado", 
+        comodel_name='res.country.state', 
+        help='Estado del país donde radica el asociado.'
+    )
 
-    asociado_id = fields.Many2many(string='Asociados', comodel_name='res.partner', help='Asociados.')
-    asociado_nombre = fields.Char(string='Asociado', related='asociado_id.name', help='Asociado.')
-    cotizacion_id = fields.Many2one(string='Cotización', comodel_name='trafitec.cotizacion', help='Cotización.')
-    linea_id = fields.Many2one(string='Origen destino', comodel_name='trafitec.cotizaciones.linea', help='Cotización.')
-    tipo_recomendacion = fields.Selection(string='Tipo', selection=[('porviajes', 'Por viajes'), ('porusuario', 'Por usuario')], default='porusuario')
+    asociado_id = fields.Many2many(
+        string='Asociados', 
+        comodel_name='res.partner', 
+        help='Asociados.'
+    )
+    asociado_nombre = fields.Char(
+        string='Asociado', 
+        related='asociado_id.name', 
+        help='Asociado.'
+    )
+    cotizacion_id = fields.Many2one(
+        string='Cotización', 
+        comodel_name='trafitec.cotizacion', 
+        help='Cotización.'
+    )
+    linea_id = fields.Many2one(
+        string='Origen destino', 
+        comodel_name='trafitec.cotizaciones.linea', 
+        help='Cotización.'
+    )
+    tipo_recomendacion = fields.Selection(
+        string='Tipo', 
+        selection=[
+            ('porviajes', 'Por viajes'), 
+            ('porusuario', 'Por usuario')
+        ], 
+        default='porusuario'
+    )
 
     @api.model
     def get_empty_list_help(self, help):
@@ -64,12 +95,8 @@ class TrafitecCrmTraficoAsociados(models.Model):
                 'view_mode': 'form',
                 'res_model': 'trafitec.crm.asociados',
                 'views': [(view_id, 'form')],
-                # 'form_view_ref': 'base.res_partner_kanban_view',
-                # 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-                # 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-                # 'tree_view_ref':'',
-                'view_id': view_id,  # 'view_ref': 'trafitec_crm_trafico_asociados_kanban',
-                'target': 'current',  #current, new, main 'res_id': self.ids[0],
+                'view_id': view_id,
+                'target': 'current',
                 'context': {
                     'default_cotizacion_id': cotizacion_id,
                     'default_linea_id': linea_id
@@ -78,7 +105,7 @@ class TrafitecCrmTraficoAsociados(models.Model):
 
     
     def action_crear(self, vals):
-        return super(trafitec_crm_trafico_asociados, self).create(vals)
+        return super(TrafitecCrmTraficoAsociados, self).create(vals)
 
     
     def action_cerrar(self):

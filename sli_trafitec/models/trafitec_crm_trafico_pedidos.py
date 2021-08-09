@@ -1,11 +1,25 @@
+from odoo import models, fields
 
 class TrafitecCrmTraficoPedidos(models.TransientModel):
 	_name = 'trafitec.crm.trafico.pedidos'
 	_description ='crm trafico pedidos'
-	crm_trafico_id = fields.Many2one(string="CRM", comodel_name="trafitec.crm.trafico")
-	cotizacion_id = fields.Many2one(string='Cotización', comodel_name='trafitec.cotizacion')
-	cotizacion_linea_id = fields.Many2one(string='Cotizacion línea', comodel_name='trafitec.cotizaciones.linea')
-	cotizacion_linea_xid = fields.Integer(string='Cotización línea', related='cotizacion_linea_id.id')
+
+	crm_trafico_id = fields.Many2one(
+		string="CRM", 
+		comodel_name="trafitec.crm.trafico"
+	)
+	cotizacion_id = fields.Many2one(
+		string='Cotización', 
+		comodel_name='trafitec.cotizacion'
+	)
+	cotizacion_linea_id = fields.Many2one(
+		string='Cotizacion línea', 
+		comodel_name='trafitec.cotizaciones.linea'
+	)
+	cotizacion_linea_xid = fields.Integer(
+		string='Cotización línea', 
+		related='cotizacion_linea_id.id'
+	)
 	folio = fields.Char(string='Folio')
 	fecha = fields.Char(string='Fecha')
 	origen = fields.Char(string='Origen')
@@ -16,8 +30,14 @@ class TrafitecCrmTraficoPedidos(models.TransientModel):
 	usuarios_asignados = fields.Char(string='Asignado a')
 	peso = fields.Float(string='Peso')
 	peso_viajes = fields.Float(string='Peso viajes')
-	avance = fields.Float(string='Avance', default=0)
-	detalles = fields.Char(string='Detalles', default='')
+	avance = fields.Float(
+		string='Avance', 
+		default=0
+	)
+	detalles = fields.Char(
+		string='Detalles', 
+		default=''
+	)
 	semaforo_valor = fields.Char(string='Semáforo')
 	lineanegocio = fields.Char(string='Línea de negocio')
 	estado = fields.Char(string='Estado')
@@ -32,7 +52,6 @@ class TrafitecCrmTraficoPedidos(models.TransientModel):
 		viajes_obj = self.env['trafitec.viajes']
 		persona_obj = self.env['res.partner']
 		obj_crm_asociados = self.env['trafitec.crm.asociados']
-		# return obj.action_recomendar(self.cotizacion_linea_id.id)
 
 		cotizacion_id = self.cotizacion_id.id
 		cotizacion_municipio_origen_id = self.cotizacion_linea_id.municipio_origen_id.id
@@ -41,7 +60,6 @@ class TrafitecCrmTraficoPedidos(models.TransientModel):
 		cotizacion_estado_origen_id = self.cotizacion_linea_id.municipio_origen_id.state_sat_code.id
 		cotizacion_estado_destino_id = self.cotizacion_linea_id.municipio_destino_id.state_sat_code.id
 
-		# viajes_dat = viajes_obj.search([('origen.municipio.id', '=', cotizacion_municipio_origen_id), ('destino.municipio.id', '=', cotizacion_municipio_destino_id)])
 		viajes_dat = viajes_obj.search([('origen.municipio.state_sat_code.id', '=', cotizacion_estado_origen_id),
 		                                ('destino.municipio.state_sat_code.id', '=', cotizacion_estado_destino_id)])
 		print("----VIAJES ENCONTRADOS--")
@@ -58,17 +76,10 @@ class TrafitecCrmTraficoPedidos(models.TransientModel):
 			for ax in xu.asociado_id:
 				xids.append(ax.id)
 
-		# raise UserError(str(porusuario)+" Arreglo:"+str(xids))
-
 		contexto = self._context
 		filtro = []
 		print("--CONTEXTO AL PRESIONAR BOTON--")
-		# print(contexto)
-		# print(self.ids)
-		# filtro.append(('asociado', '=', True))
 		filtro.append(('id', 'in', xids))
-
-		# filtro.append(('asociado', '=', True))
 
 		action_ctx = dict(self.env.context)
 		view_id_kanban = self.env.ref('sli_trafitec.trafitec_crm_trafico_asociados_kanban').id
@@ -82,15 +93,7 @@ class TrafitecCrmTraficoPedidos(models.TransientModel):
 			'view_mode': 'kanban,form',
 			'res_model': 'res.partner',
 			'views': [(view_id_kanban, 'kanban'), (view_id_form, 'form')],
-			# 'form_view_ref': 'base.res_partner_kanban_view',
-			# 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-			# 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-			# 'tree_view_ref':'',
-			# 'view_id': view_id,
-			# 'view_ref': 'trafitec_crm_trafico_asociados_kanban',
 			'target': 'current',
-			# 'res_id': self.ids[0],
-			# Parametros por contexto:
 			'context': {
 				'cotizacion_id': cotizacion_id,
 				'municipio_origen_id': cotizacion_municipio_origen_id,
@@ -98,4 +101,3 @@ class TrafitecCrmTraficoPedidos(models.TransientModel):
 			},
 			'domain': filtro
 		}
-

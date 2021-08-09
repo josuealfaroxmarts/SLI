@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
-class trafitec_saleorder(models.Model):
+class SaleOrder(models.Model):
 	_inherit = 'sale.order'
 
 	trafitec_cotizacion_id = fields.Many2one(
@@ -25,12 +24,12 @@ class trafitec_saleorder(models.Model):
 		if not trafitec_cancelar:
 
 			if self.trafitec_cotizacion_id:
-				raise UserError(_('Este pedido de ventas esta relacionado con una cotización de trafitec.'))
+				raise UserError(('Este pedido de ventas esta relacionado con una cotización de trafitec.'))
 
-		return super(trafitec_saleorder, self).action_cancel()
+		return super(SaleOrder, self).action_cancel()
 
 
 	@api.model
 	def create(self, vals):
 		
-		return super(trafitec_saleorder, self).create(vals)
+		return super(SaleOrder, self).create(vals)

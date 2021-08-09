@@ -1,10 +1,8 @@
-# -*- encoding: utf-8 -*-
-
 #from odoo.tools.translate import _
 #from odoo.osv import fields, osv
 
 
-class amount_to_text:
+class AmountToText:
 
     '''
     Transforma de una cantidad numerica a cantidad en letra

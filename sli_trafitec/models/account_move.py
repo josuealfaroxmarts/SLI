@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import base64
 from odoo import models, fields, api, tools
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
@@ -73,18 +71,18 @@ class AccountMove(models.Model):
 		'invoice.from.fletex',
 		string='Factura XML',
 		domain=[
-			('clientId' ,'=', partner_id)
+			('clientId' ,'=', 'partner_id')
 		]
 	)
 	abonos = fields.Float(
 		string='Abonos', 
-		compute=compute_abonos, 
+		compute='compute_abonos', 
 		store=True, 
 		help='Abonos a la factura.'
 	)
 	cliente_bloqueado = fields.Boolean(
 		string='Cliente bloqueado', 
-		compute=compute_bloqueado, 
+		compute='compute_bloqueado', 
 		default=False, 
 		help='Indica si el cliente esta bloqueado.'
 	)
@@ -114,10 +112,7 @@ class AccountMove(models.Model):
 	def _compute_totalescp(self):
 		totalflete = 0.0
 		for v in self.viajescp_id:
-			_logger.info('KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
-			_logger.info(v.id)
 			numbers = [int(temp)for temp in str(v.id).split() if temp.isdigit()]
-			_logger.info(numbers)
 			viaje_dat = self.env['trafitec.viajes'].search([('id', '=', numbers)])
 			totalflete += viaje_dat.flete_asociado
 
@@ -208,7 +203,7 @@ class AccountMove(models.Model):
 			self.documentos_anexado_pdf = True
 
 		else:
-			raise UserError(_('Alerta..\nEl archivo ya fue anexado.'))
+			raise UserError(('Alerta..\nEl archivo ya fue anexado.'))
 
 
 	def action_adjuntar_xml(self):
@@ -227,7 +222,7 @@ class AccountMove(models.Model):
 			self.documentos_anexado_xml = True
 
 		else:
-			raise UserError(_('Alerta..\nEl archivo ya fue anexado.'))
+			raise UserError(('Alerta..\nEl archivo ya fue anexado.'))
 	
 
 	def proceso_adjuntar_archivos(self, xid):
@@ -299,12 +294,12 @@ class AccountMove(models.Model):
 	viajes_id = fields.Many2many(
 		string='Viajes de trafitec', 
 		comodel_name='trafitec.viajes'
-	) #Mike
+	)
 	viajescp_id = fields.Many2many(
 		string='Viajes trafitec',
 		comodel_name='trafitec.viajes',
 		relation='trafitec_facturas_viajescp_rel'
-	) #Mike
+	)
 	tipo = fields.Selection(
 		string='Tipo de factura', 
 		selection=[
@@ -313,7 +308,7 @@ class AccountMove(models.Model):
 			('automatica','Automatica')
 		], 
 		default='normal'
-	) #Mike
+	)
 	total_fletes = fields.Float(
 		string='Total fletes', 
 		store=True, 
@@ -537,7 +532,7 @@ class AccountMove(models.Model):
 				for b in boletas_dat:
 					folios += (b.name or '') + ', '
 		except:
-		self.folios_boletas = folios
+			self.folios_boletas = folios
 	
 
 	@api.onchange('viajes_id')
@@ -765,14 +760,12 @@ class AccountMove(models.Model):
 
 			conceptos = []
 
-			# self.invoice_line_ids = []
 			sistema = self._agrega_conceptos_sistema()
 			viajes = self._agrega_conceptos_viaje(self._origin.id, self.total_fletes)
 			cargos = self._agrega_conceptos_cargos_viajes(self._origin.id)
 
 			self.invoice_line_ids = [] # Vaciar
 
-			# conceptos.extend(viajes)
 			conceptos.extend(cargos)
 			conceptos.extend(sistema)
 
@@ -789,8 +782,6 @@ class AccountMove(models.Model):
 		cliente_obj = None
 		cliente_dat = None
 		
-		# raise UserError(str(self._context))
-		
 		if self._context.get('type', 'out_invoice') == 'out_invoice':
 			cliente_obj = self.env['res.partner']
 			cliente_dat = cliente_obj.browse([vals.get('partner_id')])
@@ -798,9 +789,9 @@ class AccountMove(models.Model):
 			if cliente_dat:
 
 				if cliente_dat.bloqueado_cliente_bloqueado:
-					raise UserError(_('El cliente esta bloqueado, motivo: ' + (cliente_dat.bloqueado_cliente_clasificacion_id.name or '')))
+					raise UserError(('El cliente esta bloqueado, motivo: ' + (cliente_dat.bloqueado_cliente_clasificacion_id.name or '')))
 
-		factura = super(trafitec_account_invoice, self).create(vals)
+		factura = super(AccountMove, self).create(vals)
 
 		return factura
 
@@ -838,7 +829,7 @@ class AccountMove(models.Model):
 			if invoice.tipo == 'manual' or invoice.tipo == 'automatica':
 				antes = invoice.obtener_viajes()
 			
-			factura = super(trafitec_account_invoice, self).write(vals)
+			factura = super(AccountMove, self).write(vals)
 
 			if invoice.tipo == 'manual' or invoice.tipo == 'automatica':
 				despues = invoice.obtener_viajes()
@@ -959,7 +950,7 @@ class AccountMove(models.Model):
 					errores += 'El viaje ' + (str(v.name)) + ' ya esta relacionado con una factura.\r\n'
 
 		if error:
-			raise ValidationError(_('Alerta..\n' + errores))
+			raise ValidationError(('Alerta..\n' + errores))
 
 		# FIN VALIDACIONES
 
@@ -985,7 +976,8 @@ class AccountMove(models.Model):
 			cliente_limite_credito = self.partner_id.limite_credito
 			prorroga_hay = self.partner_id.prorroga
 			if self.partner_id.fecha_prorroga:
-				prorroga_fecha = datetime.datetime.strptime(self.partner_id.fecha_prorroga, '%Y-%m-%d').date()
+				prorroga_fecha = datetime.datetime.strptime(
+					self.partner_id.fecha_prorroga, '%Y-%m-%d').date()
 
 			# print(cliente_nombre, cliente_saldo, cliente_limite_credito, prorroga_hay, prorroga_fecha)
 			if self.type == 'out_invoice':
@@ -1003,28 +995,27 @@ class AccountMove(models.Model):
 							error = True
 							errores += 'El cliente {} con saldo {:20,.2f} ha excedido su crédito {:20,.2f} por {:20,.2f} (Sin prorroga).'.format(cliente_nombre, cliente_saldo, cliente_limite_credito,cliente_saldo - cliente_limite_credito)
 		except:
+			for f in self:
+				# Factura de cliente
+				if self._context.get('type', 'out_invoice') == 'out_invoice':
+					for v in f.viajes_id:
+						vobj = self.env['trafitec.viajes'].search([('id', '=', v.id)])
+						
+						if vobj.en_factura:
+							error = True
+							errores += 'El viaje {} ya tiene factura cliente: {}.\r\n'.format(v.name, (v.factura_cliente_id.name or v.factura_cliente_id.name or ''))
 
-		for f in self:
-
-			# Factura de cliente
-			if self._context.get('type', 'out_invoice') == 'out_invoice':
-				for v in f.viajes_id:
-					vobj = self.env['trafitec.viajes'].search([('id', '=', v.id)])
-
-					if vobj.en_factura:
-						error = True
-						errores += 'El viaje {} ya tiene factura cliente: {}.\r\n'.format(v.name, (v.factura_cliente_id.name or v.factura_cliente_id.name or ''))
-
-			else: # Factura de proveedor
-				for vcp in f.viajescp_id:
-					vobj = self.env['trafitec.viajes'].search([('id', '=', vcp.id)])
-
-					if vobj.en_cp:
-						error = True
-						errores += 'El viaje {} ya tiene carta porte: {}.\r\n'.format(vcp.name, (vcp.factura_proveedor_id.name or vcp.factura_proveedor_id.name or ''))
+                else: 
+					# Factura de proveedor
+					for vcp in f.viajescp_id:
+						vobj = self.env['trafitec.viajes'].search([('id', '=', vcp.id)])
+						
+						if vobj.en_cp:
+							error = True
+							errores += 'El viaje {} ya tiene carta porte: {}.\r\n'.format(vcp.name, (vcp.factura_proveedor_id.name or vcp.factura_proveedor_id.name or ''))
 
 		if error:
-			raise ValidationError(_(errores))
+			raise ValidationError((errores))
 
 		# Estabelece cada viaje como Con factura de cafa viaje relacionado
 		for f in self:
@@ -1032,12 +1023,18 @@ class AccountMove(models.Model):
 			# Es factura de cliente
 			if self._context.get('type', 'out_invoice') == 'out_invoice':
 				for v in f.viajes_id:
-					v.with_context(validar_credito_cliente=False).write({'en_factura': True, 'factura_cliente_id': self.id})
+					v.with_context(validar_credito_cliente=False).write({
+						'en_factura': True, 
+						'factura_cliente_id': self.id
+					})
 			else: # Es factura de proveedor
 				for v in f.viajescp_id:
-					v.with_context(validar_credito_cliente=False).write({'en_cp': True, 'factura_proveedor_id': self.id})
+					v.with_context(validar_credito_cliente=False).write({
+						'en_cp': True, 
+						'factura_proveedor_id': self.id
+					})
 
-		factura = super(trafitec_account_invoice, self).action_invoice_open()
+		factura = super(AccountMove, self).action_invoice_open()
 
 		return factura
 
@@ -1051,7 +1048,7 @@ class AccountMove(models.Model):
 			view_id = self.env.ref('sli_trafitec.sli_trafitec_facturas_cancelar').id
 
 			return {
-				'name': _('Cancelar factura de cliente'),
+				'name': ('Cancelar factura de cliente'),
 				'type': 'ir.actions.act_window',
 				'view_type': 'form',
 				'view_mode': 'form',
@@ -1059,25 +1056,26 @@ class AccountMove(models.Model):
 				'views': [(view_id, 'form')],
 				'view_id': view_id,
 				'target': 'new',
-				#'res_id': self.ids[0],
 				'context': {
 					'default_factura_id': self.id
 				}
 			}
 
 		# Factura de proveedor
-		else: # Factura de proveedor
-			# raise UserError('Al cancelar factura proveedor!!')
+		else: 
 			for f in self:
 				f.factura_encontrarecibo = False
 				f.contrarecibo_id = False
 				
 				if f.viajescp_id:
 					for v in f.viajescp_id:
-						v.with_context(validar_credito_cliente=False).write({'en_cp': False, 'factura_proveedor_id': False})
-					f.viajescp_id = [(5, _, _)]
+						v.with_context(validar_credito_cliente=False).write({
+							'en_cp': False, 
+							'factura_proveedor_id': False
+						})
+					f.viajescp_id = [(5, 0, 0)]
 
-			factura = super(trafitec_account_invoice, self).action_invoice_cancel()
+			factura = super(AccountMove, self).action_invoice_cancel()
 
 			return factura
 
@@ -1086,24 +1084,30 @@ class AccountMove(models.Model):
 		self.ensure_one()
 
 		if self.tipo != 'manual':
-			raise UserError(_('La factura debe ser manual.'))
+			raise UserError(('La factura debe ser manual.'))
 		
 		# Establece el estado de Sin factura en cada viaje relacionado
 		for v in self.viajes_id:
 			if v.factura_cliente_id.id == self.id:
-				v.with_context(validar_credito_cliente=False).write({'factura_cliente_id': False, 'en_factura': False})
+				v.with_context(validar_credito_cliente=False).write({
+					'factura_cliente_id': False, 
+					'en_factura': False
+				})
 	
 
 	def action_relacionar_viajes(self):
 		self.ensure_one()
 
 		if self.tipo != 'manual':
-			raise UserError(_('La factura debe ser manual.'))
+			raise UserError(('La factura debe ser manual.'))
 
 		# Establece el estado de Sin factura en cada viaje relacionado
 		for v in self.viajes_id:
 			if v.factura_cliente_id.id == False:
-				v.with_context(validar_credito_cliente=False).write({'factura_cliente_id': self.id, 'en_factura': True})
+				v.with_context(validar_credito_cliente=False).write({
+					'factura_cliente_id': self.id, 
+					'en_factura': True
+				})
 	
 
 	def action_liberar_viajescp(self):
@@ -1113,15 +1117,18 @@ class AccountMove(models.Model):
 			viajes = self.env['trafitec.viajes'].search([('factura_proveedor_id', '=', f.id)])
 
 			if len(viajes) <= 0:
-				raise UserError(_('No se encontraron viajes relacionados.'))
+				raise UserError(('No se encontraron viajes relacionados.'))
 
 			for v in viajes:
-				v.with_context(validar_credito_cliente=False).write({'factura_proveedor_id': False, 'en_cp': False})
+				v.with_context(validar_credito_cliente=False).write({
+					'factura_proveedor_id': False, 
+					'en_cp': False
+				})
 
 	# Despues de cancelar.. se puede mandar a borrador
 	
 
 	def action_invoice_draft(self):
-		factura = super(trafitec_account_invoice, self).action_invoice_draft()
+		factura = super(AccountMove, self).action_invoice_draft()
 
 		return factura

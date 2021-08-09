@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, tools,_
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
-import datetime
+from odoo.exceptions import UserError
 
-_logger = logging.getLogger(__name__)
-
-
-class trafitec_cotizacion_line_negociacion(models.Model):
+class TrafitecCotizacionLineNegociacion(models.Model):
     _name = 'trafitec.cotizacion.linea.negociacion'
     _description='cotizacion linea negociacion'
 
@@ -55,10 +50,6 @@ class trafitec_cotizacion_line_negociacion(models.Model):
         help='Estado de la negociación.'
     )
 
-    # _sql_constraints = [('name_unique', 'unique(linea_id,asociado_id, tiporemolque_id)', 'No se permite registrar 2 o mas negociaciones a un mismo asociado y mismo tipo de remolque.'),]
-
-
-    @api.constrains('tarifa')
     @api.constrains('tarifa')
     def _check_tarifa(self):
         if self.tarifa <= 0:
