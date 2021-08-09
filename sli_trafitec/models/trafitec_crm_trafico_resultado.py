@@ -1,10 +1,17 @@
-
+from odoo import models, fields, api
 
 class TrafitecCrmTraficoResultado(models.TransientModel):
 	_name = 'trafitec.crm.trafico.resultado'
 	_description ='crm trafico resultado'
-	crm_trafico_id = fields.Many2one(string="", comodel_name="trafitec.crm.trafico")
-	viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes')
+
+	crm_trafico_id = fields.Many2one(
+		string="", 
+		comodel_name="trafitec.crm.trafico"
+	)
+	viaje_id = fields.Many2one(
+		string='Viaje', 
+		comodel_name='trafitec.viajes'
+	)
 	fecha = fields.Char(string='Fecha')
 	origen = fields.Char(string='Origen')
 	destino = fields.Char(string='Destino')

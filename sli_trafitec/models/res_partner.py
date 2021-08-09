@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
-
+from datetime import datetime, date, time, timedelta
+from odoo.exceptions import ValidationError, UserError, RedirectWarning
 
 class ResPartner(models.Model):
 	_inherit = 'res.partner'
@@ -109,34 +110,34 @@ class ResPartner(models.Model):
 	)
 	crm_trafico_ultimocontacto_dias_transcurridos = fields.Integer(
 		string='Último contacto dias transcurridos', 
-		compute=_compute_ultimocontacto_dias_trascurridos, 
+		compute='_compute_ultimocontacto_dias_trascurridos', 
 		store=False, 
 		default=0
 	)
 	crm_trafico_numerounidades = fields.Integer(
 		string='Número de unidades', 
-		compute=_compute_numerounidades, 
+		compute='_compute_numerounidades', 
 		store=False, 
 		default=0
 	)
 	crm_trafico_saldo = fields.Float(
 		string='Saldo total', 
-		compute=_compute_saldo, 
+		compute='_compute_saldo', 
 		default=0
 	)
 	crm_trafico_saldo_flete = fields.Float(
 		string='Saldo flete', 
-		compute=_compute_saldo_flete, 
+		compute='_compute_saldo_flete', 
 		default=0
 	)
 	crm_trafico_tarifa_minima = fields.Float(
 		string='Tarifa minima', 
-		compute=_compute_viaje_tarifa_minima, 
+		compute='_compute_viaje_tarifa_minima', 
 		default=0
 	)
 	crm_trafico_info = fields.Text(
 		string='Info', 
-		compute=_compute_crm_trafico_info, 
+		compute='_compute_crm_trafico_info', 
 		default='--'
 	)
 	crm_trafico_ultimo_rechazo_id = fields.Many2one(
@@ -145,11 +146,11 @@ class ResPartner(models.Model):
 	)
 	crm_trafico_ultimos_registros_info1 = fields.Text(
 		string='Últimos registros', 
-		compute=_compute_crm_ultimosregistros_info1
+		compute='_compute_crm_ultimosregistros_info1'
 	)
 	crm_trafico_ultimos_registros_info2 = fields.Text(
 		string='Último registros', 
-		compute=_compute_crm_ultimosregistros_info2
+		compute='_compute_crm_ultimosregistros_info2'
 	)
 	asociado = fields.Boolean(string='Es asociado')
 	tipoasociado = fields.Selection(
@@ -229,7 +230,7 @@ class ResPartner(models.Model):
 
 			return True
 		else :
-			raise UserError(_('Aviso !\nEl RFC debe contener entre 14 a 15 caracteres incluyendo el codigo del país (MX).'))
+			raise UserError(('Aviso !\nEl RFC debe contener entre 14 a 15 caracteres incluyendo el codigo del país (MX).'))
 
 
 	@api.constrains('vat')
@@ -245,11 +246,13 @@ class ResPartner(models.Model):
 			if self.vat:
 
 				if len(self.vat) >= 12 and len(self.vat) <= 13 :
-					vat_obj = self.env['res.partner'].search(
-						[('vat', 'ilike', self.vat), ('company_id', '=', self.company_id.id)])
+					vat_obj = self.env['res.partner'].search([
+						('vat', 'ilike', self.vat),
+						('company_id', '=', self.company_id.id)
+					])
 
 					if len(vat_obj) > 1:
-						raise UserError(_('Aviso !\nEl RFC no se puede repetir.'))
+						raise UserError(('Aviso !\nEl RFC no se puede repetir.'))
 			'''
 			elif not self.vat:
 				raise UserError(_(
@@ -265,7 +268,7 @@ class ResPartner(models.Model):
 			if len(obj_groups) == 0:
 
 				if self.excedente_merma == False:
-					raise UserError(_('Aviso !\nEl cliente tiene que tener definido algun excedente de merma.'))
+					raise UserError(('Aviso !\nEl cliente tiene que tener definido algun excedente de merma.'))
 
 
 	@api.constrains('customer', 'facturar_con')
@@ -277,17 +280,19 @@ class ResPartner(models.Model):
 
 				if self.facturar_con == False:
 					raise UserError(
-						_('Aviso !\nEl cliente tiene que tener definido algun valor en el campo facturar con.'))
+						('Aviso !\nEl cliente tiene que tener definido algun valor en el campo facturar con.'))
 
 
 	@api.model
 	def create(self, vals):
-		id = super(trafitec_asociados, self).create(vals)
+		id = super(ResPartner, self).create(vals)
 
 		if 'asociado' in vals:
 
 			if vals['asociado'] == True:
-				obj_estados = self.env['res.country.state'].search([('country_id', '=', 157)])
+				obj_estados = self.env['res.country.state'].search(
+					[('country_id', '=', 157)
+				])
 				for estados in obj_estados:
 					valores = {'asociado': id.id, 'estado': estados.id, 'vigente': True}
 					self.env['trafitec.rutas'].create(valores)
@@ -305,18 +310,20 @@ class ResPartner(models.Model):
 			obj_rutas = self.env['trafitec.rutas'].search([('asociado', '=', self.id)])
 
 			if len(obj_rutas) == 0:
-				obj_estados = self.env['res.country.state'].search([('country_id', '=', 157)])
+				obj_estados = self.env['res.country.state'].search(
+					[('country_id', '=', 157)
+				])
 				for estados in obj_estados:
 					valores = {'asociado': self.id, 'estado': estados.id, 'vigente': True}
 					self.env['trafitec.rutas'].create(valores)
 
-		return super(trafitec_asociados, self).write(vals)
+		return super(ResPartner, self).write(vals)
 
 
 @api.constrains('moroso_prorroga_st', 'moroso_prorroga_fecha')
-	def _check_moroso(self):
-		if self.moroso_prorroga_st and not self.moroso_prorroga_fecha:
-			raise UserWarning(_('Alerta..'), _('Debe especificar la fecha de prorroga de moroso.'))
+def _check_moroso(self):
+	if self.moroso_prorroga_st and not self.moroso_prorroga_fecha:
+		raise UserWarning(('Alerta..'), ('Debe especificar la fecha de prorroga de moroso.'))
 
 
 	def _computex(self):
@@ -344,7 +351,11 @@ class ResPartner(models.Model):
 	def _compute_saldo(self):
 		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
-			[('partner_id', '=', self.id), ('state', '=', 'open'), ('move_type', '=', 'in_invoice')])
+			[
+				('partner_id', '=', self.id), 
+				('state', '=', 'open'), 
+				('move_type', '=', 'in_invoice')
+			])
 		total = 0
 		for f in facturas_dat:
 			total += f.amount_residual
@@ -354,7 +365,11 @@ class ResPartner(models.Model):
 	def _compute_saldo_flete(self):
 		facturas_obj = self.env['account.move']
 		facturas_dat = facturas_obj.search(
-			[('partner_id', '=', self.id), ('state', '=', 'open'), ('contrarecibo_id', '!=', False)])
+			[
+				('partner_id', '=', self.id), 
+				('state', '=', 'open'), 
+				('contrarecibo_id', '!=', False)
+			])
 		total = 0
 		for f in facturas_dat:
 			total += f.amount_residual
@@ -401,7 +416,8 @@ and f.partner_id={}
 		saldo = self.saldo_vencido(persona_id)
 
 		if persona_dat.moroso_prorroga_fecha:
-			fecha_prorroga = datetime.datetime.strptime(persona_dat.moroso_prorroga_fecha, '%Y-%m-%d').date()
+			fecha_prorroga = datetime.datetime.strptime(
+				persona_dat.moroso_prorroga_fecha, '%Y-%m-%d').date()
 
 		if saldo and saldo > 0:
 			pasar = False
@@ -447,15 +463,12 @@ and f.partner_id={}
 			viajes = []
 			municipio_origen_id = contexto.get('municipio_origen_id', -1)
 			municipio_destino_id = contexto.get('municipio_destino_id', -1)
-			viajes = trafitec_obj.ViajesAsociadoPorMunicipios(self.id, municipio_origen_id, municipio_destino_id)
+			viajes = trafitec_obj.ViajesAsociadoPorMunicipios(
+				self.id, municipio_origen_id, municipio_destino_id)
 
-			# print('----VIAJES ENCONTRADOS CON ViajesAsociadoPorMunicipios----')
-			# print(viajes)
 			if len(viajes) > 0:
 				info = 'Viajes: ' + str(len(viajes)) + ' '
 				info += 'Tarifa mínima: ' + str(viajes[0]['tarifa']) + ' '
-				# info += 'Tarifa máxima: '+str(viajes[-1]['tarifa'])+' '
-				# info += 'Tarifa maxima:'+viajes[-1:]['tarifa']+' '
 				self.crm_trafico_info = info
 			else:
 				self.crm_trafico_info = info
@@ -464,7 +477,8 @@ and f.partner_id={}
 	def _compute_crm_ultimosregistros_info1(self):
 		info = ''
 		c = 0
-		registros = self.env['trafitec.crm.trafico.registro'].search([('asociado_id', '=', self.id)], 
+		registros = self.env['trafitec.crm.trafico.registro'].search(
+			[('asociado_id', '=', self.id)], 
 			limit=2, order='id desc')
 
 		if len(registros) >= 1:
@@ -476,7 +490,8 @@ and f.partner_id={}
 	def _compute_crm_ultimosregistros_info2(self):
 		info = ''
 		c = 0
-		registros = self.env['trafitec.crm.trafico.registro'].search([('asociado_id', '=', self.id)], 
+		registros = self.env['trafitec.crm.trafico.registro'].search(
+			[('asociado_id', '=', self.id)], 
 			limit=2, order='id desc')
 
 		if len(registros) >= 2:
@@ -514,118 +529,101 @@ and f.partner_id={}
 		if self.asociado or self.aseguradora or self.customer or self.supplier:
 
 			if not self.email: # and not self.parent_id:
-				raise UserError(_('Alerta..\nEl correo electrónico (EMail) no puede estar vacío.'))
+				raise UserError(('Alerta..\nEl correo electrónico (EMail) no puede estar vacío.'))
 
 
 	def action_marcar_contactado(self):
 		view_id = self.env.ref('sli_trafitec.trafitec_crm_trafico_registro_form').id
 
-		return {'name': 'Nuevo registro de contacto', 'type': 'ir.actions.act_window', 'view_type': 'form',
-		        'view_mode': 'form', 'res_model': 'trafitec.crm.trafico.registro',  # 'views': [(view_id, 'tree')],
-		        # 'form_view_ref': 'base.res_partner_kanban_view',
-		        # 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'tree_view_ref':'',
-		        'view_id': view_id,  # 'view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        'target': 'new',  # 'res_id': self.ids[0],
-		        'context': {}}
+		return {
+			'name': 'Nuevo registro de contacto', 
+			'type': 'ir.actions.act_window', 
+			'view_type': 'form',
+			'view_mode': 'form', 
+			'res_model': 'trafitec.crm.trafico.registro',
+			'view_id': view_id,
+			'target': 'new',
+			'context': {}
+		}
 
 
 	def action_vercalendario(self):
 		view_id = self.env.ref('calendar.view_calendar_event_calendar').id
 
-		return {'name': 'Calendario', 'type': 'ir.actions.act_window', 'view_type': 'form',
-		        'view_mode': 'calendar,tree', 'res_model': 'calendar.event',  # 'views': [(view_id, 'tree')],
-		        # 'form_view_ref': 'calendar.view_calendar_event_calendar',
-		        # 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'tree_view_ref':'',
-		        # 'view_id': view_id,
-		        # 'view_ref': 'calendar.view_calendar_event_calendar',
-		        # 'target': 'new',
-		        # 'res_id': self.ids[0],
-		        'context': {}}
+		return {
+			'name': 'Calendario', 
+			'type': 'ir.actions.act_window', 
+			'view_type': 'form',
+			'view_mode': 'calendar,tree', 
+			'res_model': 'calendar.event',
+			'context': {}
+		}
 
 
 	def action_abrir_viajes_asociado(self):
 		self.ensure_one()
 
-		# view_id = self.env.ref('sli_trafitec.view_viajes_tree').id
-
-		# if self._context.get('active_model', '') != 'res.partner':
-		#	raise UserError(_('El modelo del contexto debe ser res.partner.'))
-		return {'name': 'Viajes de asociado (' + (self.name or '') + ')', 'type': 'ir.actions.act_window',
-		        'view_type': 'form', 'view_mode': 'tree,form', 'res_model': 'trafitec.viajes',
-		        # 'views': [(view_id, 'tree')],
-		        # 'form_view_ref': 'base.res_partner_kanban_view',
-		        # 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'tree_view_ref':'',
-		        # 'view_id': view_id,
-		        # 'view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'target': 'new',
-		        # 'res_id': self.ids[0],
-		        'context': {}, 'domain': [('state', '=', 'Nueva'), ('asociado_id', '=', self.id)]}
+		return {
+			'name': 'Viajes de asociado (' + (self.name or '') + ')', 
+			'type': 'ir.actions.act_window',
+			'view_type': 'form', 
+			'view_mode': 'tree,form', 
+			'res_model': 'trafitec.viajes',
+			'context': {}, 
+			'domain': [
+				('state', '=', 'Nueva'), 
+				('asociado_id', '=', self.id)
+			]
+		}
 
 
 	def action_abrir_facturas_asociado(self):
 		self.ensure_one()
 
-		# view_id = self.env.ref('sli_trafitec.view_viajes_tree').id
-
-		# if self._context.get('active_model', '') != 'res.partner':
-		#	raise UserError(_('El modelo del contexto debe ser res.partner.'))
-		return {'name': 'Facturas de asociado (' + (self.name or '') + ')', 'type': 'ir.actions.act_window',
-		        'view_type': 'form', 'view_mode': 'tree', 'res_model': 'account.move', # 'views': [(view_id, 'tree')],
-		        # 'form_view_ref': 'base.res_partner_kanban_view',
-		        # 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'tree_view_ref':'',
-		        # 'view_id': view_id,
-		        # 'view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'target': 'new',
-		        # 'res_id': self.ids[0],
-		        'context': {},
-		        'domain': [('partner_id', '=', self.id), ('state', '=', 'open'), ('type', '=', 'in_invoice')]}
+		return {
+			'name': 'Facturas de asociado (' + (self.name or '') + ')', 
+			'type': 'ir.actions.act_window',
+			'view_type': 'form', 
+			'view_mode': 'tree', 
+			'res_model': 'account.move',
+			'context': {},
+			'domain': [
+				('partner_id', '=', self.id), 
+				('state', '=', 'open'), 
+				('type', '=', 'in_invoice')
+			]
+		}
 
 
 	def action_abrir_contactos(self):
 		self.ensure_one()
 
-		# view_id = self.env.ref('sli_trafitec.view_viajes_tree').id
-
-		# if self._context.get('active_model', '') != 'res.partner':
-		#	raise UserError(_('El modelo del contexto debe ser res.partner.'))
-		return {'name': 'Contactos (' + (self.name or '') + ')', 'type': 'ir.actions.act_window', 'view_type': 'form',
-		        'view_mode': 'tree,form', 'res_model': 'res.partner', # 'views': [(view_id, 'tree')],
-		        # 'form_view_ref': 'base.res_partner_kanban_view',
-		        # 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'tree_view_ref':'',
-		        # 'view_id': view_id,
-		        # 'view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'target': 'new',
-		        # 'res_id': self.ids[0],
-		        'context': {}, 'domain': [('parent_id', '=', self.id), ('type', '=', 'contact')]}
+		return {
+			'name': 'Contactos (' + (self.name or '') + ')', 
+			'type': 'ir.actions.act_window', 
+			'view_type': 'form',
+			'view_mode': 'tree,form', 
+			'res_model': 'res.partner',
+			'context': {}, 'domain': [
+				('parent_id', '=', self.id), 
+				('type', '=', 'contact')
+			]
+		}
 
 
 	def action_abrir_contacto(self):
 		self.ensure_one()
 
-		# view_id = self.env.ref('sli_trafitec.view_viajes_tree').id
-
-		# if self._context.get('active_model', '') != 'res.partner':
-		#	raise UserError(_('El modelo del contexto debe ser res.partner.'))
-		return {'name': 'Contacto (' + (self.name or '') + ')', 'type': 'ir.actions.act_window', 'view_type': 'form',
-		        'view_mode': 'form', 'res_model': 'res.partner', # 'views': [(view_id, 'tree')],
-		        # 'form_view_ref': 'base.res_partner_kanban_view',
-		        # 'tree_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'kanban_view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'tree_view_ref':'',
-		        # 'view_id': view_id,
-		        # 'view_ref': 'trafitec_crm_trafico_asociados_kanban',
-		        # 'target': 'new',
-		        'res_id': self.id, 'context': {}, 'domain': []}
+		return {
+			'name': 'Contacto (' + (self.name or '') + ')', 
+			'type': 'ir.actions.act_window', 
+			'view_type': 'form',
+		    'view_mode': 'form', 
+			'res_model': 'res.partner',
+			'res_id': self.id, 
+			'context': {}, 
+			'domain': []
+		}
 
 
 	@api.onchange('aseguradora', 'asociado', 'operador', 'company_type')
@@ -635,15 +633,15 @@ and f.partner_id={}
 			if self.asociado == True or self.operador == True:
 				self.asociado = False
 				self.operador = False
-				res = {'warning': {'title': _('Advertencia'),
-				                   'message': _('No puede seleccionar que un contacto sea aseguradora, operador o asociado.')}}
+				res = {'warning': {'title':('Advertencia'),
+				                   'message':('No puede seleccionar que un contacto sea aseguradora, operador o asociado.')}}
 
 				return res
 
 			if self.company_type != 'company':
 				self.aseguradora = False
-				res = {'warning': {'title': _('Advertencia'),
-				                   'message': _('Para que un contacto sea aseguradora, tiene que ser una compañia')}}
+				res = {'warning': {'title':('Advertencia'),
+				                   'message':('Para que un contacto sea aseguradora, tiene que ser una compañia')}}
 
 				return res
 
@@ -722,7 +720,8 @@ and f.partner_id={}
 
 	def cliente_saldo_total(self, persona_id, excluir_viaje_id=None):
 
-		return self.cliente_saldo_viajes(persona_id, excluir_viaje_id) + self.cliente_saldo_facturas(persona_id)
+		return self.cliente_saldo_viajes(
+			persona_id, excluir_viaje_id) + self.cliente_saldo_facturas(persona_id)
 
 
 	def cliente_saldo_excedido(self, persona_id, monto_adicional, excluir_viaje_id=None):
@@ -740,13 +739,15 @@ and f.partner_id={}
 		prorroga_fecha = None
 
 		# try:
-		cliente_saldo = persona_obj.cliente_saldo_total(persona_id, excluir_viaje_id) + monto_adicional
+		cliente_saldo = persona_obj.cliente_saldo_total(
+			persona_id, excluir_viaje_id) + monto_adicional
 		cliente_limite_credito = persona_datos.limite_credito
 
 		prorroga_hay = persona_datos.prorroga
 
 		if persona_datos.fecha_prorroga:
-			prorroga_fecha = datetime.datetime.strptime(persona_datos.fecha_prorroga, '%Y-%m-%d').date()
+			prorroga_fecha = datetime.datetime.strptime(
+				persona_datos.fecha_prorroga, '%Y-%m-%d').date()
 
 		if cliente_saldo > cliente_limite_credito:
 
@@ -758,5 +759,5 @@ and f.partner_id={}
 			else:
 
 				return True
-
-		return False
+		    
+			return False

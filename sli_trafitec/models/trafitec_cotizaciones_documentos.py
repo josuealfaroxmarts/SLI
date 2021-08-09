@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, tools,_
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
-import datetime
+from odoo import models, fields
 
-_logger = logging.getLogger(__name__)
-
-
-class trafitec_cotizaciones_documentos(models.Model):
+class TrafitecCotizacionesDocumentos(models.Model):
     _name = 'trafitec.cotizaciones.documentos'
     _description = 'cotizaciones documentos'
 

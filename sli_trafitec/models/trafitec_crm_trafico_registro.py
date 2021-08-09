@@ -1,3 +1,6 @@
+from odoo import models, fields, api
+from odoo.exceptions import UserError
+import datetime
 
 class TrafitecCrmTraficoRegistro(models.Model):
 	_name = 'trafitec.crm.trafico.registro'
@@ -6,16 +9,41 @@ class TrafitecCrmTraficoRegistro(models.Model):
 	_order = 'id desc'
 	_rec_name = 'id'
 
-	asociado_id = fields.Many2one(string='Asociado', comodel_name='res.partner', tracking=True)
-	asociado_id_txt = fields.Char(string='Asociado texto', related='asociado_id.name', readonly=True)
-
-	detalles = fields.Char(string='Detalles', default='', required=True, tracking=True)
-	tipo = fields.Selection(string='Tipo',
-	                        selection=[('llamada_telefonica', 'Llamada telefónica'), ('email', 'Correo electrónico'),
-	                                   ('mensajero_instataneo', 'Mensajero instantaneo')], default='llamada_telefonica',
-	                        required=True, tracking=True)
-	generar_evento_st = fields.Boolean(string='Registrar evento en calendario', default=False)
-	generar_evento_dias = fields.Integer(string='Dias para nuevo evento', default=3)
+	asociado_id = fields.Many2one(
+		string='Asociado', 
+		comodel_name='res.partner', 
+		tracking=True
+	)
+	asociado_id_txt = fields.Char(
+		string='Asociado texto', 
+		related='asociado_id.name', 
+		readonly=True
+	)
+	detalles = fields.Char(
+		string='Detalles', 
+		default='', 
+		required=True, 
+		tracking=True
+	)
+	tipo = fields.Selection(
+		string='Tipo',
+		selection=[
+			('llamada_telefonica', 'Llamada telefónica'), 
+			('email', 'Correo electrónico'),
+			('mensajero_instataneo', 'Mensajero instantaneo')
+		], 
+		default='llamada_telefonica',
+		required=True, 
+		tracking=True
+	)
+	generar_evento_st = fields.Boolean(
+		string='Registrar evento en calendario', 
+		default=False
+	)
+	generar_evento_dias = fields.Integer(
+		string='Dias para nuevo evento', 
+		default=3
+	)
 	generar_evento_fechahora = fields.Datetime(string='Fecha para nuevo evento')
 
 
@@ -23,23 +51,56 @@ class TrafitecCrmTraficoRegistro(models.Model):
 	def _compute_numero_viajes(self):
 		self.viajes_n = len(self.viajes_id)
 
-	seg_modificar = fields.Boolean(string='Permitir modificar', default=True, tracking=True)
-	cotizacion_id = fields.Many2one(string='Cotización', comodel_name='trafitec.cotizacion',
-	                                tracking=True)
-	cotizacion_id_txt = fields.Char(string='Cotización ', related='cotizacion_id.name', readonly=True)
-	viajes_id = fields.One2many(string='Viajes', comodel_name='trafitec.crm.trafico.registro.viajes',
-	                            inverse_name='registro_id')
-	viajes_n = fields.Integer(string='Número de viajes', compute=_compute_numero_viajes, default=0, store=True)
-	motivo_rechazo_id = fields.Many2one(string='Motivo de rechazo', comodel_name='trafitec.clasificacionesg',
-	                                    tracking=True)
-	tarifa = fields.Float(string='Tarifa', default=0)
-	state = fields.Selection(string='Estado cotizacion',
-	                         selection=[('nuevo', 'Nuevo'), ('aceptado', 'Aceptado'), ('rechazado', 'Rechazado')],
-	                         default='nuevo', tracking=True, required=True)
+	seg_modificar = fields.Boolean(
+		string='Permitir modificar', 
+		default=True, 
+		tracking=True
+	)
+	cotizacion_id = fields.Many2one(
+		string='Cotización', 
+		comodel_name='trafitec.cotizacion',
+		tracking=True
+	)
+	cotizacion_id_txt = fields.Char(
+		string='Cotización ', 
+		related='cotizacion_id.name', 
+		readonly=True
+	)
+	viajes_id = fields.One2many(
+		string='Viajes', 
+		comodel_name='trafitec.crm.trafico.registro.viajes',
+		inverse_name='registro_id'
+	)
+	viajes_n = fields.Integer(
+		string='Número de viajes', 
+		compute=_compute_numero_viajes, 
+		default=0, 
+		store=True
+	)
+	motivo_rechazo_id = fields.Many2one(
+		string='Motivo de rechazo', 
+		comodel_name='trafitec.clasificacionesg',
+		tracking=True
+	)
+	tarifa = fields.Float(
+		string='Tarifa', 
+		default=0
+	)
+	state = fields.Selection(
+		string='Estado cotizacion',
+		selection=[
+			('nuevo', 'Nuevo'), 
+			('aceptado', 'Aceptado'), 
+			('rechazado', 'Rechazado')
+		],
+		default='nuevo',
+		tracking=True, 
+		required=True
+	)
 
 	@api.model
 	def default_get(self, fields):
-		res = super(trafitec_crm_trafico_registro, self).default_get(fields)
+		res = super(TrafitecCrmTraficoRegistro, self).default_get(fields)
 
 		if 'cotizacion_id' in self._context and 'active_id' in self._context:
 			cotizacion_id = self._context.get('cotizacion_id', None)
@@ -74,7 +135,7 @@ class TrafitecCrmTraficoRegistro(models.Model):
 				if vals['generar_evento_st']:
 					fechahora = vals['generar_evento_fechahora']
 					if not fechahora:
-						raise UserError(_('Debe especificar la fecha y hora para el nuevo evento.'))
+						raise UserError(('Debe especificar la fecha y hora para el nuevo evento.'))
 
 		"""
 			if 'state' in vals:
@@ -89,11 +150,9 @@ class TrafitecCrmTraficoRegistro(models.Model):
 		tarifa = 0.00
 		if tipo == 1:  # Crear.
 			state = vals['state']
-			# viajes_id = vals['viajes_id']
 			motivo_rechazo_id = vals['motivo_rechazo_id']
 			tarifa = vals['tarifa']
 		elif tipo == 2:  # Modificar.
-			# registro_dat = self.env['trafitec.crm.trafico.registro'].browse([self.id])
 			if 'state' in vals:
 				state = vals['state']
 			else:
@@ -123,11 +182,11 @@ class TrafitecCrmTraficoRegistro(models.Model):
 			"""
 
 			if tarifa <= 0:
-				raise UserError(_('Debe especificar la tarifa'))
+				raise UserError(('Debe especificar la tarifa'))
 
 		if state == 'rechazado':
 			if not motivo_rechazo_id:
-				raise UserError(_('Debe especificar el motivo de rechazo'))
+				raise UserError(('Debe especificar el motivo de rechazo'))
 
 			"""
 			if len(viajes_id) > 0:
@@ -150,15 +209,13 @@ class TrafitecCrmTraficoRegistro(models.Model):
 		# Lo marca como generado.
 		vals.update({'seg_modificar': False})
 
-		nuevo = super(trafitec_crm_trafico_registro, self).create(vals)
+		nuevo = super(TrafitecCrmTraficoRegistro, self).create(vals)
 		if 'active_id' in self._context:
 			persona_dat = persona_obj.search([('id', '=', self._context['active_id'])])
 			persona_dat.write({
 				'crm_trafico_ultimocontacto_fechahora': datetime.datetime.today(),
 				'crm_trafico_ultimocontacto_usuario_id': self._uid
 			})
-		# self.asociado_id.crm_trafico_ultimocontacto_fechahora = datetime.datetime.today()  # +timedelta(days=-3)
-		# self.asociado_id.crm_trafico_ultimocontacto_usuario_id = self._uid
 
 		if nuevo.generar_evento_st:
 			tipo_txt = 'Contactar a: '
@@ -172,7 +229,7 @@ class TrafitecCrmTraficoRegistro(models.Model):
 				'user_id': self.env.user.id,
 				'description': nuevo.detalles,
 				'start': str(nuevo.generar_evento_fechahora),
-				'stop': str(nuevo.generar_evento_fechahora)  # nuevo.generar_evento_fechahora + timedelta(hours=1)
+				'stop': str(nuevo.generar_evento_fechahora)
 			}
 			calendario_obj.create(nuevoevento)
 
@@ -182,10 +239,7 @@ class TrafitecCrmTraficoRegistro(models.Model):
 
 	def write(self, vals):
 		self.valida(vals, 2)
-
-		# vals.update({'seg_modificar':False})
-		modificado = super(trafitec_crm_trafico_registro, self).write(vals)
-
+		modificado = super(TrafitecCrmTraficoRegistro, self).write(vals)
 		self._proceso_rechazo(vals, modificado)
 		return modificado
 

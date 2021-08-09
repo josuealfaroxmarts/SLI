@@ -1,7 +1,5 @@
-## -*- coding: utf-8 -*-
-
 from odoo import api, fields, models, tools
-
+from odoo.exceptions import UserError
 
 class TrafitecDescuentos(models.Model):
 	_name = "trafitec.descuentos"
@@ -24,11 +22,11 @@ class TrafitecDescuentos(models.Model):
 	asociado_id = fields.Many2one(
 		"res.partner",
 		string="Asociado",
-		domain="[("asociado","=",True)]", required=True)
+		domain="[('asociado','=',True)]", required=True)
 	operador_id = fields.Many2one(
 		"res.partner",
 		string="Operador",
-		domain="[("operador","=",True)]"
+		domain="[('operador','=',True)]"
 	)
 	concepto = fields.Many2one(
 		"trafitec.concepto.anticipo",
@@ -43,7 +41,7 @@ class TrafitecDescuentos(models.Model):
 	proveedor = fields.Many2one(
 		"res.partner",
 		string="Proveedor",
-		domain="[("supplier","=",True)]", tracking=True)
+		domain="[('supplier','=',True)]", tracking=True)
 	cobro_fijo = fields.Boolean(
 		string="Cobro fijo",
 		tracking=True
@@ -56,36 +54,82 @@ class TrafitecDescuentos(models.Model):
 		string="Folio nota",
 		tracking=True
 	)
-	comentarios = fields.Text(string="Comentarios", tracking=True)
-	company_id = fields.Many2one("res.company", "Company",
-	                             default=lambda self: self.env["res.company"]._company_default_get(
-		                             "trafitec.descuentos"), tracking=True)
-	abono_id = fields.One2many("trafitec.descuentos.abono","abonos_id", tracking=True)
-	fecha = fields.Date(string="Fecha", readonly=True, index=True, copy=False,
-	                    default=fields.Datetime.now, tracking=True)
-
-
-
-	#state = fields.Selection(string="Estado", selection=[("cancelado", "Cancelado"), ("activo", "Activo")], default="activo", tracking=True)
-	state = fields.Selection(string="Estado", selection=[("borrador", "Borrador"), ("activo", "Aprobado"), ("cancelado", "Cancelado")], default="borrador", tracking=True)
-	es_combustible = fields.Boolean(string="Vale de combustible", default=False, tracking=True)
-	es_combustible_litros = fields.Float(string="Litros", default=0, tracking=True)
-	es_combustible_costoxlt = fields.Float(string="Costo por litro", default=0, tracking=True)
-	es_combustible_total = fields.Float(string="Total", default=0, compute="compute_es_combustible_total", store=True, tracking=True, help="Total sin comisión.")
-
-	es_combustible_pcomision = fields.Float(string="Porcentaje comisión (%)", default=0, tracking=True)
-	es_combustible_comision = fields.Float(string="Comisión", default=0,
-	                                       compute="compute_es_combustible_comision",
-	                                       store=True,
-	                                       tracking=True)
-	es_combustible_totalcomision = fields.Float(string="Total comision", default=0,
-	                                            compute="compute_es_combustible_totalcomision",
-	                                            store=True,
-	                                            tracking=True,
-	                                            help="Total con comisión.")
-
-
-
+	comentarios = fields.Text(
+		string="Comentarios", 
+		tracking=True
+	)
+	company_id = fields.Many2one(
+		"res.company", 
+		"Company",
+		default=lambda self: self.env["res.company"]._company_default_get("trafitec.descuentos"), 
+		tracking=True
+	)
+	abono_id = fields.One2many(
+		"trafitec.descuentos.abono",
+		"abonos_id", 
+		tracking=True
+	)
+	fecha = fields.Date(
+		string="Fecha", 
+		readonly=True, 
+		index=True, 
+		copy=False,
+		default=fields.Datetime.now, 
+		tracking=True
+	)
+	state = fields.Selection(
+		string="Estado", 
+		selection=[
+			("borrador", "Borrador"), 
+			("activo", "Aprobado"), 
+			("cancelado", "Cancelado")
+		], 
+		default="borrador", 
+		tracking=True
+	)
+	es_combustible = fields.Boolean(
+		string="Vale de combustible", 
+		default=False, 
+		tracking=True
+	)
+	es_combustible_litros = fields.Float(
+		string="Litros", 
+		default=0, 
+		tracking=True
+	)
+	es_combustible_costoxlt = fields.Float(
+		string="Costo por litro", 
+		default=0, 
+		tracking=True
+	)
+	es_combustible_total = fields.Float(
+		string="Total", 
+		default=0, 
+		compute="compute_es_combustible_total", 
+		store=True, 
+		tracking=True,
+		help="Total sin comisión."
+	)
+	es_combustible_pcomision = fields.Float(
+		string="Porcentaje comisión (%)",
+		default=0, 
+		tracking=True
+	)
+	es_combustible_comision = fields.Float(
+		string="Comisión", 
+		default=0,
+		compute="compute_es_combustible_comision",
+		store=True,
+		tracking=True
+	)
+	es_combustible_totalcomision = fields.Float(
+		string="Total comision", 
+		default=0,
+		compute="compute_es_combustible_totalcomision",
+		store=True,
+		tracking=True,
+		help="Total con comisión."
+	)
 
 	@api.depends("es_combustible_litros", "es_combustible_costoxlt")
 	def compute_es_combustible_total(self):
@@ -131,7 +175,7 @@ class TrafitecDescuentos(models.Model):
 	def _check_monto_abono(self):
 		if self.monto and self.abono_total:
 			if self.abono_total > self.monto:
-				raise UserError(_("Aviso !\nEl abono del descuento ({}) debe ser manor o igual al saldo del descuento ({}).".format(self.abono_total, self.monto)))
+				raise UserError(("Aviso !\nEl abono del descuento ({}) debe ser manor o igual al saldo del descuento ({}).".format(self.abono_total, self.monto)))
 
 
 	def copy(self):
@@ -165,14 +209,14 @@ class TrafitecDescuentos(models.Model):
 	@api.constrains("monto")
 	def _check_monto(self):
 		if self.monto <= 0:
-			raise UserError(_(
+			raise UserError((
 				"Aviso !\nEl monto debe ser mayor a cero."))
 
 	@api.constrains("monto_cobro")
 	def _check_monto_cobro(self):
 		if self.cobro_fijo == True:
 			if self.monto_cobro <= 0:
-				raise UserError(_(
+				raise UserError((
 					"Aviso !\nEl monto del cobro debe ser mayor a cero."))
 
 
@@ -186,11 +230,11 @@ class TrafitecDescuentos(models.Model):
 	def create(self, vals):
 		if "company_id" in vals:
 			vals["name"] = self.env["ir.sequence"].with_context(force_company=vals["company_id"]).next_by_code(
-				"Trafitec.Descuentos") or _("Nuevo")
+				"Trafitec.Descuentos") or ("Nuevo")
 		else:
-			vals["name"] = self.env["ir.sequence"].next_by_code("Trafitec.Descuentos") or _("Nuevo")
+			vals["name"] = self.env["ir.sequence"].next_by_code("Trafitec.Descuentos") or ("Nuevo")
 
-		v_id = super(trafitec_descuentos, self).create(vals)
+		v_id = super(TrafitecDescuentos, self).create(vals)
 
 		if "viaje_id" in vals:
 			valores = {"viaje_id": vals["viaje_id"], "monto": vals["monto"], "tipo_cargo": "descuentos","asociado_id" : vals["asociado_id"], "descuento_id" : v_id.id}
@@ -229,7 +273,7 @@ class TrafitecDescuentos(models.Model):
 		else:
 			obc_cargos.write(valores)
 
-		return super(trafitec_descuentos, self).write(vals)
+		return super(TrafitecDescuentos, self).write(vals)
 
 
 	"""
@@ -239,18 +283,13 @@ class TrafitecDescuentos(models.Model):
 	def action_cancelar(self):
 		for rec in self:
 			abonos_obj = self.env["trafitec.descuentos.abono"]
-			#viajes_obj = self.env["trafitec.viajes"]
 			abonos_dat = abonos_obj.search([("abonos_id", "=", rec.id)])
 			if abonos_dat and len(abonos_dat) > 0:
-				raise UserError(_("Este descuento tiene abonos."))
+				raise UserError(("Este descuento tiene abonos."))
 
-			#Quita la realacion con el viaje.
 			if rec.viaje_id:
 				if rec.viaje_id.descuento_combustible_id.id == rec.id:
 					rec.viaje_id.with_context(validar_credito_cliente=False, validar_cliente_moroso=False).write({"descuento_combustible_id": False})
-					#rec.viaje_id.descuento_combustible_id = False
-
-			#rec.abono_total = 0
-			#rec.saldo = self.monto
+	
 			rec.state = "cancelado"
 

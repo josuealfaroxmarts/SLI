@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import datetime
-from . import amount_to_text
-import xlsxwriter
-import base64
+from odoo import models, fields
 
 
-class trafitec_etiquetas(models.Model):
+class TrafitecEtiquetas(models.Model):
 	_name = 'trafitec.etiquetas'
 	_description ='etiquetas'
 	name = fields.Char(

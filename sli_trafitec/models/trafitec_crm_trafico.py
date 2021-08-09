@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from odoo import models, fields, api, tools
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
 import datetime
@@ -11,20 +9,33 @@ class TrafitecCrmTrafico(models.TransientModel):
     _order = 'id desc'
     _description ='crm trafico'
 
-    name = fields.Char(string='Nombre', default='', required=True)
+    name = fields.Char(
+        string='Nombre', 
+        default='', 
+        required=True
+    )
     buscar_folio = fields.Char(string='Folio')
     buscar_producto = fields.Char(string='Producto')
     buscar_origen = fields.Char(string='Origen')
     buscar_destino = fields.Char(string='Destino')
     buscar_cliente = fields.Char(string='Cliente')
     buscar_asociado = fields.Char(string='Asociado')
-    buscar_fechai = fields.Date(string='Fecha inicial', default=datetime.datetime.today() + timedelta(days=-7))
-    buscar_fechaf = fields.Date(string='Fecha final', default=datetime.datetime.today())
-    buscar_lineanegocio_id = fields.Many2one(string='Línea de negocio', comodel_name='trafitec.lineanegocio', default=1)
+    buscar_fechai = fields.Date(
+        string='Fecha inicial', 
+        default=datetime.datetime.today() + timedelta(days=-7)
+    )
+    buscar_fechaf = fields.Date(
+        string='Fecha final', 
+        default=datetime.datetime.today()
+    )
+    buscar_lineanegocio_id = fields.Many2one(
+        string='Línea de negocio', 
+        comodel_name='trafitec.lineanegocio', 
+        default=1
+    )
 
     
     def _calculado(self):
-        print("--CALCULADO---------------------------------")
         self.name = "AUTOMATICO"
         self.action_buscar_cotizaciones2()
 
@@ -109,7 +120,7 @@ class TrafitecCrmTrafico(models.TransientModel):
     
     def action_buscar_viajes(self):
         if not self.buscar_fechai or not self.buscar_fechaf:
-            raise UserError(_("Debe especificar el periodo de fechas."))
+            raise UserError(("Debe especificar el periodo de fechas."))
 
         viajes = []
         filtro = []
@@ -190,10 +201,13 @@ class TrafitecCrmTrafico(models.TransientModel):
     @api.model
     def retrieve_sales_dashboard(self):
         """ Fetch data to setup Sales Dashboard """
-        result = {'meeting': {'today': 0, 'next_7_days': 4.5, },
-                    'activity': {'today': 0, 'overdue': 0, 'next_7_days': 4, },
-                    'closing': {'today': 0, 'overdue': 0, 'next_7_days': 5, },
-                    'done': {'this_month': 0, 'last_month': 0, },
-                    'won': {'this_month': 0, 'last_month': 0, }, 'nb_opportunities': 0, }
+        result = {
+            'meeting': {'today': 0, 'next_7_days': 4.5, },
+            'activity': {'today': 0, 'overdue': 0, 'next_7_days': 4, },
+            'closing': {'today': 0, 'overdue': 0, 'next_7_days': 5, },
+            'done': {'this_month': 0, 'last_month': 0, },
+            'won': {'this_month': 0, 'last_month': 0, }, 
+            'nb_opportunities': 0, 
+        }
 
         return result
