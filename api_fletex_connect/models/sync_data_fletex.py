@@ -23,7 +23,7 @@ class SyncDataFletex(models.Model):
         users = self.response_fletex(
             self.get_endpoint("read_users_fletex_endpoint"),
             "get",
-	        {
+            {
                 "data": {},
                 "headers": headers,
                 "params": {}
@@ -43,7 +43,7 @@ class SyncDataFletex(models.Model):
         vehicles = self.response_fletex(
             self.get_endpoint("read_vehicles_fletex_endpoint"),
             "get",
-	        {
+            {
                 "data": {},
                 "headers": headers,
                 "params": {}
@@ -67,7 +67,7 @@ class SyncDataFletex(models.Model):
             })
 
         # If the request brings locations, the locations manager is called
-        if locations: 
+        if locations:
             if len(locations) > 0:
                 for location in locations["data"]:
                     self.locations_manager(location, headers)
@@ -124,14 +124,13 @@ class SyncDataFletex(models.Model):
         parameters :
         endponit (string) = endpoint where the request will be made
         method (string) = http method used for the request
-        data (dict) = data that will be sent to the endpoint, must contain, data, 
-        headers and params
+        data (dict) = data that will be sent to the endpoint, must contain,
+        data, headers and params
         """
 
         url = self.env["ir.config_parameter"].sudo().get_param(
             "api_fletex_url"
         )
-
         if method == "post":
             data["headers"]["Content-type"] = "application/json"
             response = requests.post(
@@ -145,7 +144,6 @@ class SyncDataFletex(models.Model):
                 data=data["data"],
                 headers=data["headers"],
                 params=data["params"])
-
         try:
             if response.status_code == 200:
                 return response.json()
@@ -164,32 +162,36 @@ class SyncDataFletex(models.Model):
             [("id_fletex", "=", user["user_id"])])
         vals = {
             "id_fletex": user["user_id"],
-            "asociado": (True
-                        if user["role"] == "carrier"
-                        else False),
-            "operador": (True
-                        if user["role"] == "driver"
-                        else False),
-            "supplier": (True
-                        if user["role"] == "carrier"
-                        else False),
-            "customer": (True
-                        if user["role"] == "client"
-                        else False),
+            "asociado": (True if user["role"] == "carrier" else False),
+            "operador": (True if user["role"] == "driver" else False),
+            "supplier": (True if user["role"] == "carrier" else False),
+            "customer": (True if user["role"] == "client" else False),
             "phone_representative": user["legal_representative"]["phone"],
             "image_1920": user["profile_pic"],
-            "name": "{} {}".format(user["account_name"], user["account_last_name"])
-            if user["account_type"] != "moral"
-            else "{}".format(user["social_reason"]),
-            "legal_representative": "{} {}".format(user["account_name"], user["account_last_name"])
-            if user["account_type"] == "moral"
-            else "{}".format(user["social_reason"]),
-            "company_type": ("person"
-                                if user["account_type"] != "moral"
-                                else "company"),
-            "asociado_operador":  self.env["res.partner"].search([("id_fletex", "=", user["carrier_id"])])
-            if user["role"] == "driver"
-            else False,
+            "name": (
+                "{} {}".format(
+                    user["account_name"],
+                    user["account_last_name"]
+                )
+                if user["account_type"] != "moral"
+                else "{}".format(user["social_reason"]),
+            ),
+            "legal_representative": (
+                "{} {}".format(
+                    user["account_name"],
+                    user["account_last_name"]
+                )
+                if user["account_type"] == "moral"
+                else "{}".format(user["social_reason"]),
+            ),
+            "company_type": (
+                "person" if user["account_type"] != "moral" else "company"
+            ),
+            "asociado_operador":  (
+                self.env["res.partner"].search([
+                    ("id_fletex", "=", user["carrier_id"])
+                ]) if user["role"] == "driver" else False
+            ),
             "vat": user["rfc_empresa"],
             "rfc_representative": user["rfc"],
             "street": user["street"],
@@ -197,50 +199,79 @@ class SyncDataFletex(models.Model):
             "street_number2": user["int_num"],
             "zip": user["zip"],
             "city": user["city"],
-            "state_id": self.search_record("res.country.state",
-                                            "name",
-                                            user["state"]),
+            "state_id": self.search_record(
+                "res.country.state",
+                "name",
+                user["state"]
+            ),
             "email": user["account_email"],
             "name_representative": user["legal_representative"]["name"],
-            "lastname_representative": user["legal_representative"]["lastName"],
+            "lastname_representative": (
+                user["legal_representative"]["lastName"]
+            ),
             "email_representative": user["legal_representative"]["email"],
             "phone_representative": user["legal_representative"]["phone"],
             "rfc_representative": user["rfc"],
-            "id_representative": None
-            if not "ine_drop" in user["documents"]
-            else user["documents"]["ine_drop"],
-            "ext_id_representative": None
-            if not "ine_drop" in user["documents"]
-            else self.find_extension_document(
-                user["documents"]["ine_drop"]),
-            "act_representative": None
-            if not "constitutive_act_drop" in user["documents"]
-            else user["documents"]["constitutive_act_drop"],
-            "ext_act_representative": None
-            if not "constitutive_act_drop" in user["documents"]
-            else self.find_extension_document(
-                user["documents"]["constitutive_act_drop"]),
-            "address_representative": None
-            if not "proof_of_tax_address_drop" in user["documents"]
-            else user["documents"]["proof_of_tax_address_drop"],
-            "ext_address_representative": None
-            if not "proof_of_tax_address_drop" in user["documents"]
-            else self.find_extension_document(
-                user["documents"]["proof_of_tax_address_drop"]),
-            "rfc_representative_drop": None
-            if not "rfc_drop" in user["documents"]
-            else user["documents"]["rfc_drop"],
-            "ext_representative_drop": None
-            if not "rfc_drop" in user["documents"]
-            else self.find_extension_document(
-                user["documents"]["rfc_drop"]),
-            "rfc_bussiness": None
-            if not "rfc_empresa_drop" in user["documents"]
-            else user["documents"]["rfc_empresa_drop"],
-            "ext_rfc_bussiness": None
-            if not "rfc_empresa_drop" in user["documents"]
-            else self.find_extension_document(
-                user["documents"]["rfc_empresa_drop"]),
+            "id_representative": (
+                None
+                if "ine_drop" not in user["documents"]
+                else user["documents"]["ine_drop"]
+            ),
+            "ext_id_representative": (
+                None
+                if "ine_drop" not in user["documents"]
+                else self.find_extension_document(
+                    user["documents"]["ine_drop"]
+                    )
+            ),
+            "act_representative": (
+                None
+                if "constitutive_act_drop" not in user["documents"]
+                else user["documents"]["constitutive_act_drop"]
+            ),
+            "ext_act_representative": (
+                None
+                if "constitutive_act_drop" not in user["documents"]
+                else self.find_extension_document(
+                    user["documents"]["constitutive_act_drop"]
+                )
+            ),
+            "address_representative": (
+                None
+                if "proof_of_tax_address_drop" not in user["documents"]
+                else user["documents"]["proof_of_tax_address_drop"]
+            ),
+            "ext_address_representative": (
+                None
+                if "proof_of_tax_address_drop" not in user["documents"]
+                else self.find_extension_document(
+                    user["documents"]["proof_of_tax_address_drop"]
+                )
+            ),
+            "rfc_representative_drop": (
+                None
+                if "rfc_drop" not in user["documents"]
+                else user["documents"]["rfc_drop"]
+            ),
+            "ext_representative_drop": (
+                None
+                if "rfc_drop" not in user["documents"]
+                else self.find_extension_document(
+                    user["documents"]["rfc_drop"]
+                )
+            ),
+            "rfc_bussiness": (
+                None
+                if "rfc_empresa_drop" not in user["documents"]
+                else user["documents"]["rfc_empresa_drop"]
+            ),
+            "ext_rfc_bussiness": (
+                None
+                if "rfc_empresa_drop" not in user["documents"]
+                else self.find_extension_document(
+                    user["documents"]["rfc_empresa_drop"]
+                )
+            ),
             "status_record": "draft",
             "status_fletex": "completed",
             "progress_fletex": 100.0,
@@ -281,25 +312,35 @@ class SyncDataFletex(models.Model):
             "name": "{} {}".format(user["name"], user["last_name"]),
             "asociado_operador": carrier_id["id"],
             "mobile": user["phone"],
-            "license_driver": None
-            if not "file_licence" in user["documents"]
-            else user["documents"]["file_licence"],
-            "ext_license_driver": None
-            if not "file_licence" in user["documents"]
-            else self.find_extension_document(
-                    user["documents"]["file_licence"]),
+            "license_driver": (
+                None
+                if "file_licence" not in user["documents"]
+                else user["documents"]["file_licence"]
+            ),
+            "ext_license_driver": (
+                None
+                if "file_licence" not in user["documents"]
+                else self.find_extension_document(
+                    user["documents"]["file_licence"]
+                )
+            ),
             "email": "{}@sli.mx".format(user["healthcare_number"]),
             "status_record": "draft",
             "status_fletex": "completed",
             "progress_fletex": 100.0,
             "healthcare_number": user["healthcare_number"],
-            "adj_healthcare_number": None
-            if not "file_nss" in user["documents"]
-            else user["documents"]["file_nss"],
-            "ext_healthcare_number": None
-            if not "file_nss" in user["documents"]
-            else self.find_extension_document(
-                user["documents"]["file_nss"]),
+            "adj_healthcare_number": (
+                None
+                if "file_nss" not in user["documents"]
+                else user["documents"]["file_nss"]
+            ),
+            "ext_healthcare_number": (
+                None
+                if "file_nss" not in user["documents"]
+                else self.find_extension_document(
+                    user["documents"]["file_nss"]
+                )
+            ),
         }
 
         """User is created if there is match in Odoo"""
@@ -328,7 +369,6 @@ class SyncDataFletex(models.Model):
             """
         res_partners = self.env["res.partner"].search(
             [("send_to_api", "=", True)])
-        _logger.info("RESPARTNESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
         for res_partner in res_partners:
             if res_partner["operador"]:
                 rejected_files = []
@@ -344,7 +384,6 @@ class SyncDataFletex(models.Model):
                 else:
                     status = "active"
                     new_driver = None
-                _logger.info(rejected_files)
                 response = self.response_fletex(
                     self.get_endpoint("read_users_fletex_endpoint"),
                     "post",
@@ -361,9 +400,6 @@ class SyncDataFletex(models.Model):
                         "headers": headers,
                         "params": {}
                     })
-                _logger.info(response)
-                
-
             else:
                 if res_partner["status_record"] == "refused":
                     status = "rejected"
@@ -437,33 +473,49 @@ class SyncDataFletex(models.Model):
                 vehicle["business_id"])
 
             vals = {
-                "id_fletex_truck": vehicle["vehicle_id"]
-                if vehicle["type"] == "truck"
-                else None,
-                "id_fletex_trailer": vehicle["vehicle_id"]
-                if vehicle["type"] == "trailer"
-                else None,
+                "id_fletex_truck": (
+                    vehicle["vehicle_id"]
+                    if vehicle["type"] == "truck"
+                    else None
+                ),
+                "id_fletex_trailer": (
+                    vehicle["vehicle_id"]
+                    if vehicle["type"] == "trailer"
+                    else None
+                ),
                 "image_128": vehicle["vehicle_picture"],
                 "model_id": model_id.id,
                 "license_plate": vehicle["license_plate"],
                 "numero_economico": vehicle["economic"],
-                "tipo_vehiculo": "tractocamion"
-                if vehicle["type"] == "truck"
-                else "remolque",
-                "circulacion": None
-                if not "file_circulation_card" in vehicle["documents"]
-                else vehicle["documents"]["file_circulation_card"],
-                "ext_circulacion": None
-                if not "file_circulation_card" in vehicle["documents"]
-                else self.find_extension_document(
-                    vehicle["documents"]["file_circulation_card"]),
-                "poliza_seguro": None
-                if not "file_insurance_policy" in vehicle["documents"]
-                else vehicle["documents"]["file_insurance_policy"],
-                "ext_poliza_seguro": None
-                if not "file_insurance_policy" in vehicle["documents"]
-                else self.find_extension_document(
-                    vehicle["documents"]["file_insurance_policy"]),
+                "tipo_vehiculo": (
+                    "tractocamion"
+                    if vehicle["type"] == "truck"
+                    else "remolque"
+                ),
+                "circulacion": (
+                    None
+                    if "file_circulation_card" not in vehicle["documents"]
+                    else vehicle["documents"]["file_circulation_card"],
+                ),
+                "ext_circulacion": (
+                    None
+                    if "file_circulation_card" not in vehicle["documents"]
+                    else self.find_extension_document(
+                        vehicle["documents"]["file_circulation_card"]
+                    )
+                ),
+                "poliza_seguro": (
+                    None
+                    if "file_insurance_policy" not in vehicle["documents"]
+                    else vehicle["documents"]["file_insurance_policy"]
+                ),
+                "ext_poliza_seguro": (
+                    None
+                    if "file_insurance_policy" not in vehicle["documents"]
+                    else self.find_extension_document(
+                        vehicle["documents"]["file_insurance_policy"]
+                    )
+                ),
                 "color_vehicle": vehicle["model"],
                 "asociado_id": asociado_id,
                 "es_flotilla": False
@@ -474,9 +526,11 @@ class SyncDataFletex(models.Model):
 
             self.save_result_sync(
                 "Modificacion de vehículo",
-                "Modelo: {}/{}, placa: {}".format(vehicle["year"],
-                                                vehicle["brand"],
-                                                vehicle["license_plate"]),
+                "Modelo: {}/{}, placa: {}".format(
+                    vehicle["year"],
+                    vehicle["brand"],
+                    vehicle["license_plate"]
+                ),
                 "Exitoso"
             )
 
@@ -500,36 +554,53 @@ class SyncDataFletex(models.Model):
             asociado_id = self.search_record(
                 "res.partner",
                 "id_fletex",
-                vehicle["business_id"])
+                vehicle["business_id"]
+            )
 
             vals = {
-                "id_fletex_truck": vehicle["vehicle_id"]
-                if vehicle["type"] == "truck"
-                else None,
-                "id_fletex_trailer": vehicle["vehicle_id"]
-                if vehicle["type"] == "trailer"
-                else None,
+                "id_fletex_truck": (
+                    vehicle["vehicle_id"]
+                    if vehicle["type"] == "truck"
+                    else None
+                ),
+                "id_fletex_trailer": (
+                    vehicle["vehicle_id"]
+                    if vehicle["type"] == "trailer"
+                    else None
+                ),
                 "image_128": vehicle["vehicle_picture"],
                 "model_id": model_id.id,
                 "license_plate": vehicle["license_plate"],
                 "numero_economico": vehicle["economic"],
-                "tipo_vehiculo": "tractocamion"
-                if vehicle["type"] == "truck"
-                else "remolque",
-                "circulacion": None
-                if not "file_circulation_card" in vehicle["documents"]
-                else vehicle["documents"]["file_circulation_card"],
-                "ext_circulacion": None
-                if not "file_circulation_card" in vehicle["documents"]
-                else self.find_extension_document(
-                    vehicle["documents"]["file_circulation_card"]),
-                "poliza_seguro": None
-                if not "file_insurance_policy" in vehicle["documents"]
-                else vehicle["documents"]["file_insurance_policy"],
-                "ext_poliza_seguro": None
-                if not "file_insurance_policy" in vehicle["documents"]
-                else self.find_extension_document(
-                    vehicle["documents"]["file_insurance_policy"]),
+                "tipo_vehiculo": (
+                    "tractocamion"
+                    if vehicle["type"] == "truck"
+                    else "remolque"
+                ),
+                "circulacion": (
+                    None
+                    if "file_circulation_card" not in vehicle["documents"]
+                    else vehicle["documents"]["file_circulation_card"]
+                ),
+                "ext_circulacion": (
+                    None
+                    if "file_circulation_card" not in vehicle["documents"]
+                    else self.find_extension_document(
+                        vehicle["documents"]["file_circulation_card"]
+                    )
+                ),
+                "poliza_seguro": (
+                    None
+                    if "file_insurance_policy" not in vehicle["documents"]
+                    else vehicle["documents"]["file_insurance_policy"]
+                ),
+                "ext_poliza_seguro": (
+                    None
+                    if "file_insurance_policy" not in vehicle["documents"]
+                    else self.find_extension_document(
+                        vehicle["documents"]["file_insurance_policy"]
+                    )
+                ),
                 "color_vehicle": vehicle["model"],
                 "asociado_id": asociado_id,
                 "ejes_tracktocamion": vehicle["tipe_ejes"],
@@ -541,9 +612,10 @@ class SyncDataFletex(models.Model):
 
             self.save_result_sync(
                 "Registro de vehículo nuevo",
-                "Modelo: {}/{}, placa: {}".format(vehicle["year"],
-                                                vehicle["brand"],
-                                                vehicle["license_plate"]),
+                "Modelo: {}/{}, placa: {}".format(
+                    vehicle["year"],
+                    vehicle["brand"],
+                    vehicle["license_plate"]),
                 "Exitoso"
             )
 
@@ -584,7 +656,9 @@ class SyncDataFletex(models.Model):
                                     if vehicle["tipo_vehiculo"] == "remolque"
                                     else None,
                                     "create_new_truck": status
-                                    if vehicle["tipo_vehiculo"] == "tractocamion"
+                                    if vehicle[
+                                        "tipo_vehiculo"
+                                    ] == "tractocamion"
                                     else None,
                                     "rejected_files": rejected_files
                                 }
@@ -618,11 +692,8 @@ class SyncDataFletex(models.Model):
                 vals = {
                     "status": status
                 }
-
-
                 record.write(vals)
         else:
-            
             client_id = self.env["res.partner"].search(
                 [("id_fletex",
                     "=",
@@ -636,85 +707,81 @@ class SyncDataFletex(models.Model):
             vals = {
                 "id_fletex": project["project_id"],
                 "nombre": project["name"],
-                "lavada": True
-                if "Lavada" in elements
-                else False,
-                "fumigada": True
-                if "Fumigada" in elements
-                else False,
-                "limpia": True
-                if "Limpia" in elements
-                else False,
-                "otro": True
-                if "Otro" in elements
-                else False,
-                "chaleco": "Si"
-                if "Chaleco" in elements
-                else "No",
-                "calzado": "Si"
-                if "Calzado" in elements
-                else "No",
-                "lentes_seguridad": True
-                if "Lentes" in elements
-                else False,
-                "casco": True
-                if "Casco" in elements
-                else False,
-                "cubre_bocas": True
-                if "CubreBocas" in elements
-                else False,
-                "sua": "Si"
-                if "CubreBocas" in elements
-                else "No",
+                "lavada": True if "Lavada" in elements else False,
+                "fumigada": True if "Fumigada" in elements else False,
+                "limpia": True if "Limpia" in elements else False,
+                "otro": True if "Otro" in elements else False,
+                "chaleco": "Si" if "Chaleco" in elements else "No",
+                "calzado": "Si" if "Calzado" in elements else "No",
+                "lentes_seguridad": True if "Lentes" in elements else False,
+                "casco": True if "Casco" in elements else False,
+                "cubre_bocas": True if "CubreBocas" in elements else False,
+                "sua": "Si" if "CubreBocas" in elements else "No",
                 "costo_producto": project["assurance"],
-                "seguro_mercancia": True
-                if project["insurance"] == 1
-                else False,
+                "seguro_mercancia": (
+                    True 
+                    if project["insurance"] == 1
+                    else False
+                ),
                 "cliente": client_id["id"],
                 "contacto2": client_id["id"],
                 "codigo_postal": client_id["zip"],
                 "ciudad": client_id["city"],
                 "email": client_id["email"],
-                "presentacion_carga": "Granel"
-                if project["product_presentation"] == "Toneladas"
-                else "Costal",
+                "presentacion_carga": (
+                    "Granel"
+                    if project["product_presentation"] == "Toneladas"
+                    else "Costal"
+                ),
                 "product": product_id["id"],
-                "lineanegocio": self.search_record("trafitec.lineanegocio",
-                                            "name",
-                                            project["product_presentation"]),
-                "origen_id": self.search_record("trafitec.ubicacion",
-                                                "id_fletex",
-                                                project["location_id"]),
-                "destino_id": self.search_record("trafitec.ubicacion",
-                                                "id_fletex",
-                                                project["destinations"][0]),
-                "currency_id": self.search_record("res.currency",
-                                            "name","MXN")
+                "lineanegocio": self.search_record(
+                    "trafitec.lineanegocio",
+                    "name",
+                    project["product_presentation"]
+                ),
+                "origen_id": self.search_record(
+                    "trafitec.ubicacion",
+                    "id_fletex",
+                    project["location_id"]
+                ),
+                "destino_id": self.search_record(
+                    "trafitec.ubicacion",
+                    "id_fletex",
+                    project["destinations"][0]
+                ),
+                "currency_id": self.search_record(
+                    "res.currency",
+                    "name",
+                    "MXN"
+                )
             }
-
             quotation = self.env["trafitec.cotizacion"].create(vals)
-            origin = self.search_record("trafitec.ubicacion",
-                                        "id_fletex",
-                                        project["location_id"])
-
-            destination = self.search_record("trafitec.ubicacion",
-                                        "id_fletex",
-                                        project["destinations"][0])
+            origin = self.search_record(
+                "trafitec.ubicacion",
+                "id_fletex",
+                project["location_id"]
+            )
+            destination = self.search_record(
+                "trafitec.ubicacion",
+                "id_fletex",
+                project["destinations"][0]
+            )
 
             vals = {
                 "municipio_origen_id": origin,
                 "municipio_destino_id": destination,
                 "tarifa_cliente": project["initial_fare"],
                 "cantidad": project["total_weight"],
-                "product_uom": self.search_record("uom.uom",
-                                                "name", "Tonelada"),
+                "product_uom": self.search_record(
+                    "uom.uom",
+                    "name",
+                    "Tonelada"
+                ),
                 "cotizacion_id": quotation.id,
                 "distancia": 0.00,
                 "tarifa_asociado": 1,
             }
-
             self.env["trafitec.cotizaciones.linea"].create(vals)
-
             for trailer in project["trailers"]:
                 vals = {
                     "tipo_camion": quotation.id,
@@ -724,14 +791,14 @@ class SyncDataFletex(models.Model):
 
     def change_status_projects(self, headers):
         projects = self.env["trafitec.cotizacion"]\
-            .search([("state", "=", "Disponible"),
-                    ("send_to_api", "=", True)])
-
+            .search(
+                [("state", "=", "Disponible"), ("send_to_api", "=", True)]
+            )
         if len(projects) > 0:
             for project in projects:
                 project_line = self.env["trafitec.cotizaciones.linea"].search(
-                    [("cotizacion_id", "=", project["id"])])
-
+                    [("cotizacion_id", "=", project["id"])]
+                )
                 self.response_fletex(
                     self.get_endpoint("read_projects_fletex_endpoint"),
                     "post",
@@ -740,8 +807,12 @@ class SyncDataFletex(models.Model):
                             "quotes": [
                                 {
                                     "project_id": project["id_fletex"],
-                                    "carrier_fare": project_line["tarifa_asociado"],
-                                    "estimated_shipments": project_line["total_movimientos"]
+                                    "carrier_fare": project_line[
+                                        "tarifa_asociado"
+                                    ],
+                                    "estimated_shipments": project_line[
+                                        "total_movimientos"
+                                    ]
                                 }
                             ]
                         },
@@ -818,12 +889,13 @@ class SyncDataFletex(models.Model):
                 "Nombre: {}".format(location["alias"]),
                 "Exitoso")
 
-    def responsables_manager (self, responsable):
+    def responsables_manager(self, responsable):
         location = self.env["trafitec.ubicacion"].search([
-            ("id_fletex", "=", responsable["location_id"])])
+            ("id_fletex", "=", responsable["location_id"])
+        ])
         responsable_odoo = self.env["trafitec.responsable"].search([
-            ("id_fletex", "=", responsable["responsible_id"])])
-
+            ("id_fletex", "=", responsable["responsible_id"])
+        ])
         if len(responsable_odoo) > 0:
             vals = {
                 "id_fletex": responsable["responsible_id"],
@@ -832,7 +904,6 @@ class SyncDataFletex(models.Model):
                 "email_responsable":  responsable["email"],
                 "telefono_responsable": responsable["phone_number"]
             }
-
             responsable_odoo.write(vals)
         else:
             if len(location) > 0:
@@ -843,26 +914,28 @@ class SyncDataFletex(models.Model):
                     "email_responsable":  responsable["email"],
                     "telefono_responsable": responsable["phone_number"]
                 }
-
                 self.env["trafitec.responsable"].create(vals)
 
     def shipments_manager(self, shipment):
         records = self.env["trafitec.viajes"].search([
-            ("id_fletex", "=", shipment["shipment_id"])])
-        
+            ("id_fletex", "=", shipment["shipment_id"])
+        ])
         if records:
             for record in records:
                 quotation = self.env["trafitec.cotizacion"].search([
-                ("id_fletex", "=", shipment["project_id"])])
-
-                line_quotation = self.env["trafitec.cotizaciones.linea"].search([
-                    ("cotizacion_id", "=", quotation["id"])])
-
+                    ("id_fletex", "=", shipment["project_id"])
+                ])
+                line_quotation = self.env[
+                    "trafitec.cotizaciones.linea"
+                ].search([
+                    ("cotizacion_id", "=", quotation["id"])
+                ])
                 driver = self.env["res.partner"].search([
-                    ("driver_id_fletex", "=", shipment["user_id"])])
+                    ("driver_id_fletex", "=", shipment["user_id"])
+                ])
                 vehicle = self.env["fleet.vehicle"].search([
-                    ("id_fletex_truck", "=", shipment["vehicle_id"])])
-                
+                    ("id_fletex_truck", "=", shipment["vehicle_id"])
+                ])
                 vehicle.write({
                     "operador_id": driver["id"]
                 })
@@ -872,9 +945,9 @@ class SyncDataFletex(models.Model):
 
                 if shipment["status"] == "finalized":
                     status = "finalizado"
-                elif shipment["status"] == "active": 
+                elif shipment["status"] == "active":
                     status = "enproceso"
-                else :
+                else:
                     status = "enespera"
 
                 vals = {
@@ -889,75 +962,83 @@ class SyncDataFletex(models.Model):
                     "referencia_asociado":  shipment["shipment_id"],
                     "referencia_cliente":  shipment["shipment_id"]
                 }
-                _logger.info(record)
                 record.write(vals)
 
-                if shipment["evidences"] :
-                    evidences_ids = self.env["trafitec.viajes.evidencias"].search([
-                        ("linea_id","=",record["id"])
+                if shipment["evidences"]:
+                    evidences_ids = self.env[
+                        "trafitec.viajes.evidencias"
+                    ].search([
+                        ("linea_id", "=", record["id"])
                     ])
-                    for evidence in shipment["evidences"] :
-                        if evidence in evidences_ids :
-                            continue;
-                        else :
+                    for evidence in shipment["evidences"]:
+                        if evidence in evidences_ids:
+                            continue
+                        else:
                             vals = {
                                 "linea_id": record["id"],
                                 "evidencia_file": evidence,
-                                "image_filename": "Evidencia de viaje {}.{}".format(record["id"],
-                                                            self.find_extension_document(evidence)),
+                                "image_filename": (
+                                    "Evidencia de viaje {}.{}".format(
+                                        record["id"],
+                                        self.find_extension_document(evidence)
+                                    )
+                                ),
                                 "name": "Evidencia de viaje"
                             }
                             self.env["trafitec.viajes.evidencias"].create(vals)
-
-                if record["estado_viaje"] == "finalizado" :
-
+                if record["estado_viaje"] == "finalizado":
                     invoice = self.env["invoice.from.fletex"].search([
-                            ("fletexShipmentReference", "=", shipment["shipment_id"])])
-
-                    if not invoice :
-                        if shipment["invoice_xml"] and shipment["invoice_pdf"] :
+                        (
+                            "fletexShipmentReference",
+                            "=",
+                            shipment["shipment_id"]
+                        )
+                    ])
+                    if not invoice:
+                        if shipment["invoice_xml"] and shipment["invoice_pdf"]:
                             if len(shipment["invoice_xml"]) > 0:
 
                                 vals = {
                                     "clientId": business["id"],
                                     "shipmentId": record["id"],
-                                    "fletexProjectReference": quotation["id_fletex"],
-                                    "fletexShipmentReference": shipment["shipment_id"],
+                                    "fletexProjectReference": quotation[
+                                        "id_fletex"
+                                    ],
+                                    "fletexShipmentReference": shipment[
+                                        "shipment_id"
+                                    ],
                                     "invoiceXml": shipment["invoice_xml"],
                                     "invoicePdf": shipment["invoice_pdf"],
                                 }
-
                                 self.env["invoice.from.fletex"].create(vals)
 
         else:
             quotation = self.env["trafitec.cotizacion"].search([
-                ("id_fletex", "=", shipment["project_id"])])
-
+                ("id_fletex", "=", shipment["project_id"])
+            ])
             line_quotation = self.env["trafitec.cotizaciones.linea"].search([
-                ("cotizacion_id", "=", quotation["id"])])
-
+                ("cotizacion_id", "=", quotation["id"])
+            ])
             business = self.env["res.partner"].search([
-                ("id_fletex", "=", shipment["business_id"])])
-
+                ("id_fletex", "=", shipment["business_id"])
+            ])
             driver = self.env["res.partner"].search([
-                ("driver_id_fletex", "=", shipment["user_id"])])
-
+                ("driver_id_fletex", "=", shipment["user_id"])
+            ])
             vehicle = self.env["fleet.vehicle"].search([
-                ("id_fletex_truck", "=", shipment["vehicle_id"])])
-                
+                ("id_fletex_truck", "=", shipment["vehicle_id"])
+            ])    
             currency_id = self.env["res.currency"].search([(
-                                            "name", "=", "MXN")])
-
+                "name", "=", "MXN")
+            ])
             vehicle.write({
                 "operador_id": driver["id"]
             })
             status = "enespera"
-
             if shipment["status"] == "finalized":
                 status = "finalizado"
-            elif shipment["status"] == "active": 
+            elif shipment["status"] == "active":
                 status = "enproceso"
-
             vals = {
                 "linea_id": line_quotation["id"],
                 "id_fletex": shipment["shipment_id"],
@@ -967,10 +1048,12 @@ class SyncDataFletex(models.Model):
                 "destino": quotation["destino_id"]["id"],
                 "tarifa_asociado": line_quotation["tarifa_asociado"],
                 "tarifa_cliente": line_quotation["tarifa_cliente"],
-                "flete_cliente": line_quotation["tarifa_cliente"] 
-                                    * shipment["tons"],
-                "flete_asociado": line_quotation["tarifa_asociado"] 
-                                    * shipment["tons"],
+                "flete_cliente": (
+                    line_quotation["tarifa_cliente"] * shipment["tons"]
+                ),
+                "flete_asociado": (
+                    line_quotation["tarifa_asociado"] * shipment["tons"]
+                ),
                 "costo_producto": quotation["costo_producto"],
                 "placas_id": vehicle["id"],
                 "operador_id": driver["id"],
@@ -1031,5 +1114,4 @@ class SyncDataFletex(models.Model):
             "result": result,
             "date": fields.Date.today()
         }
-
         self.env["info.sync.fletex"].create(vals)

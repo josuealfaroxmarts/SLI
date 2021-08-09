@@ -28,4 +28,3 @@ class FleetVehicle(models.Model):
     def _change_send_to_api(self):
         for fleet in self:
             fleet.send_to_api = True
-

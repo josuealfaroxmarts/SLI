@@ -9,5 +9,4 @@ class InfoSyncFletex(models.Model):
     date = fields.Date(string="Fecha")
     record_type = fields.Char(String="Tipo de registro")
     result = fields.Char(string="Resultado")
-    description = fields.Text(string="Descripción")
-    
+    description = fields.Text(string="Descripción")   
