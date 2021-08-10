@@ -1,59 +1,181 @@
-# -*- coding: utf-8 -*-
-
-import base64
-from odoo import models, fields, api, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 import datetime
 from xml.dom import minidom
 
 
-class trafitec_facturas_agregar_quitar(models.Model):
+class TrafitecAgregarQuitar(models.Model):
 	_name = 'trafitec.agregar.quitar'
 	_description='facturas agregar quitar'
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 
-	name = fields.Char(string='Folio', default='Nuevo')
-	factura_id = fields.Many2one('account.move',string='Factura',domain='[('es_facturamanual','=',True),('pagada','=',False)]')
-	cliente_id = fields.Many2one('res.partner', string='Cliente',
-										domain='[('customer','=',True), ('parent_id', '=', False)]', related='factura_id.partner_id', store=True)
-	domicilio_id = fields.Many2one('res.partner', string='Domicilio',
-									domain='['|',('parent_id', '=', cliente_origen_id),('id','=',cliente_origen_id)]', related='factura_id.partner_shipping_id', store=True)
-	placas_id = fields.Many2one('fleet.vehicle', string='Vehiculo',
-								domain='['&',('asociado_id','!=',False),('operador_id','!=',False)]', store=True,readonly=True)
-	operador_id = fields.Many2one('res.partner', string='Operador', domain='[('operador','=',True)]', store=True,readonly=True)
-	currency_id = fields.Many2one('res.currency', string='Moneda', store=True, related='factura_id.currency_id',readonly=True)
-	lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', store=True, related='factura_id.lineanegocio',readonly=True)
-	contiene = fields.Text(string='Contiene', store=True, related='factura_id.contiene',readonly=True)
-	total = fields.Monetary(string='Total', store=True, related='factura_id.amount_total',readonly=True)
-	fecha = fields.Date(string='Fecha', store=True, related='factura_id.date',readonly=True)
-	state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
-							('Cancelada', 'Cancelada')], string='Estado',
-							default='Nueva')
-	viaje_id = fields.Many2many('trafitec.viajes', 'facturas_viaje', 'facturas_id', 'viajes_id',
-								string='Viajes',
-								domain='[('cliente_id','=',cliente_id),('lineanegocio','=',lineanegocio),('state','=','Nueva'),('tipo_viaje','=','Normal'),('en_factura','=',False),('csf','=',False)]')
-	viajes_cobrados_id =fields.Many2many('trafitec.viajes', 'facturas_cobrados_viaje', 'facturas_id', 'viajes_id',
-								string='Viajes cobrados')
+	name = fields.Char(
+		string='Folio', 
+		default='Nuevo'
+	)
+	factura_id = fields.Many2one(
+		'account.move',
+		string='Factura',
+		domain=[
+			('es_facturamanual','=',True),
+			('pagada','=',False)
+		]
+	)
+	cliente_id = fields.Many2one(
+		'res.partner', 
+		string='Cliente',
+		domain=[
+			('customer','=',True), 
+			('parent_id', '=', False)
+		], 
+		related='factura_id.partner_id', 
+		store=True
+	)
+	domicilio_id = fields.Many2one(
+		'res.partner', 
+		string='Domicilio',
+		domain=[
+			'|',('parent_id', '=', 'cliente_origen_id'),
+			('id','=','cliente_origen_id')
+		], 
+		related='factura_id.partner_shipping_id', 
+		store=True
+	)
+	placas_id = fields.Many2one(
+		'fleet.vehicle', 
+		string='Vehiculo',
+		domain=[
+			'&',('asociado_id','!=',False),
+			('operador_id','!=',False)
+		], 
+		store=True,
+		readonly=True
+	)
+	operador_id = fields.Many2one(
+		'res.partner', 
+		string='Operador', 
+		domain=[('operador','=',True)], 
+		store=True,
+		readonly=True
+	)
+	currency_id = fields.Many2one(
+		'res.currency', 
+		string='Moneda', 
+		store=True, 
+		related='factura_id.currency_id',
+		readonly=True
+	)
+	lineanegocio = fields.Many2one(
+		'trafitec.lineanegocio', 
+		string='Linea de negocios', 
+		store=True, 
+		related='factura_id.lineanegocio',
+		readonly=True
+	)
+	contiene = fields.Text(
+		string='Contiene', 
+		store=True, 
+		related='factura_id.contiene',
+		readonly=True
+	)
+	total = fields.Monetary(
+		string='Total', 
+		store=True, 
+		related='factura_id.amount_total',
+		readonly=True
+	)
+	fecha = fields.Date(
+		string='Fecha', 
+		store=True, 
+		related='factura_id.date',
+		readonly=True
+	)
+	state = fields.Selection(
+		[('Nueva', 'Nueva'), 
+		('Validada', 'Validada'),
+		('Cancelada', 'Cancelada')], 
+		string='Estado',
+		default='Nueva')
+	viaje_id = fields.Many2many(
+		'trafitec.viajes', 
+		'facturas_viaje', 
+		'facturas_id', 
+		'viajes_id',
+		string='Viajes',
+		domain=[
+			('cliente_id','=',cliente_id),
+			('lineanegocio','=',lineanegocio),
+			('state','=','Nueva'),
+			('tipo_viaje','=','Normal'),
+			('en_factura','=',False),
+			('csf','=',False)
+		]
+	)
+	viajes_cobrados_id =fields.Many2many(
+		'trafitec.viajes', 
+		'facturas_cobrados_viaje', 
+		'facturas_id', 
+		'viajes_id',
+		string='Viajes cobrados'
+	)
 	observaciones = fields.Text(string='Observaciones')
-	company_id = fields.Many2one('res.company', 'Company',
-								default=lambda self: self.env['res.company']._company_default_get(
-									'trafitec.agregar.quitar'))
-	move_id = fields.Many2one('account.move', string='Factura excedente',readonly=True)
+	company_id = fields.Many2one(
+		'res.company', 
+		'Company',
+		default=lambda self: self.env['res.company']._company_default_get(
+			'trafitec.agregar.quitar')
+	)
+	move_id = fields.Many2one(
+		'account.move', 
+		string='Factura excedente',
+		readonly=True
+	)
+	abonado = fields.Float(
+		string='Abonado', 
+		compute='_compute_abonado'
+	)
+	saldo = fields.Float(
+		string='Saldo', 
+		compute='_compute_saldo'
+	)
+	fletes = fields.Monetary(
+		string='Fletes', 
+		compute='_compute_fletes'
+	)
+	maniobras = fields.Monetary(
+		string='Maniobras', 
+		compute='_compute_maniobras'
+	)
+	subtotal_g = fields.Monetary(
+		string='Subtotal', 
+		compute='_compute_subtotal'
+	)
+	iva_g = fields.Monetary(
+		string='Iva', 
+		compute='_compute_iva'
+	)
+	r_iva_g = fields.Monetary(
+		string='R. IVA', 
+		compute='_compute_riva'
+	)
+	total_g = fields.Monetary(
+		string='Total ', 
+		compute='_compute_total'
+	)
 
-	
 	def unlink(self):
 		for reg in self:
 			if reg.state == 'Validada':
-				raise UserError(_(
+				raise UserError((
 					'Aviso !\nNo se puede eliminar ({}) si esta validada.'.format(reg.name)))
-		return super(trafitec_facturas_agregar_quitar, self).unlink()
+		return super(TrafitecAgregarQuitar, self).unlink()
 
 	@api.onchange('move_id')
 	def _onchange_abono(self):
 		if self.move_id:
 			res = {'warning': {
-				'title': _('Advertencia'),
-				'message': _('Se ha generado una factura excedente.')
+				'title': ('Advertencia'),
+				'message': ('Se ha generado una factura excedente.')
 			}}
 			return res
 
@@ -64,14 +186,17 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			company_id = self.env['res.company']._company_default_get('trafitec.contrarecibo')
 		parametros_obj = self.env['trafitec.parametros'].search([('company_id', '=', company_id.id)])
 		if len(parametros_obj) == 0:
-			raise UserError(_(
+			raise UserError((
 				'Aviso !\nNo se ha creado ningun parametro para la compañia {}'.format(company_id.name)))
 		return parametros_obj
 
 	@api.onchange('factura_id')
 	def _onchange_viajes_cobrados(self):
 		if self.factura_id:
-			obj = self.env['trafitec.agregar.quitar'].search([('factura_id','=',self.factura_id.id),('state','=','Validada')])
+			obj = self.env['trafitec.agregar.quitar'].search([
+				('factura_id','=',self.factura_id.id),
+				('state','=','Validada')
+			])
 			r = []
 			if len(obj) > 0:
 				self.viajes_cobrados_id = obj.viaje_id
@@ -86,8 +211,6 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		if self.factura_id:
 			self.abonado = self.factura_id.abonado
 
-	abonado = fields.Float(string='Abonado', compute='_compute_abonado')
-
 	@api.onchange('factura_id')
 	def _onchange_saldo(self):
 		if self.factura_id:
@@ -97,8 +220,6 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	def _compute_saldo(self):
 		if self.factura_id:
 			self.saldo = self.total - self.abonado
-
-	saldo = fields.Float(string='Saldo', compute='_compute_saldo')
 
 	@api.onchange('viaje_id')
 	def _onchange_fletes(self):
@@ -120,8 +241,6 @@ class trafitec_facturas_agregar_quitar(models.Model):
 				amount += record.flete_cliente
 		self.fletes = amount
 
-	fletes = fields.Monetary(string='Fletes', compute='_compute_fletes')
-
 	def _generar_factura_excedente(self, vals, parametros_obj):
 		fact = vals.factura_id
 		valores = {
@@ -137,7 +256,8 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		}
 		move_id = vals.env['account.move'].create(valores)
 
-		product = self.env['product.product'].search([('product_tmpl_id','=',parametros_obj.product_invoice.id)])
+		product = self.env['product.product'].search([
+			('product_tmpl_id','=',parametros_obj.product_invoice.id)])
 
 		piva = (parametros_obj.iva.amount / 100)
 		priva = (parametros_obj.retencion.amount / 100)
@@ -155,7 +275,6 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			'name': product.name,
 			'quantity': 1,
 			'account_id': fact.account_id.id,
-			# order.lines[0].product_id.property_account_income_id.id or order.lines[0].product_id.categ_id.property_account_income_categ_id.id,
 			'uom_id': parametros_obj.product_invoice.uom_id.id,
 			'price_unit': subtotal,
 			'price_unit': subtotal,
@@ -188,10 +307,12 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	def action_available(self):
 		apag = False
 		if self.saldo > self.total_g:
-			self.factura_id.write({'abonado':(self.total_g + self.factura_id.abonado)})
+			self.factura_id.write(
+				{'abonado':(self.total_g + self.factura_id.abonado)})
 		else:
 			apag = True
-			self.factura_id.write({'pagada': True, 'abonado':(self.factura_id.abonado + self.total_g)})
+			self.factura_id.write(
+				{'pagada': True, 'abonado':(self.factura_id.abonado + self.total_g)})
 
 		for viaje in self.viaje_id:
 			viaje.write({'en_factura': True})
@@ -201,7 +322,7 @@ class trafitec_facturas_agregar_quitar(models.Model):
 			action_ctx = dict(self.env.context)
 			view_id = self.env.ref('sli_trafitec.msj_factura_form').id
 			return {
-				'name': _('Advertencia'),
+				'name': ('Advertencia'),
 				'type': 'ir.actions.act_window',
 				'view_type': 'form',
 				'view_mode': 'form',
@@ -213,15 +334,9 @@ class trafitec_facturas_agregar_quitar(models.Model):
 				'context': action_ctx
 			}
 
-	#
-	#def confirmation_button(self):
-		#parametros_obj = self._get_parameter_company(self)
-		#move_id = self._generar_factura_excedente(self, parametros_obj)
-		#self.move_id = move_id
-
-	
 	def action_cancel(self):
-		self.factura_id.write({'pagada': False, 'abonado': (self.factura_id.abonado - self.total_g)})
+		self.factura_id.write(
+			{'pagada': False, 'abonado': (self.factura_id.abonado - self.total_g)})
 		for viaje in self.viaje_id:
 			viaje.write({'en_factura': False})
 		self.write({'state': 'Cancelada'})
@@ -246,8 +361,6 @@ class trafitec_facturas_agregar_quitar(models.Model):
 				amount += record.maniobras
 		self.maniobras = amount
 
-	maniobras = fields.Monetary(string='Maniobras', compute='_compute_maniobras')
-
 	# Totales
 	@api.onchange('fletes', 'maniobras')
 	def _onchange_subtotal(self):
@@ -256,8 +369,6 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	
 	def _compute_subtotal(self):
 		self.subtotal_g = self.fletes + self.maniobras
-
-	subtotal_g = fields.Monetary(string='Subtotal', compute='_compute_subtotal')
 
 	@api.onchange('subtotal_g')
 	def _onchange_iva(self):
@@ -275,8 +386,6 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		else:
 			self.iva_g = 0
 
-	iva_g = fields.Monetary(string='Iva', compute='_compute_iva')
-
 	@api.onchange('fletes')
 	def _onchange_riva(self):
 		parametros_obj = self._get_parameter_company(self)
@@ -285,15 +394,12 @@ class trafitec_facturas_agregar_quitar(models.Model):
 		else:
 			self.r_iva_g = 0
 
-	
 	def _compute_riva(self):
 		parametros_obj = self._get_parameter_company(self)
 		if self.fletes:
 			self.r_iva_g = (self.fletes * (parametros_obj.retencion.amount / 100))
 		else:
 			self.r_iva_g = 0
-
-	r_iva_g = fields.Monetary(string='R. IVA', compute='_compute_riva')
 
 	@api.onchange('subtotal_g', 'iva_g', 'r_iva_g')
 	def _onchange_total(self):
@@ -303,14 +409,12 @@ class trafitec_facturas_agregar_quitar(models.Model):
 	def _compute_total(self):
 		self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
 
-	total_g = fields.Monetary(string='Total ', compute='_compute_total')
-
 	@api.model
 	def create(self, vals):
 		if 'company_id' in vals:
 			vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-				'Trafitec.Agregar.Quitar') or _('Nuevo')
+				'Trafitec.Agregar.Quitar') or ('Nuevo')
 		else:
-			vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Agregar.Quitar') or _('Nuevo')
+			vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Agregar.Quitar') or ('Nuevo')
 
-		return super(trafitec_facturas_agregar_quitar, self).create(vals)
+		return super(TrafitecAgregarQuitar, self).create(vals)
