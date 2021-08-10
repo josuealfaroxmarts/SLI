@@ -16,10 +16,6 @@ class ReportFee(models.Model):
     )
     state = fields.Char(readonly=True)
 
-    
-    #def button_create_inv(self):
-
-    @api.model_cr
     def init(self):
 
         ''' Event Question main report '''
