@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-import datetime
 import random
 
-from odoo import models, fields, api, tools, _
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 
 
 class trafitec_viajes(models.Model):
@@ -311,7 +310,6 @@ class trafitec_viajes(models.Model):
             originales = []
             final = {}
             finales = []
-            total = 0
             existe = False
             tfinal = {}
             tfinales = []
@@ -505,13 +503,13 @@ class trafitec_viajes(models.Model):
             'monto_cobro': totalvale,
             'concepto': concepto_id,
             'comentarios': (
-                'Generado desde el viaje {0} con flete de {3:,.2f}'.format(
-                    viaje.name, litros
+                'Generado desde el viaje {0} con flete de {1:,.2f}'.format(
+                    viaje.name, flete
                 )
-                + ' para {1:,.2f} litros de combustible con un costo'.format(
-                    costoporlt
+                + ' para {0:,.2f} litros de combustible con un costo'.format(
+                    litros
                 )
-                + ' por litro de {2:,.2f}.'.format(flete)
+                + ' por litro de {0:,.2f}.'.format(costoporlt)
             ),
             'es_combustible': True,
             'folio_nota': '',
@@ -2187,8 +2185,6 @@ class trafitec_viajes(models.Model):
             ) or _('New')
         cliente_obj = None
         cliente_dat = None
-        error = False
-        errores = ""
         if self._context.get('validar_credito_cliente', True):
             self._valida_credito(vals, 1)
         if self._context.get('validar_cliente_moroso', True):
@@ -2204,8 +2200,6 @@ class trafitec_viajes(models.Model):
                         or ''
                     )
                 ))
-        error = False
-        errores = ""
         placas_id = self.env['fleet.vehicle'].search([
             ('id', '=', vals['placas_id'])
         ])
@@ -2319,10 +2313,6 @@ class trafitec_viajes(models.Model):
                 color = ''
             str_vehiculo = '{}, {}, {}'.format(marca, modelo, color)
             vals['vehiculo'] = str_vehiculo
-        if 'tipo_remolque' in vals:
-            tipo_remolque = vals['tipo_remolque']
-        else:
-            tipo_remolque = self.tipo_remolque.id
         return super(trafitec_viajes, self).write(vals)
 
     def copy(self):
@@ -2356,17 +2346,6 @@ class trafitec_viajes(models.Model):
                 return
             error = False
             errores = ""
-            viaje_obj = self.env['trafitec.viajes']
-            persona_id = (
-                ('cliente_id' in vals)
-                and vals['cliente_id']
-                or rec.cliente_id.id
-            )
-            tiporemolque_id = (
-                ('tipo_remolque' in vals)
-                and vals['tipo_remolque']
-                or rec.tipo_remolque.id
-            )
             peso_origen_remolque_1 = (
                 'peso_origen_remolque_1' in vals
                 and vals['peso_origen_remolque_1']
@@ -2387,11 +2366,6 @@ class trafitec_viajes(models.Model):
                 and vals['peso_autorizado']
                 or rec.peso_autorizado
             )
-            persona_obj = self.env['res.partner']
-            tiporemolque_obj = self.env['trafitec.moviles']
-            tiporemolque_dat = tiporemolque_obj.search([
-                ('id', '=', tiporemolque_id)
-            ])
             capacidad = peso_autorizado
             flete_cliente = (
                 tarifa_cliente
@@ -2402,13 +2376,5 @@ class trafitec_viajes(models.Model):
             )
             if flete_cliente <= 0:
                 flete_cliente = tarifa_cliente * (capacidad / 1000)
-
-            persona_datos = persona_obj.search([('id', '=', persona_id)])
-            cliente_nombre = persona_datos.name
-            cliente_saldo = persona_obj.cliente_saldo_total(
-                persona_id,
-                (rec.id and rec.id or None)
-            ) + flete_cliente
-            cliente_limite_credito = persona_datos.limite_credito
             if error:
                 raise UserError(_(errores))

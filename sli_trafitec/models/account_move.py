@@ -1,6 +1,6 @@
 import base64
-from odoo import models, fields, api, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo import models, fields, api
+from odoo.exceptions import UserError, ValidationError
 import datetime
 from xml.dom import minidom
 
@@ -71,7 +71,7 @@ class AccountMove(models.Model):
 		'invoice.from.fletex',
 		string='Factura XML',
 		domain=[
-			('clientId' ,'=', 'partner_id')
+			('clientId', '=', 'partner_id')
 		]
 	)
 	abonos = fields.Float(
@@ -87,27 +87,25 @@ class AccountMove(models.Model):
 		help='Indica si el cliente esta bloqueado.'
 	)
 
-
 	@api.depends('amount_total', 'amount_residual')
 	def compute_abonos(self):
 		self.abonos = self.amount_total - self.amount_residual
 
-
 	@api.depends('partner_id.bloqueado_cliente_bloqueado')
 	def compute_bloqueado(self):
-		self.cliente_bloqueado = (self.partner_id.bloqueado_cliente_bloqueado or False)
+		self.cliente_bloqueado = (
+			self.partner_id.bloqueado_cliente_bloqueado or False
+		)
 	
-
 	@api.depends('viajes_id')
 	def _compute_totales(self):
 		totalflete = 0.0
 		for v in self.viajes_id:
-			viaje_dat = self.env['trafitec.viajes'].search([('id','=',v.id)])
+			viaje_dat = self.env['trafitec.viajes'].search([('id', '=', v.id)])
 			totalflete += viaje_dat.flete_cliente
 		
 		self.total_fletes = totalflete
 	
-
 	@api.depends('viajescp_id')
 	def _compute_totalescp(self):
 		totalflete = 0.0
@@ -118,16 +116,23 @@ class AccountMove(models.Model):
 
 		self.total_fletescp = totalflete
 
-
 	@api.onchange('invoice_from_xml')
 	def xml_invoice(self):
 		if self.invoice_from_xml:
-			self.documentos_archivo_xml = base64.b64decode(self.invoice_from_xml.invoiceXml)
+			self.documentos_archivo_xml = base64.b64decode(
+				self.invoice_from_xml.invoiceXml
+			)
 			self.documentos_archivo_pdf = self.invoice_from_xml.invoicePdf
-			self.documentos_nombre_pdf = 'Factura PDF de {} Folio viaje: {}.pdf'.format(self.invoice_from_xml.clientId.name, self.invoice_from_xml.shipmentId.name)
-			xml = minidom.parseString(base64.b64decode(self.invoice_from_xml.invoiceXml))
+			self.documentos_nombre_pdf = 'Factura PDF de {} Folio viaje: {}.pdf'.format(
+				self.invoice_from_xml.clientId.name, self.invoice_from_xml.shipmentId.name
+			)
+			xml = minidom.parseString(base64.b64decode(
+				self.invoice_from_xml.invoiceXml
+			))
 			issuing = xml.getElementsByTagName('cfdi:Emisor')[0]
-			id_account = self.env['account.analytic.account'].search([('name', '=', '11-701-0001')])
+			id_account = self.env['account.analytic.account'].search([
+				('name', '=', '11-701-0001')
+			])
 			product = self.env['product.product'].search([('name', '=', 'Flete')])
 			tax_one = self.env['account.tax'].search([('amount', '=', 16.0000)])
 			tax_two = self.env['account.tax'].search([('amount', '=', -4.0000)])
@@ -154,8 +159,7 @@ class AccountMove(models.Model):
 				concepts = flete
 				break
 
-			self.invoice_line_ids = [(0,0,concepts)]
-
+			self.invoice_line_ids = [(0, 0, concepts)]
 
 	@api.depends('documentos_archivo_xml')
 	def _compute_documentos_tiene_xml(self):
@@ -163,7 +167,6 @@ class AccountMove(models.Model):
 			self.documentos_tiene_xml = True
 		else:
 			self.documentos_tiene_xml = False
-
 
 	@api.depends('documentos_archivo_pdf')
 	def _compute_documentos_tiene_pdf(self):
@@ -186,7 +189,6 @@ class AccountMove(models.Model):
 		else:
 			self.documentos_tiene_pdf = False
 
-
 	def action_adjuntar_pdf(self):
 		if not self.documentos_anexado_pdf:
 			self.env['ir.attachment'].create(
@@ -204,7 +206,6 @@ class AccountMove(models.Model):
 
 		else:
 			raise UserError(('Alerta..\nEl archivo ya fue anexado.'))
-
 
 	def action_adjuntar_xml(self):
 		if not self.documentos_anexado_xml:
@@ -224,14 +225,13 @@ class AccountMove(models.Model):
 		else:
 			raise UserError(('Alerta..\nEl archivo ya fue anexado.'))
 	
-
 	def proceso_adjuntar_archivos(self, xid):
 		if not xid:
 			xid = 1000000
 
 		facturas = self.env['account.move'].search(
 			[
-				'&','&', 
+				'&', '&', 
 				('id', '>=', xid),
 				('type', '=', 'in_invoice'),
 				('state', 'in', ['open']), '|',
@@ -905,29 +905,6 @@ class AccountMove(models.Model):
 				if totalconceptos <= 0:
 					error = True
 					errores += 'El total de flete de los conceptos debe ser mayor a cero.\r\n'
-				'''
-				diferencia = totalflete - totalconceptos
-				if abs(diferencia) >= 1:
-					error = True
-					errores += 'El total de flete {0:20,.2f} debe ser menor o igual al subtotal del documento {1:20,.2f}.\r\n'.format(
-						totalflete, totalconceptos)
-                '''
-
-			'''	
-			if self.tipo == 'manual':
-				if self.cliente_origen_id.id == False:
-					raise ValidationError(_('Aviso !\nEl cliente origen no debe estar vacio.'))
-				if self.cliente_destino_id.id == False:
-					raise ValidationError(_('Aviso !\nEl cliente destino no debe estar vacio.'))
-				if self.domicilio_origen_id.id == False:
-					raise ValidationError(_('Aviso !\nEl domicilio origen no debe estar vacio.'))
-				if self.domicilio_destino_id.id == False:
-					raise ValidationError(_('Aviso !\nEl domicilio destino no debe estar vacio.'))
-				if self.origen == False:
-					raise ValidationError(_('Aviso !\nEl origen no debe estar vacio.'))
-				if self.destino == False:
-					raise ValidationError(_('Aviso !\nEl destino no debe estar vacio.'))
-			'''
 			
 			# Validacion general de los viajes
 			for v in self.viajes_id:
@@ -1005,8 +982,7 @@ class AccountMove(models.Model):
 							error = True
 							errores += 'El viaje {} ya tiene factura cliente: {}.\r\n'.format(v.name, (v.factura_cliente_id.name or v.factura_cliente_id.name or ''))
 
-                else: 
-					# Factura de proveedor
+				else: 
 					for vcp in f.viajescp_id:
 						vobj = self.env['trafitec.viajes'].search([('id', '=', vcp.id)])
 						
