@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 
-class trafitec_localidad(models.Model):
+class TrafitecLocalidad(models.Model):
 	_name = 'trafitec.localidad'
 	_description ='Localidad'
 
@@ -32,7 +32,7 @@ class trafitec_localidad(models.Model):
 		municipio_obj = self.env['trafitec.municipios'].search([('id', '=', municipio_id)])
 		vals['name'] = str(vals['name_value']) + ', ' + str(municipio_obj.name)
 
-		return super(trafitec_localidad, self).create(vals)
+		return super(TrafitecLocalidad, self).create(vals)
 
 
 	def write(self, vals):
@@ -46,4 +46,4 @@ class trafitec_localidad(models.Model):
 		else:
 			vals['name'] = nom + ', ' + self.municipio.name
 
-		return super(trafitec_localidad, self).write(vals)
+		return super(TrafitecLocalidad, self).write(vals)

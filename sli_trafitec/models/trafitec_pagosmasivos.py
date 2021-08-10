@@ -1,25 +1,25 @@
-# -*- coding: utf-8 -*-
-
 import datetime
-
 from odoo import models, fields, api, _, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo.exceptions import UserError
 
 
-class trafitec_pagosmasivos(models.Model):
+class TrafitecPagosMasivos(models.Model):
 	_name = 'trafitec.pagosmasivos'
 	_description = 'Pagos masivos'
 	_order = 'id desc'
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 
-	name = fields.Char(string='Folio', default='')
+	name = fields.Char(
+		string='Folio', 
+		default=''
+	)
 	persona_id = fields.Many2one(
 		string='Persona',
 		comodel_name='res.partner',
 		required=True,
 		domain=(
-			"[(['company','person'],'in','company_type'),'|',"
-			+ "('supplier','=',True),('customer','=',True)]"
+			[(['company','person'],'in','company_type'),'|',
+			+ ('supplier','=',True),('customer','=',True)]
 		),
 		tracking=True
 	)
@@ -42,7 +42,10 @@ class trafitec_pagosmasivos(models.Model):
 		required=True,
 		tracking=True
 	)
-	total_txt = fields.Char(string='Total texto cantidad', default='')
+	total_txt = fields.Char(
+		string='Total texto cantidad', 
+		default=''
+	)
 	total_txt_ver = fields.Char(
 		string='Total texto',
 		related='total_txt',
@@ -59,7 +62,11 @@ class trafitec_pagosmasivos(models.Model):
 		required=True,
 		tracking=True
 	)
-	detalles = fields.Char(string='Detalles', default='', tracking=True)
+	detalles = fields.Char(
+		string='Detalles', 
+		default='', 
+		tracking=True
+	)
 	diario_id = fields.Many2one(
 		string='Diario',
 		comodel_name='account.journal',
@@ -125,95 +132,6 @@ class trafitec_pagosmasivos(models.Model):
 			}
 		}
 
-	"""
-	def EjecutaAbonar(self):
-		for rec in self:
-			facturas = self.env['account.move'].search([('id', '=', 329)])
-			rec.Abonar(rec.total)
-
-	def Abonar(self, total):
-		for rec in self:
-			return
-			pago_id = self.env['account.payment'].create({
-				'partner_id': rec.persona_id.id,
-				'amount': total,
-				'payment_method_id': 1,
-				'journal_id': rec.diario_id.id,
-				'payment_type': 'inbound',
-				'partner_type': 'customer'
-			})
-			lista = []
-			linea = {
-				'account_id': 3,
-				'name': 'Pago cliente.',
-				'date': datetime.datetime.today(),
-				'partner_id': rec.persona_id.id,
-				'credit': float(total),
-				'debit': 0.0
-			}
-			linea2 = {
-				'account_id': 3,
-				'name': 'Pago factura.',
-				'date': datetime.datetime.today(),
-				'partner_id': rec.persona_id.id,
-				'credit': 0.00,
-				'debit': float(total)
-			}
-			lista.append(linea)
-			lista.append(linea2)
-			line_list = [(0, 0, x) for x in lista]
-			move_id = self.env['account.move'].create({
-				'partner_id': rec.persona_id.id,
-				'date': datetime.datetime.today(),
-				'journal_id': rec.diario_id.id,
-				'line_ids': line_list
-			})
-			for invoice in rec.facturas_id:
-				cantidad = invoice.abono
-				valor = {
-					'move_id': move_id.id,
-					'account_id': invoice.factura_id.account_id.id,
-					'partner_id': rec.persona_id.id,
-					'journal_id': rec.diario_id.id,
-					'user_type_id': 2,
-					'move_id': invoice.factura_id.id,
-					'ref': str(invoice.factura_id.name),
-					'name': str(invoice.factura_id.name),
-					'credit': total,
-					'debit': 0,
-					'payment_id': pago_id.id
-				}
-				credit_line = self.env['account.move.line'].with_context(
-					check_move_validity=False
-				).create(valor)
-				valor = {
-					'move_id': move_id.id,
-					'account_id': rec.diario_id.default_debit_account_id.id,
-					'partner_id': rec.persona_id.id,
-					'journal_id': rec.diario_id.id,
-					'user_type_id': 3,
-					'move_id': invoice.factura_id.id,
-					'ref': str(invoice.factura_id.name),
-					'name': str(invoice.factura_id.name),
-					'credit': 0,
-					'debit': total,
-					'payment_id': pago_id.id
-				}
-				debit_line = self.env['account.move.line'].with_context(
-					check_move_validity=False
-				).create(valor)
-				abono_credito = {
-					'credit_move_id': credit_line.id,
-					'full_reconcile_id': False,
-					'amount': cantidad,
-					'debit_move_id': debit_line.id,
-					'amount_currency': 0
-				}
-				conciliacion = self.env['account.partial.reconcile'].create(
-					abono_credito
-				)
-			move_id.post()
-	"""
 	@api.model
 	def create(self, vals):
 		if 'company_id' in vals:
@@ -224,7 +142,7 @@ class trafitec_pagosmasivos(models.Model):
 			vals['name'] = self.env['ir.sequence'].next_by_code(
 				'Trafitec.PagosMasivos'
 			) or _('Nuevo')
-		return super(trafitec_pagosmasivos, self).create(vals)
+		return super(TrafitecPagosMasivos, self).create(vals)
 
 	def _aplicapago(
 		self,
