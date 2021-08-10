@@ -11,7 +11,7 @@ class AccountMove(models.Model):
 
 	es_facturamanual = fields.Boolean(
 		string='Es factura manual?',
-		default= False
+		default=False
 	)
 	origen = fields.Char(string='Origen')
 	destino = fields.Char(string='Destino')
@@ -27,24 +27,24 @@ class AccountMove(models.Model):
 		'res.partner', 
 		string='Domicilio origen',
 		domain=[
-			'|', ('parent_id', '=', cliente_origen_id), 
+			'|', ('parent_id', '=', cliente_origen_id),
 			('id', '=', cliente_origen_id)
 		]
 	)
 	cliente_destino_id = fields.Many2one(
-		'res.partner', 
+		'res.partner',
 		string='Cliente destino',
 		domain=[
-			('customer', '=', True), 
+			('customer', '=', True),
 			('parent_id', '=', False)
 		]
 	)
 	domicilio_destino_id = fields.Many2one(
-		'res.partner', 
+		'res.partner',
 		string='Domicilio destino',
 		domain=[
-			'|', ('parent_id', '=', cliente_destino_id), 
-			('id','=',cliente_destino_id)
+			'|', ('parent_id', '=', cliente_destino_id),
+			('id', '=', cliente_destino_id)
 		]
 	)
 	contiene = fields.Text(string='Contiene')
@@ -56,7 +56,7 @@ class AccountMove(models.Model):
 	operador_id = fields.Char(string='Operador')
 	abonado = fields.Float(string='Abonado')
 	pagada = fields.Boolean(string='Pagada')
-	factura_encontrarecibo = fields.Boolean(string='Factura en contra recibo',)
+	factura_encontrarecibo = fields.Boolean(string='Factura en contra recibo')
 	x_folio_trafitecw = fields.Char(string='Folio Trafitec Windows')
 	es_cartaporte = fields.Boolean(
 		string='Es carta porte',

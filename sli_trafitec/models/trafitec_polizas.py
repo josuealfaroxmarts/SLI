@@ -41,4 +41,3 @@ class TrafitecPolizas(models.Model):
 	)
 	activo = fields.Boolean(string="Activo")
 	detalles = fields.Text(string="Detalles")
-

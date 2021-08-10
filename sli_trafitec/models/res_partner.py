@@ -320,10 +320,10 @@ class ResPartner(models.Model):
 		return super(ResPartner, self).write(vals)
 
 
-@api.constrains('moroso_prorroga_st', 'moroso_prorroga_fecha')
-def _check_moroso(self):
-	if self.moroso_prorroga_st and not self.moroso_prorroga_fecha:
-		raise UserWarning(('Alerta..'), ('Debe especificar la fecha de prorroga de moroso.'))
+	@api.constrains('moroso_prorroga_st', 'moroso_prorroga_fecha')
+	def _check_moroso(self):
+		if self.moroso_prorroga_st and not self.moroso_prorroga_fecha:
+			raise UserWarning(('Alerta..'), ('Debe especificar la fecha de prorroga de moroso.'))
 
 
 	def _computex(self):
