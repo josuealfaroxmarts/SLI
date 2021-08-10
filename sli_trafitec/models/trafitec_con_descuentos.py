@@ -107,4 +107,3 @@ class TrafitecConDescuentos(models.Model):
 			raise UserError(
 				('Aviso !\nEl monto del abono debe ser mayor a cero.')
 			)
-

@@ -2131,4 +2131,3 @@ class TrafitecContrarecibo(models.Model):
             raise UserError(
                 ('Alerta..\n' + str(errores))
             )
-
