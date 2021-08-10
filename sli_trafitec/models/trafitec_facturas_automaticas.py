@@ -1,46 +1,149 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 import datetime
-_logger = logging.getLogger(__name__)
 
 
-class trafitec_facturas_automaticas(models.Model):
+class TrafitecFacturasAutomaticas(models.Model):
     _name = 'trafitec.facturas.automaticas'
     _description ='trafitec facturas automaticas'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Folio',default='Nuevo')
-    cliente_id = fields.Many2one('res.partner', string="Cliente", domain="[('customer','=',True), ('parent_id', '=', False)]", required=True)
-    currency_id = fields.Many2one("res.currency", string="Moneda", required=True)
-    lineanegocio = fields.Many2one('trafitec.lineanegocio', string='Linea de negocios', required=True)
-    csf = fields.Boolean(string='CSF', default=False)
-    company_id = fields.Many2one('res.company', 'Company',
-                                    default=lambda self: self.env['res.company']._company_default_get(
-                                        'trafitec.facturas.automaticas'))
-    viaje_id = fields.Many2many('trafitec.viajes', 'facturas_viaje_relation', 'facturas_id', 'viajes_id',
-                                string='Viajes',
-                                domain="[('cliente_id','=',cliente_id),('lineanegocio','=',lineanegocio),('state','=','Nueva'),('tipo_viaje','=','Normal'),('en_factura','=',False)]")
-    payment_term_id = fields.Many2one('account.payment.term', string='Forma de pago', required=True)
-    metodo_pago_id = fields.Many2one('l10n_mx_edi.payment.method', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
-                                        required=True)
-    uso_cfdi_id = fields.Many2one('sat.uso.cfdi', 'Uso CFDI', required=True, help='Define el motivo de la compra.')
-    cargo_id = fields.One2many('trafitec.fact.aut.cargo', 'line_cargo_id')
-    state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
-                                ('Cancelada', 'Cancelada')], string='Estado',
-                                default='Nueva')
-    move_id = fields.Many2one('account.move', string='Factura cliente',
-                                    domain="[('type','=','out_invoice'),('partner_id','=',cliente_id)]")
+    name = fields.Char(
+        string='Folio',
+        default='Nuevo'
+    )
+    cliente_id = fields.Many2one(
+        'res.partner', 
+        string="Cliente", 
+        domain=[('customer','=',True), ('parent_id', '=', False)], 
+        required=True
+    )
+    currency_id = fields.Many2one(
+        "res.currency", 
+        string="Moneda", 
+        required=True
+    )
+    lineanegocio = fields.Many2one(
+        'trafitec.lineanegocio', 
+        string='Linea de negocios', 
+        required=True
+    )
+    csf = fields.Boolean(
+        string='CSF', 
+        default=False
+    )
+    company_id = fields.Many2one(
+        'res.company', 
+        'Company',
+        default=lambda self: self.env['res.company']._company_default_get('trafitec.facturas.automaticas')
+    )
+    viaje_id = fields.Many2many(
+        'trafitec.viajes', 
+        'facturas_viaje_relation', 
+        'facturas_id', 
+        'viajes_id',
+        string='Viajes',
+        domain=[
+            ('cliente_id','=',cliente_id),
+            ('lineanegocio','=',lineanegocio),
+            ('state','=','Nueva'),
+            ('tipo_viaje','=','Normal'),
+            ('en_factura','=',False)
+        ]
+    )
+    payment_term_id = fields.Many2one(
+        'account.payment.term', 
+        string='Forma de pago', 
+        required=True
+    )
+    metodo_pago_id = fields.Many2one(
+        'l10n_mx_edi.payment.method', 
+        'Metodo de Pago', 
+        help='Metodo de Pago Requerido por el SAT',
+        required=True
+    )
+    uso_cfdi_id = fields.Many2one(
+        'sat.uso.cfdi', 
+        'Uso CFDI', 
+        required=True, 
+        help='Define el motivo de la compra.'
+    )
+    cargo_id = fields.One2many(
+        'trafitec.fact.aut.cargo', 
+        'line_cargo_id'
+    )
+    state = fields.Selection([
+        ('Nueva', 'Nueva'), 
+        ('Validada', 'Validada'),
+        ('Cancelada', 'Cancelada')],
+        string='Estado',
+        default='Nueva'
+    )
+    move_id = fields.Many2one(
+        'account.move', 
+        string='Factura cliente',
+        domain=[('type','=','out_invoice'),('partner_id','=',cliente_id)]
+    )
+    subtotal_g = fields.Monetary(
+        string='Subtotal', 
+        compute='_compute_subtotal'
+    )
+    iva_g = fields.Monetary(
+        string='Iva', 
+        compute='_compute_iva'
+    )
+    r_iva_g = fields.Monetary(
+        string='R. IVA', 
+        compute='_compute_riva'
+    )
+    total_g = fields.Monetary(
+        string='Total', 
+        compute='_compute_total'
+    )
+    #Otros
+    origen = fields.Char(string='Origen')
+    destino = fields.Char(string='Destino')
+    cliente_origen_id = fields.Many2one(
+        'res.partner', 
+        string="Cliente origen", 
+        domain=[('customer','=',True), ('parent_id', '=', False)],
+        required=True
+    )
+    domicilio_origen_id = fields.Many2one(
+        'res.partner', 
+        string="Domicilio origen", 
+        domain=['|',('parent_id', '=', cliente_origen_id),('id','=',cliente_origen_id)],
+        required=True
+    )
+    cliente_destino_id = fields.Many2one(
+        'res.partner', 
+        string="Cliente destino", 
+        domain=[('customer','=',True), ('parent_id', '=', False)],
+        required=True
+    )
+    domicilio_destino_id = fields.Many2one(
+        'res.partner', 
+        string="Domicilio destino",
+        domain=['|',('parent_id', '=', cliente_destino_id),('id','=',cliente_destino_id)],
+        required=True
+    )
+    usar_origen_destino = fields.Boolean(
+        string='Usar origen y destino del viaje',
+        default=False
+    )
 
-    
+    #contiene
+    contiene = fields.Text(string='Contiene')
+    observaciones = fields.Text(string='Observaciones')
+
     def unlink(self):
         for reg in self:
             if reg.state == 'Validada':
-                raise UserError(_(
+                raise UserError((
                     'Aviso !\nNo se puede eliminar la factura automatica ({}) si esta validada.'.format(reg.name)))
-        return super(trafitec_facturas_automaticas, self).unlink()
+        return super(TrafitecFacturasAutomaticas, self).unlink()
 
 
     @api.onchange('cliente_id')
@@ -58,7 +161,7 @@ class trafitec_facturas_automaticas(models.Model):
             company_id = self.env['res.company']._company_default_get('trafitec.contrarecibo')
         parametros_obj = self.env['trafitec.parametros'].search([('company_id', '=', company_id.id)])
         if len(parametros_obj) == 0:
-            raise UserError(_(
+            raise UserError((
                 'Aviso !\nNo se ha creado ningun parametro para la compañia {}'.format(company_id.name)))
         return parametros_obj
 
@@ -67,15 +170,28 @@ class trafitec_facturas_automaticas(models.Model):
         if self.csf == True:
             return {
                 'domain': {
-                    'viaje_id': [('cliente_id','=',self.cliente_id.id),('moneda','=',self.currency_id.id),('lineanegocio','=',self.lineanegocio.id),('state','=','Nueva'),('tipo_viaje','=','Normal'),('csf','=',True),('en_factura','=',False)]
+                    'viaje_id': [
+                        ('cliente_id','=',self.cliente_id.id),
+                        ('moneda','=',self.currency_id.id),
+                        ('lineanegocio','=',self.lineanegocio.id),
+                        ('state','=','Nueva'),
+                        ('tipo_viaje','=','Normal'),
+                        ('csf','=',True),
+                        ('en_factura','=',False)
+                    ]
                 }
             }
         else:
             return {
                 'domain': {
-                    'viaje_id': [('cliente_id', '=', self.cliente_id.id), ('moneda', '=', self.currency_id.id),
-                                    ('lineanegocio', '=', self.lineanegocio.id), ('state', '=', 'Nueva'),
-                                    ('tipo_viaje', '=', 'Normal'),('en_factura','=',False)]
+                    'viaje_id': [
+                        ('cliente_id', '=', self.cliente_id.id), 
+                        ('moneda', '=', self.currency_id.id),
+                        ('lineanegocio', '=', self.lineanegocio.id), 
+                        ('state', '=', 'Nueva'),
+                        ('tipo_viaje', '=', 'Normal'),
+                        ('en_factura','=',False)
+                    ]
                 }
             }
 
@@ -123,8 +239,6 @@ class trafitec_facturas_automaticas(models.Model):
         else:
             self.subtotal_g = 0
 
-    subtotal_g = fields.Monetary(string='Subtotal', compute='_compute_subtotal')
-
     @api.onchange('subtotal_g')
     def _onchange_iva(self):
         parametros_obj = self._get_parameter_company(self)
@@ -140,8 +254,6 @@ class trafitec_facturas_automaticas(models.Model):
             self.iva_g = self.subtotal_g * (parametros_obj.iva.amount / 100)
         else:
             self.iva_g = 0
-
-    iva_g = fields.Monetary(string='Iva', compute='_compute_iva')
 
     @api.onchange('subtotal_g')
     def _onchange_riva(self):
@@ -159,8 +271,6 @@ class trafitec_facturas_automaticas(models.Model):
         else:
             self.r_iva_g = 0
 
-    r_iva_g = fields.Monetary(string='R. IVA', compute='_compute_riva')
-
     @api.onchange('subtotal_g', 'iva_g', 'r_iva_g')
     def _onchange_total(self):
         self.total_g = self.subtotal_g + self.iva_g + self.r_iva_g
@@ -169,14 +279,10 @@ class trafitec_facturas_automaticas(models.Model):
     def _compute_total(self):
         self.total_g = self.subtotal_g + self.iva_g + self.r_iva_g
 
-    total_g = fields.Monetary(string='Total', compute='_compute_total')
-
-
     
     def action_available(self):
         if self.move_id.id == False:
             parametros_obj = self._get_parameter_company(self)
-            print("**************Parametros:"+str(parametros_obj))
             valores = {
                 'type': 'out_invoice',
                 'date': datetime.datetime.now(),
@@ -191,7 +297,6 @@ class trafitec_facturas_automaticas(models.Model):
                 'account_id': parametros_obj.account_id_invoice.id,
                 'ref': 'Factura generada automaticamente.'
             }
-            print("X**************Valores:" + str(valores))
             move_id = self.env['account.move'].create(valores)
 
             amount = 0
@@ -204,12 +309,10 @@ class trafitec_facturas_automaticas(models.Model):
                 'name': parametros_obj.product_invoice.name,
                 'quantity': 1,
                 'account_id': parametros_obj.account_id_invoice.id,
-                # order.lines[0].product_id.property_account_income_id.id or order.lines[0].product_id.categ_id.property_account_income_categ_id.id,
                 'uom_id': parametros_obj.product_invoice.product_tmpl_id.uom_id.id,
                 'price_unit': amount,
                 'discount': 0
             }
-            print("**************Valores Linea:" + str(inv_line))
             self.env['account.move.line'].create(inv_line)
 
             for cargo in self.cargo_id:
@@ -219,7 +322,6 @@ class trafitec_facturas_automaticas(models.Model):
                     'name': cargo.name.product_id.name,
                     'quantity': 1,
                     'account_id': parametros_obj.account_id_invoice.id,
-                    # order.lines[0].product_id.property_account_income_id.id or order.lines[0].product_id.categ_id.property_account_income_categ_id.id,
                     'uom_id': cargo.name.product_id.product_tmpl_id.uom_id.id,
                     'price_unit': cargo.valor,
                     'discount': 0
@@ -236,7 +338,6 @@ class trafitec_facturas_automaticas(models.Model):
                     'amount': self.iva_g + self.r_iva_g,
                     'sequence': '0'
                 }
-                print("**************Valores Tax:" + str(inv_tax))
                 self.env['account.move.tax'].create(inv_tax)
 
             self.move_id = move_id
@@ -257,31 +358,8 @@ class trafitec_facturas_automaticas(models.Model):
     def create(self, vals):
         if 'company_id' in vals:
             vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-                'Trafitec.Factura.Automatica') or _('Nuevo')
+                'Trafitec.Factura.Automatica') or ('Nuevo')
         else:
-            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Factura.Automatica') or _('Nuevo')
+            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Factura.Automatica') or ('Nuevo')
 
-        return super(trafitec_facturas_automaticas, self).create(vals)
-
-    #Otros
-    origen = fields.Char(string='Origen')
-    destino = fields.Char(string='Destino')
-    cliente_origen_id = fields.Many2one('res.partner', string="Cliente origen", domain="[('customer','=',True), ('parent_id', '=', False)]",required=True)
-    domicilio_origen_id = fields.Many2one('res.partner', string="Domicilio origen", domain="['|',('parent_id', '=', cliente_origen_id),('id','=',cliente_origen_id)]",required=True)
-    cliente_destino_id = fields.Many2one('res.partner', string="Cliente destino", domain="[('customer','=',True), ('parent_id', '=', False)]",required=True)
-    domicilio_destino_id = fields.Many2one('res.partner', string="Domicilio destino",
-                                            domain="['|',('parent_id', '=', cliente_destino_id),('id','=',cliente_destino_id)]",required=True)
-    usar_origen_destino = fields.Boolean(string='Usar origen y destino del viaje',default=False)
-
-    #contiene
-    contiene = fields.Text(string='Contiene')
-    observaciones = fields.Text(string='Observaciones')
-
-
-class trafitec_fact_aut_cargo(models.Model):
-    _name = 'trafitec.fact.aut.cargo'
-    _description ='factura aut cargo'
-
-    name = fields.Many2one('trafitec.tipocargosadicionales', string='Producto', required=True, readonly=True)
-    valor = fields.Float(string='Total', required=True, readonly=True)
-    line_cargo_id = fields.Many2one('trafitec.facturas.automaticas', string='Id factura automatica')
+        return super(TrafitecFacturasAutomaticas, self).create(vals)
