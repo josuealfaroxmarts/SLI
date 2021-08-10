@@ -1,47 +1,102 @@
-## -*- coding: utf-8 -*-
-from odoo import models, fields, api, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 import datetime
-_logger = logging.getLogger(__name__)
 
 
-class trafitec_facturas_comision(models.Model):
+class TrafitecFacturasComision(models.Model):
     _name = 'trafitec.facturas.comision'
     _description ='comision facturas'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Folio',default='Nuevo')
-    company_id = fields.Many2one('res.company', 'Company',
-                                default=lambda self: self.env['res.company']._company_default_get(
-                                    'trafitec.facturas.automaticas'))
-    asociado_id = fields.Many2one('res.partner', string="Asociado", domain="[('asociado','=',True)]", required=True)
-    domicilio_id = fields.Many2one('res.partner', string="Domicilio",
-                                            domain="['|',('parent_id', '=', asociado_id),('id','=',asociado_id)]",
-                                            required=True)
-    product_invoice = fields.Many2one('product.product', string='Producto', required=True)
-    payment_term_id = fields.Many2one('account.payment.term', string='Forma de pago', required=True)
-    metodo_pago_id = fields.Many2one('l10n_mx_edi.payment.method', 'Metodo de Pago', help='Metodo de Pago Requerido por el SAT',
-                                        required=True)
-    uso_cfdi_id = fields.Many2one('sat.uso.cfdi', 'Uso CFDI', required=True, help='Define el motivo de la compra.')
-    comision_id = fields.One2many(comodel_name="trafitec.fact.linea.comision", inverse_name="line_id")
+    name = fields.Char(
+        string='Folio',
+        default='Nuevo'
+    )
+    company_id = fields.Many2one(
+        'res.company', 
+        'Company',
+        default=lambda self: self.env['res.company']._company_default_get('trafitec.facturas.automaticas')
+    )
+    asociado_id = fields.Many2one(
+        'res.partner', 
+        string="Asociado", 
+        domain=[('asociado','=',True)], 
+        required=True
+    )
+    domicilio_id = fields.Many2one(
+        'res.partner', 
+        string="Domicilio",
+        domain=['|',('parent_id', '=', asociado_id),('id','=',asociado_id)],
+        required=True
+    )
+    product_invoice = fields.Many2one(
+        'product.product', 
+        string='Producto', 
+        required=True
+    )
+    payment_term_id = fields.Many2one(
+        'account.payment.term', 
+        string='Forma de pago', 
+        required=True
+    )
+    metodo_pago_id = fields.Many2one(
+        'l10n_mx_edi.payment.method', 
+        'Metodo de Pago', 
+        help='Metodo de Pago Requerido por el SAT',
+        required=True
+    )
+    uso_cfdi_id = fields.Many2one(
+        'sat.uso.cfdi', 
+        'Uso CFDI', 
+        required=True, 
+        help='Define el motivo de la compra.'
+    )
+    comision_id = fields.One2many(
+        comodel_name="trafitec.fact.linea.comision", 
+        inverse_name="line_id"
+    )
     contiene = fields.Text(string='Contiene')
     observaciones = fields.Text(string='Observaciones')
-    state = fields.Selection([('Nueva', 'Nueva'), ('Validada', 'Validada'),
-                                ('Cancelada', 'Cancelada')], string='Estado',
-                                default='Nueva')
-    move_id = fields.Many2one('account.move', string='Factura cliente',
-                                domain="[('type','=','out_invoice'),('partner_id','=',asociado_id)]")
+    state = fields.Selection(
+        [('Nueva', 'Nueva'), 
+        ('Validada', 'Validada'),
+        ('Cancelada', 'Cancelada')], 
+        string='Estado',
+        default='Nueva'
+    )
+    move_id = fields.Many2one(
+        'account.move', 
+        string='Factura cliente',
+        domain=[('type','=','out_invoice'),('partner_id','=',asociado_id)]
+    )
+    currency_id = fields.Many2one(
+        "res.currency", 
+        string="Moneda", 
+        default="_default_pesos"
+    )
+    subtotal_g = fields.Monetary(
+        string='Subtotal', 
+        default=0
+    )
+    iva_g = fields.Monetary(
+        string='Iva', 
+        default=0
+    )
+    r_iva_g = fields.Monetary(
+        string='R. IVA', 
+        default=0
+    )
+    total_g = fields.Monetary(
+        string='Total', 
+        default=0
+    )
 
-
-
-    
     def unlink(self):
         for reg in self:
             if reg.state == 'Validada':
-                raise UserError(_(
+                raise UserError((
                     'Aviso !\nNo se puede eliminar esta factura por comision ({}) si esta validada.'.format(reg.name)))
-        return super(trafitec_facturas_comision, self).unlink()
+        return super(TrafitecFacturasComision, self).unlink()
 
     @api.model
     def _default_pesos(self):
@@ -51,82 +106,8 @@ class trafitec_facturas_comision(models.Model):
             company_id = self.env['res.company']._company_default_get('trafitec.contrarecibo')
         return company_id.currency_id
 
-    currency_id = fields.Many2one("res.currency", string="Moneda", default=_default_pesos)
-
-    #@api.onchange('comision_id')
-    #def _onchange_subtotal_g(self):
-    #    if self.comision_id:
-    #        amount = 0
-    #        for comision in self.comision_id:
-    #            amount += comision.saldo
-    #        self.subtotal_g = amount
-    #    else:
-    #        self.subtotal_g = 0
-
-    #
-    #def _compute_subtotal(self):
-    #    if self.comision_id:
-    #        amount = 0
-    #        for comision in self.comision_id:
-    #            amount += comision.saldo
-    #        self.subtotal_g = amount
-    #    else:
-    #        self.subtotal_g = 0
-
-
-
-    #@api.onchange('subtotal_g')
-    #def _onchange_iva(self):
-        #parametros_obj = self._get_parameter_company(self)
-        #if self.subtotal_g:
-        #    self.iva_g = self.subtotal_g * (parametros_obj.iva.amount / 100)
-        #else:
-        #    self.iva_g = 0
-
-    #
-    #def _compute_iva(self):
-    #    parametros_obj = self._get_parameter_company(self)
-    #    if self.subtotal_g:
-    #        self.iva_g = self.subtotal_g * (parametros_obj.iva.amount / 100)
-    #    else:
-    #        self.iva_g = 0
-
-
-
-    #@api.onchange('subtotal_g')
-    #def _onchange_riva(self):
-        #parametros_obj = self._get_parameter_company(self)
-        #if self.subtotal_g:
-        #    self.r_iva_g = (self.subtotal_g * (parametros_obj.retencion.amount / 100))
-        #else:
-        #    self.r_iva_g = 0
-
-    #
-    #def _compute_riva(self):
-    #    parametros_obj = self._get_parameter_company(self)
-    #    if self.subtotal_g:
-    #        self.r_iva_g = (self.subtotal_g * (parametros_obj.retencion.amount / 100))
-    #    else:
-    #        self.r_iva_g = 0
-
-
-    #@api.onchange('subtotal_g', 'iva_g', 'r_iva_g')
-    #def _onchange_total(self):
-        #self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
-
-    #
-    #def _compute_total(self):
-        #self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
-
-    subtotal_g = fields.Monetary(string='Subtotal', default=0)
-    iva_g = fields.Monetary(string='Iva', default=0)
-    r_iva_g = fields.Monetary(string='R. IVA', default=0)
-    total_g = fields.Monetary(string='Total', default=0)
-
-    
     @api.depends('viaje_id')
     def _totales(self):
-        #empresa = self._get_parameter_company(self)
 
         flete = 0
         subtotal = 0
@@ -152,9 +133,10 @@ class trafitec_facturas_comision(models.Model):
             company_id = vals.company_id
         else:
             company_id = self.env['res.company']._company_default_get('trafitec.contrarecibo')
-        parametros_obj = self.env['trafitec.parametros'].search([('company_id', '=', company_id.id)])
+        parametros_obj = self.env['trafitec.parametros'].search(
+            [('company_id', '=', company_id.id)])
         if len(parametros_obj) == 0:
-            raise UserError(_(
+            raise UserError((
                 'Aviso !\nNo se ha creado ningun parametro para la compañia {}.'.format(company_id.name)))
         return parametros_obj
 
@@ -162,7 +144,8 @@ class trafitec_facturas_comision(models.Model):
     def _asociado(self):
         if self.asociado_id:
             obj_comi = self.env['trafitec.cargos'].search(
-                [('asociado_id', '=', self.asociado_id.id), ('tipo_cargo', '=', 'comision')])
+                [('asociado_id', '=', self.asociado_id.id), 
+                ('tipo_cargo', '=', 'comision')])
             r = []
             self.comision_id = r
             for comision in obj_comi:
@@ -218,14 +201,14 @@ class trafitec_facturas_comision(models.Model):
                 'name': self.product_invoice.name,
                 'quantity': 1,
                 'account_id': parametros_obj.account_id_invoice.id,
-                # order.lines[0].product_id.property_account_income_id.id or order.lines[0].product_id.categ_id.property_account_income_categ_id.id,
                 'uom_id': self.product_invoice.product_tmpl_id.uom_id.id,
                 'price_unit': self.subtotal_g,
                 'discount': 0
             }
             self.env['account.move.line'].create(inv_line)
 
-            account_tax_obj = self.env['account.account'].search([('name', '=', 'IVA Retenido Efectivamente Cobrado')])
+            account_tax_obj = self.env['account.account'].search(
+                [('name', '=', 'IVA Retenido Efectivamente Cobrado')])
 
             inv_tax = {
                 'move_id': move_id.id,
@@ -241,7 +224,9 @@ class trafitec_facturas_comision(models.Model):
     
     def action_cancel(self):
         for comision in self.comision_id:
-            obj = self.env['trafitec.comisiones.abono'].search([('abonos_id','=',comision.cargo_id.id),('observaciones','=','Generada en la factura {}'.format(comision.line_id.name))])
+            obj = self.env['trafitec.comisiones.abono'].search(
+                [('abonos_id','=',comision.cargo_id.id),
+                ('observaciones','=','Generada en la factura {}'.format(comision.line_id.name))])
             obj.write({'permitir_borrar': False})
             obj.unlink()
         self.write({'state': 'Cancelada'})
@@ -250,23 +235,8 @@ class trafitec_facturas_comision(models.Model):
     def create(self, vals):
         if 'company_id' in vals:
             vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-                'Trafitec.Factura.Comision') or _('Nuevo')
+                'Trafitec.Factura.Comision') or ('Nuevo')
         else:
-            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Factura.Comision') or _('Nuevo')
+            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Factura.Comision') or ('Nuevo')
 
-        return super(trafitec_facturas_comision, self).create(vals)
-
-class trafitec_con_comision(models.Model):
-    _name = 'trafitec.fact.linea.comision'
-    _description ='fact linea comision'
-
-    name = fields.Char(string='Folio del viaje', readonly=True)
-    fecha = fields.Date(string='Fecha', readonly=True)
-    comision = fields.Float(string='Comision', readonly=True)
-    abonos= fields.Float(string='Abonos', readonly=True)
-    saldo = fields.Float(string='Saldo', readonly=True)
-    asociado_id = fields.Many2one('res.partner', string="Asociado", domain="[('asociado','=',True)]", readonly=True)
-    tipo_viaje = fields.Char(string='Tipo de viaje', readonly=True)
-    cargo_id = fields.Many2one('trafitec.cargos',string='ID comision')
-    line_id = fields.Many2one(comodel_name="trafitec.facturas.comision", string="Contrarecibo id", ondelete='cascade')
-    viaje_id = fields.Many2one('trafitec.viajes', string='Viaje ID')
+        return super(TrafitecFacturasComision, self).create(vals)
