@@ -13,13 +13,6 @@ class cancelacion_cuentas(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
-    @api.depends('facturas_proveedor_id.abono')
-    def _total(self):
-        total = 0
-        for f in self.facturas_id:
-            total += f.abono
-        self.abonos = total
-
     name = fields.Char(string='Folio', default='')
     persona_id = fields.Many2one(
         string='Persona',
@@ -28,7 +21,6 @@ class cancelacion_cuentas(models.Model):
         tracking=True,
         domain="[('supplier','=',True),('customer','=',True)]"
     )
-
     referencia = fields.Text(
         string='Referencia',
         default='',
@@ -72,7 +64,6 @@ class cancelacion_cuentas(models.Model):
         store=True,
         compute='_total'
     )
-
     facturas_cliente_id = fields.One2many(
         string='Facturas cliente',
         comodel_name='trafitec.cancelacioncuentas.facturas.cliente',
@@ -88,7 +79,6 @@ class cancelacion_cuentas(models.Model):
         comodel_name='trafitec.cancelacioncuentas.relacion',
         inverse_name='cancelacion_cuentas_id'
     )
-
     diario_pago_cliente = fields.Many2one(
         string='Diario de pago a cliente',
         comodel_name='account.journal',
@@ -101,13 +91,11 @@ class cancelacion_cuentas(models.Model):
         required=True,
         tracking=True
     )
-
     persona_cobranza = fields.Char(
         string='Persona de cobranza',
         required=True,
         tracking=True
     )
-
     estado = fields.Boolean(string='Activa', default=True, tracking=True)
     state = fields.Selection([
             ('nuevo', 'Nuevo'),
@@ -118,6 +106,13 @@ class cancelacion_cuentas(models.Model):
         default='nuevo',
         tracking=True
     )
+
+    @api.depends('facturas_proveedor_id.abono')
+    def _total(self):
+        total = 0
+        for f in self.facturas_id:
+            total += f.abono
+        self.abonos = total
 
     @api.onchange('total', 'moneda_id')
     def _onchange_total(self):

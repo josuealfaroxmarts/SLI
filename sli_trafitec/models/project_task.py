@@ -14,5 +14,4 @@ class ProjectTask(models.Model):
     @api.model
     def create(self, vals):
         vals['bloquear_fechalimite'] = True
-
         return super(ProjectTask, self).create(vals)

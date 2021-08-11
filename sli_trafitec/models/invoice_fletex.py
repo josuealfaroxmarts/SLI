@@ -24,8 +24,9 @@ class InvoiceFletex(models.Model):
 
     @api.depends('shipmentId')
     def changeNameAttachment(self):
-        if self.shipmentId:
-            self.invoicePdfName = 'Factura PDF del viaje ({}).pdf'.format(
-                self.shipmentId.name)
-            self.invoiceXmlName = 'Factura XML del viaje ({}).xml'.format(
-                self.shipmentId.name)
+        for rec in self:
+            if rec.shipmentId:
+                rec.invoicePdfName = 'Factura PDF del viaje ({}).pdf'.format(
+                    rec.shipmentId.name)
+                rec.invoiceXmlName = 'Factura XML del viaje ({}).xml'.format(
+                    rec.shipmentId.name)

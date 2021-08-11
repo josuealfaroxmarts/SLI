@@ -238,6 +238,19 @@ class ResPartner(models.Model):
             + 'a crédito.'
         )
     )
+    fecha_nacimiento = fields.Date(string='Fecha de nacimiento')
+    status_user = fields.Boolean(default=False)
+    crmt_logistico_correo = fields.Char(
+        string='Correo de contacto logistico',
+        default='',
+        help='Correo del concato logistico'
+    )
+    crmt_unidades_txt = fields.Char(
+        string='Unidades',
+        compute=_compute_unidades_txt,
+        default=''
+    )
+    nuevo_telefono = fields.Char(string='Teléfono')
 
     @api.constrains('vat')
     def check_vat(self):
@@ -531,20 +544,6 @@ and f.partner_id={}
                 ) + ') '
             rec.crmt_unidades_txt = total
 
-    fecha_nacimiento = fields.Date(string='Fecha de nacimiento')
-    status_user = fields.Boolean(default=False)
-    crmt_logistico_correo = fields.Char(
-        string='Correo de contacto logistico',
-        default='',
-        help='Correo del concato logistico'
-    )
-    crmt_unidades_txt = fields.Char(
-        string='Unidades',
-        compute=_compute_unidades_txt,
-        default=''
-    )
-    nuevo_telefono = fields.Char(string='Teléfono')
-
     @api.constrains(
         'email',
         'asociado',
@@ -702,7 +701,7 @@ and f.partner_id={}
     and v.cliente_id={}
     and v.company_id={}
     '''.format(persona_id, empresa_id)
-        if excluir_viaje_id != None:
+        if excluir_viaje_id:
             sql_viajes += ' and v.id !={}'.format(excluir_viaje_id)
         self.env.cr.execute(sql_viajes)
         viajes = self.env.cr.dictfetchall()

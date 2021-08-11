@@ -86,6 +86,87 @@ class AccountMove(models.Model):
         default=False,
         help='Indica si el cliente esta bloqueado.'
     )
+    viajes_id = fields.Many2many(
+        string='Viajes de trafitec',
+        comodel_name='trafitec.viajes'
+    )
+    viajescp_id = fields.Many2many(
+        string='Viajes trafitec',
+        comodel_name='trafitec.viajes',
+        relation='trafitec_facturas_viajescp_rel'
+    )
+    tipo = fields.Selection(
+        string='Tipo de factura',
+        selection=[
+            ('normal', 'Normal'),
+            ('manual', 'Manual'),
+            ('automatica', 'Automatica')
+        ],
+        default='normal'
+    )
+    total_fletes = fields.Float(
+        string='Total fletes',
+        store=True,
+        compute='_compute_totales'
+    )
+    total_fletescp = fields.Float(
+        string='Total de fletes',
+        store=True,
+        compute='_compute_totalescp'
+    )
+    tipo_contiene = fields.Selection(
+        string='',
+        selection=[
+            ('ninguno', '(Ninguno)'),
+            ('simple', 'Simple'),
+            ('detallado', 'Detallado')
+        ],
+        default='simple'
+    )
+    documentos_id = fields.One2many(
+        string='Documentos',
+        comodel_name='trafitec.facturas.documentos',
+        inverse_name='factura_id'
+    )
+    documentos_archivo_pdf = fields.Binary(string='Archivos PDF')
+    documentos_archivo_xml = fields.Binary(
+        string='Archivos XML',
+        compute='_compute_documentos_tiene_xml'
+    )
+    documentos_nombre_pdf = fields.Char(
+        string='Nombre de archivo PDF',
+        default=''
+    )
+    documentos_nombre_xml = fields.Char(
+        string='Nombre de archivo XML',
+        default=''
+    )
+    documentos_tiene_pdf = fields.Boolean(
+        string='Tiene PDF',
+        default=False,
+        compute='_compute_documentos_tiene_pdf',
+        store=True
+    )
+    documentos_tiene_xml = fields.Boolean(
+        string='Tiene XML',
+        default=False,
+        compute='_compute_documentos_tiene_xml',
+        store=True
+    )
+    documentos_anexado_pdf = fields.Boolean(
+        string='Anexado PDF',
+        default=False
+    )
+    documentos_anexado_xml = fields.Boolean(
+        string='Anexado XML',
+        default=False
+    )
+    cancelacion_detalles = fields.Char('Motivo de cancelación')
+    folios_boletas = fields.Char(
+        string='Folios de boletas',
+        compute='_compute_folios_boletas',
+        help='Lista de folios de boletas de los viajes relacionados.'
+    )
 
     @api.depends('amount_total', 'amount_residual')
     def compute_abonos(self):
@@ -277,88 +358,6 @@ class AccountMove(models.Model):
                     }
                 )
                 f.documentos_anexado_xml = True
-
-    viajes_id = fields.Many2many(
-        string='Viajes de trafitec',
-        comodel_name='trafitec.viajes'
-    )
-    viajescp_id = fields.Many2many(
-        string='Viajes trafitec',
-        comodel_name='trafitec.viajes',
-        relation='trafitec_facturas_viajescp_rel'
-    )
-    tipo = fields.Selection(
-        string='Tipo de factura',
-        selection=[
-            ('normal', 'Normal'),
-            ('manual', 'Manual'),
-            ('automatica', 'Automatica')
-        ],
-        default='normal'
-    )
-    total_fletes = fields.Float(
-        string='Total fletes',
-        store=True,
-        compute='_compute_totales'
-    )
-    total_fletescp = fields.Float(
-        string='Total de fletes',
-        store=True,
-        compute='_compute_totalescp'
-    )
-    tipo_contiene = fields.Selection(
-        string='',
-        selection=[
-            ('ninguno', '(Ninguno)'),
-            ('simple', 'Simple'),
-            ('detallado', 'Detallado')
-        ], 
-        default='simple'
-    )
-    documentos_id = fields.One2many(
-        string='Documentos',
-        comodel_name='trafitec.facturas.documentos',
-        inverse_name='factura_id'
-    )
-    documentos_archivo_pdf = fields.Binary(string='Archivos PDF')
-    documentos_archivo_xml = fields.Binary(
-        string='Archivos XML',
-        compute='_compute_documentos_tiene_xml'
-    )
-    documentos_nombre_pdf = fields.Char(
-        string='Nombre de archivo PDF',
-        default=''
-    )
-    documentos_nombre_xml = fields.Char(
-        string='Nombre de archivo XML',
-        default=''
-    )
-    documentos_tiene_pdf = fields.Boolean(
-        string='Tiene PDF',
-        default=False,
-        compute='_compute_documentos_tiene_pdf',
-        store=True
-    )
-    documentos_tiene_xml = fields.Boolean(
-        string='Tiene XML',
-        default=False,
-        compute='_compute_documentos_tiene_xml',
-        store=True
-    )
-    documentos_anexado_pdf = fields.Boolean(
-        string='Anexado PDF',
-        default=False
-    )
-    documentos_anexado_xml = fields.Boolean(
-        string='Anexado XML',
-        default=False
-    )
-    cancelacion_detalles = fields.Char('Motivo de cancelación')
-    folios_boletas = fields.Char(
-        string='Folios de boletas',
-        compute='_compute_folios_boletas',
-        help='Lista de folios de boletas de los viajes relacionados.'
-    )
 
     @api.onchange('es_facturamanual', 'partner_id')
     def _onchange_partner_trafitec(self):
