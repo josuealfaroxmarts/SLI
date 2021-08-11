@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 
-class trafitec_muelles(models.Model):
+class TrafitecMuelles(models.Model):
 	_name = 'trafitec.muelles'
 	_description ='muelles'
 

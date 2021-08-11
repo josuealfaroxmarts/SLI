@@ -1,13 +1,10 @@
-from odoo import models, fields, api, tools
-import logging
-_logger = logging.getLogger(__name__)
-
+from odoo import models, fields
 
 """
 TRAFITEC GLO
 Clase de utileria general del sistema.
 """
-class trafitec_glo(models.Model):
+class TrafitecGlo(models.Model):
 	_name = 'trafitec.glo'
 	_description='glo'
 	_auto = False

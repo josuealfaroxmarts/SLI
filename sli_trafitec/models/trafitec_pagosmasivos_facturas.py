@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
+from odoo import models, fields
 
-from odoo import models, fields, api, _, tools
-
-
-class trafitec_pagosmasivos_facturas(models.Model):
+class TrafitecPagosmasivosFacturas(models.Model):
 	_name = 'trafitec.pagosmasivos.facturas'
 	_description ='Facturas pagos masivos'
 	

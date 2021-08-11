@@ -231,4 +231,3 @@ if __name__ == '__main__':
     # print amount_to_text().amount_to_text(5001)
     letra = amount_to_text().amount_to_text_cheque(1500.25, 'pesos', 'M. N.')
     letra = amount_to_text().amount_to_text(1500.25)
-
