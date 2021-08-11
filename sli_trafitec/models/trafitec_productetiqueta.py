@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 
-class trafitec_productetiqueta(models.Model):
+class TrafitecProductetiqueta(models.Model):
 	_name = 'trafitec.product'
 	_description ='Etiqueta producto'
 

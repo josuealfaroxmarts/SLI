@@ -3,7 +3,7 @@
 from odoo import models, fields, api, _, tools
 
 
-class trafitec_presupuestos(models.Model):
+class TrafitecPresupuestos(models.Model):
 	_name = 'trafitec.presupuestos'
 	_description = 'presupuestos'
 	

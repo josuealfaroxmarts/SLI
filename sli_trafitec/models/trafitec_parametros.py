@@ -1,14 +1,16 @@
-# -*- coding: utf-8 -*-
-
 from odoo import models, fields, api, _, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
+from odoo.exceptions import UserError
 
 
-class trafitec_parametros(models.Model):
+class TrafitecParametros(models.Model):
 	_name = 'trafitec.parametros'
 	_description = 'parametros'
 
-	name = fields.Char(string='Nombre', default='', required=True)
+	name = fields.Char(
+		string='Nombre', 
+		default='', 
+		required=True
+	)
 	company_id = fields.Many2one(
 		'res.company',
 		string='Compañia',
@@ -155,9 +157,9 @@ class trafitec_parametros(models.Model):
 		parametros_obj = self.env['trafitec.parametros'].search([('company_id', '=', vals['company_id'])])
 		if (len(parametros_obj) > 0):
 			raise UserError(_('Aviso !\nNo puede crear 2 parametros para la misma compañia'))
-		return super(trafitec_parametros, self).create(vals)
+		return super(TrafitecParametros, self).create(vals)
 
 	def write(self, vals):
 		if 'company_id' in vals:
 			raise UserError(_('Aviso !\nNo puede cambiar la compañia'))
-		return super(trafitec_parametros, self).write(vals)
+		return super(TrafitecParametros, self).write(vals)

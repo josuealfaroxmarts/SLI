@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 	
-class trafitec_unidadmedida(models.Model):
+class TrafitecUnidadmedida(models.Model):
 	_inherit = 'uom.uom'
 
 	trafitec = fields.Boolean(string='Es unidad de medida para Trafitec')

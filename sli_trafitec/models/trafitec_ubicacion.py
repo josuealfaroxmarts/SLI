@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 
-class trafitec_ubicaciones(models.Model):
+class TrafitecUbicacion(models.Model):
 	_name = 'trafitec.ubicacion'
 	_description ='ubicacion'
 
@@ -81,7 +81,11 @@ class trafitec_ubicaciones(models.Model):
 	)
 
 	#TODO HABLAR CON EL CONSULTOR LINEA 130
-	#municipio = fields.Many2one(string='Municipio', store=True, related='localidad.zip_sat_code.township_sat_code')
+	#municipio = fields.Many2one(
+	# string='Municipio', 
+	# store=True, 
+	# related='localidad.zip_sat_code.township_sat_code'
+	#)
 	# FIN MODIFICACION RECIENTE ALTA DE UBICACIONES
 
 	active = fields.Boolean(

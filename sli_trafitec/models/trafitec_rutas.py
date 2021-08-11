@@ -22,5 +22,6 @@ class TrafitecRutas(models.Model):
 		domain=[
 			('country_id', '=', 157)
 		], 
-		required=True)
+		required=True
+	)
 	vigente = fields.Boolean(string='Vigente')

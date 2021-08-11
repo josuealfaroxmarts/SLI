@@ -8,10 +8,11 @@ import xlsxwriter
 import base64
 
 
-class trafitec_status_client(models.Model) :
-	name = 'trafitec.status'
+class TrafitecStatusClient(models.Model) :
+	_name = 'trafitec.status'
+	_description ='status'
+
 	status = fields.Char(
 		string="Estatus", 
 		required=True
 	)
-	_description ='status'

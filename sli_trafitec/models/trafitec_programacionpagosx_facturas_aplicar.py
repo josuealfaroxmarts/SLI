@@ -13,8 +13,6 @@ import base64
 # from amount_to_text import *
 # from odoo.addons.report_xlsx.report.report_xlsx import ReportXlsx
 
-_logger = logging.getLogger(__name__)
-
 
 class TrafitecProgramacionPagosXFacturasAplicar(models.Model):
 	_name = 'trafitec.programacionpagosx.facturas.aplicar'

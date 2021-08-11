@@ -5,15 +5,12 @@ from odoo.exceptions import UserError, RedirectWarning, ValidationError
 import xlrd
 import shutil
 import datetime
-import logging
 # from odoo.tools import amount_to_text
 from . import amount_to_text
 import xlsxwriter
 import base64
 # from amount_to_text import *
 # from odoo.addons.report_xlsx.report.report_xlsx import ReportXlsx
-
-_logger = logging.getLogger(__name__)
 
 
 class TrafitecProgramacionPagosX(models.Model):
@@ -218,7 +215,6 @@ class TrafitecProgramacionPagosX(models.Model):
 		self.state = 'cancelado'
 	
 
-	# context='{'form_view_ref': 'account.view_account_payment_from_invoices', 'move_ids' : facturas_id}'
 	def action_batch_payments(self):
 		losids = []
 		lasfids = []
@@ -228,18 +224,22 @@ class TrafitecProgramacionPagosX(models.Model):
 				losids.append(f.factura_id.id)
 				lasfids.append({'id': f.factura_id.id, 'receiving_amt': f.abono})
 		
-		# print('Id: '+str(f.factura_id.id)+' Folio: '+str(f.factura_id.name)+' amount_residual: '+str(f.factura_id.amount_residual))
 		
 		return {
 			'name': 'Programación de pagos X', 'type': 'ir.actions.act_window', 'type': 'ir.actions.act_window',
-			'res_model': 'account.register.payments',  # 'res_model': 'trafitec.programacionpagos',
+			'res_model': 'account.register.payments',
 			'view_type': 'form', 'view_mode': 'form',
 			'form_view_ref': 'action_invoice_invoice_batch_process',
-			# 'form_view_ref': 'sli_account_register_payments_formx2',
-			# 'form_view_ref': 'account.view_account_payment_from_invoices',
 			'target': 'new', 'multi': True,
-			'context': {'move_ids': lasfids, 'active_ids': losids, 'active_model': 'account.move', 'batch': True,
-			'programacionpagosx': True, 'programacionpagosx_id': self.id, 'default_programacionpagos_id': 1}
+			'context': {
+				'move_ids': lasfids, 
+				'active_ids': losids, 
+				'active_model': 'account.move', 
+				'batch': True,
+				'programacionpagosx': True, 
+				'programacionpagosx_id': self.id, 
+				'default_programacionpagos_id': 1
+			}
 		}
 	
 
@@ -247,27 +247,26 @@ class TrafitecProgramacionPagosX(models.Model):
 	def create(self, vals):
 		if 'company_id' in vals:
 			vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-				'Trafitec.ProgramacionPagosX') or _('Nuevo')
+				'Trafitec.ProgramacionPagosX') or ('Nuevo')
 		else:
-			vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.ProgramacionPagosX') or _('Nuevo')
+			vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.ProgramacionPagosX') or ('Nuevo')
 		
-		# vals['buscar_persona_id'] = False
+		vals['buscar_persona_id'] = False
 		nuevo = super(TrafitecProgramacionPagosX, self).create(vals)
 
 		return nuevo
 	
 	
 	def write(self, vals):
-
-		# if 'buscar_persona_id' in vals:
-		# vals['buscar_persona_id'] = False
+		if 'buscar_persona_id' in vals:
+			vals['buscar_persona_id'] = False
 		return super(TrafitecProgramacionPagosX, self).write(vals)
 	
 	
 	def unlink(self):
-
-		# if self.state = ''
-		raise UserError(_('No esta permitido borrar.'))  # return super(TrafitecProgramacionPagosX, self).unlink()
+		if self.state == '':
+			raise UserError(('No esta permitido borrar.'))
+			return super(TrafitecProgramacionPagosX, self).unlink()
 
 
 	def genera_movimiento_general(self, empresa_id, moneda_id, diario_id, total, persona_id, referencia):
@@ -275,7 +274,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		valores = {
 			'company_id': empresa_id,
 			'currency_id': moneda_id,
-			'journal_id': diario_id, # Ok diario de pago
+			'journal_id': diario_id, # diario de pago
 			'amount': total,
 			'narration': '',
 			'partner_id': persona_id,
@@ -356,7 +355,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		empresa_actual_id = self.env.user.company_id.id
 		
 		if len(self.facturas_aplicar_id) <= 0:
-			raise UserError(_('Debe haber al menos una factura.'))
+			raise UserError(('Debe haber al menos una factura.'))
 		
 		las_facturas = []
 		grupos = []
@@ -415,20 +414,13 @@ class TrafitecProgramacionPagosX(models.Model):
 
 			for f in g['facturas']:
 				abono = f['abono']
-				
-				nuevo_movimiento_debito_linea = self.genera_movimiento_detalle(nuevo_movimiento.id, self.diario_id.id, False, False, g['persona_id'], 0, abono, 0, self.diario_id.default_debit_account_id.id, nuevo_pago.id, 2)
+				nuevo_movimiento_debito_linea = self.genera_movimiento_detalle(
+					nuevo_movimiento.id, self.diario_id.id, False, False, g['persona_id'], 0, abono, 0, self.diario_id.default_debit_account_id.id, nuevo_pago.id, 2)
 				movimientos.append({'id': nuevo_movimiento_debito_linea.id})
 				persona_obj = self.env['res.partner'].browse(g['persona_id'])
 				factura_obj = self.env['account.move'].browse(f['id'])
-				
-				# nuevo_parcial = self.genera_movimiento_abono(empresa_actual_id, abono, nuevo_movimiento_debito_linea.id, nuevo_movimiento_credito_linea.id)
+				nuevo_parcial = self.genera_movimiento_abono(empresa_actual_id, abono, nuevo_movimiento_debito_linea.id, nuevo_movimiento_credito_linea.id)
 			
-			# nuevo_movimiento.post()
-			# nuevo_movimiento_nombre = nuevo_movimiento.name
-			# print('MOVIMIENTO NUEVO::' + str(nuevo_movimiento_nombre))
-			# nuevo_pago.write({'name', nuevo_movimiento_nombre})
-			
-			# ---------------------------------------------
-			# FULL RECONCILE
-			# ---------------------------------------------
-				
+			nuevo_movimiento.post()
+			nuevo_movimiento_nombre = nuevo_movimiento.name
+			nuevo_pago.write({'name', nuevo_movimiento_nombre})
