@@ -11,13 +11,16 @@ class SupplierInvoiceReport(models.Model):
 	_name = "supplier.invoice.report"
 	_description ='Supplier invoice report'
 
-
-	partner_id = fields.Many2one('res.partner', string='Proveedor', required=True, domain=[('supplier', '=', True)])
+	partner_id = fields.Many2one(
+		'res.partner', 
+		string='Proveedor', 
+		required=True, 
+		domain=[('supplier', '=', True)]
+	)
 	date_from = fields.Date(string='De')
 	date_to = fields.Date(string='A')
 
 
-	
 	def print_xls(self):
 		csv_id = self.action_invoice_report()
 		return {
@@ -32,11 +35,10 @@ class SupplierInvoiceReport(models.Model):
 	def action_invoice_report(self):
 		file = StringIO()
 		account_invoice_obj = self.env['account.move'].search([
-																('partner_id', '=', self.partner_id.id),
-																('date', '>=', self.date_from),
-																('date', '<=', self.date_to),
-																('state', '=', 'paid')
-																])
+			('partner_id', '=', self.partner_id.id),
+			('date', '>=', self.date_from),
+			('date', '<=', self.date_to),
+		    ('state', '=', 'paid')])
 
 		final_value = {}
 		workbook = xlwt.Workbook()
