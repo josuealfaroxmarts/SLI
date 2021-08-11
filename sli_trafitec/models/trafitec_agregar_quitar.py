@@ -442,5 +442,4 @@ class TrafitecAgregarQuitar(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'Trafitec.Agregar.Quitar'
             ) or ('Nuevo')
-
         return super(TrafitecAgregarQuitar, self).create(vals)

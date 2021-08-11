@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import logging
 from odoo import api, fields, models, tools
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
-_logger = logging.getLogger(__name__)
-
 
 class TrafitecCargos(models.Model):
-    _name = 'trafitec.cargos'    
-    _order= 'id desc'
+    _name = 'trafitec.cargos'
+    _order = 'id desc'
     _description = 'Cargos'
 
     viaje_id = fields.Many2one(
@@ -58,47 +55,39 @@ class TrafitecCargos(models.Model):
         store=True
     )
 
-
     def unlink(self):
         if len(self) > 1:
-            raise UserError(
-                ('Alerta..\nNo se puede eliminar mas de una comisión a la vez.')
-            )
-
+            raise UserError((
+                'Alerta..\nNo se puede eliminar mas de una comisión a la vez.'
+            ))
         if self.tipo_cargo == 'comision':
-
-            if self.viaje_id.id != False:
-                raise UserError(
-                    ('Aviso !\nNo se puede eliminar una comision que tenga viajes.')
-                )
-
+            if self.viaje_id.id:
+                raise UserError((
+                    'Aviso !\nNo se puede eliminar una comision que tenga '
+                    + 'viajes.'
+                ))
             if self.abonado > 0:
-                raise UserError(
-                    ('Aviso !\nNo se puede eliminar una comision que tenga abonos.')
-                )
-
+                raise UserError((
+                    'Aviso !\nNo se puede eliminar una comision que tenga '
+                    + 'abonos.'
+                ))
         return super(TrafitecCargos, self).unlink()
-
 
     def name_get(self):
         result = []
         name = ''
         for rec in self:
-
             if rec.id:
                 name = str(rec.id) + ' '
                 result.append((rec.id, name))
             else:
                 result.append((rec.id, name))
-
         return result
-
 
     @api.depends('abono_id.name')
     def _compute_abonado(self):
         for cargo in self:
             cargo.abonado = sum(line.name for line in cargo.abono_id)
-
 
     @api.depends('abono_id', 'monto', 'abonado')
     def _compute_saldo(self):
