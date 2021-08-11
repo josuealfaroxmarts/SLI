@@ -451,7 +451,7 @@ order by des.name
         # nueva = sorted(lineas_dat, key=lambda k: k[''])
     
         contenido = ''
-        contenido += '<img src='http://sli.mx/media/logo.png'/><br/>'
+        contenido += "<img src='http://sli.mx/media/logo.png'/><br/>"
         contenido += '<b>SOLUCIONES LOGISTICAS INTELIGENTES SA DE CV</b>'
         contenido += '<hr style='{0}'/>'.format(estilo_hr)
         contenido += 'CLIENTE: ' + str(self.cliente.name or self.cliente_refenciado or '') + '<br/>'
@@ -467,11 +467,11 @@ order by des.name
         contenido += '<tr>'
 
         if self.lineanegocio.id == 1: #Granel.
-            contenido += '<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>TONS A MOVER</th><th style='{0}'>TONS MOVIDAS</th><th style='{0}'>TONS SALDO</th><th style='{0}'>AVANCE (%)</th>'.format(estilo_cabecera)
+            contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>TONS A MOVER</th><th style='{0}'>TONS MOVIDAS</th><th style='{0}'>TONS SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
         elif self.lineanegocio.id == 2: #Flete.
-            contenido += '<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>VIAJES A MOVER</th><th style='{0}'>VIAJES REALIZADOS</th><th style='{0}'>VIAJES SALDO</th><th style='{0}'>AVANCE (%)</th>'.format(estilo_cabecera)
+            contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>VIAJES A MOVER</th><th style='{0}'>VIAJES REALIZADOS</th><th style='{0}'>VIAJES SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
         else: #Contenedores.
-            contenido += '<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>CONTENEDORES A MOVER</th><th style='{0}'>CONTENEDORES MOVIDOS</th><th style='{0}'>CONTENEDORES SALDO</th><th style='{0}'>AVANCE (%)</th>'.format(estilo_cabecera)
+            contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>CONTENEDORES A MOVER</th><th style='{0}'>CONTENEDORES MOVIDOS</th><th style='{0}'>CONTENEDORES SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
 
         contenido += '</tr>'
         cantidad = 0

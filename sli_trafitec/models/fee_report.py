@@ -10,8 +10,8 @@ class ReportFee(models.Model):
     id = fields.Integer(readonly=True)
     name = fields.Char(readonly=True)
     partner_id = fields.Many2one(
-        comodel_name='res.partner', 
-        string='Partner', 
+        comodel_name='res.partner',
+        string='Partner',
         readonly=True
     )
     state = fields.Char(readonly=True)
