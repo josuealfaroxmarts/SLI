@@ -2,13 +2,10 @@
 
 from odoo import models, fields, api, tools,_
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import logging
 import datetime
 
-_logger = logging.getLogger(__name__)
 
-
-class trafitec_type_truck(models.Model):
+class TrafitecTypeTruck(models.Model):
     _name = 'trafitec.type_truck'
     _description='type truck'
 

@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 
-class trafitec_producttemplate(models.Model):
+class TrafitecProducttemplate(models.Model):
 	_inherit = 'product.template'
 
 	trafi_product_id = fields.One2many(

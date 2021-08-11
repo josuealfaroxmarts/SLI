@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 
-class trafitec_tipocargosadicionales(models.Model):
+class TrafitecTipocargosadicionales(models.Model):
 	_name = 'trafitec.tipocargosadicionales'
 	_description ='tipo cargos adicionales'
 

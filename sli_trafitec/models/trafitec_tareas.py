@@ -1,5 +1,4 @@
 import datetime
-
 from odoo import models, fields, api, tools
 
 
@@ -48,14 +47,15 @@ class TrafitecTareas(models.Model):
 		string="Clasificación principal",
 		comodel_name="trafitec.tareas.clsificacion",
 		tracking=True,
-		domain="[('tipo','=','principal'),('state','=','activo')]"
+		domain=[('tipo','=','principal'),('state','=','activo')]
 	)
 	clasificacion_secundaria_id = fields.Many2one(
 		string="Clasificación secuendaria",
 		comodel_name="trafitec.tareas.clsificacion",
 		tracking=True,
 		required=True,
-		domain="[('tipo','=','secundaria'),('state','=','activo')]")
+		domain=[('tipo','=','secundaria'),('state','=','activo')]
+	)
 	state = fields.Selection(
 		string="Estado",
 		selection=[

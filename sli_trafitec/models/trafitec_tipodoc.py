@@ -8,7 +8,7 @@ import xlsxwriter
 import base64
 
 
-class trafitec_tipodocumento(models.Model):
+class TrafitecTipodocumento(models.Model):
 	_name = 'trafitec.tipodoc'
 	_description ='tipo doc'
 

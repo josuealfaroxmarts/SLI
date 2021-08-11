@@ -3,7 +3,7 @@
 from odoo import models, fields, api, _, tools
 
 
-class trafitec_seguridad_derechos_perfil(models.Model):
+class TrafitecSeguridadDerechosPerfil(models.Model):
 	_name = 'trafitec.seguridad.derechos.perfil'
 	_description = 'Seguridad derechos perfil'
 	
@@ -16,4 +16,7 @@ class trafitec_seguridad_derechos_perfil(models.Model):
 		comodel_name='trafitec.seguridad.derechos',
 		required=True
 	)
-	permitir = fields.Boolean(string='Permitir', default=True)
+	permitir = fields.Boolean(
+		string='Permitir', 
+		default=True
+	)
