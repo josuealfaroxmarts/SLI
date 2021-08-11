@@ -48,8 +48,3 @@ class AccountRegisterPayments(models.TransientModel):
 	@api.onchange("journal_id")
 	def _onchange_journal(self):
 		self._get_invoices()
-
-	
-	
-	
-

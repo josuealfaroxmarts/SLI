@@ -1,6 +1,7 @@
 from odoo import api, fields, models, tools
 from odoo.exceptions import UserError
 
+
 class TrafitecDescuentos(models.Model):
 	_name = "trafitec.descuentos"
 	_description = "Descuentos"

@@ -4,7 +4,7 @@ from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
 class ReportFee(models.Model):
     _name = 'fee.report'
-    _description ='fee report'
+    _description = 'fee report'
     _auto = False
 
     id = fields.Integer(readonly=True)
@@ -16,10 +16,6 @@ class ReportFee(models.Model):
     )
     state = fields.Char(readonly=True)
 
-    
-    #def button_create_inv(self):
-
-    @api.model_cr
     def init(self):
 
         ''' Event Question main report '''

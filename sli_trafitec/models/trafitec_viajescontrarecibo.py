@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+from odoo import models, fields, api, _, tools
+
 
 class ViajesXContrarecibo(models.Model):
 	_name="trafitec.viajesxcontrarecibo"

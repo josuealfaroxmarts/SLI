@@ -1970,7 +1970,7 @@ class TrafitecContrarecibo(models.Model):
     )
     observaciones = fields.Text(
         string='Observaciones', 
-        _constraints=[_validaobservacione, 'Observaciones invalidas', ['observaciones', 'state']], 
+        #_constraints=[_validaobservacione, 'Observaciones invalidas', ['observaciones', 'state']], 
         tracking=True
     )
     r_iva = fields.Float(
@@ -2131,4 +2131,3 @@ class TrafitecContrarecibo(models.Model):
             raise UserError(
                 ('Alerta..\n' + str(errores))
             )
-
