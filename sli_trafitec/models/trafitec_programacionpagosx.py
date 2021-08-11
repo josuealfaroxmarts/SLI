@@ -227,7 +227,7 @@ class TrafitecProgramacionPagosX(models.Model):
 		
 		return {
 			'name': 'Programación de pagos X', 'type': 'ir.actions.act_window', 'type': 'ir.actions.act_window',
-			'res_model': 'account.register.payments',
+			'res_model': 'account.payments.register',
 			'view_type': 'form', 'view_mode': 'form',
 			'form_view_ref': 'action_invoice_invoice_batch_process',
 			'target': 'new', 'multi': True,

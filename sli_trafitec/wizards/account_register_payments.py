@@ -3,8 +3,8 @@ from odoo import models, fields, api, tools
 import logging
 
 
-class AccountRegisterPayments(models.TransientModel):
-	_inherit = "account.register.payments"
+class AccountPaymentsRegister(models.TransientModel):
+	_inherit = "account.payments.register"
 	
 	facturas_id = fields.Many2many(
 		"account.move",
