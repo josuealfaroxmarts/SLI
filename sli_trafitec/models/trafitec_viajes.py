@@ -5,7 +5,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
 
-class trafitec_viajes(models.Model):
+class TrafitecViajes(models.Model):
     _name = 'trafitec.viajes'
     _description = 'viajes'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -29,7 +29,7 @@ class trafitec_viajes(models.Model):
                     'Solo usuarios en el grupo (%s) pueden ' % grupo.name
                     + 'exportar la tarifa cliente/flete cliente.'
                 )
-        nuevo = super(trafitec_viajes, self).export_data(
+        nuevo = super(TrafitecViajes, self).export_data(
             fields_to_export,
             raw_data
         )
@@ -574,7 +574,7 @@ class trafitec_viajes(models.Model):
 
     @api.model
     def default_get(self, fields):
-        rec = super(trafitec_viajes, self).default_get(fields)
+        rec = super(TrafitecViajes, self).default_get(fields)
         return rec
 
     def total_viajes(self, creando=False):
@@ -2264,7 +2264,7 @@ class trafitec_viajes(models.Model):
                     vals['peso_destino_remolque_2'] = 500
                     vals['peso_convenido_remolque_1'] = 500
                     vals['peso_convenido_remolque_2'] = 500
-        viaje_nuevo = super(trafitec_viajes, self).create(vals)
+        viaje_nuevo = super(TrafitecViajes, self).create(vals)
         return viaje_nuevo
 
     def write(self, vals):
@@ -2313,7 +2313,7 @@ class trafitec_viajes(models.Model):
                 color = ''
             str_vehiculo = '{}, {}, {}'.format(marca, modelo, color)
             vals['vehiculo'] = str_vehiculo
-        return super(trafitec_viajes, self).write(vals)
+        return super(TrafitecViajes, self).write(vals)
 
     def copy(self):
         raise UserError(_('Alerta..\nNo esta permitido duplicar viajes.'))

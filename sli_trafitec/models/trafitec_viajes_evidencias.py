@@ -3,7 +3,7 @@
 from odoo import models, fields, api, tools, _
 
 
-class trafitec_viajes_evidencias(models.Model):
+class TrafitecViajesEvidencias(models.Model):
     _name = 'trafitec.viajes.evidencias'
     _description = 'viajes evidencias'
     

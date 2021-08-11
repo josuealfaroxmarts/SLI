@@ -3,7 +3,7 @@
 from odoo import models, fields, api, tools, _
 
 
-class trafitec_viaje_cargos(models.Model):
+class TrafitecViajeCargos(models.Model):
     _name = 'trafitec.viaje.cargos'
     _description = 'trafitec viajes cargos'
 
@@ -12,9 +12,18 @@ class trafitec_viaje_cargos(models.Model):
         string='Tipos de cargos adicionales',
         required=True
     )
-    valor = fields.Float(string='Valor', required=True)
-    line_cargo_id = fields.Many2one('trafitec.viajes', string='Id viaje')
-    sistema = fields.Boolean(string='Sistema', default=False)
+    valor = fields.Float(
+        string='Valor', 
+        required=True
+    )
+    line_cargo_id = fields.Many2one(
+        'trafitec.viajes', 
+        string='Id viaje'
+    )
+    sistema = fields.Boolean(
+        string='Sistema', 
+        default=False
+    )
     validar_en_cr = fields.Boolean(
         string='Validar en CR',
         related='name.validar_en_cr'

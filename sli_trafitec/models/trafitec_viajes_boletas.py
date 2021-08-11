@@ -4,7 +4,7 @@ from odoo import models, fields, api, tools, _
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
 
-class trafitec_viajes_boletas(models.Model):
+class TrafitecViajesBoletas(models.Model):
     _name = 'trafitec.viajes.boletas'
     _description = 'viajes boletas'
 
@@ -97,7 +97,7 @@ class trafitec_viajes_boletas(models.Model):
                         )
                     )
 
-        return super(trafitec_viajes_boletas, self).create(vals)
+        return super(TrafitecViajesBoletas, self).create(vals)
 
     def write(self, vals):
         if 'name' in vals:
@@ -146,4 +146,4 @@ class trafitec_viajes_boletas(models.Model):
                         )
                     )
 
-        return super(trafitec_viajes_boletas, self).write(vals)
+        return super(TrafitecViajesBoletas, self).write(vals)
