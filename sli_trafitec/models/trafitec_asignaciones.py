@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api, tools, _
 
-    
+
 class trafitec_asignaciones(models.Model):
     _name = 'trafitec.asignaciones'
     _description = 'trafitec asignaciones'
