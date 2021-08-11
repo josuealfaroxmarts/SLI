@@ -23,11 +23,11 @@ class ReportFee(models.Model):
         self._cr.execute(
             ''' CREATE VIEW fee_report AS (
                     select
-                    f.id id,
-                    f.name name,
-                    f.partner_id partner_id,
-                    f.state state
-                    from account_invoice f
+                    id as id,
+                    name as name,
+                    partner_id as partner_id,
+                    state as state
+                    from account_move
                     limit 5
                 )
             '''

@@ -405,7 +405,7 @@ where clo.state='Disponible' and ct.id={} --and ct.name='CO001042'
 order by des.name
         '''.format(self.id)
         
-        self.env.cr.execute(sql)
+        self.env.cr.execute("sql")
         lista = self.env.cr.dictfetchall()
         
         glo = self.env['trafitec.glo']
@@ -453,13 +453,13 @@ order by des.name
         contenido = ''
         contenido += "<img src='http://sli.mx/media/logo.png'/><br/>"
         contenido += '<b>SOLUCIONES LOGISTICAS INTELIGENTES SA DE CV</b>'
-        contenido += '<hr style='{0}'/>'.format(estilo_hr)
+        contenido += "<hr style='{0}'/>".format(estilo_hr)
         contenido += 'CLIENTE: ' + str(self.cliente.name or self.cliente_refenciado or '') + '<br/>'
         contenido += 'PEDIDO: ' + str(self.name or '') + '<br/>'
         contenido += 'LINEA NEGOCIO: ' + str(self.lineanegocio.name or '') + '<br/>'
-        contenido += '<hr style='{0}'/>'.format(estilo_hr)
+        contenido += "<hr style='{0}'/>".format(estilo_hr)
         contenido += 'Estimado(a) {0} por este medio le hacemos llegar el avance general del pedido con folio {1}.'.format((self.contacto or self.contacto2.name), self.name)
-        contenido += '<hr style='{0}'/>'.format(estilo_hr)
+        contenido += "<hr style='{0}'/>".format(estilo_hr)
     
         cantidad = 0
     
@@ -521,13 +521,13 @@ order by des.name
                     subtotal_avance = subtotal_peso * 100 / subtotal_cantidad
     
                 contenido += '<tr>'
-                contenido += '<td style='{0}'></td>'.format(estilo_noborde)
-                contenido += '<td style='{0}'></td>'.format(estilo_noborde)
-                contenido += '<td style='{0}'>SUBTOTAL</td>'.format(estilo_etiqueta + estilo_noborde)
-                contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (subtotal_cantidad or 0))
-                contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (subtotal_peso or 0))
-                contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (subtotal_saldo or 0))
-                contenido += '<td style='{0}'>{1:20,.2f}%</td>'.format(estilo, (subtotal_avance or 0))
+                contenido += "<td style='{0}'></td>".format(estilo_noborde)
+                contenido += "<td style='{0}'></td>".format(estilo_noborde)
+                contenido += "<td style='{0}'>SUBTOTAL</td>".format(estilo_etiqueta + estilo_noborde)
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_cantidad or 0))
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_peso or 0))
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_saldo or 0))
+                contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (subtotal_avance or 0))
                 contenido += '</tr>'
     
                 subtotal_cantidad = 0
@@ -546,13 +546,13 @@ order by des.name
                 estilo = estilo_moneda_rojo
         
             contenido += '<tr>'
-            contenido += '<td style='{0}'>{1}</td>'.format(estilo_normal, str(folio_cliente or ''))
-            contenido += '<td style='{0}'>{1}</td>'.format(estilo_normal_origen_destino, str(origen or ''))
-            contenido += '<td style='{0}'>{1}</td>'.format(estilo_normal_origen_destino, str(destino or ''))
-            contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons, (cantidad or 0))
-            contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons, (peso or 0))
-            contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons, (saldo or 0))
-            contenido += '<td style='{0}'>{1:20,.2f}%</td>'.format(estilo, (avance or 0))
+            contenido += "<td style='{0}'>{1}</td>".format(estilo_normal, str(folio_cliente or ''))
+            contenido += "<td style='{0}'>{1}</td>".format(estilo_normal_origen_destino, str(origen or ''))
+            contenido += "<td style='{0}'>{1}</td>".format(estilo_normal_origen_destino, str(destino or ''))
+            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons, (cantidad or 0))
+            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons, (peso or 0))
+            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons, (saldo or 0))
+            contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (avance or 0))
             contenido += '</tr>'
 
             if c == len(lista):
@@ -562,13 +562,13 @@ order by des.name
                     subtotal_avance = subtotal_peso * 100 / subtotal_cantidad
     
                 contenido += '<tr>'
-                contenido += '<td style='{}'></td>'.format(estilo_noborde)
-                contenido += '<td style='{}'></td>'.format(estilo_noborde)
-                contenido += '<td style='{}'>SUBTOTAL</td>'.format(estilo_etiqueta + estilo_noborde)
-                contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (subtotal_cantidad or 0))
-                contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (subtotal_peso or 0))
-                contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (subtotal_saldo or 0))
-                contenido += '<td style='{0}'>{1:20,.2f}%</td>'.format(estilo, (subtotal_avance or 0))
+                contenido += "<td style='{}'></td>".format(estilo_noborde)
+                contenido += "<td style='{}'></td>".format(estilo_noborde)
+                contenido += "<td style='{}'>SUBTOTAL</td>".format(estilo_etiqueta + estilo_noborde)
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_cantidad or 0))
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_peso or 0))
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_saldo or 0))
+                contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (subtotal_avance or 0))
                 contenido += '</tr>'
     
                 subtotal_cantidad = 0
@@ -584,13 +584,13 @@ order by des.name
             total_avance = total_peso * 100 / total_cantidad
         
         contenido += '<tr>'
-        contenido += '<td style='{0}'></td>'.format(estilo_noborde)
-        contenido += '<td style='{0}'></td>'.format(estilo_noborde)
-        contenido += '<td style='{0}'>TOTAL</td>'.format(estilo_etiqueta + estilo_noborde)
-        contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (total_cantidad or 0))
-        contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (total_peso or 0))
-        contenido += '<td style='{0}'>{1:20,.3f}</td>'.format(estilo_tons_subtotal, (total_saldo or 0))
-        contenido += '<td style='{0}'>{1:20,.2f}%</td>'.format(estilo, (total_avance or 0))
+        contenido += "<td style='{0}'></td>".format(estilo_noborde)
+        contenido += "<td style='{0}'></td>".format(estilo_noborde)
+        contenido += "<td style='{0}'>TOTAL</td>".format(estilo_etiqueta + estilo_noborde)
+        contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (total_cantidad or 0))
+        contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (total_peso or 0))
+        contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (total_saldo or 0))
+        contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (total_avance or 0))
         contenido += '</tr>'
         
         contenido += '</table>'

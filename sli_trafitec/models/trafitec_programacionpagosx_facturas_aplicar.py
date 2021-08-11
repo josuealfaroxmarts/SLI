@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, tools
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-import xlrd
-import shutil
-import datetime
-import logging
 # from odoo.tools import amount_to_text
-from . import amount_to_text
+#from . import amount_to_text
 import xlsxwriter
 import base64
 # from amount_to_text import *

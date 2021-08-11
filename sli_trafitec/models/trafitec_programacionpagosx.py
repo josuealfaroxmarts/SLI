@@ -6,7 +6,7 @@ import xlrd
 import shutil
 import datetime
 # from odoo.tools import amount_to_text
-from . import amount_to_text
+#from . import amount_to_text
 import xlsxwriter
 import base64
 # from amount_to_text import *

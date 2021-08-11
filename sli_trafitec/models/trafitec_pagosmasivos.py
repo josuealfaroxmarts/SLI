@@ -19,7 +19,7 @@ class TrafitecPagosMasivos(models.Model):
 		required=True,
 		domain=(
 			[(['company','person'],'in','company_type'),'|',
-			+ ('supplier','=',True),('customer','=',True)]
+			('supplier','=',True),('customer','=',True)]
 		),
 		tracking=True
 	)
