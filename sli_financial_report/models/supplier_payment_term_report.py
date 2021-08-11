@@ -3,22 +3,24 @@ import base64
 from io import StringIO
 from odoo import _, api, exceptions, fields, models, tools
 from odoo.tools import float_is_zero
-from datetime import datetime,date
+from datetime import datetime
 
 class SupplierPaymentTermReport(models.Model):
 	_name = "supplier.payment.term.report"
 	_description ='Supplier payment report'
 
+	date_from = fields.Date(string="De")
+	date_to = fields.Date(string="A")
+	file_name = fields.Char(string="Nombre del archivo")
+	type_file = fields.Char(string="Tipo de archivo")
+	file = fields.Binary(string="Descargar archivo")
+	partner_id = fields.Many2one(
+		'res.partner',
+		string='Proveedor', 
+		required=True, 
+		domain=[('supplier', '=', True)]
+	)
 
-	date_from = fields.Date(string=_("De"))
-	date_to = fields.Date(string=_("A"))
-	file_name = fields.Char(string=_("Nombre del archivo"))
-	type_file = fields.Char(string=_("Tipo de archivo"))
-	file = fields.Binary(string=_("Descargar archivo"))
-	partner_id = fields.Many2one('res.partner', string='Proveedor', required=True, domain=[('supplier', '=', True)])
-
-
-	
 	def _reopen_wizard(self):
 		return { 'type'     : 'ir.actions.act_window',
 				 'res_id'   : self.id,
@@ -33,12 +35,10 @@ class SupplierPaymentTermReport(models.Model):
 		file = StringIO()
 
 		account_invoice_obj = self.env['account.move'].search([
-																('partner_id', '=', self.partner_id.id),
-																('date', '>=', self.date_from),
-																('date', '<=', self.date_to),
-																('state', '=', 'open')
-																])
-
+			('partner_id', '=', self.partner_id.id),
+			('date', '>=', self.date_from),
+			('date', '<=', self.date_to),
+			('state', '=', 'open')])
 
 		final_value = {}
 		workbook = xlwt.Workbook()
@@ -134,5 +134,3 @@ class SupplierPaymentTermReport(models.Model):
 
 
 		return self._reopen_wizard()
-
-

@@ -44,6 +44,7 @@ from . import trafitec_crm_trafico_pedidos
 from . import trafitec_crm_trafico_registro
 from . import trafitec_crm_trafico_registro_viajes
 from . import trafitec_crm_trafico_resultado
+from . import trafitec_crm_trafico_tablero
 from . import trafitec_descuentos
 from . import trafitec_descuentos_abono
 from . import trafitec_etiquetas
