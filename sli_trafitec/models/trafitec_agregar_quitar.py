@@ -225,33 +225,35 @@ class TrafitecAgregarQuitar(models.Model):
 
     @api.onchange('factura_id')
     def _onchange_saldo(self):
-        if self.factura_id:
-            self.saldo = self.total - self.abonado
+        for rec in self:
+            if rec.factura_id:
+                rec.saldo = rec.total - rec.abonado
 
-    
     def _compute_saldo(self):
-        if self.factura_id:
-            self.saldo = self.total - self.abonado
+        for rec in self:
+            if rec.factura_id:
+                rec.saldo = rec.total - rec.abonado
 
     @api.onchange('viaje_id')
     def _onchange_fletes(self):
-        amount = 0
-        for record in self.viaje_id:
-            if amount == 0:
-                amount = record.flete_cliente
-            else:
-                amount += record.flete_cliente
-        self.fletes = amount
+        for rec in self:
+            amount = 0
+            for record in rec.viaje_id:
+                if amount == 0:
+                    amount = record.flete_cliente
+                else:
+                    amount += record.flete_cliente
+            rec.fletes = amount
 
-    
     def _compute_fletes(self):
-        amount = 0
-        for record in self.viaje_id:
-            if amount == 0:
-                amount = record.flete_cliente
-            else:
-                amount += record.flete_cliente
-        self.fletes = amount
+        for rec in self:
+            amount = 0
+            for record in rec.viaje_id:
+                if amount == 0:
+                    amount = record.flete_cliente
+                else:
+                    amount += record.flete_cliente
+            rec.fletes = amount
 
     def _generar_factura_excedente(self, vals, parametros_obj):
         fact = vals.factura_id
@@ -264,169 +266,181 @@ class TrafitecAgregarQuitar(models.Model):
             'company_id': fact.company_id.id,
             'currency_id': fact.currency_id.id,
             'account_id': fact.account_id.id,
-            'ref': 'Factura generada por excedente en el folio {} '.format(vals.name)
+            'ref': 'Factura generada por excedente en el folio {} '.format(
+                vals.name
+            )
         }
         move_id = vals.env['account.move'].create(valores)
-
         product = self.env['product.product'].search([
-            ('product_tmpl_id','=',parametros_obj.product_invoice.id)])
-
+            ('product_tmpl_id', '=', parametros_obj.product_invoice.id)])
         piva = (parametros_obj.iva.amount / 100)
         priva = (parametros_obj.retencion.amount / 100)
-
-        monto = self.factura_id.abonado - self.total
-
-        subtotal = monto / (1 + (piva - priva))
-        iva = subtotal * piva
-        riva = subtotal * priva
-        total = subtotal + iva + riva
-
-        inv_line = {
-            'move_id': move_id.id,
-            'product_id': product.id,
-            'name': product.name,
-            'quantity': 1,
-            'account_id': fact.account_id.id,
-            'uom_id': parametros_obj.product_invoice.uom_id.id,
-            'price_unit': subtotal,
-            'price_unit': subtotal,
-            'discount': 0
-        }
-        vals.env['account.move.line'].create(inv_line)
-
-
-        inv_tax = {
-            'move_id': move_id.id,
-            'name': parametros_obj.iva.name,
-            'account_id': parametros_obj.iva.account_id.id,
-            'amount': (iva - riva),
-            'sequence': '0'
-        }
-        vals.env['account.move.tax'].create(inv_tax)
-
-        inv_ret = {
-            'move_id': move_id.id,
-            'name': parametros_obj.retencion.name,
-            'account_id': parametros_obj.retencion.account_id.id,
-            'amount': riva,
-            'sequence': '0'
-        }
-        vals.env['account.move.tax'].create(inv_ret)
-
-        return move_id
-
-    
-    def action_available(self):
-        apag = False
-        if self.saldo > self.total_g:
-            self.factura_id.write(
-                {'abonado':(self.total_g + self.factura_id.abonado)})
-        else:
-            apag = True
-            self.factura_id.write(
-                {'pagada': True, 'abonado':(self.factura_id.abonado + self.total_g)})
-
-        for viaje in self.viaje_id:
-            viaje.write({'en_factura': True})
-        self.write({'state': 'Validada'})
-
-        if apag == True:
-            action_ctx = dict(self.env.context)
-            view_id = self.env.ref('sli_trafitec.msj_factura_form').id
-            return {
-                'name': ('Advertencia'),
-                'type': 'ir.actions.act_window',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'res_model': 'trafitec.agregar.quitar',
-                'views': [(view_id, 'form')],
-                'view_id': view_id,
-                'target': 'new',
-                'res_id': self.ids[0],
-                'context': action_ctx
+        for rec in self:
+            monto = rec.factura_id.abonado - rec.total
+            subtotal = monto / (1 + (piva - priva))
+            iva = subtotal * piva
+            riva = subtotal * priva
+            total = subtotal + iva + riva
+            inv_line = {
+                'move_id': move_id.id,
+                'product_id': product.id,
+                'name': product.name,
+                'quantity': 1,
+                'account_id': fact.account_id.id,
+                'uom_id': parametros_obj.product_invoice.uom_id.id,
+                'price_unit': subtotal,
+                'price_unit': subtotal,
+                'discount': 0
             }
+            vals.env['account.move.line'].create(inv_line)
+            inv_tax = {
+                'move_id': move_id.id,
+                'name': parametros_obj.iva.name,
+                'account_id': parametros_obj.iva.account_id.id,
+                'amount': (iva - riva),
+                'sequence': '0'
+            }
+            vals.env['account.move.tax'].create(inv_tax)
+            inv_ret = {
+                'move_id': move_id.id,
+                'name': parametros_obj.retencion.name,
+                'account_id': parametros_obj.retencion.account_id.id,
+                'amount': riva,
+                'sequence': '0'
+            }
+            vals.env['account.move.tax'].create(inv_ret)
+            return move_id
+
+    def action_available(self):
+        for rec in self:
+            apag = False
+            if rec.saldo > rec.total_g:
+                rec.factura_id.write(
+                    {'abonado': (rec.total_g + rec.factura_id.abonado)})
+            else:
+                apag = True
+                rec.factura_id.write(
+                    {'pagada': True, 'abonado': (
+                        rec.factura_id.abonado
+                        + rec.total_g
+                    )})
+            for viaje in rec.viaje_id:
+                viaje.write({'en_factura': True})
+            rec.write({'state': 'Validada'})
+            if apag:
+                action_ctx = dict(self.env.context)
+                view_id = self.env.ref('sli_trafitec.msj_factura_form').id
+                return {
+                    'name': ('Advertencia'),
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': 'trafitec.agregar.quitar',
+                    'views': [(view_id, 'form')],
+                    'view_id': view_id,
+                    'target': 'new',
+                    'res_id': rec.id,
+                    'context': action_ctx
+                }
 
     def action_cancel(self):
-        self.factura_id.write(
-            {'pagada': False, 'abonado': (self.factura_id.abonado - self.total_g)})
-        for viaje in self.viaje_id:
-            viaje.write({'en_factura': False})
-        self.write({'state': 'Cancelada'})
-        
+        for rec in self:
+            rec.factura_id.write(
+                {'pagada': False, 'abonado': (
+                    rec.factura_id.abonado - rec.total_g
+                )})
+            for viaje in rec.viaje_id:
+                viaje.write({'en_factura': False})
+            rec.write({'state': 'Cancelada'})
+
     @api.onchange('viaje_id')
     def _onchange_maniobras(self):
-        amount = 0
-        for record in self.viaje_id:
-            if amount == 0:
-                amount = record.maniobras
-            else:
-                amount += record.maniobras
-        self.maniobras = amount
+        for rec in self:
+            amount = 0
+            for record in rec.viaje_id:
+                if amount == 0:
+                    amount = record.maniobras
+                else:
+                    amount += record.maniobras
+            rec.maniobras = amount
 
-    
     def _compute_maniobras(self):
-        amount = 0
-        for record in self.viaje_id:
-            if amount == 0:
-                amount = record.maniobras
-            else:
-                amount += record.maniobras
-        self.maniobras = amount
+        for rec in self:
+            amount = 0
+            for record in rec.viaje_id:
+                if amount == 0:
+                    amount = record.maniobras
+                else:
+                    amount += record.maniobras
+            rec.maniobras = amount
 
-    # Totales
     @api.onchange('fletes', 'maniobras')
     def _onchange_subtotal(self):
-        self.subtotal_g = self.fletes + self.maniobras
+        for rec in self:
+            rec.subtotal_g = rec.fletes + rec.maniobras
 
-    
     def _compute_subtotal(self):
-        self.subtotal_g = self.fletes + self.maniobras
+        for rec in self:
+            rec.subtotal_g = rec.fletes + rec.maniobras
 
     @api.onchange('subtotal_g')
     def _onchange_iva(self):
-        parametros_obj = self._get_parameter_company(self)
-        if self.subtotal_g:
-            self.iva_g = self.subtotal_g * (parametros_obj.iva.amount / 100)
-        else:
-            self.iva_g = 0
+        for rec in self:
+            parametros_obj = rec._get_parameter_company(rec)
+            if rec.subtotal_g:
+                rec.iva_g = rec.subtotal_g * (parametros_obj.iva.amount / 100)
+            else:
+                rec.iva_g = 0
 
-    
     def _compute_iva(self):
-        parametros_obj = self._get_parameter_company(self)
-        if self.subtotal_g:
-            self.iva_g = self.subtotal_g * (parametros_obj.iva.amount / 100)
-        else:
-            self.iva_g = 0
+        for rec in self:
+            parametros_obj = rec._get_parameter_company(rec)
+            if rec.subtotal_g:
+                rec.iva_g = rec.subtotal_g * (parametros_obj.iva.amount / 100)
+            else:
+                rec.iva_g = 0
 
     @api.onchange('fletes')
     def _onchange_riva(self):
-        parametros_obj = self._get_parameter_company(self)
-        if self.fletes:
-            self.r_iva_g = (self.fletes * (parametros_obj.retencion.amount / 100))
-        else:
-            self.r_iva_g = 0
+        for rec in self:
+            parametros_obj = rec._get_parameter_company(rec)
+            if rec.fletes:
+                rec.r_iva_g = (
+                    rec.fletes
+                    * (parametros_obj.retencion.amount / 100)
+                )
+            else:
+                rec.r_iva_g = 0
 
     def _compute_riva(self):
-        parametros_obj = self._get_parameter_company(self)
-        if self.fletes:
-            self.r_iva_g = (self.fletes * (parametros_obj.retencion.amount / 100))
-        else:
-            self.r_iva_g = 0
+        for rec in self:
+            parametros_obj = rec._get_parameter_company(rec)
+            if rec.fletes:
+                rec.r_iva_g = (
+                    rec.fletes
+                    * (parametros_obj.retencion.amount / 100)
+                )
+            else:
+                rec.r_iva_g = 0
 
     @api.onchange('subtotal_g', 'iva_g', 'r_iva_g')
     def _onchange_total(self):
-        self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
+        for rec in self:
+            rec.total_g = rec.subtotal_g + rec.iva_g - rec.r_iva_g
 
-    
     def _compute_total(self):
-        self.total_g = self.subtotal_g + self.iva_g - self.r_iva_g
+        for rec in self:
+            rec.total_g = rec.subtotal_g + rec.iva_g - rec.r_iva_g
 
     @api.model
     def create(self, vals):
         if 'company_id' in vals:
-            vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-                'Trafitec.Agregar.Quitar') or ('Nuevo')
+            vals['name'] = self.env['ir.sequence'].with_context(
+                force_company=vals['company_id']
+            ).next_by_code('Trafitec.Agregar.Quitar') or ('Nuevo')
         else:
-            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Agregar.Quitar') or ('Nuevo')
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'Trafitec.Agregar.Quitar'
+            ) or ('Nuevo')
 
         return super(TrafitecAgregarQuitar, self).create(vals)
