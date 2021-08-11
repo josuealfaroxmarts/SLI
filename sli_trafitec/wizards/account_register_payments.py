@@ -1,6 +1,5 @@
 ## -*- coding: utf-8 -*-
 from odoo import models, fields, api, tools
-import logging
 
 
 class AccountPaymentsRegister(models.TransientModel):
@@ -17,7 +16,7 @@ class AccountPaymentsRegister(models.TransientModel):
 	
 	@api.model
 	def default_get(self, fields):
-		rec = super(AccountRegisterPayments, self).default_get(fields)
+		rec = super(AccountPaymentsRegister, self).default_get(fields)
 		return rec
 	
 	def _get_invoices(self):

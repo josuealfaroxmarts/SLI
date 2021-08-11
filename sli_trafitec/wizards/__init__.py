@@ -6,7 +6,7 @@ from . import trafitec_cargospendientes
 from . import trafitec_contrarecibo_descuentosx
 from . import trafitec_cotizacion_cancelar
 from . import trafitec_crm_trafico
-from . import atrafitec_facturas_cancelar
+from . import trafitec_facturas_cancelar
 from . import trafitec_programacionpagosx_facturas_buscar
 from . import trafitec_reportes_generales
 from . import trafitec_reportes_parametros
