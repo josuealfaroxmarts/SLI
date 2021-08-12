@@ -375,18 +375,18 @@ class TrafitecCotizacion(models.Model):
             rec.email = rec.contacto2.email
             rec.telefono = rec.contacto2.phone or rec.contacto2.mobile
 
-    @api.onchange('semaforo_valor')
+    """@api.onchange('semaforo_valor')
     def onchange_semaforo_valor(self):
         if self.semaforo_valor:
-            if self.semaforo_valor == 'rojo':
-                def action_enviar_info_cliente(self):
-                    contenido = ''
-                    para = ''
-                    para2 = ''
-                    contenido += ''
-                    sql = ''
-                    lista = []
-                    sql = '''
+            if self.semaforo_valor == 'rojo':"""
+    def action_enviar_info_cliente(self):
+        contenido = ''
+        para = ''
+        para2 = ''
+        contenido += ''
+        sql = ''
+        lista = []
+        sql = '''
         select
 ct.name folio,
 cl.name folio_cliente,
@@ -611,240 +611,214 @@ order by des.name
 
     @api.constrains('contacto2', 'contacto')
     def _check_contacto(self):
-        if not self.contacto and not self.contacto2.name:
-            raise UserError(
-                _('Aviso !\nDebe especificar un contacto referenciado o del catalago de contactos.')
-            )
-
+        for rec in self:
+            if not self.contacto and not self.contacto2.name:
+                raise UserError(_(
+                    'Aviso !\nDebe especificar un contacto referenciado o del'
+                    + ' catalago de contactos.'
+                ))
     
     @api.constrains('producto_referen', 'product')
     def _check_producto(self):
-        if self.producto_referen == False and self.product.name == False:
-            raise UserError(
-                _('Aviso !\nDebe especificar un producto referenciado o del catalago de productos.')
-            )
-
+        for rec in self:
+            if not self.producto_referen and  not self.product.name:
+                raise UserError(_(
+                    'Aviso !\nDebe especificar un producto referenciado o del'
+                    + ' catalago de productos.'
+                ))
     
     @api.onchange('product')
     def _onchange_product(self):
-        try:
-            self.producto_referen = self.product.name
-        except:
-            pass
-        
-        self.costo_producto = self.product.product_tmpl_id.list_price
-
+        for rec in self:
+            try:
+                rec.producto_referen = rec.product.name
+            except:
+                pass
+            rec.costo_producto = rec.product.product_tmpl_id.list_price
 
     def _valida_moroso(self, vals=None):
-        if vals is None:
+        if not vals:
             return
-        
-        persona_id = 'cliente' in vals and vals['cliente'] or self.cliente.id
-    
-        # ---------------------------------
-        # OBJETOS
-        # ---------------------------------
-        saldo = 0.00
-        es_moroso = False
-    
-        persona_obj = self.env['res.partner']
-        saldo = persona_obj.saldo_vencido(persona_id)
-        es_moroso = persona_obj.es_moroso(persona_id)
-    
-        if es_moroso:
-            raise UserError(_
-                ('El cliente tiene facturas vencidas por: {0:.2f}.'.format(saldo))
-            )
-
+        for rec in self:
+            persona_id = vals.get('cliente', False) or rec.cliente.id
+            saldo = 0.00
+            es_moroso = False
+            persona_obj = self.env['res.partner']
+            saldo = persona_obj.saldo_vencido(persona_id)
+            es_moroso = persona_obj.es_moroso(persona_id)
+            if es_moroso:
+                raise UserError(_(
+                    'El cliente tiene facturas vencidas por: {0:.2f}.'.format(
+                        saldo
+                    )
+                ))
 
     @api.model
     def create(self, vals):
-
-        # ----------------------------------------------------
-        # Validaciones
-        # ----------------------------------------------------
-        # if self._context.get('validar_cliente_moroso', True):
-        #     self._valida_moroso(vals)
-        # ----------------------------------------------------
-
-        # raise UserError(str(self._context))
         if vals.get('folio', _('New')) == _('New'):
-            vals['folio'] = self.env['ir.sequence'].next_by_code('trafitec.cotizacion') or _('New')
-        
+            vals['folio'] = self.env['ir.sequence'].next_by_code(
+                'trafitec.cotizacion'
+            ) or _('New')
         if 'cliente' in vals:
             cliente_obj = self.env['res.partner']
             cliente_dat = cliente_obj.browse([vals.get('cliente')])
-
             if cliente_dat:
-
                 if cliente_dat.bloqueado_cliente_bloqueado:
-                    raise UserError(_
-                        ('El cliente esta bloqueado, motivo: ' + (cliente_dat.bloqueado_cliente_clasificacion_id.name or ''))
-                    )
-        
-
+                    name = cliente_dat.bloqueado_cliente_clasificacion_id.name
+                    raise UserError(_(
+                        'El cliente esta bloqueado, motivo: '
+                        + (name or '')
+                    ))
         if 'company_id' in vals:
-            vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-                'Trafitec.Cotizacion') or _('Nuevo')
+            vals['name'] = self.env['ir.sequence'].with_context(
+                force_company=vals['company_id']
+            ).next_by_code('Trafitec.Cotizacion') or _('Nuevo')
         else:
-            vals['name'] = self.env['ir.sequence'].next_by_code('Trafitec.Cotizacion') or _('Nuevo')
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'Trafitec.Cotizacion'
+            ) or _('Nuevo')
         vals['state'] = 'Nueva'
-
-
-        # linea_nego_obj = self.env['trafitec.lineanegocio'].search([('id', '=', vals['lineanegocio'])])
-        # print('************lineax self: ' + str(linea_nego_obj))
-
-        # if linea_nego_obj.name == 'Granel' or linea_nego_obj.name == 'GRANEL' or linea_nego_obj.name == 'granel':
-        #     if not 'reglas_merma' in vals:
-        #         raise UserError(
-        #             _('Aviso !\nDebe seleccionar una regla de merma para granel.'))
-            
         nuevo = super(TrafitecCotizacion, self).create(vals)
-
         return nuevo
-
 
     @api.model
     def genera_pedido_venta(self):
-        sale_order_obj = self.env['sale.order']
-        sale_order_line_obj = self.env['sale.order.line']
-        cliente_obj = self.env['res.partner']
-        cliente_dat = cliente_obj.browse([self.cliente.id])
-        trafitec_cfg_obj = self.env['trafitec.parametros']
-        trafitec_cfg_dat = trafitec_cfg_obj.search([('company_id', '=', self.env.user.company_id.id)])
-    
-        # Si no esta especificado el producto termina
-        if not trafitec_cfg_dat.cot_producto_id:
+        for rec in self:
+            sale_order_obj = self.env['sale.order']
+            sale_order_line_obj = self.env['sale.order.line']
+            cliente_obj = self.env['res.partner']
+            cliente_dat = cliente_obj.browse([rec.cliente.id])
+            trafitec_cfg_obj = self.env['trafitec.parametros']
+            trafitec_cfg_dat = trafitec_cfg_obj.search([
+                ('company_id', '=', self.env.user.company_id.id)
+            ])
+            if not trafitec_cfg_dat.cot_producto_id:
+                return
+            valores = {
+                'partner_id': rec.cliente.id,
+                'origin': 'Cotización trafitec: ' + (rec.name or ''),
+                'client_order_ref': '',
+                'state': 'draft',
+                'note': '',
+                'product_id': trafitec_cfg_dat.cot_producto_id.id,
+                'trafitec_cotizacion_id': rec.id,
+                'payment_term_id': rec.payment_term_id.id,
+                'team_id': cliente_dat.equipoventa_id.id
+            }
+            sale_order_nuevo = sale_order_obj.create(valores)
+            valores = {
+                'order_id': sale_order_nuevo.id,
+                'order_partner_id': rec.cliente.id,
+                'product_id': trafitec_cfg_dat.cot_producto_id.id,
+                'product_uom_qty': 1,
+                'product_uom': (
+                    trafitec_cfg_dat.cot_producto_id.product_tmpl_id.uom_id.id
+                ),
+                'price_unit': rec.monto_total,
+                'name': (sale_order_nuevo.name or '')
+            }
+            sale_order_line_obj.create(valores)
+            sale_order_nuevo.action_confirm()
+            rec.odoo_cotizacion_id = sale_order_nuevo.id
 
-            return
-        
-        valores = {
-            'partner_id': self.cliente.id,
-            'origin': 'Cotización trafitec: ' + (self.name or ''),
-            'client_order_ref': '',
-            'state': 'draft',  # 'validity_date': self
-            'note': '',
-            'product_id': trafitec_cfg_dat.cot_producto_id.id,
-            'trafitec_cotizacion_id': self.id,
-            'payment_term_id': self.payment_term_id.id,
-            'team_id': cliente_dat.equipoventa_id.id
-        }
-        sale_order_nuevo = sale_order_obj.create(valores)
-    
-        valores = {
-            'order_id': sale_order_nuevo.id,
-            'order_partner_id': self.cliente.id,
-            'product_id': trafitec_cfg_dat.cot_producto_id.id,
-            'product_uom_qty': 1,
-            'product_uom': trafitec_cfg_dat.cot_producto_id.product_tmpl_id.uom_id.id,
-            'price_unit': self.monto_total,
-            'name': (sale_order_nuevo.name or '')
-        }
-        # sale_order_nuevo = sale_order_obj.create(valores)
-        sale_order_line_obj.create(valores)
-        sale_order_nuevo.action_confirm()
-        
-        self.odoo_cotizacion_id = sale_order_nuevo.id
-
-    
     def write(self, vals):
-        for data in self :
-
-            # print('********self write: ' + str(self))
-            # print('********vals write: ' + str(vals))
+        for data in self:
             if 'lineanegocio' in vals:
                 linea_nego_id = vals['lineanegocio']
             else:
                 linea_nego_id = data.lineanegocio.id
-
             if 'reglas_merma' in vals:
                 regla_mer = vals['reglas_merma']
             else:
                 regla_mer = data.reglas_merma
-
-            linea_nego_obj = data.env['trafitec.lineanegocio'].search([('id', '=', linea_nego_id)])
-            
-            # if linea_nego_obj.name == 'Granel' or linea_nego_obj.name == 'GRANEL' or linea_nego_obj.name == 'granel':
-            #     if regla_mer == False:
-            #         raise UserError(
-            #             _('Aviso !\nDebe seleccionar una regla de merma para granel.'))
-                 
+            linea_nego_obj = data.env['trafitec.lineanegocio'].search([
+                ('id', '=', linea_nego_id)
+            ])
             if 'semaforo_valor' in vals:
-
                 if vals['semaforo_valor'] == 'rojo':
                     correo = ''
-                    
                     try:
                         usuario = data.create_uid
-                        empleado = data.env['hr.employee'].search([('user_id', '=', usuario.id)])
-                    
+                        empleado = data.env['hr.employee'].search([
+                            ('user_id', '=', usuario.id)
+                        ])
                         correo = empleado.parent_id.work_email
                     except:
                         pass
-                    
                     if correo != '':
                         mensaje = ''
-                        mensaje += 'Cotización: {}<br/>'.format(data.name or '')
-                        mensaje += 'Cliente: {}<br/>'.format(data.cliente.name or '')
-                        mensaje += 'Producto: {}<br/>'.format(data.product.name or '')
+                        mensaje += 'Cotización: {}<br/>'.format(
+                            data.name or ''
+                        )
+                        mensaje += 'Cliente: {}<br/>'.format(
+                            data.cliente.name or ''
+                        )
+                        mensaje += 'Producto: {}<br/>'.format(
+                            data.product.name or ''
+                        )
                         glo = data.env['trafitec.glo']
-                        glo.enviar_correo(correo, 'Cotización en Rojo', mensaje)
-                    
+                        glo.enviar_correo(
+                            correo,
+                            'Cotización en Rojo',
+                            mensaje
+                        )
             return super(TrafitecCotizacion, data).write(vals)
-
 
     @api.onchange('cliente')
     def _onchange_cliente(self):
-        try:
-            self.cliente_refenciado = self.cliente.name
-        except:
-            print('Cambio el cliente')
-        
-        if self.cliente:
-
-            # Documentos requeridos obtenidos del cliente
-            losdocs = []
-            documentos_cliente = self.env['trafitec.clientes.documentos'].search([('partner_id', '=', self.cliente.id), '|', ('name.evidencia', '=', True), ('name.dmc', '=', True)])
-            for d in documentos_cliente:
-                losdocs.append({'tipodocumento_id': d.name})
-                
-            self.documentos_id = losdocs
-            
-            if not self.payment_term_id:
-                self.payment_term_id = self.cliente.property_payment_term_id.id
-
-            if not self.pay_method_id:
-                self.pay_method_id = self.cliente.pay_method_id.id
-
-            self.direccion = self.cliente
-            self.reglas_merma = self.cliente.excedente_merma
-
-            return {
-                'domain': {
-                    'domicilio': ['|', ('parent_id', '=', self.cliente.id), ('id', '=', self.cliente.id)]
+        for rec in self:
+            rec.cliente_refenciado = rec.cliente.name
+            if rec.cliente:
+                losdocs = []
+                documentos_cliente = self.env[
+                    'trafitec.clientes.documentos'
+                ].search([
+                    ('partner_id', '=', rec.cliente.id),
+                    '|',
+                    ('name.evidencia', '=', True),
+                    ('name.dmc', '=', True)
+                ])
+                for d in documentos_cliente:
+                    losdocs.append({'tipodocumento_id': d.name})
+                rec.documentos_id = losdocs
+                if not rec.payment_term_id:
+                    rec.payment_term_id = (
+                        rec.cliente.property_payment_term_id.id
+                    )
+                if not rec.pay_method_id:
+                    rec.pay_method_id = rec.cliente.pay_method_id.id
+                rec.direccion = rec.cliente
+                rec.reglas_merma = rec.cliente.excedente_merma
+                return {
+                    'domain': {
+                        'domicilio': [
+                            '|',
+                            ('parent_id', '=', rec.cliente.id),
+                            ('id', '=', rec.cliente.id)
+                        ]
+                    }
                 }
-            }
-
 
     @api.onchange('polizas_seguro')
     def _onchange_porcentaje(self):
-        if self.polizas_seguro:
-            self.porcen_seguro = self.polizas_seguro.porcentaje_clie
+        for rec in self:
+            if rec.polizas_seguro:
+                rec.porcen_seguro = rec.polizas_seguro.porcentaje_clie
 
-    
     def action_authorized(self):
-        if len(self.lineas_cotizacion_id) == 0:
-            raise UserError(
-                ('Error !\nTiene que tener lineas antes de poder autorizar esta cotizacion.')
-            )
-        else:
-            self.write({'state': 'Autorizada'})
+        for rec in self:
+            if len(self.lineas_cotizacion_id) == 0:
+                raise UserError((
+                    'Error !\nTiene que tener lineas antes de poder autorizar'
+                    + ' esta cotizacion.'
+                ))
+            else:
+                rec.write({'state': 'Autorizada'})
 
-    
     def action_reactivate(self):
-        self.write({'state': 'Nueva'})
+        for rec in self:
+            rec.write({'state': 'Nueva'})
 
-    
     def action_send(self):
         if len(self.lineas_cotizacion_id) == 0:
             raise UserError(
