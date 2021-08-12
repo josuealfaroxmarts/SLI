@@ -1,3 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_supplier_invoice_report_1,access_supplier_invoice_report,model_supplier_invoice_report,base.group_user,1,1,1,1
 access_supplier_payment_term_report_1,access_supplier_payment_term_report,model_supplier_payment_term_report,base.group_user,1,1,1,1
 access_download_attachment_1,access_download_attachment,model_download_attachment,base.group_user,1,1,1,1
+access_report_download_1,access_report_download,model_reportdownload,base.group_user,1,1,1,1
