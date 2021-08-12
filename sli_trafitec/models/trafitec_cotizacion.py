@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, tools,_
+from odoo import models, fields, api, tools, _
 from odoo.exceptions import UserError
+
 
 class TrafitecCotizacion(models.Model):
     _name = 'trafitec.cotizacion'
     _description = 'cotizacion'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
-    
+
     name = fields.Char(
-        string='No. Cotización', 
-        copy=False, 
+        string='No. Cotización',
+        copy=False,
         readonly=True
     )
     nombre = fields.Char(string='Nombre')
@@ -21,90 +22,88 @@ class TrafitecCotizacion(models.Model):
     ciudad = fields.Char(string='Ciudad')
     presentacion_carga = fields.Selection(
         [
-            ('Granel', 'Granel'), 
-            ('Costal', 'Costal'), 
+            ('Granel', 'Granel'),
+            ('Costal', 'Costal'),
             ('Contenedor', 'Contenedor')
-        ], 
+        ],
         string='Presentación de carga'
     )
     lineanegocio = fields.Many2one(
-        'trafitec.lineanegocio', 
-        string='Linea de negocios', 
+        'trafitec.lineanegocio',
+        string='Linea de negocios',
         tracking=True
     )
     contacto = fields.Char(
-        string='Contacto referenciado', 
-        required=False, 
+        string='Contacto referenciado',
+        required=False,
         tracking=True
     )
     contacto2 = fields.Many2one(
-        string='Contacto', 
-        comodel_name='res.partner', 
+        string='Contacto',
+        comodel_name='res.partner',
         tracking=True
     )
     email = fields.Char(
-        string='Email', 
+        string='Email',
         tracking=True
     )
     telefono = fields.Char(
-        string='Teléfono', 
+        string='Teléfono',
         tracking=True
     )
     fecha = fields.Date(
-        string='Fecha', 
-        required=True, 
-        default=fields.Datetime.now, 
+        string='Fecha',
+        required=True,
+        default=fields.Datetime.now,
         tracking=True
     )
     validohasta = fields.Date(
-        string='Válido hasta', 
+        string='Válido hasta',
         tracking=True
     )
     cliente_refenciado = fields.Char(
-        string='Cliente referenciado', 
+        string='Cliente referenciado',
         tracking=True
     )
     cliente = fields.Many2one(
-        'res.partner', 
-        string='Cliente', 
+        'res.partner',
+        string='Cliente',
         domain=[
-            ('customer', '=', 1), 
+            ('customer', '=', 1),
             ('parent_id', '=', False)
         ],
         tracking=True
     )
     direccion = fields.Many2one(
-        'res.partner', 
-        string='Dirección', 
+        'res.partner',
+        string='Dirección',
         domain=[
-            '|', ('parent_id', '=', cliente), 
-            ('id','=',cliente)
+            '|', ('parent_id', '=', cliente),
+            ('id', '=', cliente)
         ],
         tracking=True
     )
     product = fields.Many2one(
-        'product.product', 
-        string='Producto', 
+        'product.product',
+        string='Producto',
         tracking=True
     )
     producto_referen = fields.Char(
-        string='Producto referenciado', 
+        string='Producto referenciado',
         tracking=True
     )
-
-    # CAMBIOS AL MODULO
     origen_id = fields.Many2one(
-        'trafitec.ubicacion', 
-        string='Ubicación origen', 
-        tracking=True, 
+        'trafitec.ubicacion',
+        string='Ubicación origen',
+        tracking=True,
         domain=[
             ('cliente_ubicacion', '=', cliente)
         ]
     )
     destino_id = fields.Many2one(
-        'trafitec.ubicacion', 
-        string='Ubicación destino', 
-        tracking=True, 
+        'trafitec.ubicacion',
+        string='Ubicación destino',
+        tracking=True,
         domain=[
             ('cliente_ubicacion', '=', cliente)
         ]
@@ -114,29 +113,25 @@ class TrafitecCotizacion(models.Model):
     limpia = fields.Boolean(string='Limpia')
     otro = fields.Boolean(string='Otro')
     otro_texto = fields.Char(string='Otro texto')
-    camisa = fields.Selection(
-        [
-            ('false', 'No aplica'), 
-            ('corta', 'Manga corta'), 
+    camisa = fields.Selection([
+            ('false', 'No aplica'),
+            ('corta', 'Manga corta'),
             ('larga', 'Manga Larga')
-        ], 
+        ],
         default='false'
     )
-    tipo_camion =  fields.One2many(
-        'trafitec.type_truck', 
+    tipo_camion = fields.One2many(
+        'trafitec.type_truck',
         'tipo_camion'
     )
     material_especial = fields.Char(string='Material Especial')
-    chaleco = fields.Selection(
-        [
-            ('No', 'No'), 
-            ('Si', 'Si')
-        ]
-    )
+    chaleco = fields.Selection([
+        ('No', 'No'),
+        ('Si', 'Si')
+    ])
     color_chaleco = fields.Char(string='Color del chaleco')
-    calzado = fields.Selection(
-        [
-            ('No', 'No'), 
+    calzado = fields.Selection([
+            ('No', 'No'),
             ('Si', 'Si')
         ]
     )
@@ -144,229 +139,241 @@ class TrafitecCotizacion(models.Model):
     casco = fields.Boolean(string='Casco')
     cubre_bocas = fields.Boolean(string='Cubre bocas')
     otro_operador = fields.Char(string='Otro operador')
-    sua = fields.Selection(
-        [
-            ('No', 'No'), 
-            ('Si', 'Si')
-        ]
-    )
+    sua = fields.Selection([
+        ('No', 'No'),
+        ('Si', 'Si')
+    ])
     currency_id = fields.Many2one(
-        'res.currency', 
+        'res.currency',
         string='Moneda'
     )
     factor_seguro = fields.Float(
-        string='Factor de seguro', 
-        digits=(16, 3), 
+        string='Factor de seguro',
+        digits=(16, 3),
         default=0.004
     )
-
-    # FIN CAMBIOS AL MODULO
     payment_term_id = fields.Many2one(
-        'account.payment.term', 
+        'account.payment.term',
         string='Plazos de pago'
     )
     pay_method_id = fields.Many2one(
-        'pay.method', 
+        'pay.method',
         string='Metodo de pago'
     )
     aplicanorma = fields.Boolean(string='Aplica norma SCT-012 por peso medido')
     seguro_mercancia = fields.Boolean(
-        string='Seguro de mercancia', 
-        tracking=True, 
+        string='Seguro de mercancia',
+        tracking=True,
         store=True
     )
     polizas_seguro = fields.Many2one(
-        'trafitec.polizas', 
-        string='Póliza de seguro', 
+        'trafitec.polizas',
+        string='Póliza de seguro',
         tracking=True
     )
     porcen_seguro = fields.Float(
-        string='Porcentaje de seguro', 
+        string='Porcentaje de seguro',
         tracking=True
     )
     seguro_entarifa = fields.Boolean(
-        string='Seguro en tarifa', 
-        tracking=True, 
+        string='Seguro en tarifa',
+        tracking=True,
         help='El seguro va incluido en la tarifa.'
     )
     costo_producto = fields.Float(
-        string='Costo del producto', 
-        required=True, 
+        string='Costo del producto',
+        required=True,
         tracking=True
     )
-    reglas_merma = fields.Selection(
-        [
-            ('No cobrar', 'No cobrar'), 
+    reglas_merma = fields.Selection([
+            ('No cobrar', 'No cobrar'),
             ('Porcentaje: Cobrar diferencia', '% Cobrar diferencia'),
-            ('Porcentaje: Cobrar todo', '% Cobrar Todo'), 
+            ('Porcentaje: Cobrar todo', '% Cobrar Todo'),
             ('Kg: Cobrar diferencia', 'Kilogramos cobrar diferencia'),
-            ('Kg: Cobrar todo', 'Kilogramos cobrar todo'), 
+            ('Kg: Cobrar todo', 'Kilogramos cobrar todo'),
             ('Cobrar todo', 'Cobrar Todo')
-        ], 
+        ],
         string='Reglas de merma'
     )
     lista_precio = fields.Many2one(
-        'product.pricelist', 
-        string='Lista de precios', 
+        'product.pricelist',
+        string='Lista de precios',
         tracking=True
     )
 
     iva = fields.Many2one(
-        'account.tax', 
+        'account.tax',
         string='IVAS'
     )
-    state = fields.Selection(
-        [
-            ('Nueva', 'Nueva'), 
-            ('Autorizada', 'Autorizada'), 
+    state = fields.Selection([
+            ('Nueva', 'Nueva'),
+            ('Autorizada', 'Autorizada'),
             ('Enviada', 'Enviada'),
-            ('Disponible', 'Disponible'), 
-            ('EnEspera', 'En espera'), 
-            ('Cancelada', 'Cancelada'), 
+            ('Disponible', 'Disponible'),
+            ('EnEspera', 'En espera'),
+            ('Cancelada', 'Cancelada'),
             ('Cerrada', 'Cerrada')
         ],
-        string='Estados', 
-        default='Nueva', 
+        string='Estados',
+        default='Nueva',
         tracking=True
     )
     lineas_cotizacion_id = fields.One2many(
-        'trafitec.cotizaciones.linea', 
-        'cotizacion_id', 
+        'trafitec.cotizaciones.linea',
+        'cotizacion_id',
         tracking=True
     )
     company_id = fields.Many2one(
-        'res.company', 
+        'res.company',
         'Company',
         default=lambda self: self.env['res.company']._company_default_get(
             'trafitec.cotizacion')
     )
     motivo_cancelacion = fields.Text(
-        string='Motivo cancelacion', 
+        string='Motivo cancelacion',
         tracking=True
     )
     fecha_cancelacion = fields.Datetime(
-        string='Fecha de cancelacion', 
+        string='Fecha de cancelacion',
         tracking=True
     )
     x_folio_trafitecw = fields.Char(
-        string='Folio Trafitec Windows', 
-        help='Folio de la orden de carga en Trafitec para windows.', 
+        string='Folio Trafitec Windows',
+        help='Folio de la orden de carga en Trafitec para windows.',
         tracking=True
     )
     sucursal_id = fields.Many2one(
-        'trafitec.sucursal', 
-        string='Sucursal', 
+        'trafitec.sucursal',
+        string='Sucursal',
         tracking=True
     )
     evidencia_id = fields.One2many(
-        string='Evidencias', 
-        comodel_name='trafitec.cotizaciones.evidencias', 
-        inverse_name='cotizacion_id', 
+        string='Evidencias',
+        comodel_name='trafitec.cotizaciones.evidencias',
+        inverse_name='cotizacion_id',
         tracking=True
     )
 
     detalles = fields.Text(
-        string='Detalles', 
-        default='', 
+        string='Detalles',
+        default='',
         tracking=True
     )
     odoo_cotizacion_id = fields.Many2one(
-        string='Cotización odoo', 
+        string='Cotización odoo',
         comodel_name='sale.order'
     )
     cliente_plazo_pago_id = fields.Many2one(
-        string='Plazo de pagos de cliente', 
+        string='Plazo de pagos de cliente',
         comodel_name='account.payment.term'
     )
     asociado_plazo_pago_id = fields.Many2one(
-        string='Plazo de pagos de asociado', 
+        string='Plazo de pagos de asociado',
         comodel_name='account.payment.term'
     )
-    semaforo_valor = fields.Selection(
-        string='Semáforo', 
-        selection=[
-            ('verde', 'Verde'), 
-            ('amarillo', 'Amarillo'), 
+    semaforo_valor = fields.Selection([
+            ('verde', 'Verde'),
+            ('amarillo', 'Amarillo'),
             ('rojo', 'Rojo')
-        ], 
-        default='verde', 
+        ],
+        string='Semáforo',
+        default='verde',
         tracking=True
     )
     mostrar_en_crm_trafico = fields.Boolean(
-        string='Mostrar en CRM Tráfico', 
-        help='Indica si la cotización se mostrara en el CRM Tráfico.', 
+        string='Mostrar en CRM Tráfico',
+        help='Indica si la cotización se mostrara en el CRM Tráfico.',
         default=False
     )
     documentos_id = fields.One2many(
-        string='Documentos requeridos', 
-        comodel_name='trafitec.cotizaciones.documentos', 
-        inverse_name='cotizacion_id', 
+        string='Documentos requeridos',
+        comodel_name='trafitec.cotizaciones.documentos',
+        inverse_name='cotizacion_id',
         help='Documentos requeridos.'
     )
     cliente_bloqueado = fields.Boolean(
-        string='Cliente bloqueado', 
-        related='cliente.bloqueado_cliente_bloqueado', 
-        store=True, default=False, 
+        string='Cliente bloqueado',
+        related='cliente.bloqueado_cliente_bloqueado',
+        store=True,
+        default=False,
         help='Indica si el cliente esta bloqueado.'
     )
     folio = fields.Char(
-        string='Folio', 
-        required=True, 
-        copy=False, 
-        readonly=True, 
-        index=True, 
+        string='Folio',
+        required=True,
+        copy=False,
+        readonly=True,
+        index=True,
         default=lambda self: _('New')
     )
-    
+    monto_total = fields.Float(
+        string='Monto Total aproximado',
+        readonly=True,
+        compute=_monto_total,
+        store=True
+    )
+    monto_inicial = fields.Float(
+        string='Monto Final',
+        readonly=True,
+        store=True,
+        default=0.00
+    )
 
     def action_enviarcorreo_autorizacion(self):
-        asunto = 'Cotización por autorizar: '+str(self.name or '')
-        de = (self.env.user.login or '')
-        para = self.create_uid.login
-        contenido = ''
-    
-        empleado = None
-        jefe = None
-        cliente = None
-    
-        empleado = self.env['hr.employee'].search([('user_id', '=', self.env.user.id)], limit = 1)
-        
-        if empleado:
-            jefe = empleado.parent_id
-        
-        if jefe:
-            para = (jefe.work_email or '')
-        
-        cliente = (self.cliente.name or self.cliente_refenciado or '')
-        
-        contenido = 'Estimado ' + str(jefe.name or '') + ' el usuario ' + str(empleado.name or '') + ' solicita la autorización de la cotización con folio: ' + str(self.name or '') + ' para el cliente: ' + str(cliente or '') + ' Odoo: http://odoo.sli.mx.'
-    
-        action_ctx = dict(self.env.context)
-        view_id = self.env.ref('mail.view_mail_form').id
-        return {
-            'name': _('Autorizar cotización'),
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'mail.mail',
-            'views': [(view_id, 'form')],
-            'view_id': view_id,
-            'target': 'new',
-            'context': {
-                'default_subject': asunto,
-                'default_email_from': de,
-                'default_email_to': para,
-                'default_body_html': contenido,
-                'subject': asunto
+        for rec in self:
+            asunto = 'Cotización por autorizar: '+str(rec.name or '')
+            de = (self.env.user.login or '')
+            para = rec.create_uid.login
+            contenido = ''
+            empleado = None
+            jefe = None
+            cliente = None
+            empleado = self.env['hr.employee'].search([
+                    ('user_id', '=', rec.env.user.id)
+                ],
+                limit=1
+            )
+            if empleado:
+                jefe = empleado.parent_id
+            if jefe:
+                para = (jefe.work_email or '')
+            cliente = (rec.cliente.name or rec.cliente_refenciado or '')
+            contenido = (
+                'Estimado '
+                + str(jefe.name or '')
+                + ' el usuario '
+                + str(empleado.name or '')
+                + ' solicita la autorización de la cotización con folio: '
+                + str(self.name or '')
+                + ' para el cliente: '
+                + str(cliente or '')
+                + ' Odoo: http://odoo.sli.mx.'
+            )
+            action_ctx = dict(self.env.context)
+            view_id = self.env.ref('mail.view_mail_form').id
+            return {
+                'name': _('Autorizar cotización'),
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'mail.mail',
+                'views': [(view_id, 'form')],
+                'view_id': view_id,
+                'target': 'new',
+                'context': {
+                    'default_subject': asunto,
+                    'default_email_from': de,
+                    'default_email_to': para,
+                    'default_body_html': contenido,
+                    'subject': asunto
+                }
             }
-        }
-
 
     @api.onchange('contacto2')
     def onchange_contacto2(self):
-        self.email = self.contacto2.email
-        self.telefono = self.contacto2.phone or self.contacto2.mobile
-
+        for rec in self:
+            rec.email = rec.contacto2.email
+            rec.telefono = rec.contacto2.phone or rec.contacto2.mobile
 
     @api.onchange('semaforo_valor')
     def onchange_semaforo_valor(self):
@@ -404,22 +411,16 @@ from trafitec_cotizaciones_linea_origen as clo
 where clo.state='Disponible' and ct.id={} --and ct.name='CO001042'
 order by des.name
         '''.format(self.id)
-        
         self.env.cr.execute("sql")
         lista = self.env.cr.dictfetchall()
-        
         glo = self.env['trafitec.glo']
-    
         if not self.contacto and not self.contacto2:
             raise UserError(_('La cotización no tiene especificado el contacto.'))
-    
         if not self.email:
             raise UserError(_('La cotización no tiene especificado el correo del contacto.'))
         else:
-
             if not '@' in self.email:
                 raise UserError(_('El correo del contacto es incorrecto: ' + str(self.email or '')))
-    
         estilo_noborde = 'border-style: none; border-color:silver; border-width:0px;'
         estilo_borde = 'border-style: dotted; border-color:silver; border-width:1px; padding:5px;'
         estilo_borde_redondo = 'border-style: none; border-color:none; brder-width:0px; padding:5px; border-radius:10px;'
@@ -428,7 +429,6 @@ order by des.name
         estilo_texto = 'font-size: 12px; text-align:right; font-family:arial;'
         estilo_texto_negritas = estilo_texto + 'font-weight: bold;'
         estilo_etiqueta = estilo_texto + 'font-weight: bold;'
-        
         estilo = 'font-size: 12px; text-align:right; font-family:arial; font-weight: bold;' + estilo_fondo_subtotal
         estilo_fondo = 'background-color:silver; font-size: 12px; font-family:arial;' + estilo_noborde
         estilo_normal = 'font-size: 12px; font-family:arial;' + estilo_borde
@@ -439,17 +439,12 @@ order by des.name
         estilo_tons = 'font-size: 12px; text-align:right; font-family:arial;' + estilo_borde
         estilo_tons_subtotal = 'font-size: 12px; text-align:right; font-family:arial; font-weight: bold;' + estilo_noborde + estilo_fondo_subtotal
         estilo_hr = 'border-color:#dddddd; border-style:dotted;' + estilo_borde
-    
         lineas_obj = self.env['trafitec.cotizaciones.linea']
         origendestino_obj = self.env['trafitec.cotizaciones.linea.origen']
         viajes_obj = self.env['trafitec.viajes']
-    
         lineas_dat = lineas_obj.search([('cotizacion_id', '=', self.id)])
         origendestino_dat = None
         viajes_dat = None
-    
-        # nueva = sorted(lineas_dat, key=lambda k: k[''])
-    
         contenido = ''
         contenido += "<img src='http://sli.mx/media/logo.png'/><br/>"
         contenido += '<b>SOLUCIONES LOGISTICAS INTELIGENTES SA DE CV</b>'
@@ -460,66 +455,50 @@ order by des.name
         contenido += "<hr style='{0}'/>".format(estilo_hr)
         contenido += 'Estimado(a) {0} por este medio le hacemos llegar el avance general del pedido con folio {1}.'.format((self.contacto or self.contacto2.name), self.name)
         contenido += "<hr style='{0}'/>".format(estilo_hr)
-    
         cantidad = 0
-    
         contenido += '<table border=0 cellspacing=1>'
         contenido += '<tr>'
-
-        if self.lineanegocio.id == 1: #Granel.
+        if self.lineanegocio.id == 1:
             contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>TONS A MOVER</th><th style='{0}'>TONS MOVIDAS</th><th style='{0}'>TONS SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
-        elif self.lineanegocio.id == 2: #Flete.
+        elif self.lineanegocio.id == 2:
             contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>VIAJES A MOVER</th><th style='{0}'>VIAJES REALIZADOS</th><th style='{0}'>VIAJES SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
-        else: #Contenedores.
+        else:
             contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>CONTENEDORES A MOVER</th><th style='{0}'>CONTENEDORES MOVIDOS</th><th style='{0}'>CONTENEDORES SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
-
         contenido += '</tr>'
         cantidad = 0
         avance = 0
         saldo = 0
-        
         total_cantidad = 0
         total_peso = 0
         total_saldo = 0
         total_avance = 0
-        
         destino_ant_id = -1
         destino_act_id = -1
-        
         subtotal_cantidad = 0
         subtotal_peso = 0
         subtotal_saldo = 0
         subtotal_avance = 0
-        
         if len(lista) > 0:
             destino_act_id = lista[0].get('destino_id', -1)
-            destino_ant_id = lista[0].get('destino_id', -1)
-        
+            destino_ant_id = lista[0].get('destino_id', -1)  
         c = 0
         for od in lista:
             c += 1
             peso = 0
             avance = 0
             folio_cliente = ''
-            
-            # Destino actual
             destino_act_id = od.get('destino_id', -1)
-            
             cantidad = od.get('cantidad', 0)
             peso = od.get('peso_origen_tons', 0)
             folio_cliente = od.get('folio_cliente', '')
             origen = od.get('origen_nombre', '')
             destino = od.get('destino_nombre', '')
-
             total_cantidad += cantidad
             total_peso += peso
-
             if destino_act_id != destino_ant_id:
                 subtotal_saldo = subtotal_cantidad - subtotal_peso
-    
                 if subtotal_cantidad > 0:
                     subtotal_avance = subtotal_peso * 100 / subtotal_cantidad
-    
                 contenido += '<tr>'
                 contenido += "<td style='{0}'></td>".format(estilo_noborde)
                 contenido += "<td style='{0}'></td>".format(estilo_noborde)
@@ -529,22 +508,16 @@ order by des.name
                 contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_saldo or 0))
                 contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (subtotal_avance or 0))
                 contenido += '</tr>'
-    
                 subtotal_cantidad = 0
                 subtotal_peso = 0
-
             subtotal_cantidad += cantidad
             subtotal_peso += peso
-
             if cantidad > 0:
                 avance = peso * 100 / cantidad
-        
             saldo = cantidad - peso
             estilo = estilo_moneda_verde
-
             if avance <= 50:
                 estilo = estilo_moneda_rojo
-        
             contenido += '<tr>'
             contenido += "<td style='{0}'>{1}</td>".format(estilo_normal, str(folio_cliente or ''))
             contenido += "<td style='{0}'>{1}</td>".format(estilo_normal_origen_destino, str(origen or ''))
@@ -554,13 +527,10 @@ order by des.name
             contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons, (saldo or 0))
             contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (avance or 0))
             contenido += '</tr>'
-
             if c == len(lista):
                 subtotal_saldo = subtotal_cantidad - subtotal_peso
-    
                 if subtotal_cantidad > 0:
                     subtotal_avance = subtotal_peso * 100 / subtotal_cantidad
-    
                 contenido += '<tr>'
                 contenido += "<td style='{}'></td>".format(estilo_noborde)
                 contenido += "<td style='{}'></td>".format(estilo_noborde)
@@ -570,19 +540,12 @@ order by des.name
                 contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_saldo or 0))
                 contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (subtotal_avance or 0))
                 contenido += '</tr>'
-    
                 subtotal_cantidad = 0
                 subtotal_peso = 0
-
-            # Destino anterior
             destino_ant_id = od.get('destino_id', -1)
-
-        # Totales
         total_saldo = total_cantidad - total_peso
-
         if total_cantidad > 0:
             total_avance = total_peso * 100 / total_cantidad
-        
         contenido += '<tr>'
         contenido += "<td style='{0}'></td>".format(estilo_noborde)
         contenido += "<td style='{0}'></td>".format(estilo_noborde)
@@ -592,31 +555,16 @@ order by des.name
         contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (total_saldo or 0))
         contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (total_avance or 0))
         contenido += '</tr>'
-        
         contenido += '</table>'
-
-        # Obtiene la configuración.
         cfg = glo.cfg()
-        
-        # raise UserError(_('CFG: '+str(cfg)))
         para = self.email
         para2 = self.create_uid.login
-
         if cfg:
-
             if cfg.cot_envio_avance_pruebas_st and cfg.cot_envio_avance_pruebas_correo:
                 para = cfg.cot_envio_avance_pruebas_correo
                 para2 = ''
-        
-        # Enviar al contacto
-        # para += self.cotizacion_id.email
-        # Enviar a quien genero la cotizacion
-        # para += self.create_uid.login
-        
-        # para = 'cotizaciones_reportes@sli.mx'
         if ('@' in para) or ('@' in para2):
             self.enviar_correo(asunto='SLI PEDIDO {}'.format(self.name), contenido=contenido, para=para, para2=para2)
-
 
     def enviar_correo(self, asunto='', contenido='', para='', para2=''):
         valores = {
@@ -628,64 +576,42 @@ order by des.name
         }
         create_and_send_email = self.env['mail.mail'].create(valores).send()
 
-    
     def unlink(self):
         raise UserError(_('Alerta..\nNo esta permitido borrar cotizaciones.'))
-
-        '''
-        for reg in self:
-            if reg.state == 'Disponible' or reg.state == 'Cerrada':
-                raise UserError(_(
-                    'Aviso !\nNo se puede eliminar si la cotizacion({}) esta disponible o cerrada.'.format(reg.name)))
-        return super(trafitec_cotizacion, self).unlink()
-        '''
-
 
     @api.depends('lineas_cotizacion_id.subtotal', 'seguro_mercancia')
     def _monto_total(self):
         for order in self:
             monto = 0
             for line in order.lineas_cotizacion_id:
-
                 if monto == 0:
                     monto = line.subtotal
                 else:
                     monto += line.subtotal
-
-                if order.seguro_mercancia == True:
-                    seguro_total_mercancia = (order.costo_producto * order.factor_seguro) * (order.lineas_cotizacion_id.cantidad * 1000) 
+                if order.seguro_mercancia:
+                    seguro_total_mercancia = (
+                        order.costo_producto
+                        * order.factor_seguro
+                        * order.lineas_cotizacion_id.cantidad
+                        * 1000
+                    )
                     monto += seguro_total_mercancia
-
             order.update({
                 'monto_total': monto
             })
 
-
-    monto_total = fields.Float(
-        string='Monto Total aproximado', 
-        readonly=True, 
-        compute=_monto_total, 
-        store=True
-    )
-    monto_inicial = fields.Float(
-        string='Monto Final', 
-        readonly=True, 
-        store=True, 
-        default=0.00
-    )
-
-
     @api.constrains('cliente_refenciado', 'cliente')
     def _check_clientes(self):
-        if self.cliente_refenciado == False and self.cliente.name == False:
-            raise UserError(
-                _('Aviso !\nDebe especificar un cliente referenciado o del catalago de clientes.')
-            )
-
+        for rec in self:
+            if not rec.cliente_refenciado and not rec.cliente.name:
+                raise UserError(_(
+                    'Aviso !\nDebe especificar un cliente referenciado o del '
+                    + 'catalago de clientes.'
+                ))
 
     @api.constrains('contacto2', 'contacto')
     def _check_contacto(self):
-        if self.contacto == False and self.contacto2.name == False:
+        if not self.contacto and not self.contacto2.name:
             raise UserError(
                 _('Aviso !\nDebe especificar un contacto referenciado o del catalago de contactos.')
             )

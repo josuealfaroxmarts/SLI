@@ -286,10 +286,10 @@ class ResPartner(models.Model):
                                 'Aviso !\nEl RFC no se puede repetir.'
                             ))
 
-    @api.constrains('customer', 'excedente_merma')
+    @api.constrains('customer_rank', 'excedente_merma')
     def _check_excedente_merma(self):
         for rec in self:
-            if rec.customer:
+            if rec.customer_rank >= 1:
                 obj_groups = self.env['res.users'].search([
                     ('partner_id', '=', rec.id)
                 ])
@@ -300,10 +300,10 @@ class ResPartner(models.Model):
                             + 'algun excedente de merma.'
                         ))
 
-    @api.constrains('customer', 'facturar_con')
+    @api.constrains('customer_rank', 'facturar_con')
     def _check_facturar_con(self):
         for rec in self:
-            if rec.customer:
+            if rec.customer_rank >= 1:
                 obj_groups = self.env['res.users'].search([
                     ('partner_id', '=', rec.id)
                 ])
@@ -548,16 +548,16 @@ and f.partner_id={}
         'email',
         'asociado',
         'aseguradora',
-        'customer',
-        'supplier'
+        'customer_rank',
+        'supplier_rank'
     )
     def _check_email(self):
         for rec in self:
             if (
                 rec.asociado
                 or rec.aseguradora
-                or rec.customer
-                or rec.supplier
+                or rec.customer_rank >= 1
+                or rec.supplier_rank >= 1
             ):
                 if not rec.email:
                     raise UserError((
