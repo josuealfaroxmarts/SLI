@@ -19,7 +19,7 @@ class cancelacion_cuentas(models.Model):
         comodel_name='res.partner',
         required=True,
         tracking=True,
-        domain="[('supplier','=',True),('customer','=',True)]"
+        domain="[('supplier_rank','=',True),('customer_rank','=',True)]"
     )
     referencia = fields.Text(
         string='Referencia',

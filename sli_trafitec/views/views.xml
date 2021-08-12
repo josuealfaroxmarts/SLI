@@ -1336,7 +1336,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet/notebook/page[2]/group/group[1]/field[@name='user_id']"
                        position="after">
-                    <field name="customer" />
+                    <field name="customer_rank"/>
                     <field name="plazas_ban_id"/>
                     <field name="no_sucursal"/>
                 </xpath>
@@ -1352,7 +1352,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet/notebook/page[@name='sales_purchases']" position="after">
                     <page name="documentos_id" string="Documentos requeridos"
-                          attrs="{'invisible': [('customer', '!=', True)]}">
+                          attrs="{'invisible': [('customer_rank', '!=', True)]}">
                         <field name="documentos_id" widget="one2many_list">
                             <tree editable="bottom">
                                 <field name="name"
@@ -1427,7 +1427,7 @@
             <field name="name">Clientes</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
-            <field name="domain">[('customer','=',True)]</field>
+            <field name="domain">[('customer_rank','=',True)]</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="filter" eval="True"/>
         </record>
@@ -1601,10 +1601,10 @@
                     <field name="name"/>
                     <field name="display_name"/>
                     <field name="vat"/>
-                    <field name="customer"/>
+                    <field name="customer_rank"/>
                     <field name="asociado"/>
                     <field name="operador"/>
-                    <field name="supplier"/>
+                    <field name="supplier_rank"/>
                     <field name="aseguradora"/>
                     <!--field name="employee"/-->
                     <field name="company_type"/>

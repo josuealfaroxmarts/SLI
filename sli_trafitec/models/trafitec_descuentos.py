@@ -42,7 +42,7 @@ class TrafitecDescuentos(models.Model):
 	proveedor = fields.Many2one(
 		"res.partner",
 		string="Proveedor",
-		domain="[('supplier','=',True)]", tracking=True)
+		domain="[('supplier_rank','=',True)]", tracking=True)
 	cobro_fijo = fields.Boolean(
 		string="Cobro fijo",
 		tracking=True
