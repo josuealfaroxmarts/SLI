@@ -30,9 +30,9 @@
                     <field name="progress_fletex" widget="percentpie" attrs="{'invisible':[('operador', '!=', False)]}"/>
                     <field name="step_one" attrs="{'invisible':[('operador', '!=', False)]}"/>
                     <field name="step_three" attrs="{'invisible':[('operador', '!=', False)]}"/>
-                    <field name="step_two" attrs="{'invisible':['|',('operador', '!=', False),('supplier_rank', '>=', 1)]}"/>
-                    <field name="step_operator" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
-                    <field name="step_truck" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
+                    <field name="step_two" attrs="{'invisible':['|',('operador', '!=', False),('supplier_rank', '=', True)]}"/>
+                    <field name="step_operator" attrs="{'invisible':['|',('customer_rank', '!=', False),('operador', '!=', False)]}"/>
+                    <field name="step_truck" attrs="{'invisible':['|',('customer_rank', '!=', False),('operador', '!=', False)]}"/>
                 </xpath>
                 <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
                     <page name="representative" string="Representante Legal" attrs="{'invisible': [('operador', '!=', False)]}">

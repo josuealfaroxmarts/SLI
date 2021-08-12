@@ -15,6 +15,5 @@
         "views/fleet_vehicle_views.xml",
         "views/info_sync_fletex_views.xml",
         "views/res_partner_views.xml",
-        "views/sync_info_views.xml",
     ]
 }
