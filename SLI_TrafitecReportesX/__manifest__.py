@@ -9,7 +9,7 @@
 'summary' : '',
 'depends': ['base', 'sli_trafitec'],
 'data': [
-
+         'security/ir.model.access.csv',
          #'reports/estilo.xml',
          'reports/reporte0.xml',
          'reports/reporte_viaje_general.xml',

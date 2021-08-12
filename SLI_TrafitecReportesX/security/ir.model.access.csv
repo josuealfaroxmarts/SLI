@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_trafitec_reportes_generales,access_trafitec_reportes_generales,model_trafitec_reportes_generales,,1,0,0,1
+access_trafitec_reportes_parametros,access_trafitec_reportes_parametros,model_trafitec_reportes_parametros,,1,1,1,1
