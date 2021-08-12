@@ -9,19 +9,19 @@ import base64
 
 
 class TrafitecMuelles(models.Model):
-	_name = 'trafitec.muelles'
-	_description ='muelles'
+    _name = 'trafitec.muelles'
+    _description = 'muelles'
 
-	name = fields.Char(
-		string="Nombre", 
-		required=True
-	)
-	ubicacion = fields.Many2one(
-		'trafitec.ubicacion', 
-		string='Ubicación', 
-		required=True,
-		domain=[
-			('tipo_ubicacion','=','puerto')
-		]
-	)
-	detalles = fields.Text(string="Detalles")
+    name = fields.Char(
+        string="Nombre",
+        required=True
+    )
+    ubicacion = fields.Many2one(
+        'trafitec.ubicacion',
+        string='Ubicación',
+        required=True,
+        domain=[
+            ('tipo_ubicacion', '=', 'puerto')
+        ]
+    )
+    detalles = fields.Text(string="Detalles")

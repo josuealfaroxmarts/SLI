@@ -9,14 +9,14 @@ import base64
 
 
 class TrafitecLineanegocio(models.Model):
-	_name = 'trafitec.lineanegocio'
-	_description ='linea negocio'
+    _name = 'trafitec.lineanegocio'
+    _description = 'linea negocio'
 
-	name = fields.Char(
-		string="Nombre", 
-		required=True
-	)
-	porcentaje = fields.Float(
-		string="Porcentaje de comisión", 
-		required=True
-	)
+    name = fields.Char(
+        string="Nombre",
+        required=True
+    )
+    porcentaje = fields.Float(
+        string="Porcentaje de comisión",
+        required=True
+    )
