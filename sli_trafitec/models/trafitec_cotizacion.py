@@ -375,18 +375,15 @@ class TrafitecCotizacion(models.Model):
             rec.email = rec.contacto2.email
             rec.telefono = rec.contacto2.phone or rec.contacto2.mobile
 
-    """@api.onchange('semaforo_valor')
-    def onchange_semaforo_valor(self):
-        if self.semaforo_valor:
-            if self.semaforo_valor == 'rojo':"""
     def action_enviar_info_cliente(self):
-        contenido = ''
-        para = ''
-        para2 = ''
-        contenido += ''
-        sql = ''
-        lista = []
-        sql = '''
+        for rec in self:
+            contenido = ''
+            para = ''
+            para2 = ''
+            contenido += ''
+            sql = ''
+            lista = []
+            sql = '''
         select
 ct.name folio,
 cl.name folio_cliente,
@@ -410,161 +407,328 @@ from trafitec_cotizaciones_linea_origen as clo
     inner join trafitec_ubicacion as des on(clo.destino=des.id)
 where clo.state='Disponible' and ct.id={} --and ct.name='CO001042'
 order by des.name
-        '''.format(self.id)
-        self.env.cr.execute("sql")
-        lista = self.env.cr.dictfetchall()
-        glo = self.env['trafitec.glo']
-        if not self.contacto and not self.contacto2:
-            raise UserError(_('La cotización no tiene especificado el contacto.'))
-        if not self.email:
-            raise UserError(_('La cotización no tiene especificado el correo del contacto.'))
-        else:
-            if not '@' in self.email:
-                raise UserError(_('El correo del contacto es incorrecto: ' + str(self.email or '')))
-        estilo_noborde = 'border-style: none; border-color:silver; border-width:0px;'
-        estilo_borde = 'border-style: dotted; border-color:silver; border-width:1px; padding:5px;'
-        estilo_borde_redondo = 'border-style: none; border-color:none; brder-width:0px; padding:5px; border-radius:10px;'
-        estilo_fondo_cabecera = 'background-color: red; color:white;'
-        estilo_fondo_subtotal = 'background-color: #cccccc; color:black;' + estilo_borde_redondo
-        estilo_texto = 'font-size: 12px; text-align:right; font-family:arial;'
-        estilo_texto_negritas = estilo_texto + 'font-weight: bold;'
-        estilo_etiqueta = estilo_texto + 'font-weight: bold;'
-        estilo = 'font-size: 12px; text-align:right; font-family:arial; font-weight: bold;' + estilo_fondo_subtotal
-        estilo_fondo = 'background-color:silver; font-size: 12px; font-family:arial;' + estilo_noborde
-        estilo_normal = 'font-size: 12px; font-family:arial;' + estilo_borde
-        estilo_cabecera = 'font-size: 12px; font-family:arial;' + estilo_borde_redondo + estilo_fondo_cabecera
-        estilo_normal_origen_destino = 'font-size: 10px; font-family:arial;' + estilo_borde
-        estilo_moneda_rojo = 'font-size: 12px; text-align:right; font-family:arial; color: red;' + estilo_borde
-        estilo_moneda_verde = 'font-size: 12px; text-align:right; font-family:arial; color: green;' + estilo_borde
-        estilo_tons = 'font-size: 12px; text-align:right; font-family:arial;' + estilo_borde
-        estilo_tons_subtotal = 'font-size: 12px; text-align:right; font-family:arial; font-weight: bold;' + estilo_noborde + estilo_fondo_subtotal
-        estilo_hr = 'border-color:#dddddd; border-style:dotted;' + estilo_borde
-        lineas_obj = self.env['trafitec.cotizaciones.linea']
-        origendestino_obj = self.env['trafitec.cotizaciones.linea.origen']
-        viajes_obj = self.env['trafitec.viajes']
-        lineas_dat = lineas_obj.search([('cotizacion_id', '=', self.id)])
-        origendestino_dat = None
-        viajes_dat = None
-        contenido = ''
-        contenido += "<img src='http://sli.mx/media/logo.png'/><br/>"
-        contenido += '<b>SOLUCIONES LOGISTICAS INTELIGENTES SA DE CV</b>'
-        contenido += "<hr style='{0}'/>".format(estilo_hr)
-        contenido += 'CLIENTE: ' + str(self.cliente.name or self.cliente_refenciado or '') + '<br/>'
-        contenido += 'PEDIDO: ' + str(self.name or '') + '<br/>'
-        contenido += 'LINEA NEGOCIO: ' + str(self.lineanegocio.name or '') + '<br/>'
-        contenido += "<hr style='{0}'/>".format(estilo_hr)
-        contenido += 'Estimado(a) {0} por este medio le hacemos llegar el avance general del pedido con folio {1}.'.format((self.contacto or self.contacto2.name), self.name)
-        contenido += "<hr style='{0}'/>".format(estilo_hr)
-        cantidad = 0
-        contenido += '<table border=0 cellspacing=1>'
-        contenido += '<tr>'
-        if self.lineanegocio.id == 1:
-            contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>TONS A MOVER</th><th style='{0}'>TONS MOVIDAS</th><th style='{0}'>TONS SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
-        elif self.lineanegocio.id == 2:
-            contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>VIAJES A MOVER</th><th style='{0}'>VIAJES REALIZADOS</th><th style='{0}'>VIAJES SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
-        else:
-            contenido += "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN</th><th style='{0}'>DESTINO</th><th style='{0}'>CONTENEDORES A MOVER</th><th style='{0}'>CONTENEDORES MOVIDOS</th><th style='{0}'>CONTENEDORES SALDO</th><th style='{0}'>AVANCE (%)</th>".format(estilo_cabecera)
-        contenido += '</tr>'
-        cantidad = 0
-        avance = 0
-        saldo = 0
-        total_cantidad = 0
-        total_peso = 0
-        total_saldo = 0
-        total_avance = 0
-        destino_ant_id = -1
-        destino_act_id = -1
-        subtotal_cantidad = 0
-        subtotal_peso = 0
-        subtotal_saldo = 0
-        subtotal_avance = 0
-        if len(lista) > 0:
-            destino_act_id = lista[0].get('destino_id', -1)
-            destino_ant_id = lista[0].get('destino_id', -1)  
-        c = 0
-        for od in lista:
-            c += 1
-            peso = 0
-            avance = 0
-            folio_cliente = ''
-            destino_act_id = od.get('destino_id', -1)
-            cantidad = od.get('cantidad', 0)
-            peso = od.get('peso_origen_tons', 0)
-            folio_cliente = od.get('folio_cliente', '')
-            origen = od.get('origen_nombre', '')
-            destino = od.get('destino_nombre', '')
-            total_cantidad += cantidad
-            total_peso += peso
-            if destino_act_id != destino_ant_id:
-                subtotal_saldo = subtotal_cantidad - subtotal_peso
-                if subtotal_cantidad > 0:
-                    subtotal_avance = subtotal_peso * 100 / subtotal_cantidad
-                contenido += '<tr>'
-                contenido += "<td style='{0}'></td>".format(estilo_noborde)
-                contenido += "<td style='{0}'></td>".format(estilo_noborde)
-                contenido += "<td style='{0}'>SUBTOTAL</td>".format(estilo_etiqueta + estilo_noborde)
-                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_cantidad or 0))
-                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_peso or 0))
-                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_saldo or 0))
-                contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (subtotal_avance or 0))
-                contenido += '</tr>'
-                subtotal_cantidad = 0
-                subtotal_peso = 0
-            subtotal_cantidad += cantidad
-            subtotal_peso += peso
-            if cantidad > 0:
-                avance = peso * 100 / cantidad
-            saldo = cantidad - peso
-            estilo = estilo_moneda_verde
-            if avance <= 50:
-                estilo = estilo_moneda_rojo
+            '''.format(rec.id)
+            self.env.cr.execute("sql")
+            lista = self.env.cr.dictfetchall()
+            glo = self.env['trafitec.glo']
+            if not rec.contacto and not rec.contacto2:
+                raise UserError(_(
+                    'La cotización no tiene especificado el contacto.'
+                ))
+            if not rec.email:
+                raise UserError(_(
+                    'La cotización no tiene especificado el correo del '
+                    + 'contacto.'
+                ))
+            else:
+                if '@' not in rec.email:
+                    raise UserError(_(
+                        'El correo del contacto es incorrecto: '
+                        + str(rec.email or '')
+                    ))
+            estilo_noborde = (
+                'border-style: none; border-color:silver; border-width:0px;'
+            )
+            estilo_borde = (
+                'border-style: dotted; border-color:silver; border-width:1px;'
+                + ' padding:5px;'
+            )
+            estilo_borde_redondo = (
+                'border-style: none; border-color:none; brder-width:0px; '
+                + 'padding:5px; border-radius:10px;'
+            )
+            estilo_fondo_cabecera = 'background-color: red; color:white;'
+            estilo_fondo_subtotal = (
+                'background-color: #cccccc; color:black;'
+                + estilo_borde_redondo
+            )
+            estilo_texto = (
+                'font-size: 12px; text-align:right; font-family:arial;'
+            )
+            estilo_texto_negritas = estilo_texto + 'font-weight: bold;'
+            estilo_etiqueta = estilo_texto + 'font-weight: bold;'
+            estilo = (
+                'font-size: 12px; text-align:right; font-family:arial; '
+                + 'font-weight: bold;'
+                + estilo_fondo_subtotal
+            )
+            estilo_fondo = (
+                'background-color:silver; font-size: 12px; font-family:arial;'
+                + estilo_noborde
+            )
+            estilo_normal = (
+                'font-size: 12px; font-family:arial;'
+                + estilo_borde
+            )
+            estilo_cabecera = (
+                'font-size: 12px; font-family:arial;'
+                + estilo_borde_redondo
+                + estilo_fondo_cabecera
+            )
+            estilo_normal_origen_destino = (
+                'font-size: 10px; font-family:arial;'
+                + estilo_borde
+            )
+            estilo_moneda_rojo = (
+                'font-size: 12px; text-align:right; font-family:arial; color:'
+                + ' red;'
+                + estilo_borde
+            )
+            estilo_moneda_verde = (
+                'font-size: 12px; text-align:right; font-family:arial; color:'
+                + ' green;'
+                + estilo_borde
+            )
+            estilo_tons = (
+                'font-size: 12px; text-align:right; font-family:arial;'
+                + estilo_borde
+            )
+            estilo_tons_subtotal = (
+                'font-size: 12px; text-align:right; font-family:arial; '
+                + 'font-weight: bold;'
+                + estilo_noborde + estilo_fondo_subtotal
+            )
+            estilo_hr = (
+                'border-color:#dddddd; border-style:dotted;'
+                + estilo_borde
+            )
+            lineas_obj = self.env['trafitec.cotizaciones.linea']
+            origendestino_obj = self.env['trafitec.cotizaciones.linea.origen']
+            viajes_obj = self.env['trafitec.viajes']
+            lineas_dat = lineas_obj.search([('cotizacion_id', '=', rec.id)])
+            origendestino_dat = None
+            viajes_dat = None
+            contenido = ''
+            contenido += "<img src='http://sli.mx/media/logo.png'/><br/>"
+            contenido += '<b>SOLUCIONES LOGISTICAS INTELIGENTES SA DE CV</b>'
+            contenido += "<hr style='{0}'/>".format(estilo_hr)
+            contenido += (
+                'CLIENTE: '
+                + str(rec.cliente.name or rec.cliente_refenciado or '')
+                + '<br/>'
+            )
+            contenido += 'PEDIDO: ' + str(rec.name or '') + '<br/>'
+            contenido += (
+                'LINEA NEGOCIO: '
+                + str(self.lineanegocio.name or '')
+                + '<br/>'
+            )
+            contenido += "<hr style='{0}'/>".format(estilo_hr)
+            contenido += (
+                'Estimado(a) {0} por este medio le hacemos llegar el avance'
+                + ' general del pedido con folio {1}.'.format(
+                    (rec.contacto or rec.contacto2.name),
+                    rec.name
+                )
+            )
+            contenido += "<hr style='{0}'/>".format(estilo_hr)
+            cantidad = 0
+            contenido += '<table border=0 cellspacing=1>'
             contenido += '<tr>'
-            contenido += "<td style='{0}'>{1}</td>".format(estilo_normal, str(folio_cliente or ''))
-            contenido += "<td style='{0}'>{1}</td>".format(estilo_normal_origen_destino, str(origen or ''))
-            contenido += "<td style='{0}'>{1}</td>".format(estilo_normal_origen_destino, str(destino or ''))
-            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons, (cantidad or 0))
-            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons, (peso or 0))
-            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons, (saldo or 0))
-            contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (avance or 0))
+            if rec.lineanegocio.id == 1:
+                contenido += (
+                    "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'"
+                    + ">ORIGEN</th><th style='{0}'>DESTINO</th><th "
+                    + "style='{0}'>TONS A MOVER</th><th style='{0}'>"
+                    + "TONS MOVIDAS</th><th style='{0}'>TONS SALDO</th>"
+                    + "<th style='{0}'>AVANCE (%)</th>".format(
+                        estilo_cabecera
+                    )
+                )
+            elif rec.lineanegocio.id == 2:
+                contenido += (
+                    "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN"
+                    + "</th><th style='{0}'>DESTINO</th><th style='{0}'>"
+                    + "VIAJES A MOVER</th><th style='{0}'>VIAJES REALIZADOS"
+                    + "</th><th style='{0}'>VIAJES SALDO</th><th style='{0}'>"
+                    + "AVANCE (%)</th>".format(estilo_cabecera)
+                )
+            else:
+                contenido += (
+                    "<th style='{0}'>FOLIO CLIENTE</th><th style='{0}'>ORIGEN"
+                    + "</th><th style='{0}'>DESTINO</th><th style='{0}'>"
+                    + "CONTENEDORES A MOVER</th><th style='{0}'>CONTENEDORES"
+                    + " MOVIDOS</th><th style='{0}'>CONTENEDORES SALDO</th>"
+                    + "<th style='{0}'>AVANCE (%)</th>".format(
+                        estilo_cabecera
+                    )
+                )
             contenido += '</tr>'
-            if c == len(lista):
-                subtotal_saldo = subtotal_cantidad - subtotal_peso
-                if subtotal_cantidad > 0:
-                    subtotal_avance = subtotal_peso * 100 / subtotal_cantidad
+            cantidad = 0
+            avance = 0
+            saldo = 0
+            total_cantidad = 0
+            total_peso = 0
+            total_saldo = 0
+            total_avance = 0
+            destino_ant_id = -1
+            destino_act_id = -1
+            subtotal_cantidad = 0
+            subtotal_peso = 0
+            subtotal_saldo = 0
+            subtotal_avance = 0
+            if len(lista) > 0:
+                destino_act_id = lista[0].get('destino_id', -1)
+                destino_ant_id = lista[0].get('destino_id', -1)
+            c = 0
+            for od in lista:
+                c += 1
+                peso = 0
+                avance = 0
+                folio_cliente = ''
+                destino_act_id = od.get('destino_id', -1)
+                cantidad = od.get('cantidad', 0)
+                peso = od.get('peso_origen_tons', 0)
+                folio_cliente = od.get('folio_cliente', '')
+                origen = od.get('origen_nombre', '')
+                destino = od.get('destino_nombre', '')
+                total_cantidad += cantidad
+                total_peso += peso
+                if destino_act_id != destino_ant_id:
+                    subtotal_saldo = subtotal_cantidad - subtotal_peso
+                    if subtotal_cantidad > 0:
+                        subtotal_avance = (
+                            subtotal_peso * 100 / subtotal_cantidad
+                        )
+                    contenido += '<tr>'
+                    contenido += "<td style='{0}'></td>".format(estilo_noborde)
+                    contenido += "<td style='{0}'></td>".format(estilo_noborde)
+                    contenido += "<td style='{0}'>SUBTOTAL</td>".format(
+                        estilo_etiqueta + estilo_noborde
+                    )
+                    contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                        estilo_tons_subtotal,
+                        (subtotal_cantidad or 0)
+                    )
+                    contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                        estilo_tons_subtotal,
+                        (subtotal_peso or 0)
+                    )
+                    contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                        estilo_tons_subtotal,
+                        (subtotal_saldo or 0)
+                    )
+                    contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(
+                        estilo,
+                        (subtotal_avance or 0)
+                    )
+                    contenido += '</tr>'
+                    subtotal_cantidad = 0
+                    subtotal_peso = 0
+                subtotal_cantidad += cantidad
+                subtotal_peso += peso
+                if cantidad > 0:
+                    avance = peso * 100 / cantidad
+                saldo = cantidad - peso
+                estilo = estilo_moneda_verde
+                if avance <= 50:
+                    estilo = estilo_moneda_rojo
                 contenido += '<tr>'
-                contenido += "<td style='{}'></td>".format(estilo_noborde)
-                contenido += "<td style='{}'></td>".format(estilo_noborde)
-                contenido += "<td style='{}'>SUBTOTAL</td>".format(estilo_etiqueta + estilo_noborde)
-                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_cantidad or 0))
-                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_peso or 0))
-                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (subtotal_saldo or 0))
-                contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (subtotal_avance or 0))
+                contenido += "<td style='{0}'>{1}</td>".format(
+                    estilo_normal,
+                    str(folio_cliente or '')
+                )
+                contenido += "<td style='{0}'>{1}</td>".format(
+                    estilo_normal_origen_destino,
+                    str(origen or '')
+                )
+                contenido += "<td style='{0}'>{1}</td>".format(
+                    estilo_normal_origen_destino,
+                    str(destino or '')
+                )
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                    estilo_tons,
+                    (cantidad or 0)
+                )
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                    estilo_tons,
+                    (peso or 0)
+                )
+                contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                    estilo_tons,
+                    (saldo or 0)
+                )
+                contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(
+                    estilo,
+                    (avance or 0)
+                )
                 contenido += '</tr>'
-                subtotal_cantidad = 0
-                subtotal_peso = 0
-            destino_ant_id = od.get('destino_id', -1)
-        total_saldo = total_cantidad - total_peso
-        if total_cantidad > 0:
-            total_avance = total_peso * 100 / total_cantidad
-        contenido += '<tr>'
-        contenido += "<td style='{0}'></td>".format(estilo_noborde)
-        contenido += "<td style='{0}'></td>".format(estilo_noborde)
-        contenido += "<td style='{0}'>TOTAL</td>".format(estilo_etiqueta + estilo_noborde)
-        contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (total_cantidad or 0))
-        contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (total_peso or 0))
-        contenido += "<td style='{0}'>{1:20,.3f}</td>".format(estilo_tons_subtotal, (total_saldo or 0))
-        contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(estilo, (total_avance or 0))
-        contenido += '</tr>'
-        contenido += '</table>'
-        cfg = glo.cfg()
-        para = self.email
-        para2 = self.create_uid.login
-        if cfg:
-            if cfg.cot_envio_avance_pruebas_st and cfg.cot_envio_avance_pruebas_correo:
-                para = cfg.cot_envio_avance_pruebas_correo
-                para2 = ''
-        if ('@' in para) or ('@' in para2):
-            self.enviar_correo(asunto='SLI PEDIDO {}'.format(self.name), contenido=contenido, para=para, para2=para2)
+                if c == len(lista):
+                    subtotal_saldo = subtotal_cantidad - subtotal_peso
+                    if subtotal_cantidad > 0:
+                        subtotal_avance = (
+                            subtotal_peso * 100 / subtotal_cantidad
+                        )
+                    contenido += '<tr>'
+                    contenido += "<td style='{}'></td>".format(estilo_noborde)
+                    contenido += "<td style='{}'></td>".format(estilo_noborde)
+                    contenido += "<td style='{}'>SUBTOTAL</td>".format(
+                        estilo_etiqueta + estilo_noborde
+                    )
+                    contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                        estilo_tons_subtotal,
+                        (subtotal_cantidad or 0)
+                    )
+                    contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                        estilo_tons_subtotal,
+                        (subtotal_peso or 0)
+                    )
+                    contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                        estilo_tons_subtotal,
+                        (subtotal_saldo or 0)
+                    )
+                    contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(
+                        estilo,
+                        (subtotal_avance or 0)
+                    )
+                    contenido += '</tr>'
+                    subtotal_cantidad = 0
+                    subtotal_peso = 0
+                destino_ant_id = od.get('destino_id', -1)
+            total_saldo = total_cantidad - total_peso
+            if total_cantidad > 0:
+                total_avance = total_peso * 100 / total_cantidad
+            contenido += '<tr>'
+            contenido += "<td style='{0}'></td>".format(estilo_noborde)
+            contenido += "<td style='{0}'></td>".format(estilo_noborde)
+            contenido += "<td style='{0}'>TOTAL</td>".format(
+                estilo_etiqueta + estilo_noborde
+            )
+            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                estilo_tons_subtotal,
+                (total_cantidad or 0)
+            )
+            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                estilo_tons_subtotal,
+                (total_peso or 0)
+            )
+            contenido += "<td style='{0}'>{1:20,.3f}</td>".format(
+                estilo_tons_subtotal,
+                (total_saldo or 0)
+            )
+            contenido += "<td style='{0}'>{1:20,.2f}%</td>".format(
+                estilo,
+                (total_avance or 0)
+            )
+            contenido += '</tr>'
+            contenido += '</table>'
+            cfg = glo.cfg()
+            para = rec.email
+            para2 = rec.create_uid.login
+            if cfg:
+                if (
+                    cfg.cot_envio_avance_pruebas_st
+                    and cfg.cot_envio_avance_pruebas_correo
+                ):
+                    para = cfg.cot_envio_avance_pruebas_correo
+                    para2 = ''
+            if ('@' in para) or ('@' in para2):
+                rec.enviar_correo(
+                    asunto='SLI PEDIDO {}'.format(rec.name),
+                    contenido=contenido,
+                    para=para,
+                    para2=para2
+                )
 
     def enviar_correo(self, asunto='', contenido='', para='', para2=''):
         valores = {
@@ -612,21 +776,21 @@ order by des.name
     @api.constrains('contacto2', 'contacto')
     def _check_contacto(self):
         for rec in self:
-            if not self.contacto and not self.contacto2.name:
+            if not rec.contacto and not rec.contacto2.name:
                 raise UserError(_(
                     'Aviso !\nDebe especificar un contacto referenciado o del'
                     + ' catalago de contactos.'
                 ))
-    
+
     @api.constrains('producto_referen', 'product')
     def _check_producto(self):
         for rec in self:
-            if not self.producto_referen and  not self.product.name:
+            if not rec.producto_referen and not rec.product.name:
                 raise UserError(_(
                     'Aviso !\nDebe especificar un producto referenciado o del'
                     + ' catalago de productos.'
                 ))
-    
+
     @api.onchange('product')
     def _onchange_product(self):
         for rec in self:
@@ -820,58 +984,66 @@ order by des.name
             rec.write({'state': 'Nueva'})
 
     def action_send(self):
-        if len(self.lineas_cotizacion_id) == 0:
-            raise UserError(
-                ('Error !\nTiene que tener lineas antes de poder enviar esta cotizacion.')
-            )
+        for rec in self:
+            if len(rec.lineas_cotizacion_id) == 0:
+                raise UserError((
+                    'Error !\nTiene que tener lineas antes de poder enviar '
+                    + 'esta cotizacion.'
+                ))
         else:
-            self.write({'state': 'Enviada'})
+            rec.write({'state': 'Enviada'})
 
-    
     def action_accepted(self):
-        if len(self.lineas_cotizacion_id) == 0:
-            raise UserError(_
-                ('Error !\nTiene que tener lineas antes de poder aceptar esta cotización.')
-            )
-        
-        self.write({'state': 'Aceptada'})
-        
+        for rec in self:
+            if len(rec.lineas_cotizacion_id) == 0:
+                raise UserError(_(
+                    'Error !\nTiene que tener lineas antes de poder aceptar '
+                    + 'esta cotización.'
+                ))
+            rec.write({'state': 'Aceptada'})
 
     def action_rejected(self):
-        self.write({'state': 'Rechazada'})
+        for rec in self:
+            rec.write({'state': 'Rechazada'})
 
-    
     def action_close(self):
-        self.write({'state': 'Cerrada'})
+        for rec in self:
+            rec.write({'state': 'Cerrada'})
 
-    
     def action_enespera(self):
-        self.write({'state': 'EnEspera'})
-    
-    
+        for rec in self:
+            rec.write({'state': 'EnEspera'})
+
     def action_available(self):
-        if self.cliente.name == False:
-            raise UserError(
-                ('Error !\nTiene que dar de alta el cliente en el catalogo y asignarlo a la cotizacion')
-            )
-
-        if self.product.name == False:
-            raise UserError(
-                ('Error !\nTiene que dar de alta el producto en el catalogo y asignarlo a la cotizacion')
-            )
-
-        for lineas in self.lineas_cotizacion_id:
-            linea_nego_obj = self.env['trafitec.lineanegocio'].search([('id', '=', self.lineanegocio.id)])
-            
-            if linea_nego_obj.name == 'Granel' or linea_nego_obj.name == 'GRANEL' or linea_nego_obj.name == 'granel':
-                if not self.reglas_merma:
-                    raise UserError(('Debe seleccionar una regla de merma.'))
-
-        self.genera_pedido_venta()
-        
-        if len(self.lineas_cotizacion_id) == 0:
-            raise UserError(
-                ('Error !\nTiene que tener lineas antes de poder asignar esta cotizacion como disponible.')
-            )
-        else:
-            self.write({'state': 'Disponible'})
+        for rec in self:
+            if rec.cliente.name:
+                raise UserError(
+                    'Error !\nTiene que dar de alta el cliente en el catalogo'
+                    + ' y asignarlo a la cotizacion'
+                )
+            if not rec.product.name:
+                raise UserError(
+                    'Error !\nTiene que dar de alta el producto en el '
+                    + 'catalogo y asignarlo a la cotizacion'
+                )
+            for lineas in rec.lineas_cotizacion_id:
+                linea_nego_obj = self.env['trafitec.lineanegocio'].search([
+                    ('id', '=', rec.lineanegocio.id)
+                ])
+                if (
+                    linea_nego_obj.name == 'Granel'
+                    or linea_nego_obj.name == 'GRANEL'
+                    or linea_nego_obj.name == 'granel'
+                ):
+                    if not rec.reglas_merma:
+                        raise UserError(
+                            'Debe seleccionar una regla de merma.'
+                        )
+            rec.genera_pedido_venta()
+            if len(rec.lineas_cotizacion_id) == 0:
+                raise UserError(
+                    'Error !\nTiene que tener lineas antes de poder asignar '
+                    + 'esta cotizacion como disponible.'
+                )
+            else:
+                rec.write({'state': 'Disponible'})
