@@ -96,7 +96,15 @@
 <field name='view_mode'>tree,form</field>
 </record>
 
-<menuitem name='SLI Portales' id='SLIPortales' groups="sli_portales.SLI_Portales_general"/>
-<menuitem name='Usuarios' id='sli_portales_usuarios' parent='SLIPortales' action='sli_portales_action' groups="sli_portales.SLI_Portales_general"/>
+<menuitem name='SLI Portales' 
+          id='SLIPortales'
+          web_icon="sli_trafitec,static/description/icon.jpg" 
+          groups="sli_portales.SLI_Portales_general"/>
+
+<menuitem name='Usuarios' 
+          id='sli_portales_usuarios' 
+          parent='SLIPortales' 
+          action='sli_portales_action' 
+          groups="sli_portales.SLI_Portales_general"/>
 
 </odoo>
