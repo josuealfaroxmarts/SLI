@@ -21,7 +21,7 @@
                     <field name="balance_invoices"/>
                 </xpath>
                 <xpath expr="//sheet/notebook/page[2]/group/group[2]" position="before">
-                    <field name="supplier"/>
+                    <field name="supplier_rank"/>
                 </xpath>
                 <xpath expr="//sheet/group/group[2]/field[@name='title']" position="after">
                     <field name="legal_representative" attrs="{'invisible':[('company_type', '!=', 'company')]}"/>
@@ -30,7 +30,7 @@
                     <field name="progress_fletex" widget="percentpie" attrs="{'invisible':[('operador', '!=', False)]}"/>
                     <field name="step_one" attrs="{'invisible':[('operador', '!=', False)]}"/>
                     <field name="step_three" attrs="{'invisible':[('operador', '!=', False)]}"/>
-                    <field name="step_two" attrs="{'invisible':['|',('operador', '!=', False),('supplier', '=', True)]}"/>
+                    <field name="step_two" attrs="{'invisible':['|',('operador', '!=', False),('supplier_rank', '>=', 1)]}"/>
                     <field name="step_operator" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
                     <field name="step_truck" attrs="{'invisible':['|',('customer', '!=', False),('operador', '!=', False)]}"/>
                 </xpath>

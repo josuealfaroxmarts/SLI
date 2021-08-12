@@ -131,24 +131,23 @@ class TrafitecCrmTraficoRegistro(models.Model):
             rec.state = 'aceptado'
 
     def action_rechazado(self):
-        self.state = 'rechazado'
+        for rec in self:
+            rec.state = 'rechazado'
 
-    def valida(self, vals=None, tipo=1):  # 1=Crear, 2=Modificar, 3=Borrar.
+    def valida(self, vals=None, tipo=1):
         if vals:
-            if 'generar_evento_fechahora' in vals and 'generar_evento_st' in vals:
+            if (
+                'generar_evento_fechahora' in vals
+                and 'generar_evento_st' in vals
+            ):
 
                 if vals['generar_evento_st']:
                     fechahora = vals['generar_evento_fechahora']
                     if not fechahora:
-                        raise UserError(('Debe especificar la fecha y hora para el nuevo evento.'))
-
-        """
-            if 'state' in vals:
-                if vals['state'] == 'aceptado':
-                    if not 'viajes_id' in vals or len(vals.get('viajes_id', [])) <= 0:
-                        raise UserError(_('Debe especificar los viajes.'))
-        """
-
+                        raise UserError(
+                            'Debe especificar la fecha y hora para el nuevo'
+                            + ' evento.'
+                        )
         state = ''
         viajes_id = []
         motivo_rechazo_id = None
@@ -162,14 +161,6 @@ class TrafitecCrmTraficoRegistro(models.Model):
                 state = vals['state']
             else:
                 state = self.state
-
-            """
-            if 'viajes_id' in vals:
-                viajes_id = vals['viajes_id']
-            else:
-                viajes_id = self.viajes_id
-            """
-
             if 'motivo_rechazo_id' in vals:
                 motivo_rechazo_id = vals['motivo_rechazo_id']
             else:
@@ -179,55 +170,42 @@ class TrafitecCrmTraficoRegistro(models.Model):
                 tarifa = vals['tarifa']
             else:
                 tarifa = self.tarifa
-
         if state == 'aceptado':
-            """
-            if len(viajes_id) <= 0:
-                raise UserError(_('Debe especificar al menos un viaje.'))
-            """
-
             if tarifa <= 0:
                 raise UserError(('Debe especificar la tarifa'))
-
         if state == 'rechazado':
             if not motivo_rechazo_id:
                 raise UserError(('Debe especificar el motivo de rechazo'))
 
-            """
-            if len(viajes_id) > 0:
-                raise UserError(_('Debe quitar los viajes relacionados.'))
-            """
-
     @api.model
     def create(self, vals):
         self.valida(vals, 1)
-
         persona_obj = self.env['res.partner']
         persona_dat = None
-
         if 'active_id' in self._context:
             vals['asociado_id'] = self._context['active_id']
-
         if 'cotizacion_id' in self._context:
             vals['cotizacion_id'] = self._context['cotizacion_id']
-
-        # Lo marca como generado.
         vals.update({'seg_modificar': False})
-
         nuevo = super(TrafitecCrmTraficoRegistro, self).create(vals)
         if 'active_id' in self._context:
-            persona_dat = persona_obj.search([('id', '=', self._context['active_id'])])
+            persona_dat = persona_obj.search([('id', '=', self._context[
+                'active_id'
+            ])])
             persona_dat.write({
-                'crm_trafico_ultimocontacto_fechahora': datetime.datetime.today(),
+                'crm_trafico_ultimocontacto_fechahora': (
+                    datetime.datetime.today()
+                ),
                 'crm_trafico_ultimocontacto_usuario_id': self._uid
             })
-
         if nuevo.generar_evento_st:
             tipo_txt = 'Contactar a: '
-
             if persona_dat:
-                tipo_txt += (persona_dat.name or persona_dat.display_name or '')
-
+                tipo_txt += (
+                    persona_dat.name
+                    or persona_dat.display_name
+                    or ''
+                )
             calendario_obj = self.env['calendar.event']
             nuevoevento = {
                 'name': tipo_txt,
@@ -237,9 +215,7 @@ class TrafitecCrmTraficoRegistro(models.Model):
                 'stop': str(nuevo.generar_evento_fechahora)
             }
             calendario_obj.create(nuevoevento)
-
         self._proceso_rechazo(vals, nuevo)
-
         return nuevo
 
     def write(self, vals):
@@ -251,15 +227,12 @@ class TrafitecCrmTraficoRegistro(models.Model):
     def _proceso_rechazo(self, vals, obj=None):
         state = ''
         asociado_id = None
-
         if 'state' in vals:
             state = vals.get('state', '')
-
             if 'asociado_id' in vals:
                 asociado_id = vals.get('asociado_id', None)
             else:
                 asociado_id = self.asociado_id.id
-
             if state == 'rechazado' and asociado_id and obj:
                 persona_dat = self.env['res.partner'].browse([asociado_id])
                 persona_dat.write({'crm_trafico_ultimo_rechazo_id': obj.id})
