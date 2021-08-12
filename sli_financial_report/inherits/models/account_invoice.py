@@ -1,14 +1,25 @@
 # -*- coding: utf-8 -*-
 # Viridiana Cruz Santos
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class AccountInvoice(models.Model):
 	_inherit = "account.move"
 
+	file_pdf = fields.Binary(
+		string="Archivo PDF",
+		compute='_get_file',
+		readonly=True
+	)
+	filename_pdf = fields.Char(string="Nombre del archivo PDF")
+	file_xml = fields.Binary(
+		string="Archivo XML",
+		compute='_get_file',
+		readonly=True
+	)
+	filename_xml = fields.Char(string="Nombre del archivo XML")
 
-	
 	def _get_file(self):
 		for invoice in self:
 			attachment_obj = self.env['ir.attachment'].search([('res_id', '=', invoice.id),
@@ -23,25 +34,3 @@ class AccountInvoice(models.Model):
 				if attachment.mimetype == 'application/xml':
 					invoice.file_xml = attachment.datas
 					invoice.filename_xml = attachment.datas_fname
-
-
-	file_pdf = fields.Binary(
-		compute='_get_file',
-		readonly=True,
-		string=_("Archivo PDF")
-	)
-
-	filename_pdf = fields.Char(
-		string=_("Nombre del archivo PDF")
-	)
-
-	file_xml = fields.Binary(
-		compute='_get_file',
-		readonly=True,
-		string=_("Archivo XML")
-	)
-
-	filename_xml = fields.Char(
-		string=_("Nombre del archivo XML")
-	)
-
