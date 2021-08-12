@@ -69,7 +69,7 @@ class TrafitecCotizacion(models.Model):
         'res.partner',
         string='Cliente',
         domain=[
-            ('customer', '=', 1),
+            ('customer_rank', '=', 1),
             ('parent_id', '=', False)
         ],
         tracking=True
@@ -309,7 +309,7 @@ class TrafitecCotizacion(models.Model):
     monto_total = fields.Float(
         string='Monto Total aproximado',
         readonly=True,
-        compute=_monto_total,
+        compute='_monto_total',
         store=True
     )
     monto_inicial = fields.Float(
