@@ -101,3 +101,4 @@ from . import trafitec_viajes_boletas
 from . import trafitec_viajescontrarecibo
 from . import trafitec_viajes_evidencias
 from . import trafitec_viajes_scan
+from . import fleet_vehicle
