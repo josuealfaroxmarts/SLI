@@ -11,6 +11,7 @@
     'depends': [        
         'account_accountant',
         'fleet',
+        'account_fleet',
         'product',
 	    'sale_management',
 	    'web',
