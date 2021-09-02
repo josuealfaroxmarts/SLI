@@ -23,6 +23,7 @@ class FleetVehicle(models.Model):
         string="Tarjeta de circulacion aprobada",
         default=False
     )
+    bill_count = fields.Integer(string="Bills Count")
 
     @api.onchange("status_vehicle")
     def _change_send_to_api(self):
