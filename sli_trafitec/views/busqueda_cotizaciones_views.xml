@@ -1,0 +1,33 @@
+<odoo>
+
+    <record id="sli_cotizaciones_buscar" model="ir.ui.view">
+        <field name="name">sli.cotizaciones.buscar</field>
+        <field name="model">trafitec.cotizacion</field>
+        <field name="inherit_id" ref="sli_trafitec.view_cotizacion_search"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="miscotizaciones" string="Mis cotizaciones" domain="[('create_uid','=',uid)]"/>
+                <separator/>
+                <filter name="hoy" string="Cotizaciones de hoy" domain="[('create_date','>=',current_date)]"/>
+                <filter name="siete_dias" string="Cotizaciones recientes" domain="[('create_date','&gt;=',(context_today()+relativedelta(days=-3)).strftime('%%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="autorizada" string="Autorizada" domain="[('state','=','Autorizada')]"/>
+                <filter name="enviada" string="Enviada" domain="[('state','=','Enviada')]"/>
+                <filter name="aceptada" string="Aceptada por el cliente" domain="[('state','=','Aceptada')]"/>
+                <filter name="rechazada" string="Rechazada por el cliente" domain="[('state','=','Rechazada')]"/>
+                <filter name="disponible" string="Disponible" domain="[('state','=','Disponible')]"/>
+                <filter name="cancelada" string="Cancelada" domain="[('state','=','Cancelada')]"/>
+                <filter name="cerrada" string="Cerrada" domain="[('state','=','Cerrada')]"/>
+                <field name="x_folio_trafitecw" string="Folio de trafitec windows"/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="agrupar_por_cliente" string="Cliente" domain="[]" context="{'group_by':'cliente'}" help="Agrupar por cliente"/>
+                    <filter name="agrupar_por_sucursal" string="Sucursal" domain="[]" context="{'group_by':'sucursal_id'}" help="Agrupar por sucursal"/>
+                    <filter name="agrupar_por_ano" context="{'group_by': 'create_date:year'}" string="Año" help="Agrupar por año" />
+                    <filter name="grupar_por_mes" context="{'group_by': 'create_date:month'}" string="Mes" help="Agrupar por mes"/>
+                    <filter name="grupar_por_usuario" context="{'group_by': 'create_uid'}" string="Usuario" help="Agrupar por usuario"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

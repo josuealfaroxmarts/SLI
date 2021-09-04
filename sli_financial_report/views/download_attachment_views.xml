@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="download_attachment_wizard_form" model="ir.ui.view">
+		<field name="name">Download Attachment Wizard Form</field>
+		<field name="model">download.attachment</field>
+		<field name="arch" type="xml">
+			<form>
+				<p>Haga clic en el botón Descargar para descargar todos los archivos adjuntos</p>
+				<group invisible="True">
+					<field name="file"/>
+					<field name="active_model"/>
+					<field name="active_id"/>
+				</group>
+				<field name="attachment_ids" invisible="True"/>
+				<footer>
+					 <button string="Descargar" type="object" name="download_attachment" class="oe_highlight"/>
+					or
+					<button string="Cancel" special="cancel" class="oe_link"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_download_attachment_wizard_form" model="ir.actions.act_window">
+		<field name="name">Download Attachment Action</field>
+		<field name="res_model">download.attachment</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+	<!-- <act_window
+		id="action_download_wizard1"
+		multi="True"
+		key2="client_action_multi" 
+		name="Descargar archivos"
+		res_model="download.attachment" 
+		src_model="account.move"
+		view_mode="form" 
+		target="new" 
+		
+		/> -->
+
+</odoo>

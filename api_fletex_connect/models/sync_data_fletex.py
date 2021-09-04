@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 import base64
 import imghdr
 import requests
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class SyncDataFletex(models.Model):

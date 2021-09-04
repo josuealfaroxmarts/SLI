@@ -1,0 +1,15 @@
+<odoo>
+
+  <record id="sli_comisiones_buscar" model="ir.ui.view">
+        <field name="name">sli.comisiones.buscar</field>
+        <field name="model">trafitec.cargos</field>
+        <field name="inherit_id" ref="sli_trafitec.view_comisiones_search"/>
+        <field name="arch" type="xml">
+            <search>
+                <separator/>
+                <filter name="consaldo" string="Con saldo" domain="[('saldo','>',0)]"/>
+            </search>
+        </field>
+  </record>
+
+</odoo>

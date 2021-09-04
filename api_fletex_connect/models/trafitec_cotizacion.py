@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from odoo import models, fields, api, _
+from odoo import  fields, models, _
 
 
 class TrafitecCotizacion(models.Model):

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <!--SEARCH-->
+    <record id='sli_portales_usuarios_search' model='ir.ui.view'>
+        <field name='name'>Usuarios</field>
+        <field name='model'>sli.portales.usuarios</field>
+        <field name='arch' type='xml'>
+            <search>
+                <field name='name'/>
+                <field name='nombrecompleto'/>
+                <field name='es_cliente'/>
+                <field name='es_asociado'/>
+                <field name='persona_id'/>
+                <field name='tipo'/>
+                <field name='st'/>
+            </search>
+        </field>
+    </record>
+
+    <!-- TREE -->
+    <record id='sli_portales_usuarios_tree' model='ir.ui.view'>
+        <field name='name'>Usuarios</field>
+        <field name='model'>sli.portales.usuarios</field>
+        <field name='arch' type='xml'>
+            <tree>
+                <field name='name'></field>
+                <field name='nombrecompleto'></field>
+                <field name='es_cliente'></field>
+                <field name='es_asociado'></field>
+                <field name='persona_id'></field>
+                <field name='tipo'></field>
+                <field name='st'/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM -->
+    <record id='sli_portales_usuarios_form' model='ir.ui.view'>
+        <field name='name'>Usuarios</field>
+        <field name='model'>sli.portales.usuarios</field>
+        <field name='arch' type='xml'>
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name='name' placeholder="Nombre del usuario."/></h1>
+                    </div>
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group>
+                                    <field name='clave' password="False"/>
+                                    <field name='nombrecompleto'></field>
+                                    <field name='es_cliente'/>
+                                    <field name='es_asociado'/>
+                                    <field name="empresa_id" groups="base.group_no_one" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/><!--SOLO SE VE EN MODO DE DEPURACION-->
+                                    <field name='persona_id'  domain="[('company_id', '=', empresa_id),(['company','person'],'in','company_type')]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"></field>
+                                </group>
+                                <group>
+                                    <field name='tipo'/>
+                                    <field name='st'/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Registros">
+                            <group colspan="2">
+                                <button string="Borrar registros" name="action_borrar_registros" type="object" confirm="¿Borrar registros?"/>
+                            </group>
+                            <group colspan="2">
+                                <field name="registros_id">
+                                    <tree>
+                                        <field name="detalles"/>
+                                        <field name="create_date" string="Fecha y hora de registro"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--ACCION Y MENU-->
+
+    <record id='sli_portales_action' model='ir.actions.act_window'>
+        <field name='name'>SLI Portales</field>
+        <field name='res_model'>sli.portales.usuarios</field>
+        <field name='view_mode'>tree,form</field>
+    </record>
+
+    <menuitem name='SLI Portales'
+              id='SLIPortales'
+              web_icon="sli_trafitec,static/description/icon.png"
+              groups="sli_portales.SLI_Portales_general"/>
+
+    <menuitem name='Usuarios'
+              id='sli_portales_usuarios'
+              parent='SLIPortales'
+              action='sli_portales_action'
+              groups="sli_portales.SLI_Portales_general"/>
+
+</odoo>

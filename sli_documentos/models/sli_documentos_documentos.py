@@ -1,31 +1,17 @@
-from odoo import models, fields, api, exceptions, tools
-
-from datetime import datetime, date, time, timedelta
-import tempfile
-import base64
-import os
-
-import random
+from datetime import datetime, date
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError, UserError, RedirectWarning
-
-import ast
-import re
-from datetime import datetime, date
+from odoo.exceptions import ValidationError
 
 
 class SliDocumentosDocumentos(models.Model):
     _name = 'sli.documentos.documentos'
-    _description ='SLI documentos'
-    
-    
+    _description = 'SLI documentos'
+
     @api.depends('fecha_final')
     def compute_dias_para_vencimiento(self):
-        hoy = date.today()
         fecha_final = datetime.strptime(self.fecha_final, "%Y-%m-%d").date()
-        dif = fecha_final - hoy
-        self.dias_para_vencimiento = dif.days
+        self.dias_para_vencimiento = (fecha_final - date.today()).days
     
     name = fields.Char(
         string='Nombre', 
@@ -89,7 +75,8 @@ class SliDocumentosDocumentos(models.Model):
     notificar_dias = fields.Integer(
         string='Notificar faltando', 
         default=7, 
-        help='Indica los dias en que se iniciaran las notificaciones antes de la fecha final'
+        help='Indica los dias en que se iniciaran las'
+             ' notificaciones antes de la fecha final'
     )
     notificar_frecuencia = fields.Integer(
         string='Notificar frecuencia', 
@@ -123,103 +110,59 @@ class SliDocumentosDocumentos(models.Model):
         default='datos.txt'
     )
     archivo_datos = fields.Binary()
-    
-    
-    def action_servicio_notificaciones(self):
-        #Obtener todos los documentos vigentes.
-        documentos = self.env['sli.documentos.documentos'].search([
-            ('state', '=', 'vigente')
-        ])
-        
-        dias = 0
-        dias_un = 0
-        hoy = None
-        notificar = False
-        
-        #Buscar documentos proximos a vencer.
-        for d in documentos:
-            dias = 0
-            dias_un = 0
-            notificar = False
-            
-            hoy = date.today()
-            fecha_final = datetime.strptime(d.fecha_final, "%Y-%m-%d").date()
-            dif = fecha_final - hoy
-            dias = dif.days
 
+    def action_servicio_notificaciones(self):
+        """Obtener todos los documentos vigentes."""
+
+        hoy = date.today()
+        for d in self.filtered(lambda x: x.state == 'vigente'):
+            notificar = False
+            fecha_final = datetime.strptime(d.fecha_final, "%Y-%m-%d").date()
+            dias = ( fecha_final - hoy).dif.days
             #Actualiza el estado del documento.
             if dias <= 0:
                 d.state = 'vencido'
                 continue
-            
             #Verifica si esta por vencer.
             if dias <= d.notificar_dias:
                 if d.notificar_fechahorau:
                     fecha_final_un = datetime.strptime(
                         d.notificar_fechahorau, "%Y-%m-%d %H:%M:%S").date()
-                    dif_un = hoy - fecha_final_un
-                    dias_un = dif_un.days
-                   
+                    dias_un = (hoy - fecha_final_un).days
                     if dias_un >= 1:
                         notificar = True
                 else:
                     notificar = True
-               
                 #Notificar.
                 if notificar:
-                    #Establece la fecha u hora de ultima notificación.
-                    d.notificar_fechahorau = datetime.now()
-                    
-                    #Enviar mensaje.
-                    mensaje = "Faltan {} dias para vencimiento de {} con folio {}.".format(
-                        dias, d.name, d.folio)
+                    d.notificar_fechahorau = hoy
+                    mensaje = "Faltan {} dias para vencimiento de" \
+                              " {} con folio {}.".format(dias, d.name, d.folio)
                     for p in d.personas_ids:
                         if p.persona_id.email:
-                            self.enviar_correo(
-                                asunto="Vigencia", 
-                                contenido=mensaje, 
-                                para=(p.persona_id.email or '')
-                            )
-                            print("Notificar:")
-        
-        
-    def enviar_correo(self, asunto='', contenido='', para='', para2=''):
-        valores = {
-            'subject': asunto,
-            'body_html': contenido,
-            'email_to': para,
-            'email_cc': para2,
-            'email_from': 'info@sli.mx',
-        }
-        create_and_send_email = self.env['mail.mail'].create(valores)
-
-    
-    def create(self, vals):
-        nuevo = super(SliDocumentosDocumentos, self).create(vals)
-        return nuevo
+                            vals = {
+                                'subject': 'Vigencia',
+                                'body_html': mensaje,
+                                'email_to': p.persona_id.email or '',
+                                'email_cc': '',
+                                'email_from': 'info@sli.mx',
+                            }
+                            self.env['mail.mail'].create(vals)
 
     @api.constrains('notificar_dias', 'notificar_frecuencia')
     def valida(self):
         error = False
         errores = ''
-        
         if not self._context.get('validar', True):
             return
-        
-        
-        #Validaciones.
         if self.fecha_inicial > self.fecha_final:
             error = True
             errores += "La fecha inicial debe ser menor a la fecha final.\n"
-        
         if self.notificar_dias <= 0:
             error = True
             errores += 'Los dias para la notificación debe ser mayor a cero.\n'
-
         if self.notificar_frecuencia <= 0:
             error = True
             errores += 'La frecuencia para la notificación debe ser mayor a cero.\n'
-        
-        
         if error:
-            raise UserError(_(errores))
+            raise ValidationError(_(errores))

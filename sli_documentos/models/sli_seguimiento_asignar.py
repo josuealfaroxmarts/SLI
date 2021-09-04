@@ -1,22 +1,10 @@
-from odoo import models, fields, api, exceptions, tools
-
-from datetime import datetime, date, time, timedelta
-import tempfile
-import base64
-import os
-
-import random
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError, UserError, RedirectWarning
 
-import ast
-import re
-from datetime import datetime, date
 
 class SliSeguimientoAsignar(models.TransientModel):
     _name = 'sli.seguimiento.asignar'
-    _description ='Asignar seguimiento'
+    _description = 'Asignar seguimiento'
 
     para_usuario_id = fields.Many2one(
         string='Para', 

@@ -1,11 +1,4 @@
-from odoo import models, fields, api, exceptions, tools
 
-from datetime import datetime, date, time, timedelta
-import tempfile
-import base64
-import os
-
-import random
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError, UserError, RedirectWarning

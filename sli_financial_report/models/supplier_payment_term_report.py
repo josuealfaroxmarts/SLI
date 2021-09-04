@@ -1,63 +1,65 @@
-import xlwt
 import base64
+import xlwt
+
+from datetime import datetime
 from io import StringIO
+
 from odoo import _, api, exceptions, fields, models, tools
-from odoo.tools import float_is_zero
-from datetime import datetime,date
+
 
 class SupplierPaymentTermReport(models.Model):
-	_name = "supplier.payment.term.report"
-	_description ='Supplier payment report'
+	_name = 'supplier.payment.term.report'
+	_description = 'Supplier payment report'
 
-
-	date_from = fields.Date(string="De")
-	date_to = fields.Date(string="A")
-	file_name = fields.Char(string="Nombre del archivo")
-	type_file = fields.Char(string="Tipo de archivo")
-	file = fields.Binary(string="Descargar archivo")
+	date_from = fields.Date(string='De')
+	date_to = fields.Date(string='A')
+	file_name = fields.Char(string='Nombre del archivo')
+	type_file = fields.Char(string='Tipo de archivo')
+	file = fields.Binary(string='Descargar archivo')
 	partner_id = fields.Many2one(
 		'res.partner', 
 		string='Proveedor', 
 		required=True,
-		domain=[('supplier_rank', '=', True)]
+		domain=[('supplier_rank', '>=', 1)]
 	)
 
-
-	
-	def _reopen_wizard(self):
-		return { 'type'     : 'ir.actions.act_window',
-				 'res_id'   : self.id,
-				 'view_mode': 'form',
-				 'view_type': 'form',
-				 'res_model': 'supplier.payment.term.report',
-				 'target'   : 'new',
-				 'name'     : 'Cartera vencida proveedores'}
-
-	
 	def print_xls(self):
 		file = StringIO()
 
 		account_invoice_obj = self.env['account.move'].search([
-																('partner_id', '=', self.partner_id.id),
-																('date', '>=', self.date_from),
-																('date', '<=', self.date_to),
-																('state', '=', 'open')
-																])
-
+			('partner_id', '=', self.partner_id.id),
+			('date', '>=', self.date_from),
+			('date', '<=', self.date_to),
+			('state', '=', 'posted')
+		])
 
 		final_value = {}
 		workbook = xlwt.Workbook()
 		sheet = workbook.add_sheet('Cartera vencida proveedores')
 
-		format0 = xlwt.easyxf('font:height 500,bold True;pattern: pattern solid, fore_colour gray40;align: horiz center')
-		format1 = xlwt.easyxf('font:bold True;pattern: pattern solid, fore_colour gray40;align: horiz left')
+		format0 = xlwt.easyxf(
+			'font:height 500,bold True;pattern: pattern solid, '
+			'fore_colour gray40;align: horiz center'
+		)
+		format1 = xlwt.easyxf(
+			'font:bold True;pattern: pattern solid,'
+			' fore_colour gray40;align: horiz left'
+		)
 		format2 = xlwt.easyxf('font:bold True;align: horiz left')
 		format3 = xlwt.easyxf('align: horiz left')
 		format4 = xlwt.easyxf('align: horiz right')
-		format5 = xlwt.easyxf('font:bold True;pattern: pattern solid, fore_colour gray25; align: horiz left')
-		format6 = xlwt.easyxf('pattern: pattern solid, fore_colour red; align: horiz right')
+		format5 = xlwt.easyxf(
+			'font:bold True;pattern: pattern solid, '
+			'fore_colour gray25; align: horiz left'
+		)
+		format6 = xlwt.easyxf(
+			'pattern: pattern solid, fore_colour red; align: horiz right')
 
-		sheet.write_merge(0, 2, 0, 13, 'Facturas emitidas: ' + self.date_from + ' / ' + self.date_to , format0)	
+		sheet.write_merge(
+			0, 2, 0, 13, 'Facturas emitidas: '
+			             + self.date_from + ' / '
+			             + self.date_to, format0
+		)
 
 		row = 5
 
@@ -98,10 +100,10 @@ class SupplierPaymentTermReport(models.Model):
 					sheet.write(row, 8, invoice.residual, format4)
 
 					if invoice.date_due:
-						datetime_invoice = datetime.strptime(invoice.date_due, "%Y-%m-%d")
+						datetime_invoice = datetime.strptime(invoice.date_due, '%Y-%m-%d')
 						due_invoice = datetime_invoice.date()
 
-						today_date = datetime.strptime(fields.Date.today(), "%Y-%m-%d")
+						today_date = datetime.strptime(fields.Date.today(), '%Y-%m-%d')
 						today = today_date.date()
 						
 						diff_days = today - due_invoice
@@ -124,20 +126,24 @@ class SupplierPaymentTermReport(models.Model):
 					row += 1
 
 		else:
-			raise exceptions.Warning(_("No se encontraron registros"))
+			raise exceptions.Warning(_('No se encontraron registros'))
 		row += 2
 
 		workbook.save('/tmp/Cartera_vencida_proveedores.xls')
 		file = open('/tmp/Cartera_vencida_proveedores.xls', 'rb').read()
 		out = base64.encodestring(file)
-
 		self.write({
 				'file_name': 'Cartera_vencida_proveedores.xls',
 				'type_file': '.xls',
 				'file': out,
 				})
-
-
-		return self._reopen_wizard()
+		return {
+			'type': 'ir.actions.act_window',
+			'res_id': self.id,
+			'view_mode': 'form',
+			'res_model': 'supplier.payment.term.report',
+			'target': 'new',
+			'name': 'Cartera vencida proveedores'
+		}
 
 

@@ -1,8 +1,9 @@
-from odoo import api, fields, models
+from odoo import fields, models
+
 
 class SliDocumentosPersonas(models.Model):
     _name = 'sli.documentos.personas'
-    _description ='SLI documentos personas'
+    _description = 'SLI documentos personas'
     
     documento_id = fields.Many2one(
         string='Documento', 

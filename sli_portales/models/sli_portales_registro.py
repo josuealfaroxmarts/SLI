@@ -1,14 +1,12 @@
-from odoo import models, fields, api, exceptions, tools
+from odoo import fields, models
 
-class usuarios_log(models.Model):
+
+class SliPortalesRegistro(models.Model):
     _name = 'sli.portales.registro'
-    _description ='Registro'
+    _description = 'Registro'
 
     usuario_id = fields.Many2one(
         string='Usuario', 
         comodel_name='sli.portales.usuarios'
     )
-    detalles = fields.Char(
-        string='Detalles',
-        default=''
-    )
+    detalles = fields.Char(string='Detalles')

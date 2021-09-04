@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="view_supplier_invoice_report_wizard">
+		<field name="name">Wizard supplier invoice</field>
+		<field name="model">supplier.invoice.report</field>
+		<field name="arch" type="xml">
+			<form string="Reporte">
+				<group>
+					<group>
+						<field name="partner_id" options="{'no_open':True, 'no_create':True}"/>
+					</group>
+				</group>
+				<group>
+					<group>
+						<field name="date_from" required="True"/>
+					</group>
+					<group>
+						<field name="date_to" required="True"/>
+					</group>
+				</group>
+				<footer>
+					<button String="Archivo" class="oe_highlight" type="object" name="print_xls"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_supplier_invoice_report_wizard" model="ir.actions.act_window">
+		<field name="name">Filtros para generar reporte de facturas</field>
+		<field name="res_model">supplier.invoice.report</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">form,tree</field>
+		<field name="view_id" ref="view_supplier_invoice_report_wizard"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem
+            id="menu_invoice_supplier_report"
+            name="Reporte de facturas proveedores"
+            action="action_supplier_invoice_report_wizard"
+            parent="sli_financial_report.menu_accounts_receivable"
+            sequence="1"/>
+
+</odoo>

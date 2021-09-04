@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<template id="purchase_report">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<div class="page">
+					<!-- Head -->
+					<div style="position: absolute; width: 100%; height: 90px;">
+						<div style="position: absolute; left: 700px;">
+							<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 65px;"/>
+						</div>
+						<div style="position: absolute; top: 20px; left: 180px; width: 500px; height: 60px;">
+							<strong style="color: black; font-size: 22px;"><span t-field="o.company_id.name"/></strong>
+							R.F.C.<span t-field="o.company_id.rfc"/>
+							<span t-field="o.company_id.street"/>
+							<span t-field="o.company_id.l10n_mx_street3"/>-<span t-field="o.company_id.l10n_mx_street4"/>
+							C.P.<span t-field="o.company_id.zip_sat_id.code"/>
+							<span t-field="o.company_id.colonia_sat_id.name"/>
+							<span t-field="o.company_id.township_sat_id.name"/>
+							<span t-field="o.company_id.state_id.name"/>
+						</div>
+					</div>
+
+					<!-- Lines -->
+					<h1 style="position: absolute; top: 5px; left: 0%; border: 1px solid black; width: 13%;"></h1>
+					<h1 style="position: absolute; top: 15px; left: 0%; border: 1px solid red; width: 14%;"></h1>
+					<h1 style="position: absolute; top: 25px; left: 0%; border: 1px solid gray; width: 15%;"></h1>
+
+					<h1 style="position: absolute; top: 80px; left: 13%; border: 1px solid black; width: 87%;"></h1>
+					<h1 style="position: absolute; top: 90px; left: 14%; border: 1px solid red; width:86%;"></h1>
+					<h1 style="position: absolute; top: 100px; left: 15%; border: 1px solid gray; width:85%;"></h1>
+
+					<div style="position: absolute; top: 26px; left: 130px; border: 1px solid black; width: 1px; height: 75px;"></div>
+					<div style="position: absolute; top: 36px; left: 140px; border: 1px solid red; width: 1px; height: 75px;"></div>
+					<div style="position: absolute; top: 46px; left: 150px; border: 1px solid gray; width: 1px; height: 75px;"></div>
+
+					<!-- Purchase Type -->
+					<div style="position: absolute; top: 180px; left: 100px; width: 300px; height: 30px; border: 1.2px solid red; background-color: red;">
+						<strong style="position: absolute; left: 10px; color: black; font-size: 19px;">
+							<span t-field="o.state"></span> <span t-field="o.name"></span>
+						</strong>
+					</div>
+					<h1 style="position: absolute; top: 190px; left: 10%; border: 1.2px solid red; width:90%;"></h1>
+					<div style="position: absolute; top: 215px; left: 100px; width: 800px; height: 60px;">
+						Fecha emisión: <span t-field="o.date_order"></span>
+						<BR/>
+						Dirrección de envio:
+						<BR/>
+						<span t-field="o.picking_type_id.warehouse_id.partner_id.street"/>
+						<span t-field="o.picking_type_id.warehouse_id.partner_id.l10n_mx_street3"/>
+						C.P.<span t-field="o.picking_type_id.warehouse_id.partner_id.zip_sat_id.code"/>
+						<span t-field="o.picking_type_id.warehouse_id.partner_id.colonia_sat_id.name"/>
+						<span t-field="o.picking_type_id.warehouse_id.partner_id.township_sat_id.name"/>
+						<span t-field="o.picking_type_id.warehouse_id.partner_id.state_id.name"/>
+					</div>
+
+					<!-- Supplier -->
+					<div style="position: absolute; top: 295px; left: 100px; width: 300px; height: 30px; border: 1.2px solid red; background-color: red;">
+						<strong style="position: absolute; left: 10px; color: black; font-size: 19px;">
+							Proveedor
+						</strong>
+					</div>
+
+					<div style="position: absolute; top: 325px; left: 100px; width: 850px; height: 60px; border: 1.2px solid red;">
+						<span t-field="o.partner_id.name"/>
+						<BR/>
+						Referencia de proveedor: <span t-field="o.partner_ref"/>
+						<BR/>
+						<span t-field="o.partner_id.street"/>
+						<span t-field="o.partner_id.l10n_mx_street3"/>
+						<t t-if="o.partner_id.zip_sat_id">C.P.<span t-field="o.partner_id.zip_sat_id.code"/></t>
+						<span t-field="o.partner_id.colonia_sat_id.name"/>
+						<span t-field="o.partner_id.township_sat_id.name"/>
+						<span t-field="o.partner_id.state_id.name"/>
+						<t t-if="o.partner_id.vat">R.F.C.<span t-field="o.partner_id.vat"/></t>
+					</div>
+
+					<div style="position: absolute; top: 450px; left: 100px; width: 850px;">
+						<table style="position: absolute; width: 100%; font-size: 12px;" border="1" cellspacing="0" cellpadding="0" bordercolor="#ddd">
+							<thead style="background-color: red; border-bottom: 1px solid black;">
+								<tr>
+									<th>Código SAT</th>
+									<th>Descripción</th>
+									<th class="text-center">Cantidad</th>
+									<th class="text-center">Unidad de medida</th>
+									<th class="text-left">Precio Unitario</th>
+									<th class="text-left">Importe</th>
+								</tr>
+							</thead>
+			
+							<tbody>
+								<tr t-foreach="o.order_line" t-as="product">
+									<td><span t-field="product.product_id.sat_product_id.code"/></td>
+									<td><span t-field="product.product_id.name"/></td>
+									<td style="text-align: center;"><span t-field="product.product_qty"/></td>
+									<td style="text-align: center;"><span t-field="product.product_uom.name"/></td>
+									<td style="text-align: left;"><span t-field="product.price_unit"/></td>
+									<td style="text-align: left;"><span t-field="product.price_subtotal"/></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td colspan="3">
+										<BR/>
+										<div>
+											<div>
+												<table class="table table-condensed">
+													<tr class="border-black">
+														<td><strong>Subtotal</strong></td>
+														<td class="text-right">
+															<span t-esc="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+														</td>
+													</tr>
+													<tr class="border-black">
+														<td><strong>Impuestos</strong></td>
+														<td class="text-right">
+															<span t-esc="o.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+														</td>
+													</tr>
+													<tr class="border-black">
+														<td><strong>Total</strong></td>
+														<td class="text-right">
+															 <span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="footer" style="border-bottom: 1px solid red;">
+					<div class="text-center">
+						<ul class="list-inline">
+							<li><span class="page"/></li>
+							<li>/</li>
+							<li><span class="topage"/></li>
+						</ul>
+					</div>
+				</div>
+			</t>
+		</t>
+	</template>
+
+	<template id="report_purchase">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="sli_financial_report.purchase_report"/>
+			</t>
+		</t>
+	</template>
+
+	<!-- QWeb Reports -->
+	<record id="report_purchases" model="ir.actions.report">
+        <field name="name">Cotización / Pedido de compra</field>
+		<field name="model">purchase.order</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">sli_financial_report.report_purchase</field>
+		<field name="report_file">sli_financial_report.report_purchase</field>
+		<field name="attachment">'(object.name or 'Cotización').replace('/','')+'.pdf''</field>
+		<field name="attachment_use">True</field>
+		<field name="binding_view_types">list</field>
+	</record>
+
+</odoo>

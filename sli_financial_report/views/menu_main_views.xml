@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<menuitem
+            id="r_financial_main_menu"
+            name="Reportes"
+            parent="account.menu_finance"
+            sequence="6"/>
+
+	<menuitem
+            id="menu_accounts_receivable"
+            name="Cuentas por pagar"
+            parent="sli_financial_report.r_financial_main_menu"
+            sequence="1"/>
+
+	<menuitem
+            id="menu_accounts_payment"
+            name="Cuentas por cobrar"
+            parent="sli_financial_report.r_financial_main_menu"
+            sequence="2"/>
+
+</odoo>

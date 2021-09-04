@@ -1,5 +1,6 @@
 from odoo import fields, models
 
+
 class SliSeguimientoClasificacion(models.Model):
     _name = 'sli.seguimiento.clasificacion'
     _description ='clasificacion seguimiento'

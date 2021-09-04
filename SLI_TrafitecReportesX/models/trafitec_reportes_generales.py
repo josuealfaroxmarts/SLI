@@ -1,4 +1,5 @@
-## -*- coding: utf-8 -*-
+
+
 from odoo import models, fields, api, _, tools
 import xlsxwriter
 import base64
@@ -8,7 +9,7 @@ import datetime
 
 class TrafitecReportesGenerales(models.TransientModel):
 	_name = 'trafitec.reportes.generales'
-	_description='trafitec reportes generales'
+	_description = 'trafitec reportes generales'
 	_order = 'id desc'
 
 	name = fields.Char(

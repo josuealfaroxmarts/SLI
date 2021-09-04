@@ -1,18 +1,7 @@
-from odoo import models, fields, api, exceptions, tools
-
-from datetime import datetime, date, time, timedelta
-import tempfile
-import base64
-import os
-
-import random
+from datetime import datetime
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError, UserError, RedirectWarning
-
-import ast
-import re
-from datetime import datetime, date
 
 
 class TrafitecViajes(models.Model):
@@ -28,28 +17,30 @@ class TrafitecViajes(models.Model):
         comodel_name='sli.seguimiento.registro', 
         help='Asignación'
     )
-
     
     def action_asignar_quitar(self):
         """Quita la asignacion incondicionalmente."""
-        if self.asignacion_id:
-            self.asignacion_id.state = 'descartado'
-            self.asignacion_id.fechahora_ar = datetime.now()
-            
-        self.with_context(validar_credito_cliente=False).write({'asignacion_id': False, 'asignadoa_id': False, 'asignadoi_id': False})
+        for viaje in self:
+	        if self.asignacion_id:
+	            self.asignacion_id.state = 'descartado'
+	            self.asignacion_id.fechahora_ar = datetime.now()
 
-    
+	        self.with_context(validar_credito_cliente=False).write({
+		        'asignacion_id': False,
+		        'asignadoa_id': False,
+		        'asignadoi_id': False})
+
     def action_intento_quitar(self):
         """Quita la asignacion incondicionalmente."""
-        if self.asignacion_id:
-            self.asignacion_id.state = 'descartado'
-            self.asignacion_id.fechahora_ar = datetime.now()
-    
-        self.asignacion_id = False
-        self.asignadoa_id = False
-        self.asignadoi_id = False
+        for viaje in self:
+	        if self.asignacion_id:
+	            self.asignacion_id.state = 'descartado'
+	            self.asignacion_id.fechahora_ar = datetime.now()
 
-    
+	        self.asignacion_id = False
+	        self.asignadoa_id = False
+	        self.asignadoi_id = False
+
     def action_asignar_asignar(self):
         """Asignación."""
         if self.asignadoa_id:

@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="sli_seguimeinto_cla_tree" model="ir.ui.view">
+        <field name="name">sli.seguimiento.registro.tree</field>
+        <field name="model">sli.seguimiento.registro</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false">
+                <field name="id" string="Folio"></field>
+                <!--field name="name"></field-->
+                <field name="create_uid" string="Asignado por"></field>
+                <field name="create_date" string="Fecha de asignación"></field>
+
+                <field name="para_usuario_id"></field>
+                <field name="viaje_id"></field>
+                <field name="contrarecibo_id"></field>
+                <field name="factura_id"></field>
+                <field name="tipo"></field>
+                <field name="clasificacion_id"></field>
+                <field name="detalles"></field>
+            </tree>
+        </field>
+    </record>
+
+
+
+
+    <record id="sli_seguimeinto_registro_search" model="ir.ui.view">
+        <field name="name">sli.seguimiento.registro.search</field>
+        <field name="model">sli.seguimiento.registro</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="id" string="Folio"></field>
+                <!--field name="name"></field-->
+                <field name="create_uid" string="Asignado por"></field>
+                <field name="create_date" string="Fecha de asignación"></field>
+
+                <field name="para_usuario_id"></field>
+                <field name="viaje_id"></field>
+                <field name="contrarecibo_id"></field>
+                <field name="factura_id"></field>
+                <field name="tipo"></field>
+                <field name="clasificacion_id"></field>
+                <field name="detalles"></field>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="sli_seguimeinto_registro_tree" model="ir.ui.view">
+        <field name="name">sli.seguimiento.registro.tree</field>
+        <field name="model">sli.seguimiento.registro</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false">
+                <field name="id" string="Folio"></field>
+                <!--field name="name"></field-->
+                <field name="create_uid" string="Asignado por"></field>
+                <field name="create_date" string="Fecha de asignación"></field>
+
+                <field name="para_usuario_id"></field>
+                <field name="viaje_id"></field>
+                <field name="contrarecibo_id"></field>
+                <field name="factura_id"></field>
+                <field name="tipo"></field>
+                <field name="clasificacion_id"></field>
+                <field name="detalles"></field>
+                <field name="state"></field>
+                <field name="fechahora_ar"></field>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="sli_seguimeinto_registro_pivot" model="ir.ui.view">
+        <field name="name">sli.seguimiento.registro.pivot</field>
+        <field name="model">sli.seguimiento.registro</field>
+        <field name="arch" type="xml">
+            <pivot string="Tabla registro">
+                <field name="clasificacion_id" type="row"></field>
+                <field name="para_usuario_id" type="col"></field>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="sli_seguimeinto_registro_graph" model="ir.ui.view">
+        <field name="name">sli.seguimiento.registro.pivot</field>
+        <field name="model">sli.seguimiento.registro</field>
+        <field name="arch" type="xml">
+            <graph string="Tabla registro">
+                <field name="clasificacion_id" type="row"></field>
+                <field name="para_usuario_id" type="col"></field>
+            </graph>
+        </field>
+    </record>
+
+    <record id="sli_seguimeinto_registro_form" model="ir.ui.view">
+        <field name="name">sli.seguimiento.registro.form</field>
+        <field name="model">sli.seguimiento.registro</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false" copy="false" export="false">
+                <sheet>
+                    <group>
+                        <group string="Asignado por">
+                            <field name="create_uid" string="Asignado por" readonly="1"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"></field>
+                            <field name="create_date" string="Fecha de asignación" readonly="1"></field>
+                        </group>
+                        <group string="Para">
+                            <field name="para_usuario_id" readonly="1"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"></field>
+                            <field name="viaje_id" readonly="1" attrs="{'invisible':[('tipo','!=','viaje')]}"></field>
+                            <field name="contrarecibo_id" readonly="1"  attrs="{'invisible':[('tipo','!=','contrarecibo')]}"></field>
+                            <field name="factura_id" readonly="1" attrs="{'invisible':[('tipo','!=','factura')]}"></field>
+                            <field name="tipo" readonly="1"></field>
+                        </group>
+                        <group string="Detalles">
+                            <field name="clasificacion_id" readonly="1" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"></field>
+                            <field name="detalles" readonly="1"></field>
+                        </group>
+                        <group string="Estado">
+                            <field name="state" readonly="1"></field>
+                            <field name="fechahora_ar" readonly="1"></field>
+                        </group>
+                    </group>
+                    <footer attrs="{'invisible':[('state','in',('aceptado','rechazado','descartado'))]}">
+                        <button name="action_aceptar" type="object" attrs="{'invisible':[('state','in',('aceptado','rechazado','descartado'))]}" confirm="¿Aceptar asignación?">
+                            <div>
+                                Aceptar la asignación propuesta
+                            </div>
+                        </button>
+                        <span style="color:silver;"> | </span>
+                        <button string="Rechazar asignación" name="action_rechazar" type="object"  attrs="{'invisible':[('state','in',('aceptado','rechazado','descartado'))]}" confirm="¿Rechazar asignación?"></button>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>

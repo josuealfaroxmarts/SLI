@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <data>
+
         <record id="token_api_fletex" model="ir.config_parameter">
             <field name="key">token_api_fletex</field>
             <field name="value">Bearer</field>

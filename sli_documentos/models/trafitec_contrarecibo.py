@@ -1,18 +1,6 @@
-from odoo import models, fields, api, exceptions, tools
-
-from datetime import datetime, date, time, timedelta
-import tempfile
-import base64
-import os
-
-import random
+from datetime import datetime
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError, UserError, RedirectWarning
-
-import ast
-import re
-from datetime import datetime, date
 
 
 class TrafitecContrarecibo(models.Model):
@@ -46,22 +34,16 @@ class TrafitecContrarecibo(models.Model):
 
         self.asignadoa_id = False
 
-    
     def action_asignar_asignar(self):
         """Asignación."""
         if self.asignadoa_id:
             if self.asignadoa_id.id != self.env.user.id:
                 raise UserError(_('Para poder asignar el contra recibo, este contra recibo debe estar asignado a usted.'))
-        
         if self.asignadoi_id:
            raise UserError(_('Para poder asignar el contra recibo no debe haber intento de asignación.'))
 
-           
-        
-        #sli_seguimeinto_asignar_viaje_form
         view_id = self.env.ref('sli_documentos.sli_seguimeinto_asignar_contrarecibo_form').id
         contrarecibo_id = self.id
-        
         return {
             'name': _('Asignar contra recibo '+(self.name or '')),
             'type': 'ir.actions.act_window',
