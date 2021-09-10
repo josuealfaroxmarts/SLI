@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_cancelacion_cuentas_form_view" model="ir.ui.view">
+            <field name="name">trafitec.cancelacion.cuentas.form</field>
+            <field name="model">trafitec.cancelacion.cuentas</field>
+            <field name="arch" type="xml">
+                <form delete="false" duplicate="false">
+                    <header>
+                        <button string="Validar" name="action_validar" type="object" class="btn-primary"
+                                confirm="¿Validar documento?" states="nuevo"/>
+                        <button string="" name="action_cancelar" type="object" class="btn-default"
+                                confirm="¿Cancelar documento?" states="nuevo,validado">
+                        <font color="red">
+                            <bold>Cancelar</bold>
+                        </font>
+                        <!--br/>
+                        <font color="silver">Cancelar documento.</font-->
+                        </button>
+                        <!--button string="Saldar" name="action_saldar" type="object" class="btn-default" states="nuevo"/-->
+                        <!--button string="Cero" name="action_ceros" type="object" class="btn-default" states="nuevo"/-->
+                        <button string="Distribuir" name="action_distribuir" type="object" class="btn-default"
+                                states="nuevo"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="nuevo,validado,cancelado"/>
+                        <!--button name="action_cancel" string="Cancelar contra recibo" type="object" confirm="¿Esta seguro que desea cancelar?" states="Nueva,Validada"/-->
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1" invisible="1"/>
+                                <field name="persona_id"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="total" attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="total_txt" invisible="1"/>
+                                <field name="total_txt_ver" readonly="1"/>
+                                <field name="persona_cobranza"/>
+                                <field name="referencia"/>
+                                <field name="detalles"/>
+                            </group>
+                            <group>
+                                <field name="fecha" attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="moneda_id"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="diario_pago_cliente"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                                <field name="diario_pago_proveedor"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"
+                                       attrs="{'readonly': [('state', '=', 'validado' )]}"/>
+                            </group>
+                            <notebook colspan="2">
+                                <page string="Facturas De Cliente">
+                                    <field name="facturas_cliente_id" widget="one2many_list">
+                                        <tree editable="bottom" create="false">
+                                            <field name="factura_cliente_id" readonly="1"/>
+                                            <field name="factura_cliente_fecha" readonly="1"/>
+                                            <field name="factura_cliente_total" widget='monetary'/>
+                                            <field name="factura_cliente_saldo" widget='monetary'
+                                                   sum="Total saldo cliente"/>
+                                            <field name="abono" sum="Total abonos"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Facturas De Proveedor">
+                                    <field name="facturas_proveedor_id" widget="one2many_list">
+                                        <tree editable="bottom" create="false">
+                                            <field name="factura_proveedor_id" readonly="1"/>
+                                            <field name="factura_proveedor_fecha" readonly="1"/>
+                                            <field name="factura_proveedor_total" widget='monetary'/>
+                                            <field name="factura_proveedor_saldo" widget='monetary'
+                                                   sum="Total saldo proveedor"/>
+                                            <field name="abono" sum="Total abonos"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Relación">
+                                    <field name="facturas_relacion_id" widget="one2many_list"
+                                           attrs="{'readonly': [('state', '=', 'validado' )]}">
+                                        <tree editable="bottom" create="false" delete="false">
+                                            <field name="factura_cliente_id" readonly="1"/>
+                                            <field name="factura_proveedor_id" readonly="1"/>
+                                            <field name="abono" widget='monetary' readonly="1" sum="Total de abonos"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_cancelacion_cuentas_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.cancelacion.cuentas.tree</field>
+            <field name="model">trafitec.cancelacion.cuentas</field>
+            <field name="arch" type="xml">
+                <tree delete="false" duplicate="false" decoration-danger="state == 'cancelado'" decoration-success="state == 'validado'">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="persona_id"/>
+                    <field name="moneda_id"/>
+                    <field name="total"/>
+                    <field name="detalles"/>
+                    <field name="persona_cobranza"/>
+                    <field name="diario_pago_cliente"/>
+                    <field name="diario_pago_proveedor"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_cancelacion_cuentas_search_view" model="ir.ui.view">
+            <field name="name">trafitec.cancelacion.cuentas.search</field>
+            <field name="model">trafitec.cancelacion.cuentas</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="persona_id"/>
+                    <field name="total"/>
+                    <field name="detalles"/>
+                    <field name="persona_cobranza"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_cancelacion_cuentas_action_window" model="ir.actions.act_window">
+            <field name="name">Cancelación De Cuentas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.cancelacion.cuentas</field>
+            <field name="view_mode">form,tree,search</field>        
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

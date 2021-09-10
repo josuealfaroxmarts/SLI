@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_sucursal_form_view" model="ir.ui.view">
+            <field name="name">trafitec.sucursal.form</field>
+            <field name="model">trafitec.sucursal</field>
+            <field name="arch" type="xml">
+                <form string="Sucursal">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                        </div>
+                        <group>
+                            <div class="oe_title">
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                    </group>
+                                </group>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_sucursal_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.sucursal.tree</field>
+            <field name="model">trafitec.sucursal</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Sucursal">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_sucursal_action_window" model="ir.actions.act_window">
+            <field name="name">Sucursal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.sucursal</field>
+            <field name="view_mode">form,tree</field>
+        </record>
+
+    </data>
+</odoo>

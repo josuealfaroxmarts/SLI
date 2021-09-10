@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_clasificaciones_generales_form_view" model="ir.ui.view">
+            <field name="name">trafitec.clasificaciones.generales.form</field>
+            <field name="model">trafitec.clasificaciones.generales</field>
+            <field name="arch" type="xml">
+                <form string="Clasificaciones Generales">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="aplica_viajes"/>
+                            <field name="aplica_crm_trafico_rechazo"/>
+                            <field name="aplica_clasificacion_bloqueo_cliente"/>
+                            <field name="considerar"/>
+                            <field name="state"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_clasificaciones_generales_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.clasificaciones.generales.tree</field>
+            <field name="model">trafitec.clasificaciones.generales</field>
+            <field name="arch" type="xml">
+                <tree string="Clasificaciones Generales">
+                    <field name="name"/>
+                    <field name="aplica_viajes"/>
+                    <field name="aplica_crm_trafico_rechazo"/>
+                    <field name="aplica_clasificacion_bloqueo_cliente"/>
+                    <field name="considerar"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_clasificaciones_generales_action_window" model="ir.actions.act_window">
+            <field name="name">Clasificaciones Generales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.clasificaciones.generales</field>
+            <field name="view_mode">form,tree</field>            
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_reportes_generales_pedidos_avance_buscar_form_view" model="ir.ui.view">
+            <field name="name">trafitec.reportes.generales.pedidos.avance.buscar.form</field>
+            <field name="model">trafitec.reportes.generales.pedidos.avance.buscar</field>
+            <field name="arch" type="xml">
+                <form string="Avance De Cotizaciones">
+                    <sheet>
+                        <notebook>
+                            <page string="Opciones De Busqueda">
+                                <group string="Opciones De Busqueda">
+                                    <group>
+                                        <!--field name="buscar_tipo"/-->
+                                        <field name="name"/>
+                                        <field name="buscar_cliente"/>
+                                        <field name="buscar_folio"/>
+                                        <field name="buscar_usuario"/>
+                                    </group>
+                                    <group>
+                                        <!--field name="buscar_origen"/-->
+                                        <!--field name="buscar_destino"/-->
+                                        <field name="buscar_fecha_inicial"/>
+                                        <field name="buscar_fecha_final"/>
+                                        <button string="Buscar" name="action_buscar" type="object"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                        <div>
+                            <hr/>
+                        </div>
+                        <group>
+                            <field name="porcentaje_general" readonly="1"/>
+                            <field name="porcentaje_detalles" readonly="1"/>
+                        </group>
+                        <group string="Avance General">
+                            <field name="resultados_id" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="cotizacion_folio"/>
+                                    <field name="cotizacion_cliente"/>
+                                    <field name="cotizacion_numeroviajes"/>
+                                    <field name="cotizacion_peso_actual"/>
+                                    <field name="cotizacion_peso_total"/>
+                                    <field name="cotizacion_porcentaje"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Avance Detalles">
+                            <field name="detalles_id" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="cotizacion_folio"/>
+                                    <field name="cotizacion_linea"/>
+                                    <field name="cotizacion_cliente"/>
+                                    <field name="cotizacion_origen"/>
+                                    <field name="cotizacion_destino"/>
+                                    <field name="cotizacion_numeroviajes"/>
+                                    <field name="cotizacion_peso_actual"/>
+                                    <field name="cotizacion_peso_total"/>
+                                    <field name="cotizacion_porcentaje"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Por Mes">
+                            <field name="detalles_xmes_id" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="cotizacion"/>
+                                    <field name="cliente"/>
+                                    <field name="ano"/>
+                                    <field name="mes"/>
+                                    <field name="viajes"/>
+                                    <field name="peso"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Por Dia">
+                            <field name="detalles_xdia_id" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="cotizacion"/>
+                                    <field name="cliente"/>
+                                    <field name="ano"/>
+                                    <field name="mes"/>
+                                    <field name="dia"/>
+                                    <field name="viajes"/>
+                                    <field name="peso"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_reportes_generales_pedidos_avance_buscar_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.reportes.generales.pedidos.avance.buscar.tree</field>
+            <field name="model">trafitec.reportes.generales.pedidos.avance.buscar</field>
+            <field name="arch" type="xml">
+                <tree string="Avance De Cotizaciones">
+                    <field name="name"/>
+                    <!--field name="buscar_tipo"/-->
+                    <field name="buscar_cliente"/>
+                    <field name="buscar_folio"/>
+                    <!--field name="buscar_origen"/-->
+                    <!--field name="buscar_destino"/-->
+                    <field name="buscar_fecha_inicial"/>
+                    <field name="buscar_fecha_final"/>
+                    <field name="porcentaje_general" readonly="1"/>
+                    <field name="porcentaje_detalles" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_reportes_generales_pedidos_avance_buscar_search_view" model="ir.ui.view">
+            <field name="name">trafitec.reportes.generales.pedidos.avance.buscar.search</field>
+            <field name="model">trafitec.reportes.generales.pedidos.avance.buscar</field>
+            <field name="arch" type="xml">
+                <search string="Avance De Cotizaciones">
+                    <field name="name"/>
+                    <!--field name="buscar_tipo"/-->
+                    <field name="buscar_cliente"/>
+                    <field name="buscar_folio"/>
+                    <!--field name="buscar_origen"/-->
+                    <!--field name="buscar_destino"/-->
+                    <field name="buscar_fecha_inicial"/>
+                    <field name="buscar_fecha_final"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_reportes_generales_pedidos_avance_buscar_action_window" model="ir.actions.act_window">
+            <field name="name">Avance De Cotizaciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.reportes.generales.pedidos.avance.buscar</field>
+            <field name="view_mode">form,tree,search</field>            
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

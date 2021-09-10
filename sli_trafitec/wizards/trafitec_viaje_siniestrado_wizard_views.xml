@@ -1,0 +1,28 @@
+
+<odoo>
+    <data>
+
+        <record id="trafitec_viaje_siniestrado_wizard_form_view" model="ir.ui.view">
+            <field name="name">trafitec.viaje.siniestrado.wizard.form</field>
+            <field name="model">trafitec.viaje.siniestrado.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Motivo De Siniestro">
+                    <field name="viaje_id" invisible="1"/>
+                    <label string="Motivo de siniestro" for="motivo"/>
+                    <field name="motivo"/>
+                    <footer>
+                        <button string="Aceptar" name="siniestrado_button" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_viaje_siniestrado_wizard_action_window" model="ir.actions.act_window">
+            <field name="name">Motivo De Siniestro</field>
+            <field name="res_model">trafitec.viaje.siniestrado.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
+
+    </data>
+</odoo>

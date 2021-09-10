@@ -9,38 +9,38 @@ import base64
 
 
 class TrafitecMoviles(models.Model):
-    _name = 'trafitec.moviles'
-    _description = 'tipo moviles'
+    _name = "trafitec.moviles"
+    _description = "Tipo Movil"
 
     name = fields.Char(
-        string='Nombre',
+        string="Nombre",
         required=True
     )
     tipomovil = fields.Selection([
-            ('vehiculo', 'Vehículo'),
-            ('remolque', 'Remolque')
+            ("vehiculo", "Vehículo"),
+            ("remolque", "Remolque")
         ],
-        string='Tipo de móvil',
+        string="Tipo de móvil",
         required=True
     )
     tipo = fields.Selection([
-            ('full', 'Full'),
-            ('sencillo', 'Sencillo')
+            ("full", "Full"),
+            ("sencillo", "Sencillo")
         ],
-        string='Tipo',
+        string="Tipo",
         required=True
     )
     capacidad = fields.Float(
-        string='Capacidad (Tons)',
+        string="Capacidad (Tons)",
         required=True,
         default=0
     )
     unidadmedida = fields.Many2one(
-        'uom.uom',
-        string='Unidad de medida',
+        "uom.uom",
+        string="Unidad de medida",
         readonly=True
     )
     lineanegocio = fields.Many2one(
-        comodel_name='trafitec.lineanegocio',
-        string='Linea de negocio'
+        comodel_name="trafitec.linea.negocio",
+        string="Linea de negocio"
     )

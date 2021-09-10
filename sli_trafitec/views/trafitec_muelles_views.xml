@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_muelles_form_view" model="ir.ui.view">
+            <field name="name">trafitec.muelles.form</field>
+            <field name="model">trafitec.muelles</field>
+            <field name="arch" type="xml">
+                <form string="Muelles">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre" for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="ubicacion"/>
+                            </group>
+                            <group>
+                                <field name="detalles"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_muelles_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.muelles.tree</field>
+            <field name="model">trafitec.muelles</field>
+            <field name="arch" type="xml">
+                <tree string="Muelles">
+                    <field name="name"/>
+                    <field name="ubicacion"/>
+                    <field name="detalles"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_muelles_search_view" model="ir.ui.view">
+            <field name="name">trafitec.muelles.search</field>
+            <field name="model">trafitec.muelles</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Tipo de ubicación" icon="terp-partner" name="name" domain="[]"
+                                context="{'group_by':'ubicacion'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_muelles_action_window" model="ir.actions.act_window">
+            <field name="name">Muelles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.muelles</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

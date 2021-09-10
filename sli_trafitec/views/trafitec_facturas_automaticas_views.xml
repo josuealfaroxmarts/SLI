@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_facturas_automaticas_form_view" model="ir.ui.view">
+            <field name="name">trafitec.facturas.automaticas.form</field>
+            <field name="model">trafitec.facturas.automaticas</field>
+            <field name="arch" type="xml">
+                <form string="Facturas Automaticas">
+                    <header>
+                        <button name="action_available" string="Validar" type="object" states="Nueva" class="btn-primary"/>
+                        <button name="action_cancel" string="Cancelar factura automatica" type="object" confirm="¿Esta seguro que desea cancelar?" states="Validada"/>
+                        <field name="state" widget="statusbar" statusbar_visible="Nueva,Validada,Cancelada"/>
+                    </header>
+                    <sheet>
+                        <group >
+                            <group>
+                                <field name="cliente_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="currency_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="lineanegocio" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="csf" />
+                                <field name="move_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="payment_term_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="metodo_pago_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                            </group>
+                            <group>
+                                <field name="uso_cfdi_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="viajes_id" string="Viajes">
+                                <tree editable="bottom">
+                                    <field name = "viaje_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </tree>
+                                <group>
+                                    <group>
+                                        <div class="oe_inline">
+                                            <field name="cargo_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}">
+                                                <tree editable="bottom" string="Conceptos">
+                                                    <field name="name"/>
+                                                    <field name="valor"/>
+                                                </tree>
+                                            </field>
+                                        </div>
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="subtotal_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="r_iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label string="Total" for="total_g"/>
+                                        </div>
+                                        <field name="total_g" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="otros_id" string="Otros">
+                                <group>
+                                    <group>
+                                        <field name="origen" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                        <field name="destino" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                        <label string="Cliente origen" for="cliente_origen_id"/>
+                                        <div name='cliente_origen'>
+                                            <div>
+                                                <field name='cliente_origen_id' class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                                <field name='domicilio_origen_id' class="oe_inline" string="Domicilio" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                            </div>
+                                        </div>
+                                        <label string="Cliente destino" for="cliente_destino_id"/>
+                                        <div name='cliente_destino'>
+                                            <div>
+                                            <field name='cliente_destino_id' class="oe_inline" nolabel="1" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                            <field name='domicilio_destino_id' class="oe_inline" string="Domicilio" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                            </div>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <field name="usar_origen_destino" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="contiene_id" string="Contiene">
+                                <group>
+                                    <field name="contiene" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                    <field name="observaciones" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_facturas_automaticas_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.facturas.automaticas.tree</field>
+            <field name="model">trafitec.facturas.automaticas</field>
+            <field name="arch" type="xml">
+                <tree string="Facturas Automaticas">
+                    <field name="name"/>
+                    <field name="create_date" string="Fecha" widget="date"/>
+                    <field name="cliente_id"/>
+                    <field name="currency_id"/>
+                    <field name="subtotal_g"/>
+                    <field name="iva_g"/>
+                    <field name="r_iva_g"/>
+                    <field name="total_g"/>
+                    <field name="lineanegocio"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_facturas_automaticas_search_view" model="ir.ui.view">
+            <field name="name">trafitec.facturas.automaticas.search</field>
+            <field name="model">trafitec.facturas.automaticas</field>
+            <field name="arch" type="xml">
+                <search string="Nombre">
+                    <field name="name"/>
+                    <field name="cliente_id"/>
+                    <field name="currency_id"/>
+                    <field name="company_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Nombre" icon="terp-partner" name="name" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_facturas_automaticas_action_window" model="ir.actions.act_window">
+            <field name="name">Facturas Automaticas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.facturas.automaticas</field>            
+            <field name="view_mode">form,tree,search</field>
+        </record>
+        
+    </data>
+</odoo>

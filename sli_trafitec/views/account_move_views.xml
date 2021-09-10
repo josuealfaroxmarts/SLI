@@ -1,0 +1,377 @@
+<odoo>
+    <data>
+
+        <!-- TODO: Revisar con el consultor -->
+
+        <!-- 
+        <record id="trafitec_argil_factura_cancelar" model="ir.ui.view">
+            <field name="name">trafitec.argil.factura.cancelar</field>
+            <field name="model">account_invoice.cancel_wizard</field>
+            <field name="inherit_id" ref="argil_invoice_cancel.wiz_view_invoice_cancel_argil"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="cancelacion_detalles" required="True"></field>
+                </xpath>
+            </field>
+        </record> 
+        -->
+
+        <record id="sli_trafitec_buscar_facturas_proveedor" model="ir.ui.view">
+            <field name="name">sli.trafitec.buscar.facturas.proveedor</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter name="es_cartaporte" string="Es carta porte" domain="[('es_cartaporte','=',True)]"/>
+                    <separator/>
+                    <filter name="no_es_cartaporte" string="No es carta porte" domain="[('es_cartaporte','=',False)]"/>
+                    <separator/>
+                    <filter name="en_contrarecibo" string="En contra recibo" domain="[('factura_encontrarecibo','=',True)]"/>
+                    <separator/>
+                    <filter name="no_en_contrarecibo" string="No en contra recibo" domain="[('factura_encontrarecibo','=',False)]"/>
+                    <separator/>
+                    <filter name="por_pagar" string="Por pagar" domain="[('state','=','open'),('amount_residual','>',0)]"/>
+                    <separator/>
+                    <filter name="es_provision" string="Es provisión" domain="[('es_provision','=',True)]"/>
+
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Es provisión" icon="terp-partner" name="name" domain="[]" context="{'group_by':'es_provision'}"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="new_factura_manual_fields" model="ir.ui.view">
+            <field name="name">factura_manual.form.add.text.field</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <!--CAMPOS GENERALES DE TRAFITEC EN FACTURA-->
+                <xpath expr="//sheet/group/group/field[@name='partner_id']" position="after">
+                    <field name="es_facturamanual" invisible="1"/>
+                    <field name = "x_folio_trafitecw" invisible="1"/>
+                    <field name="lineanegocio"  attrs="{'readonly': [('state','not in',('draft'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                    <field name="tipo"  attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                </xpath>
+
+                <!--INSERTA CAMPO DE SISTEMA-->
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='currency_id']" position="after">
+                    <field name="sistema" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+                    <attribute name="attrs">{'delete':[('parent.tipo','!=','automatica')]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('sistema','=',False)]}</attribute>
+                </xpath>
+
+                <!--PAGINA DE LISTA DE VIAJES-->
+                <xpath expr="//sheet/notebook/page[@name='other_info']" position="before">
+                    <page string="Viajes factura cliente" name="trafitec_factura_viajes" attrs="{'invisible': [('tipo', 'not in', ['manual','automatica'])]}">
+                        <group>
+                            <field name="viajes_id" attrs="{'readonly': [('state','not in',['draft']),('tipo','=','automatica')]}" domain="[('state','=','Nueva'),('tipo_viaje','=','Normal'),('documentacion_completa','=',True),('moneda','=',currency_id),('cliente_id','=',partner_id)]">
+                                <tree>
+                                    <field name="id"></field>
+                                    <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
+                                    <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
+                                    <field name="name"></field>
+                                    <field name="fecha_viaje"></field>
+                                    <field name="origen"></field>
+                                    <field name="destino"></field>
+                                    <field name="cliente_id"></field>
+                                    <field name="asociado_id"></field>
+                                    <field name="placas_id"></field>
+                                    <field name="tarifa_cliente"></field>
+                                    <field name="flete_cliente"></field>
+                                    <field name="peso_origen_total" string="Peso origen"></field>
+                                    <field name="peso_destino_total" string="Peso destino"></field>
+                                    <field name="en_contrarecibo"></field>
+                                    <field name="en_cp"></field>
+                                    <field name="en_factura"></field>
+                                    <field name="state"></field>
+                                </tree>
+                            </field>
+                            <group>
+                                <button name="action_relacionar_viajes" string="Relacionar viajes" type="object" confirm="¿Esta seguro que desea relacionar los viajes?" states="open,paid"/>
+                                <button name="action_liberar_viajes" string="Liberar viajes" type="object" confirm="¿Esta seguro que desea liberar los viajes?" states="open,paid,cancel"/>
+                            </group>
+                            <group>
+                                <field name="total_fletes"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+                <!--PAGINAS DE FACTURA DATOS ADICIONALES-->
+                <xpath expr="//sheet/notebook/page[@name='other_info']" position="before">
+                    <page string="Informacion trafitec" name="info_trafitec" attrs="{'invisible': [('tipo', 'not in', ['manual','automatica'])]}">
+                        <group>
+                            <group>
+                                <field name="cliente_origen_id"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="domicilio_origen_id"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="cliente_destino_id"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="domicilio_destino_id"  options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            </group>
+                            <group>
+                                <field name="origen"/>
+                                <field name="destino"/>
+                                <field name="placas_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="operador_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="contiene"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_has_outstanding']" position="before">
+                    <field name="cliente_bloqueado" invisible="1"/>
+                    <div attrs="{'invisible':[('cliente_bloqueado','=',False)]}" style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
+                        <label string="CLIENTE BLOQUEADO" for="cliente_bloqueado"></label>
+                    </div>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sli_trafitec_factura_cartaporte_form" model="ir.ui.view">
+            <field name="name">sli_trafitec_factura_cp</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <!--CAMPOS GENERALES DE TRAFITEC EN FACTURA-->
+                <xpath expr="//sheet/group/group[1]/field[@name='lineanegocio']" position="after">
+                    <field name="invoice_from_xml" invisible="0" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                </xpath>
+                <xpath expr="//sheet/group/group[2]/div[3]" position="after">
+                    <field name="es_cartaporte" invisible="0" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                    <field name="es_provision" invisible="0"/>
+                </xpath>
+
+                <!--CARTA PORTE-->
+                <xpath expr="//sheet/notebook/page[2]" position="after">
+                    <page string="Documentos (SLI Asociados)" name="trafitec_facturas_documentos">
+                        <group>
+
+                            <group string="PDF">
+
+                                <field name="documentos_tiene_pdf"/>
+                                <field name="documentos_anexado_pdf" groups="base.group_no_one"/>
+                                <field name="documentos_nombre_pdf" invisible="1"/>
+                                <field name="documentos_archivo_pdf" filename="documentos_nombre_pdf"/>
+                                <button string="Adjuntar pdf" name="action_adjuntar_pdf" type="object" class="oe_inline oe_stat_button" attrs="{'invisible': [('documentos_tiene_pdf', '=', False)]}"/>
+                            </group>
+
+
+                            <group string="XML">
+                                <field name="documentos_tiene_xml"/>
+                                <field name="documentos_anexado_xml" groups="base.group_no_one"/>
+                                <field name="documentos_nombre_xml" invisible="1"/>
+                                <field name="documentos_archivo_xml" filename="documentos_nombre_xml"/>
+                                <button string="Adjuntar xml" name="action_adjuntar_xml" type="object" class="oe_inline oe_stat_button" attrs="{'invisible': [('documentos_tiene_xml', '=', False)]}"/>
+
+                            </group>
+
+                            <!--<field name="documentos_id" widget="one2many_list" >
+                                    <tree editable="bottom">
+                                         <field name = "name"/>
+                                         <field name = "documento_nombre" invisible="1"/>
+                                         <field name = "documento_archivo" filename="documento_nombre"/>
+                                    </tree>
+                            </field>-->
+                        </group>
+                    </page>
+                </xpath>
+
+                <!--PAGINA DE LISTA DE VIAJES-->
+                <xpath expr="//sheet/notebook/page[1]" position="after">
+                    <page string="Viajes de carta porte" name="trafitec_factura_viajescp" attrs="{'invisible': [('es_cartaporte', '=',False)]}">
+                        <group>
+                            <field name="viajescp_id" attrs="{'readonly': [('state','not in',['draft'])]}" domain="[('state','=','Nueva'),('tipo_viaje','=','Normal'),('documentacion_completa','=',True),('moneda','=',currency_id),('en_contrarecibo','=',False),('en_cp','=',False),('asociado_id','=',partner_id)]">
+                                <tree>
+                                    <field name="id"></field>
+                                    <button string="En contra recibo" icon="fa-truck" class="btn-default" readonly="1" name="CR" attrs="{'invisible': [('en_contrarecibo', '=',False)]}"/>
+                                    <button string="En factura" icon="fa-money" class="btn-default" readonly="1" name="F" attrs="{'invisible': [('en_factura', '=',False)]}"/>
+                                    <field name="name"></field>
+                                    <field name="fecha_viaje"></field>
+                                    <field name="origen"></field>
+                                    <field name="destino"></field>
+                                    <field name="cliente_id"></field>
+                                    <field name="asociado_id"></field>
+                                    <field name="placas_id"></field>
+                                    <field name="tarifa_asociado"></field>
+                                    <field name="flete_asociado"></field>
+                                    <field name="peso_origen_total" string="Peso origen"></field>
+                                    <field name="peso_destino_total" string="Peso destino"></field>
+                                    <field name="en_contrarecibo"></field>
+                                    <field name="en_cp"></field>
+                                    <field name="en_factura"></field>
+                                    <field name="state"></field>
+                                </tree>
+                            </field>
+                            <group colspan="2">
+                                <button name="action_liberar_viajescp" string="Liberar viajes" type="object" confirm="¿Esta seguro que desea liberar los viajes?" states="cancel"/>
+                            </group>
+                            <group colspan="2">
+                                <field name="total_fletescp"/>
+                            </group>
+
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="sli_trafitec_factura_cartaporte_tree" model="ir.ui.view">
+            <field name="name">sli_trafitec_factura_cp</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='company_id']" position="after">
+                    <field name="es_provision" invisible="0"/>
+                    <field name="es_cartaporte" invisible="0"/>
+                    <field name="factura_encontrarecibo" invisible="0"/>
+                    <field name="contrarecibo_id" invisible="0"/>
+                </xpath>
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="l10n_mx_edi_cfdi_uuid" invisible="0"/>
+                </xpath>
+            </field>
+        </record>
+
+        
+        <record id="account_move_tree" model="ir.ui.view">
+            <field name="name">account.move.tree</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoice">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="l10n_mx_edi_cfdi_uuid"/>
+                    <field name="date"/>
+                    <field name="partner_id" groups="base.group_user" string="Customer"/>
+                    <field name="commercial_partner_id" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    <field name="user_id"/>
+                    <field name="invoice_date_due"/>
+                    <field name="invoice_origin"/>
+                    <field name="amount_untaxed"/>
+                    <field name="amount_tax"/>
+                    <field name="amount_total_signed" string="Total" sum="Total"/>
+                    <!--TODO Abonos en lista de facturas y completar reglas de negociacion-->
+                    <field name="abonos" string="Abonos" sum="Abonos"/>
+                    <field name="amount_residual_signed" string="Saldo" sum="Amount Due"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="lineanegocio"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="tipo"/>
+                    <field name="folios_boletas"/>
+                    <field name="cancelacion_detalles"></field>
+                    <field name="state"/>
+                    <field name="move_type" invisible="context.get('move_type',True)"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="sli_trafitec_facturas_cancelar" model="ir.ui.view">
+            <field name="name">sli.trafitec.facturas.cancelar</field>
+            <field name="model">trafitec.facturas.cancelar</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="factura_id"  required="True" readonly="1" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"></field>
+                            <field name="detalles" required="True"></field>
+                        </group>
+                        <footer>
+                            <button string="Aceptar" name="cancelar"  type="object" class="oe_highlight" />
+                            <button string="Cancelar" special="cancel" class="oe_highlight"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--****************************************************************************************************************-->
+    <!--CUENTAS POR COBRAR-->
+    <!--****************************************************************************************************************-->
+    <record id='sli_trafitec_tablero_cuentasxcobrar_pivot' model='ir.ui.view'>
+      <field name='name'>sli.trafitec.tablero.cuentasxcobrar.pivot</field>
+      <field name='model'>account.move</field>
+      <field name='arch' type='xml'>
+        <pivot string="Cuentas por cobrar">
+                    <!--field name="create_date" type="col" interval="day" operator="max"/-->
+                    <!--field name="partner_id" type="row"/-->
+                    <field name="partner_id" type="row"/>
+                    <field name="amount_residual" type="measure"/>
+                    <field name="partner_id" type="count"/>
+        </pivot>
+      </field>
+    </record>
+
+    <record id='sli_trafitec_tablero_cuentasxpagar_pivot' model='ir.ui.view'>
+      <field name='name'>sli.trafitec.tablero.cuentasxpagar.pivot</field>
+      <field name='model'>account.move</field>
+      <field name='arch' type='xml'>
+        <pivot string="Cuentas por pagar">
+                    <!--field name="create_date" type="col" interval="day" operator="max"/-->
+                    <field name="partner_id" type="row"/>
+                    <field name="amount_residual" type="measure"/>
+                    <field name="partner_id" type="count"/>
+        </pivot>
+      </field>
+    </record>
+
+ 
+    <record model="ir.actions.act_window" id="act_cuentasxcobrar_pivot">
+        <field name="name">Cuentas por cobrar</field>
+        <field name="res_model">account.move</field>
+        <field name="view_id" ref="sli_trafitec_tablero_cuentasxcobrar_pivot"/>
+        <field name="view_mode">pivot</field>
+        
+        <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','=','out_invoice')]</field>
+    </record>
+
+    
+    <record model="ir.actions.act_window" id="act_cuentasxpagar_pivot">
+        <field name="name">Cuentas por pagar</field>
+        <field name="res_model">account.move</field>
+        <field name="view_id" ref="sli_trafitec_tablero_cuentasxpagar_pivot"/>
+        <field name="view_mode">pivot</field>
+        
+        <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','=','in_invoice')]</field>
+    </record>
+
+    <record id='sli_trafitec_tablero_cuentasxpagarvscuentasporpagar_graph' model='ir.ui.view'>
+      <field name='name'>sli.trafitec.tablero.cuentasxcobrarvscuentasporcobrar.graph</field>
+      <field name='model'>account.move</field>
+      <field name='arch' type='xml'>
+        <graph string="Viajes" display_quantity="True" display_sum="True" display_avg="True">
+                    <!--field name="partner_id" type="row"/-->
+                    <field name="amount_residual" type="measure"/>
+                    <field name="type" type="col"/>
+                    <!--field name="partner_id" type="count"/-->
+        </graph>
+      </field>
+    </record>
+    
+    
+    <record model="ir.actions.act_window" id="act_cuentasxcobrar_vs_cuentasxpagar_graph">
+        <field name="name">Cuentas por pagar vs Cuentas por cobrar</field>
+        <field name="res_model">account.move</field>
+        <field name="view_id" ref="sli_trafitec_tablero_cuentasxpagarvscuentasporpagar_graph"/>
+        <field name="view_mode">graph</field>
+        <field name="domain">[('amount_residual','&gt;',0),('state','=','open'),('type','in',['in_invoice','out_invoice'])]</field>
+    </record>
+
+    </data>
+</odoo>

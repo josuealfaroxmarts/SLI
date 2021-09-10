@@ -6,74 +6,74 @@ import datetime
 
 
 class TrafitecTypeTruck(models.Model):
-    _name = 'trafitec.type_truck'
-    _description='type truck'
+    _name = "trafitec.type_truck"
+    _description="Tipo De Camion"
 
     tipo_camion = fields.Many2one(
-        'trafitec.cotizacion', 
-        string='Tipo camion'
+        "trafitec.cotizacion", 
+        string="Tipo camion"
     )
     type_truck = fields.Selection(
         [
-            ('Jaula', 'Jaula'), 
-            ('Caja seca', 'Caja seca'), 
-            ('Portacontenedor', 'Portacontenedor'), 
-            ('Tolva', 'Tolva'), 
-            ('Plataforma', 'Plataforma'), 
-            ('Gondola', 'Gondola'), 
-            ('Torton', 'Torton'), 
-            ('Rabon', 'Rabon'), 
-            ('Chasis', 'Chasis'), 
-            ('Thermo 48', 'Thermo 48'), 
-            ('Thermo 53', 'Thermo 53')
+            ("jaula", "Jaula"), 
+            ("caja_seca", "Caja seca"), 
+            ("portacontenedor", "Portacontenedor"), 
+            ("tolva", "Tolva"), 
+            ("plataforma", "Plataforma"), 
+            ("gondola", "Gondola"), 
+            ("torton", "Torton"), 
+            ("rabon", "Rabon"), 
+            ("chasis", "Chasis"), 
+            ("thermo_48", "Thermo 48"), 
+            ("thermo_53", "Thermo 53")
         ], 
-        string='Tipo Camion'
+        string="Tipo Camion"
     )
 
 # TODO HABLAR CON EL CONSULTOR LINEA 753
-''' class trafitec_localidad_municipios_estado_pais(models.Model):
-    _inherit = 'res.colonia.zip.sat.code'
+""" class trafitec_localidad_municipios_estado_pais(models.Model):
+    _inherit = "res.colonia.zip.sat.code"
 
     
-    @api.depends('name')
+    @api.depends("name")
     def name_get(self):
         result = []
-        name = ''
+        name = ""
         for rec in self:
             if rec.name:
-                name = '[' + (rec.zip_sat_code.code or '') + '] ' + (rec.name  or '') + '/' + (rec.zip_sat_code.township_sat_code.name or '') + '/' + (rec.zip_sat_code.township_sat_code.state_sat_code.name or '') + '/' + (rec.zip_sat_code.township_sat_code.state_sat_code.country_sat_code.name or '')
+                name = "[" + (rec.zip_sat_code.code or "") + "] " + (rec.name  or "") + "/" + (rec.zip_sat_code.township_sat_code.name or "") + "/" + (rec.zip_sat_code.township_sat_code.state_sat_code.name or "") + "/" + (rec.zip_sat_code.township_sat_code.state_sat_code.country_sat_code.name or "")
                 result.append((rec.id, name))
             else:
                 result.append((rec.id, name))
         return result
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=10):
+    def name_search(self, name, args=None, operator="ilike", limit=10):
         args = args or []
         domain = []
-        if not (name == '' and operator == 'ilike'):
-            args += ['|', '|', '|', ('name', 'ilike', name), ('zip_sat_code.township_sat_code.name', 'ilike', name),
-                    ('zip_sat_code.township_sat_code.state_sat_code.name', 'ilike', name),
-                    ('zip_sat_code.township_sat_code.state_sat_code.country_sat_code.name', 'ilike', name)]
+        if not (name == "" and operator == "ilike"):
+            args += ["|", "|", "|", ("name", "ilike", name), ("zip_sat_code.township_sat_code.name", "ilike", name),
+                    ("zip_sat_code.township_sat_code.state_sat_code.name", "ilike", name),
+                    ("zip_sat_code.township_sat_code.state_sat_code.country_sat_code.name", "ilike", name)]
         result = self.search(domain + args, limit=limit)
         res = result.name_get()
-        return res '''
+        return res """
 
 
-''' class trafitec_municipios_estado_pais(models.Model):
-    _inherit = 'res.country.township.sat.code'
+""" class trafitec_municipios_estado_pais(models.Model):
+    _inherit = "res.country.township.sat.code"
 
     
-    @api.depends('name')
+    @api.depends("name")
     def name_get(self):
         result = []
-        name=''
+        name=""
         for rec in self:
             if rec.name:
-                name = (rec.name or '') + '/' + (rec.state_sat_code.name or '') + '/' + (rec.state_sat_code.country_sat_code.name or '')
+                name = (rec.name or "") + "/" + (rec.state_sat_code.name or "") + "/" + (rec.state_sat_code.country_sat_code.name or "")
                 result.append((rec.id, name))
             else:
                 result.append((rec.id, name))
         return result
- '''
+ """
  

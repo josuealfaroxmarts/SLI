@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_remolques_form_view" model="ir.ui.view">
+            <field name="name">trafitec.remolques.form</field>
+            <field name="model">trafitec.remolques</field>
+            <field name="arch" type="xml">
+                <form string="Remolques">
+                    <sheet>
+                        <group>
+                            <field name="name"></field>
+                            <field name="placas"></field>
+                            <field name="ejes"></field>
+                            <field name="descripcion"></field>
+                            <field name="tipo"></field>
+                            <field name="active"></field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_remolques_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.remolques.tree</field>
+            <field name="model">trafitec.remolques</field>
+            <field name="arch" type="xml">
+                <tree string="Remolques">
+                    <field name="name"></field>
+                    <field name="placas"></field>
+                    <field name="ejes" widget="integer"></field>
+                    <field name="descripcion"></field>
+                    <field name="tipo"></field>
+                    <field name="active"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_remolques_search_view" model="ir.ui.view">
+            <field name="name">trafitec.remolques.search</field>
+            <field name="model">trafitec.remolques</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"></field>
+                    <field name="placas"></field>
+                    <field name="tipo"></field>
+                    <field name="active"></field>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_remolques_action_window" model="ir.actions.act_window">
+            <field name="name">Remolques</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.remolques</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

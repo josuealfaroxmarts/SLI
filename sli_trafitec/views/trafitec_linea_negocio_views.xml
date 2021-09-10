@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>        
+
+        <record id="trafitec_linea_negocio_form_view" model="ir.ui.view">
+            <field name="name">trafitec.linea.negocio.form</field>
+            <field name="model">trafitec.linea.negocio</field>
+            <field name="arch" type="xml">
+                <form string="Línea De Negocios" create="false" delete="false">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre" for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="porcentaje"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_linea_negocio_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.linea.negocio.tree</field>
+            <field name="model">trafitec.linea.negocio</field>
+            <field name="arch" type="xml">
+                <tree string="Línea De Negocios" create="false" delete="false">
+                    <field name="name"/>
+                    <field name="porcentaje"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_linea_negocio_search_view" model="ir.ui.view">
+            <field name="name">trafitec.linea.negocio.search</field>
+            <field name="model">trafitec.linea.negocio</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_linea_negocio_action_window" model="ir.actions.act_window">
+            <field name="name">Línea De Negocios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.linea.negocio</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

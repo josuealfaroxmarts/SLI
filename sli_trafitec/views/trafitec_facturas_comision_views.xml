@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_facturas_comision_form_view" model="ir.ui.view">
+            <field name="name">trafitec.facturas.comision.form</field>
+            <field name="model">trafitec.facturas.comision</field>
+            <field name="arch" type="xml">
+                <form string="Facturas Por Comision">
+                    <header>
+                        <button name="action_available" string="Validar" type="object" states="Nueva" class="btn-primary"/>
+                        <button name="action_cancel" string="Cancelar factura por comision" type="object" confirm="¿Esta seguro que desea cancelar?" states="Validada"/>
+                        <field name="state" widget="statusbar" statusbar_visible="Nueva,Validada,Cancelada"/>
+                    </header>
+                    <sheet>
+                        <group >
+                            <group>
+                                <field name="asociado_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="domicilio_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="product_invoice" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="move_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="payment_term_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="metodo_pago_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                <field name="uso_cfdi_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="comision" string="Comisiones">
+                                <field name="comision_id" widget="one2many_list" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="fecha" />
+                                        <field name="comision"/>
+                                        <field name="abonos"/>
+                                        <field name="saldo" />
+                                        <field name="asociado_id" />
+                                        <field name="tipo_viaje"/>
+                                        <field name="cargo_id" readonly="1"/>
+                                        <field name="viaje_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="subtotal_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="r_iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label string="Total" for="total_g" />
+                                    </div>
+                                    <field name="total_g" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </page>
+                            <page name="factura" string="Factura">
+                                <group>
+                                    <group>
+                                        <field name="contiene" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="observaciones" string="Observaciones">
+                                <group>
+                                    <field name="observaciones" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_facturas_comision_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.facturas.comision.tree</field>
+            <field name="model">trafitec.facturas.comision</field>
+            <field name="arch" type="xml">
+                <tree string="Facturas Por Comision">
+                    <field name="name"/>
+                    <field name="create_date" string="Fecha" widget="date"/>
+                    <field name="asociado_id"/>
+                    <field name="domicilio_id"/>
+                    <field name="product_invoice"/>
+                    <field name="subtotal_g"/>
+                    <field name="iva_g"/>
+                    <field name="r_iva_g"/>
+                    <field name="total_g"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_facturas_comision_search_view" model="ir.ui.view">
+            <field name="name">trafitec.facturas.comision.search</field>
+            <field name="model">trafitec.facturas.comision</field>
+            <field name="arch" type="xml">
+                <search string="Nombre">
+                    <field name="name"/>
+                    <field name="asociado_id"/>
+                    <field name="domicilio_id"/>
+                    <field name="product_invoice"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Nombre" icon="terp-partner" name="name" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_facturas_comision_action_window" model="ir.actions.act_window">
+            <field name="name">Facturas Por Comision</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.facturas.comision</field>            
+            <field name="view_mode">form,tree,search</field>
+        </record>
+        
+    </data>
+</odoo>

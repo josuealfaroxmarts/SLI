@@ -9,19 +9,19 @@ import base64
 
 	
 class TrafitecUnidades(models.Model):
-	_name = 'trafitec.unidades'
-	_description ='unidades'
+	_name = "trafitec.unidades"
+	_description ="Unidades"
 
 	asociado = fields.Many2one(
-		'res.partner', 
-		string='Asociado'
+		"res.partner", 
+		string="Asociado"
 	)
 	movil = fields.Many2one(
-		'trafitec.moviles', 
-		string='Móvil', 
+		"trafitec.moviles", 
+		string="Móvil", 
 		required=True
 	)
 	cantidad = fields.Integer(
-		string='Cantidad', 
+		string="Cantidad", 
 		required=True
 	)

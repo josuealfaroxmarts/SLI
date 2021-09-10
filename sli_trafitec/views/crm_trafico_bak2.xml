@@ -1,20 +1,6 @@
 <odoo>
     <data>
 		
-	
-	
-		<record id="trafitec_crm_trafico_view" model="ir.ui.view">
-            <field name="name">trafitec.crm.trafico.view</field>
-            <field name="model">trafitec.crm.trafico</field>
-            <field name="arch" type="xml">
-                <tree string="Buscar viajes">
-								  <field name="id"></field>
-								  <field name="name"></field>
-								  <field name="create_date"></field>
-                </tree>
-            </field>
-    </record>
-		
 		<record id="trafitec_crm_trafico_asociados_kanban" model="ir.ui.view">
             <field name="name">trafitec.crm.trafico.asociados.kanban</field>
             <field name="model">res.partner</field>

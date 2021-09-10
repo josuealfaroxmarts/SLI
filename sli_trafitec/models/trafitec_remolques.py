@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from odoo import api, fields, models, _
 
 
 class TrafitecRemolques(models.Model):
 	_name = "trafitec.remolques"
-	_description = "remolques"
+	_description = "Remolques"
 	
 	name = fields.Char(
 		string="No. económico",

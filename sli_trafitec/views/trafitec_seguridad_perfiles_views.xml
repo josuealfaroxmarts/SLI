@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_seguridad_perfiles_form_view" model="ir.ui.view">
+            <field name="name">trafitec.seguridad.perfiles.form</field>
+            <field name="model">trafitec.seguridad.perfiles</field>
+            <field name="arch" type="xml">
+                <form string="Perfil">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="name"></field>
+                            <field name="detalles"></field>
+                            <field name="state"></field>
+                        </group>
+                        <group colspan="2">
+                            <notebook>
+                                <page string="Derechos">
+                                    <field name="derechos">
+                                        <tree editable="bottom">
+                                            <field name="derecho"
+                                                    options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                            <field name="permitir"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Usuarios">
+                                    <field name="usuarios">
+                                        <tree>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_seguridad_perfiles_action_window" model="ir.actions.act_window">
+            <field name="name">Perfiles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.seguridad.perfiles</field>
+            <field name="view_mode">form</field>
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

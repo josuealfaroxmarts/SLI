@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_routers_shipments_form_view" model="ir.ui.view">
+            <field name="name">trafitec.routers.shipments.form</field>
+            <field name="model">trafitec.routers.shipments</field>
+            <field name="arch" type="xml">
+                <form string="Descripcion">
+                    <sheet>
+                        <group>
+                            <group string="Información Del Viaje">
+                                <field name="shipment_id_fletex"/>
+                                <field name="shipment_id_odoo"/>
+                                <field name="associated_id"/>
+                                <field name="quotation_id"/>
+                            </group>
+                            <group string="Google Maps">
+                                  <field name="google_maps" widget="url"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_routers_shipments_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.routers.shipments.tree</field>
+            <field name="model">trafitec.routers.shipments</field>
+            <field name="arch" type="xml">
+                <tree string="Viajes" duplicate="false">
+                    <field name="id"/>
+                    <field name="shipment_id_fletex"/>
+                    <field name="shipment_id_odoo"/>
+                    <field name="associated_id"/>
+                    <field name="quotation_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_routers_shipments_action_window" model="ir.actions.act_window">
+            <field name="name">Rutas De Viajes</field>
+            <field name="res_model">trafitec.routers.shipments</field>
+            <field name="view_id" ref="trafitec_routers_shipments_tree_view"/>
+            <field name="view_mode">form,tree</field>
+        </record>
+
+     </data>
+</odoo>

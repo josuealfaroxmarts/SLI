@@ -5,11 +5,11 @@ from odoo import models, fields, api, _, tools
 
 class TrafitecContrarecibosCargos(models.Model):
 	_name = "trafitec.contrarecibos.cargos"
-	_description ="Contrarecibos cargos"
+	_description ="Contrarecibos Cargos"
 	
 	tipo_cargo_id = fields.Many2one(
 		string="Tipo de cargo adicional",
-		comodel_name="trafitec.tipocargosadicionales",
+		comodel_name="trafitec.tipo.cargos.adicionales",
 		required=True
 	)
 	valor = fields.Float(
@@ -18,7 +18,7 @@ class TrafitecContrarecibosCargos(models.Model):
 		required=True
 	)
 	contrarecibo_id = fields.Many2one(
-		string="Contra recibo",
+		string="Contrarecibo",
 		comodel_name="trafitec.contrarecibo"
 	)
 	viaje_id = fields.Many2one(

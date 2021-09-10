@@ -4,23 +4,43 @@ from odoo import models, fields, api, tools, _
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
 
-class trafitec_slitrack_registro(models.Model):
-    _name = 'trafitec.slitrack.registro'
-    _description = 'slitrack registro'
-    _order = 'fechahorag desc'
+class TrafitecSlitrackRegistro(models.Model):
+    _name = "trafitec.slitrack.registro"
+    _description = "SLI Track Registro"
+    _order = "fechahorag desc"
 
-    viaje_id = fields.Many2one(string='Viaje', comodel_name='trafitec.viajes')
-    fechahorad = fields.Datetime(string='Fecha hora dispositivo')
-    fechahorag = fields.Datetime(string='Fecha hora de generación')
-    latitud = fields.Float(string='Latitud',default=0, digits=(10, 10))
-    longitud = fields.Float(string='Longitud',default=0, digits=(10, 10))
-    velocidad = fields.Float(string='Velocidad',default=0, digits=(10, 10))
-    detalles = fields.Char(string='Detalles',default='')
-    proveedor = fields.Selection(string="Tipo", selection=[
-            ('slitrack', 'SLI Track'),
-            ('manual', 'Manual')
+    viaje_id = fields.Many2one(
+        string="Viaje", 
+        comodel_name="trafitec.viajes"
+    )
+    fechahorad = fields.Datetime(string="Fecha hora dispositivo")
+    fechahorag = fields.Datetime(string="Fecha hora de generación")
+    latitud = fields.Float(
+        string="Latitud", 
+        default=0, 
+        digits=(10, 10)
+    )
+    longitud = fields.Float(
+        string="Longitud", 
+        default=0, 
+        digits=(10, 10)
+    )
+    velocidad = fields.Float(
+        string="Velocidad", 
+        default=0, 
+        digits=(10, 10)
+    )
+    detalles = fields.Char(
+        string="Detalles", 
+        default=""
+    )
+    proveedor = fields.Selection(
+        string="Tipo", 
+        selection=[
+            ("slitrack", "SLI Track"),
+            ("manual", "Manual")
         ],
-        default='manual'
+        default="manual"
     )
     
     def unlink(self):
@@ -29,7 +49,7 @@ class trafitec_slitrack_registro(models.Model):
                 raise UserError(_(
                     "Solo se pueden borrar los registros de tipo manual."
                 ))
-        return super(trafitec_slitrack_registro, self).unlink()
+        return super(TrafitecSlitrackRegistro, self).unlink()
 
     @api.constrains
     def _validar(self):

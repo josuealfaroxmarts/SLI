@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_clasificaciones_generales_x_viaje_pivot_view" model="ir.ui.view">
+            <field name="name">trafitec.clasificaciones.generales.x.viaje.pivot</field>
+            <field name="model">trafitec.clasificaciones.generales.x.viaje</field>
+            <field name="arch" type="xml">
+                <pivot string="Clasificaciones Por Viaje" display_quantity="True">
+                    <!--field name="viaje_folio"/-->
+                    <field name="operador_nombre" type="row"/>
+                    <!--field name="asociado_nombre"/-->
+                    <field name="clasificacion_id" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="trafitec_clasificaciones_generales_x_viaje_graph_view" model="ir.ui.view">
+            <field name="name">trafitec.clasificaciones.generales.x.viaje.graph</field>
+            <field name="model">trafitec.clasificaciones.generales.x.viaje</field>
+            <field name="arch" type="xml">
+                <graph string="Clasificaciones Por Viaje">
+                    <!--field name="viaje_folio"/-->
+                    <field name="clasificacion_id" type="col"/>
+                    <field name="operador_nombre" type="row"/>
+                    <!--field name="asociado_nombre"/-->
+
+                </graph>
+            </field>
+        </record>
+
+        <record id="trafitec_clasificaciones_generales_x_viaje_action_window" model="ir.actions.act_window">
+            <field name="name">Calificaciones De Viaje</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.clasificaciones.generales.x.viaje</field>
+            <field name="view_mode">pivot,graph</field>            
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

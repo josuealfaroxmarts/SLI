@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import datetime
 from odoo import models, fields, api, tools
 
 
 class TrafitecTareas(models.Model):
 	_name = "trafitec.tareas"
-	_description="trafitec tareas"
+	_description="Tareas"
 	_order = "id desc"
 	_inherit = ["mail.thread", "mail.activity.mixin"]
 	
@@ -28,9 +30,7 @@ class TrafitecTareas(models.Model):
 		comodel_name="res.users",
 		tracking=True
 	)
-	revision_fechahora = fields.Datetime(
-		string="Fecha y hora de revisión"
-	)
+	revision_fechahora = fields.Datetime(string="Fecha y hora de revisión")
 	validado_usuario_id = fields.Many2one(
 		string="Usuario que valido",
 		comodel_name="res.users",
@@ -45,16 +45,20 @@ class TrafitecTareas(models.Model):
 	cerrado_fechahora = fields.Datetime(string="Fecha y hora de cierre")
 	clasificacion_principal_id = fields.Many2one(
 		string="Clasificación principal",
-		comodel_name="trafitec.tareas.clsificacion",
+		comodel_name="trafitec.tareas.clasificacion",
 		tracking=True,
-		domain=[('tipo','=','principal'),('state','=','activo')]
+		domain=[
+			('tipo','=','principal'), ('state','=','activo')
+		]
 	)
 	clasificacion_secundaria_id = fields.Many2one(
 		string="Clasificación secuendaria",
-		comodel_name="trafitec.tareas.clsificacion",
+		comodel_name="trafitec.tareas.clasificacion",
 		tracking=True,
 		required=True,
-		domain=[('tipo','=','secundaria'),('state','=','activo')]
+		domain=[
+			('tipo','=','secundaria'), ('state','=','activo')
+		]
 	)
 	state = fields.Selection(
 		string="Estado",
@@ -90,7 +94,7 @@ class TrafitecTareas(models.Model):
 	@api.model
 	def create(self, vals):
 		try:
-			clas_obj = self.env["trafitec.tareas.clsificacion"]
+			clas_obj = self.env["trafitec.tareas.clasificacion"]
 			clas_dat = clas_obj.search([("id", "=", vals["clasificacion_secundaria_id"])])
 
 			if not vals["asignado_usuario_id"] and len(clas_dat) == 1:

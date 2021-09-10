@@ -4,71 +4,83 @@ import datetime
 from odoo import models, fields, api, _, tools
 
 
-class TrafitecReportesGeneralesPedidosAvance(models.Model):
-	_name = 'trafitec.reportes.generales.pedidos.avance.buscar'
-	_description = 'Reportes generales pedidos avance buscar'
+class TrafitecReportesGeneralesPedidosAvanceBuscar(models.Model):
+	_name = "trafitec.reportes.generales.pedidos.avance.buscar"
+	_description = "Reportes Generales Pedidos Avance Buscar"
 	
-	name = fields.Char(string='Nombre', required=True, help='Nombre')
+	name = fields.Char(
+		string="Nombre", 
+		required=True, 
+		help="Nombre"
+	)
 	buscar_tipo = fields.Selection([
-			('general', 'General'),
-			('detalles', 'Detalles')
+			("general", "General"),
+			("detalles", "Detalles")
 		],
-		string='Tipo de busqueda'
+		string="Tipo de busqueda"
 	)
 	buscar_cliente = fields.Char(
-		string='Cliente',
-		default='',
-		help='Cliente de cotizacion.'
+		string="Cliente",
+		default="",
+		help="Cliente de cotizacion."
 	)
 	buscar_folio = fields.Char(
-		string='Folio',
-		default='',
-		help='Folio de cotizacion.'
+		string="Folio",
+		default="",
+		help="Folio de cotizacion."
 	)
 	buscar_usuario = fields.Char(
-		string='Usuario',
-		default='',
-		help='Usuario.'
+		string="Usuario",
+		default="",
+		help="Usuario."
 	)
-	buscar_origen = fields.Char(string='Origen', default='')
-	buscar_destino = fields.Char(string='Destino', default='')
+	buscar_origen = fields.Char(
+		string="Origen", 
+		default=""
+	)
+	buscar_destino = fields.Char(
+		string="Destino", 
+		default=""
+	)
 	buscar_fecha_inicial = fields.Date(
-		string='Fecha inicial',
+		string="Fecha inicial",
 		default=datetime.datetime.today(),
 		required=True,
-		help='Fecha inicial de los viajes.'
+		help="Fecha inicial de los viajes."
 	)
 	buscar_fecha_final = fields.Date(
-		string='Fecha final',
+		string="Fecha final",
 		default=datetime.datetime.today(),
 		required=True,
-		help='Fecha final de los viajes.')
+		help="Fecha final de los viajes.")
 
-	porcentaje_general = fields.Float(string='Porcentaje general', default=0)
-	porcentaje_detalles = fields.Float(
-		string='Porcentaje detalles',
+	porcentaje_general = fields.Float(
+		string="Porcentaje general", 
 		default=0
 	)
-
+	porcentaje_detalles = fields.Float(
+		string="Porcentaje detalles",
+		default=0
+	)
 	resultados_id = fields.One2many(
-		string='Resultado',
-		comodel_name='trafitec.reportes.generales.pedidos.avance.resultado',
-		inverse_name='buscar_id'
+		string="Resultado",
+		comodel_name="trafitec.reportes.generales.pedidos.avance.resultado",
+		inverse_name="buscar_id"
 	)
 	detalles_id = fields.One2many(
-		string='Detalles',
-		comodel_name='trafitec.reportes.generales.pedidos.avance.detalles',
-		inverse_name='buscar_id'
+		string="Detalles",
+		comodel_name="trafitec.reportes.generales.pedidos.avance.detalles",
+		inverse_name="buscar_id"
 	)
 	detalles_xmes_id = fields.One2many(
-		string='Por mes',
-		comodel_name='trafitec.reportes.generales.pedidos.avance.xmes',
-		inverse_name='buscar_id'
+		string="Por mes",
+		comodel_name="trafitec.reportes.generales.pedidos.avance.x.mes",
+		inverse_name="buscar_id"
 	)
 	detalles_xdia_id = fields.One2many(
-		string='Por dia',
-		comodel_name='trafitec.reportes.generales.pedidos.avance.xdia',
-		inverse_name='buscar_id'
+		string="Por dia",
+		comodel_name="trafitec.reportes.generales.pedidos.avance.x.dia",
+		inverse_name="buscar_id"
 	)
 
 	def general(self):
@@ -77,16 +89,16 @@ class TrafitecReportesGeneralesPedidosAvance(models.Model):
 			condicion = ""
 			condicion_viaje = ""
 			if rec.buscar_folio:
-				condicion += " and ct.name ilike '%{}%' ".format(
-					rec.buscar_folio or ''
+				condicion += " and ct.name ilike "%{}%" ".format(
+					rec.buscar_folio or ""
 				)
 			if rec.buscar_cliente:
-				condicion += " and cli.name ilike '%{}%' ".format(
-					rec.buscar_cliente or ''
+				condicion += " and cli.name ilike "%{}%" ".format(
+					rec.buscar_cliente or ""
 				)
 			if rec.buscar_usuario:
-				condicion_viaje += " and usu.login ilike '%{}%' ".format(
-					rec.buscar_usuario or ''
+				condicion_viaje += " and usu.login ilike "%{}%" ".format(
+					rec.buscar_usuario or ""
 				)
 			sql = """
 select
@@ -100,7 +112,7 @@ from trafitec_viajes as v
 inner join trafitec_cotizaciones_linea_origen as lo on(v.subpedido_id =lo.id)
 inner join trafitec_cotizaciones_linea l on(lo.linea_id =l.id )
 inner join res_users as usu on(v.create_uid =usu.id)
-where v.state = 'Nueva' and l.cotizacion_id = ct.id and v.create_date >= '{0}' and v.create_date <= '{1}' {3}
+where v.state = "Nueva" and l.cotizacion_id = ct.id and v.create_date >= "{0}" and v.create_date <= "{1}" {3}
 ),0) 
 as actual,
 coalesce((
@@ -109,7 +121,7 @@ from trafitec_viajes as v
 inner join trafitec_cotizaciones_linea_origen as lo on(v.subpedido_id =lo.id)
 inner join trafitec_cotizaciones_linea l on(lo.linea_id =l.id )
 inner join res_users as usu on(v.create_uid =usu.id)
-where v.state = 'Nueva' and l.cotizacion_id = ct.id and v.create_date >= '{0}' and v.create_date <= '{1}' {3}
+where v.state = "Nueva" and l.cotizacion_id = ct.id and v.create_date >= "{0}" and v.create_date <= "{1}" {3}
 ),0) 
 as viajes,
 coalesce((
@@ -123,7 +135,7 @@ as total,
 ct.state as estado
 from trafitec_cotizacion as ct
 inner join res_partner as cli on(ct.cliente=cli.id)
-where ct.state in('Disponible','EnEspera') {2}
+where ct.state in("Disponible","EnEspera") {2}
 """.format(
 				rec.buscar_fecha_inicial,
 				rec.buscar_fecha_final,
@@ -140,24 +152,24 @@ where ct.state in('Disponible','EnEspera') {2}
 			condicion = ""
 			condicion_viaje = ""
 			if rec.buscar_folio:
-				condicion += " and c.name ilike '%{}%' ".format(
-					rec.buscar_folio or ''
+				condicion += " and c.name ilike "%{}%" ".format(
+					rec.buscar_folio or ""
 				)
 			if rec.buscar_cliente:
-				condicion += " and cli.name ilike '%{}%' ".format(
-					rec.buscar_cliente or ''
+				condicion += " and cli.name ilike "%{}%" ".format(
+					rec.buscar_cliente or ""
 				)
 			if rec.buscar_usuario:
-				condicion_viaje += " and usu.login ilike '%{}%' ".format(
-					rec.buscar_usuario or ''
+				condicion_viaje += " and usu.login ilike "%{}%" ".format(
+					rec.buscar_usuario or ""
 				)
 			sql = """
 select
 c.name cotizacion_folio,
 l.id subpedido,
 max(cli.name) cliente,
-max(muno.name||', '||esto.name) origen,
-max(mund.name||', '||estd.name) destino, 
+max(muno.name||", "||esto.name) origen,
+max(mund.name||", "||estd.name) destino, 
 coalesce(
 sum(
 (
@@ -166,7 +178,7 @@ count(v.peso_origen_total)
 from trafitec_viajes as v
 	inner join trafitec_cotizaciones_linea_origen as vlo on(v.subpedido_id =vlo.id)
 	inner join res_users as usu on(v.create_uid =usu.id)
-where v.state = 'Nueva' and vlo.linea_id = l.id and v.create_date >= '{0}' and v.create_date <= '{1}' {3}
+where v.state = "Nueva" and vlo.linea_id = l.id and v.create_date >= "{0}" and v.create_date <= "{1}" {3}
 )
 ),0) viajes,
 
@@ -178,19 +190,19 @@ sum(v.peso_origen_total/1000)
 from trafitec_viajes as v
 	inner join trafitec_cotizaciones_linea_origen as vlo on(v.subpedido_id =vlo.id)
 	inner join res_users as usu on(v.create_uid =usu.id)
-where v.state = 'Nueva' and vlo.linea_id = l.id and v.create_date >= '{0}' and v.create_date <= '{1}' {3}
+where v.state = "Nueva" and vlo.linea_id = l.id and v.create_date >= "{0}" and v.create_date <= "{1}" {3}
 )
 ),0) actual,
 coalesce(sum(l.cantidad),0) total,
 0 porcentaje
 from trafitec_cotizaciones_linea as l
-inner join trafitec_cotizacion c on(l.cotizacion_id =c.id and c.state in('Disponible','EnEspera'))
+inner join trafitec_cotizacion c on(l.cotizacion_id =c.id and c.state in("Disponible","EnEspera"))
 inner join res_partner as cli on(c.cliente=cli.id)
 inner join res_country_township_sat_code as muno on(l.municipio_origen_id=muno.id)
 inner join res_country_state_sat_code as esto on(muno.state_sat_code =esto.id)
 inner join res_country_township_sat_code as mund on(l.municipio_destino_id=mund.id)
 inner join res_country_state_sat_code as estd on(mund.state_sat_code =estd.id)
-where c.state in('Disponible','EnEspera') {2}
+where c.state in("Disponible","EnEspera") {2}
 group by c.name,l.id
 order by c.name,l.id		
 """.format(
@@ -208,16 +220,16 @@ order by c.name,l.id
 			detalles = []
 			condicion = ""
 			if rec.buscar_folio:
-				condicion += " and ct.name ilike '%{}%' ".format(
-					rec.buscar_folio or ''
+				condicion += " and ct.name ilike "%{}%" ".format(
+					rec.buscar_folio or ""
 				)
 			if rec.buscar_cliente:
-				condicion += " and cli.name ilike '%{}%' ".format(
-					rec.buscar_cliente or ''
+				condicion += " and cli.name ilike "%{}%" ".format(
+					rec.buscar_cliente or ""
 				)
 			if rec.buscar_usuario:
-				condicion += " and usu.login ilike '%{}%' ".format(
-					rec.buscar_usuario or ''
+				condicion += " and usu.login ilike "%{}%" ".format(
+					rec.buscar_usuario or ""
 				)
 			sql = """
 select 
@@ -235,7 +247,7 @@ from trafitec_viajes as v
     inner join trafitec_cotizacion  as ct on(l.cotizacion_id =ct.id )
     inner join res_partner as cli on(ct.cliente =cli.id)
 	inner join res_users as usu on(v.create_uid =usu.id)
-where v.state ='Nueva' and v.create_date>='{0}' and v.create_date<='{1}' {2} 
+where v.state ="Nueva" and v.create_date>="{0}" and v.create_date<="{1}" {2} 
 group by ct.name,extract(year from v.create_date),extract(month from v.create_date)
 order by ct.name,extract(year from v.create_date),extract(month from v.create_date)
 """.format(rec.buscar_fecha_inicial, rec.buscar_fecha_final, condicion)
@@ -248,16 +260,16 @@ order by ct.name,extract(year from v.create_date),extract(month from v.create_da
 			detalles = []
 			condicion = ""
 			if rec.buscar_folio:
-				condicion += " and ct.name ilike '%{}%' ".format(
-					rec.buscar_folio or ''
+				condicion += " and ct.name ilike "%{}%" ".format(
+					rec.buscar_folio or ""
 				)
 			if rec.buscar_cliente:
-				condicion += " and cli.name ilike '%{}%' ".format(
-					rec.buscar_cliente or ''
+				condicion += " and cli.name ilike "%{}%" ".format(
+					rec.buscar_cliente or ""
 				)
 			if rec.buscar_usuario:
-				condicion += " and usu.login ilike '%{}%' ".format(
-					rec.buscar_usuario or ''
+				condicion += " and usu.login ilike "%{}%" ".format(
+					rec.buscar_usuario or ""
 				)
 			sql = """
 select 
@@ -276,7 +288,7 @@ from trafitec_viajes as v
     inner join trafitec_cotizacion  as ct on(l.cotizacion_id =ct.id )
     inner join res_partner as cli on(ct.cliente =cli.id)
 	inner join res_users as usu on(v.create_uid =usu.id)
-where v.state ='Nueva' and v.create_date>='{0}' and v.create_date<='{1}' {2} 
+where v.state ="Nueva" and v.create_date>="{0}" and v.create_date<="{1}" {2} 
 group by ct.name,extract(year from v.create_date),extract(month from v.create_date),extract(day from v.create_date)
 order by ct.name,extract(year from v.create_date),extract(month from v.create_date),extract(day from v.create_date)
 """.format(rec.buscar_fecha_inicial, rec.buscar_fecha_final, condicion)
@@ -306,20 +318,20 @@ order by ct.name,extract(year from v.create_date),extract(month from v.create_da
 				actual = 0
 				total = 0
 				porcentaje = 0
-				actual = c.get('actual', 0)
-				total = c.get('total', 0)
+				actual = c.get("actual", 0)
+				total = c.get("total", 0)
 				if total > 0:
 					porcentaje = actual * 100 / total
 				suma_general += porcentaje
 				conteo_general += 1
 				#Genera los datos.
 				nuevo = {
-					'cotizacion_folio': c.get('folio', ''),
-					'cotizacion_cliente': c.get('cliente', ''),
-					'cotizacion_numeroviajes': c.get('viajes', 0),
-					'cotizacion_peso_actual': actual,
-					'cotizacion_peso_total': total,
-					'cotizacion_porcentaje': porcentaje
+					"cotizacion_folio": c.get("folio", ""),
+					"cotizacion_cliente": c.get("cliente", ""),
+					"cotizacion_numeroviajes": c.get("viajes", 0),
+					"cotizacion_peso_actual": actual,
+					"cotizacion_peso_total": total,
+					"cotizacion_porcentaje": porcentaje
 				}
 				lista.append(nuevo)
 			conjunto = self.detalles()
@@ -327,23 +339,23 @@ order by ct.name,extract(year from v.create_date),extract(month from v.create_da
 				actual = 0
 				total = 0
 				porcentaje = 0
-				actual = i.get('actual', 0)
-				total = i.get('total', 0)
+				actual = i.get("actual", 0)
+				total = i.get("total", 0)
 				if total > 0:
 					porcentaje = actual * 100 / total
 
 				suma_detalles += porcentaje
 				conteo_detalles += 1
 				nuevo = {
-					'cotizacion_folio': i.get('cotizacion_folio', ''),
-					'cotizacion_linea': i.get('subpedido', ''),
-					'cotizacion_cliente': i.get('cliente', ''),
-					'cotizacion_origen': i.get('origen', ''),
-					'cotizacion_destino': i.get('destino', ''),
-					'cotizacion_numeroviajes': i.get('viajes', 0),
-					'cotizacion_peso_actual': actual,
-					'cotizacion_peso_total': total,
-					'cotizacion_porcentaje': porcentaje
+					"cotizacion_folio": i.get("cotizacion_folio", ""),
+					"cotizacion_linea": i.get("subpedido", ""),
+					"cotizacion_cliente": i.get("cliente", ""),
+					"cotizacion_origen": i.get("origen", ""),
+					"cotizacion_destino": i.get("destino", ""),
+					"cotizacion_numeroviajes": i.get("viajes", 0),
+					"cotizacion_peso_actual": actual,
+					"cotizacion_peso_total": total,
+					"cotizacion_porcentaje": porcentaje
 				}
 				detalles.append(nuevo)
 			rec.detalles_xmes_id = rec.detalles_xmes()

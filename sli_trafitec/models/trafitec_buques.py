@@ -4,11 +4,11 @@ from odoo import models, fields, api, _, tools
 
 
 class TrafitecBuques(models.Model):
-    _name = 'trafitec.buques'
-    _description = 'buques'
+    _name = "trafitec.buques"
+    _description = "Buques"
 
     name = fields.Char(
-        string='Nombre',
+        string="Nombre",
         required=True
     )
-    detalles = fields.Text(string='Detalles')
+    detalles = fields.Text(string="Detalles")

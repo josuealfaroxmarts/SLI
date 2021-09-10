@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="linea_Cargos_form_inherit" model="ir.ui.view">
+            <field name="name">linea_cargos.form.add.text.field</field>
+            <field name="model">trafitec.cotizaciones.linea</field>
+    	    <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="cargos_id" nolabel="1" >
+                            <tree editable="bottom" >
+                                <field name="name" />
+                                <field name="iva"/>
+                                <field name="tipocalculo"/>
+                                <field name="valor"/>
+                                <field name="total"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="linea_origenes_form_inherit" model="ir.ui.view">
+            <field name="name">linea_origenes.form.add.text.field</field>
+            <field name="model">trafitec.cotizaciones.linea</field>
+    	    <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="municipio_origen_id" readonly="1"/>
+                        <field name="municipio_destino_id" readonly="1"/>
+                        <field name="cantidad" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="origen_id" nolabel="1" >
+                            <tree editable="bottom" >
+                                <field name="name"/>
+                                <field name="origen"/>
+                                <field name="destino" />
+                                <field name="cantidad"/>
+                                <field name="psf"/>
+                                <field name="csf"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="linea_negociancion_form_inherit" model="ir.ui.view">
+            <field name="name">linea_negociancion.form.add.text.field</field>
+            <field name="model">trafitec.cotizaciones.linea</field>
+	        <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="tarifa_asociado" readonly="1"/>
+                        <field name="tarifa_cliente" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="negociacion_id" nolabel="1" >
+                            <tree editable="bottom" decoration-danger="state == 'autorizado'" decoration-muted="state == 'noautorizado'">
+                                <field name="tipo" attrs="{'readonly': [('state', '=', 'autorizado')]}"/>
+                                <field name="asociado_id" attrs="{'readonly': [('state', '=', 'autorizado')]}"/>
+                                <field name="tarifa" attrs="{'readonly': [('state', '=', 'autorizado')]}"/>
+                                <field name="tarifac" attrs="{'readonly': [('state', '=', 'autorizado')]}"/>
+                                <field name="detalles"/>
+                                <field name="tiporemolque_id" attrs="{'readonly': [('state', '=', 'autorizado')]}"/>
+                                <field name="state" groups="sli_trafitec.sli_trafitec_cotizaciones_negociacion_autorizar"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+             </field>
+        </record>
+
+        <record id="view_linea_tree" model="ir.ui.view">
+            <field name="name">view.linea.tree</field>
+            <field name="model">trafitec.cotizaciones.linea</field>
+            <field name="arch" type="xml">
+                <tree string="Cotizaciones">
+                    <field name="nombre_cotizacion"/>
+                    <field name="name"/>
+                    <field name="cliente_cotizacion"/>
+                    <field name="origen_ubicacion"/>
+                    <field name="destino_ubicacion"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

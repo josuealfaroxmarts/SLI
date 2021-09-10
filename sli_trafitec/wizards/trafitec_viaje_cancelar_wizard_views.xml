@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+        <record id="trafitec_viaje_cancelar_wizard_form_view" model="ir.ui.view">
+            <field name="name">trafitec.viaje.cancelar.wizard.form</field>
+            <field name="model">trafitec.viaje.cancelar.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Motivo de Cancelación">
+                    <field name="viaje_id" invisible="1"/>
+                    <label string="Motivo de cancelación" for="motivo"/>
+                    <field name="motivo"/>
+                    <footer>
+                        <button string="Aceptar" name="cancelacion_button" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_viaje_cancelar_wizard_action_window" model="ir.actions.act_window">
+            <field name="name">Motivo de Cancelación</field>
+            <field name="res_model">trafitec.viaje.cancelar.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <!-- Cotizacion encabezado -->
+        <record id="cancelar_quotittaion_wizard_view" model="ir.ui.view">
+            <field name="name">Motivo de cancelación</field>
+            <field name="model">trafitec.cotizacion.cancelar.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Motivo de cancelación">
+                    <field name="cotizacion_id" invisible="1"/>
+                    <label string="Motivo de cancelación" for="cotizacion_id"/>
+                    <field name="motivo"/>
+                    <footer>
+                        <button string="Aceptar" name="cancelacion_button" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="cancelar_quotittaion_wizard_action" model="ir.actions.act_window">
+            <field name="name">Motivo de cancelación</field>
+            <field name="res_model">trafitec.cotizacion.cancelar.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
+
+    </data>
+</odoo>

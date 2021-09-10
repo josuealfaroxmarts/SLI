@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_municipios_form_view" model="ir.ui.view">
+            <field name="name">trafitec.municipios.form</field>
+            <field name="model">trafitec.municipios</field>
+            <field name="arch" type="xml">
+                <form string="Municipios">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre" for="name_value"/>
+                            <h1>
+                                <field name="name_value"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="estado"/>
+                                <field name="pais"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_municipios_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.municipios.tree</field>
+            <field name="model">trafitec.municipios</field>
+            <field name="arch" type="xml">
+                <tree string="Municipios">
+                    <field name="name_value"/>
+                    <field name="estado"/>
+                    <field name="pais"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_municipios_search_view" model="ir.ui.view">
+            <field name="name">trafitec.municipios.search</field>
+            <field name="model">trafitec.municipios</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                        <filter string="Ruta" name="name" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_municipios_action_window" model="ir.actions.act_window">
+            <field name="name">Municipios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.municipios</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

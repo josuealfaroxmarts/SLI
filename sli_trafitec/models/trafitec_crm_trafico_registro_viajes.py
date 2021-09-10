@@ -4,16 +4,16 @@ from odoo import models, fields, api
 
 
 class TrafitecCrmTraficoRegistroViajes(models.Model):
-    _name = 'trafitec.crm.trafico.registro.viajes'
-    _description = 'crm traficos registros viajes'
+    _name = "trafitec.crm.trafico.registro.viajes"
+    _description = "CRM Trafico Registro Viajes"
 
     registro_id = fields.Many2one(
-        string='Registro',
-        comodel_name='trafitec.crm.trafico.registro'
+        string="Registro",
+        comodel_name="trafitec.crm.trafico.registro"
     )
     viaje_id = fields.Many2one(
-        string='Viaje',
-        comodel_name='trafitec.viajes',
+        string="Viaje",
+        comodel_name="trafitec.viajes",
         required=True
     )
 

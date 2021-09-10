@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
 
@@ -142,7 +144,11 @@ class TrafitecDescuentos(models.Model):
         compute="_compute_abono_total",
         store=True
     )
-    saldo = fields.Float(string="Saldo", compute="_compute_saldo", store=True)
+    saldo = fields.Float(
+        string="Saldo", 
+        compute="_compute_saldo", 
+        store=True
+    )
 
     @api.depends("es_combustible_litros", "es_combustible_costoxlt")
     def compute_es_combustible_total(self):

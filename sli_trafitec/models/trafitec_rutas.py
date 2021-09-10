@@ -9,19 +9,19 @@ import base64
 
 	
 class TrafitecRutas(models.Model):
-	_name = 'trafitec.rutas'
-	_description ='rutas'
+	_name = "trafitec.rutas"
+	_description = "Rutas"
 
 	asociado = fields.Many2one(
-		'res.partner', 
-		string='Asociado'
+		"res.partner", 
+		string="Asociado"
 	)
 	estado = fields.Many2one(
-		'res.country.state', 
-		string='Estado', 
+		"res.country.state", 
+		string="Estado", 
 		domain=[
-			('country_id', '=', 157)
+			("country_id", "=", 157)
 		], 
 		required=True
 	)
-	vigente = fields.Boolean(string='Vigente')
+	vigente = fields.Boolean(string="Vigente")

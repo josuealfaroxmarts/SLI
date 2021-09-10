@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_concepto_anticipo_form_view" model="ir.ui.view">
+            <field name="name">trafitec.concepto.anticipo.form</field>
+            <field name="model">trafitec.concepto.anticipo</field>
+            <field name="arch" type="xml">
+                <form string="Conceptos De Descuentos">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre" for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="requiere_orden"/>
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_concepto_anticip_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.concepto.anticipo.tree</field>
+            <field name="model">trafitec.concepto.anticipo</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Conceptos De Descuentos">
+                    <field name="name"/>
+                    <field name="requiere_orden"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_concepto_anticipo_search_view" model="ir.ui.view">
+            <field name="name">trafitec.concepto.anticipo.search</field>
+            <field name="model">trafitec.concepto.anticipo</field>
+            <field name="arch" type="xml">
+                <search string="Nombre">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Nombre" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_concepto_anticipo_action_window" model="ir.actions.act_window">
+            <field name="name">Conceptos De Descuentos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.concepto.anticipo</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

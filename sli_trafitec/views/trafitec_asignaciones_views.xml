@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+	<data>
+
+        <record id="trafitec_asignaciones_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.asignaciones.tree</field>
+            <field name="model">trafitec.asignaciones</field>
+            <field name="arch" type="xml">
+                <tree string="Asignaciones" create="false" delete="false" default_order="id desc">
+                    <field name="viaje_id"/>
+                    <field name="create_uid" string="Asigno"/>
+                    <field name="create_date" string="Fecha y hora de asignación"/>
+                    <field name="asignadoa_id" string="Asignado a"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_asignaciones_search_view" model="ir.ui.view">
+            <field name="name">trafitec.asignaciones.search</field>
+            <field name="model">trafitec.asignaciones</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="viaje_id"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                    <field name="asignadoa_id"/>
+                    <field name="tipo"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_asignaciones_action_window" model="ir.actions.act_window">
+            <field name="name">Asignaciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.asignaciones</field>
+            <field name="view_mode">tree,search</field>
+            <field name="limit">10</field>
+        </record>
+
+	</data>
+</odoo>

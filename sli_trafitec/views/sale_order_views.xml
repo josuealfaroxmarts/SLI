@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_sale_order_form" model="ir.ui.view">
+            <field name="name">trafitec_sale_order_form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <!--PAGINA DE LISTA DE VIAJES-->
+                <!--xpath expr="//sheet/notebook/page[@name='other_info']" position="before"-->
+                <xpath expr="//sheet/notebook/page[2]" position="after">
+                    <page string="Trafitec" name="trafitec_info">
+                        <group>
+                            <field name="trafitec_cotizacion_txt"/>
+                            <field name="trafitec_cotizacion_id"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

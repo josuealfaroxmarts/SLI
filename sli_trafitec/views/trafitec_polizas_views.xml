@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_polizas_form_view" model="ir.ui.view">
+            <field name="name">trafitec.polizas.form</field>
+            <field name="model">trafitec.polizas</field>
+            <field name="arch" type="xml">
+                <form string="Pólizas De Seguro De Carga">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre" for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="aseguradora_id"/>
+                                    <field name="porcentaje_aseg" digits="[5,4]"/>
+                                    <field name="porcentaje_clie" digits="[5,4]"/>
+                                    <field name="vigencia_desde"/>
+                                </group>
+                                <group>
+                                    <field name="vigencia_hasta"/>
+                                    <field name="estado_poliza"/>
+                                    <field name="activo"/>
+                                    <field name="detalles"/>
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_polizas_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.polizas.tree</field>
+            <field name="model">trafitec.polizas</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Pólizas De Seguro De Carga">
+                    <field name="name"/>
+                    <field name="aseguradora_id"/>
+                    <field name="porcentaje_aseg"/>
+                    <field name="porcentaje_clie"/>
+                    <field name="vigencia_desde"/>
+                    <field name="vigencia_hasta"/>
+                    <field name="estado_poliza"/>
+                    <field name="activo"/>
+                    <field name="detalles"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_polizas_action_window" model="ir.actions.act_window">
+            <field name="name">Pólizas De Seguro De Carga</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.polizas</field>
+            <field name="view_mode">form,tree</field>
+        </record>
+
+    </data>
+</odoo>

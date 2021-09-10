@@ -24,7 +24,6 @@
 	    'data/email_template.xml',
 	    'views/views.xml',
         'views/quotation.xml',
-        'views/viajes.xml',
         'views/contrarecibo.xml',
         'views/cargo.xml',
 

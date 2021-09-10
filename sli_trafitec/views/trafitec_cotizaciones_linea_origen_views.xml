@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="view_subpedido_search" model="ir.ui.view">
+            <field name="name">view.subpedido.search</field>
+            <field name="model">trafitec.cotizaciones.linea.origen</field>
+            <field name="arch" type="xml">
+                <search string="Sub pedidos">
+                    <field name="name"/>
+                    <field name="origen"/>
+                    <field name="destino"/>
+                    <field name="cliente_cotizacion"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                         <filter string="Sub pedidos" icon="terp-partner" name="name" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_subpedido_tree" model="ir.ui.view">
+            <field name="name">view.subpedido.tree</field>
+            <field name="model">trafitec.cotizaciones.linea.origen</field>
+            <field name="arch" type="xml">
+                <tree string="Origenes y destinos">
+                    <field name="name"/>
+                    <field name="origen"/>
+                    <field name="destino"/>
+                    <field name="cliente_cotizacion"/>
+                </tree>
+            </field>
+        </record>
+    
+    </data>
+</odoo>

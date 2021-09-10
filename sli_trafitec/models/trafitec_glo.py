@@ -1,21 +1,23 @@
+# -*- coding: utf-8 -*-
+
 from odoo import models, fields
 
 """
 TRAFITEC GLO
-Clase de utileria general del sistema.
+Clase de utileria general del sistema
 """
 
 
 class TrafitecGlo(models.Model):
-    _name = 'trafitec.glo'
-    _description = 'glo'
+    _name = "trafitec.glo"
+    _description = "Glo"
     _auto = False
 
     def cfg(self):
         emp = None
-        emp = self.env['res.company']._company_default_get('sli_trafitec')
-        cfg = self.env['trafitec.parametros'].search([
-            ('company_id', '=', emp.id)
+        emp = self.env["res.company"]._company_default_get("sli_trafitec")
+        cfg = self.env["trafitec.parametros"].search([
+            ("company_id", "=", emp.id)
         ])
         return cfg
 
@@ -51,7 +53,7 @@ from trafitec_viajes as v
     inner join trafitec_ubicacion as des on(v.destino=des.id)
     inner join res_partner as aso on(v.asociado_id=aso.id)
 where
-v.state='Nueva'
+v.state="Nueva"
 and v.asociado_id = {}
 and ori.municipio = {}
 and des.municipio = {}
@@ -65,12 +67,12 @@ order by v.tarifa_asociado asc
     def SeguridadDerecho(self, derecho_id=0):
         return True
 
-    def enviar_correo(self, para='', asunto='', contenido=''):
+    def enviar_correo(self, para="", asunto="", contenido=""):
         valores = {
-            'subject': asunto,
-            'body_html': contenido,
-            'email_to': para,
-            'email_cc': ';',
-            'email_from': 'info@sli.mx',
+            "subject": asunto,
+            "body_html": contenido,
+            "email_to": para,
+            "email_cc": ";",
+            "email_from": "info@sli.mx",
         }
-        create_and_send_email = self.env['mail.mail'].create(valores).send()
+        create_and_send_email = self.env["mail.mail"].create(valores).send()

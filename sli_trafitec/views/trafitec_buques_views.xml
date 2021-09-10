@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_buques_form_view" model="ir.ui.view">
+            <field name="name">trafitec.buques.form</field>
+            <field name="model">trafitec.buques</field>
+            <field name="arch" type="xml">
+                <form string="Buques">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre" for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="detalles"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_buques_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.buques.tree</field>
+            <field name="model">trafitec.buques</field>
+            <field name="arch" type="xml">
+                <tree string="Buques">
+                    <field name="name"/>
+                    <field name="detalles"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_buques_search_view" model="ir.ui.view">
+            <field name="name">trafitec.buques.search</field>
+            <field name="model">trafitec.buques</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_buques_action_window" model="ir.actions.act_window">
+            <field name="name">Buques</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.buques</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

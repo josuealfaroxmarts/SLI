@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_tareas_form_view" model="ir.ui.view">
+            <field name="name">trafitec.tareas.form</field>
+            <field name="model">trafitec.tareas</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Tareas">
+                    <header>
+                        <button string="Revisar" name="action_revisar" type="object" class="btn-primary"
+                                confirm="¿Marcar como revisado?" states='nuevo'/>
+                        <button string="Validar" name="action_validar" type="object" class="btn-primary"
+                                confirm="¿Marcar como validado?" states='revisado'/>
+                        <button string="Cerrar" name="action_cerrar" type="object" class="btn-primary"
+                                confirm="¿Marcar como cerrado?" states='validado'/>
+                        <button string="Cancelar" name="action_cancelar" type="object" class="btn-primary"
+                                confirm="¿Cancelar?" states='nuevo,revisado,validado'/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="detalles" widget="template_name"/>
+                            <field name="asignado_usuario_id"/>
+                            <field name="clasificacion_principal_id"/>
+                            <field name="clasificacion_secundaria_id"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_tareas_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.tareas.tree</field>
+            <field name="model">trafitec.tareas</field>
+            <field name="arch" type="xml">
+                <tree string="Tareas">
+                    <field name="name"/>
+                    <!--field name="detalles"/-->
+                    <field name="asignado_usuario_id"/>
+                    <field name="revision_usuario_id"/>
+                    <field name="revision_fechahora"/>
+                    <field name="validado_usuario_id"/>
+                    <field name="validado_fechahora"/>
+                    <field name="cerrado_usuario_id"/>
+                    <field name="cerrado_fechahora"/>
+                    <field name="clasificacion_principal_id"/>
+                    <field name="clasificacion_secundaria_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_tareas_action_window" model="ir.actions.act_window">
+            <field name="name">Tareas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.tareas</field>
+            <field name="view_mode">form,tree</field>
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

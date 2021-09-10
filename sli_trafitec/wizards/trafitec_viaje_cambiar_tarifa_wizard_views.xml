@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+
+        <record id="trafitec_viaje_cambiar_tarifa_wizard_form_view" model="ir.ui.view">
+            <field name="name">trafitec.viaje.cambiar.tarifa.wizard.form</field>
+            <field name="model">trafitec.viaje.cambiar.tarifa.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cambiar Tarifa">
+                    <field name="viaje_id" invisible="1"/>
+                    <label string="Tarifa"/>
+                    <field name="tarifa"/>
+                    <footer>
+                        <button string="Aceptar" name="action_cambiartarifa" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="cambiar_tarifa_wizard_action"
+            name="Cambiar Tarifa"
+            src_model="trafitec.viajes"
+            res_model="trafitec.viaje.cambiar.tarifa.wizard"
+            view_type="form" view_mode="form"
+            key2="client_action_multi" target="new"
+            groups="base.group_erp_manager"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_crm_trafico_registro_form_view" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.form</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <form string="Nuevo Registro De Contacto" create="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group colspan="2">
+                                <field name="asociado_id_txt"/>
+                                <field name="cotizacion_id_txt"/>
+                            </group>
+                            <group>
+                                <field name="tipo" attrs="{'readonly': [('seg_modificar', '=', False)]}"></field>
+                                <field name="detalles" attrs="{'readonly': [('seg_modificar', '=', False)]}"></field>
+                            </group>
+                            <group>
+                                <field name="generar_evento_st"
+                                       attrs="{'readonly': [('seg_modificar', '=', False)]}"></field>
+                                <!--field name="generar_evento_dias" attrs="{'invisible': [('generar_evento_st', '=', False)]}"></field-->
+                                <field name="generar_evento_fechahora"
+                                       attrs="{'invisible': [('generar_evento_st', '=', False)]}"></field>
+                            </group>
+                            <group colspan="2">
+                                <field name="state" attrs="{'readonly': [('seg_modificar', '=', False)]}"></field>
+                            </group>
+                            <group colspan="2">
+                                <notebook>
+                                    <page string="Rechazado" attrs="{'invisible': [('state', '!=', 'rechazado')]}">
+                                        <group>
+                                            <field name="motivo_rechazo_id"
+                                                   domain="[('aplica_crm_trafico_rechazo','=',True)]"
+                                                   attrs="{'readonly': [('seg_modificar', '=', False)], 'invisible': [('state', '!=', 'rechazado')]}"
+                                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                        </group>
+                                    </page>
+                                    <page string="Aceptado" attrs="{'invisible': [('state', '!=', 'aceptado')]}">
+                                        <group>
+                                            <field name="tarifa"
+                                                   attrs="{'readonly': [('seg_modificar', '=', False)], 'invisible': [('state', '!=', 'aceptado')]}"/>
+                                            <!--field name="viajes_id" widget="one2many_list" attrs="{'readonly': [('seg_modificar', '=', False)], 'invisible': [('state', '!=', 'aceptado')]}">
+                                            <tree editable="bottom" options="">
+                                                   <field name="viaje_id" domain="[('crm_trafico_registro_id','=',False)]" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"></field>
+                                                </tree>
+                                            </field-->
+                                        </group>
+                                    </page>
+                                </notebook>
+                            </group>
+                            <group colspan="2">
+                                <hr class="trafitec_hr"></hr>
+                                <br/>
+                                <field name="seg_modificar"
+                                       groups="sli_trafitec.sli_trafitec_crm_trafico_administrador"></field>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_crm_trafico_registro_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.tree</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <tree string="Buscar Registro" create="false" edit="false" delete="false">
+                    <field name="id"></field>
+                    <field name="tipo"></field>
+                    <field name="create_uid" string="Usuario"></field>
+                    <field name="create_date" string="Fecha y hora de registro"></field>
+                    <field name="asociado_id"></field>
+                    <field name="detalles"></field>
+                    <field name="cotizacion_id"></field>
+                    <field name="viajes_n"></field>
+                    <field name="state"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_crm_trafico_registro_search_view" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.search</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Registro">
+                    <field name="id"></field>
+                    <field name="create_date"></field>
+                    <field name="tipo"></field>
+                    <field name="detalles"></field>
+                    <field name="create_uid"></field>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_crm_trafico_registro_calendar_view" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.calendar</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <calendar string="Buscar Registro" date_start="generar_evento_fechahora" date_stop="generar_evento_fechahora">
+                    <field name="id"></field>
+                    <field name="tipo"></field>
+                    <field name="create_uid" string="Usuario"></field>
+                    <field name="create_date" string="Fecha y hora de registro"></field>
+                    <field name="asociado_id"></field>
+                    <field name="detalles"></field>
+                    <field name="cotizacion_id"></field>
+                    <field name="viajes_n"></field>
+                    <field name="state"></field>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="trafitec_crm_trafico_registro_pivot_view" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.pivot</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <pivot string="Tabla Registro">
+                    <field name="create_uid" string="Usuario" type="row"></field>
+                    <field name="tipo" type="col"></field>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="trafitec_crm_trafico_registro_graph_view" model="ir.ui.view">
+            <field name="name">trafitec.crm.trafico.registro.graph</field>
+            <field name="model">trafitec.crm.trafico.registro</field>
+            <field name="arch" type="xml">
+                <graph string="Grafico Registro">
+                    <field name="create_uid" string="Usuario" type="row"></field>
+                    <field name="tipo" type="col"></field>
+                </graph>
+            </field>
+        </record>
+
+        <record id="trafitec_crm_trafico_registro_action_window" model="ir.actions.act_window">
+            <field name="name">CRM Trafico Registro</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.crm.trafico.registro</field>
+            <field name="view_mode">form,tree,search,calendar,pivot,graph</field>
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

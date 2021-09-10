@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_moviles_form_view" model="ir.ui.view">
+            <field name="name">trafitec.moviles.form</field>
+            <field name="model">trafitec.moviles</field>
+            <field name="arch" type="xml">
+                <form string="Tipos De Móvil">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre" for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="tipomovil"/>
+                                <field name="tipo" attrs="{'invisible': [('tipomovil', '!=', 'remolque')]}"/>
+                            </group>
+                            <group>
+                                <field name="capacidad"/>
+                                <field name="unidadmedida"/>
+                                <field name="lineanegocio"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_moviles_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.moviles.tree</field>
+            <field name="model">trafitec.moviles</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Tipos De Móvil">
+                    <field name="name"/>
+                    <field name="tipomovil"/>
+                    <field name="tipo" attrs="{'invisible': [('tipomovil', '!=', 'remolque')]}"/>
+                    <field name="capacidad"/>
+                    <field name="unidadmedida"/>
+                    <field name="lineanegocio"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_moviles_search_view" model="ir.ui.view">
+            <field name="name">trafitec.moviles.search</field>
+            <field name="model">trafitec.moviles</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_moviles_action_window" model="ir.actions.act_window">
+            <field name="name">Tipos De Móvil</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.moviles</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

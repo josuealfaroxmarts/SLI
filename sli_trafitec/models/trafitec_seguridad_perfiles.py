@@ -3,29 +3,29 @@
 from odoo import models, fields, api, _, tools
 
 
-class TrafitecSeguridadPerfil(models.Model):
-	_name = 'trafitec.seguridad.perfiles'
-	_description = 'Perfiles seguridad'
+class TrafitecSeguridadPerfiles(models.Model):
+	_name = "trafitec.seguridad.perfiles"
+	_description = "Seguridad Perfiles"
 
 	name = fields.Char(
-		string='Nombre', 
-		default='', 
+		string="Nombre", 
+		default="", 
 		required=True
 	)
 	detalles = fields.Char(
-		string='Detalles', 
-		default=''
+		string="Detalles", 
+		default=""
 	)
 	derechos = fields.One2many(
-		string='Derechos',
-		comodel_name='trafitec.seguridad.derechos.perfil',
-		inverse_name='perfil'
+		string="Derechos",
+		comodel_name="trafitec.seguridad.derechos.perfil",
+		inverse_name="perfil"
 	)
 	usuarios = fields.Many2many(
-		string='Usuarios', 
-		comodel_name='res.users'
+		string="Usuarios", 
+		comodel_name="res.users"
 	)
 	state = fields.Boolean(
-		string='Activo', 
+		string="Activo", 
 		default=True
 	)

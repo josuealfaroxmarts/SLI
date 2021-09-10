@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_parametros_form_view" model="ir.ui.view">
+            <field name="name">trafitec.parametros.form</field>
+            <field name="model">trafitec.parametros</field>
+            <field name="arch" type="xml">
+                <form string="Parametros">
+                    <sheet>
+                        <group colspan="2">
+                            <notebook>
+                                <page string="Generales">
+                                    <group string="Generales">
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="company_id"/>
+                                            <field name="pronto_pago"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Contrarecibo">
+                                    <group string="Parametros Para Contrarecibos">
+                                        <group>
+                                            <!--field name="metodo_pago_id"/-->
+                                            <field name="payment_term_id"/>
+
+                                            <field name="cr_moneda_id"/>
+                                            <field name="cr_lineanegocio_id"/>
+
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Facturas De Clientes">
+                                    <group string="Parametros Para Facturas Cliente">
+                                        <group>
+                                            <field name="journal_id_invoice"/>
+                                            <field name="account_id_invoice"/>
+                                            <field name="product_invoice"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Notas De Cargo">
+                                    <group string="Notas De Cargo">
+                                        <group string="Documento">
+                                            <field name="product"/>
+                                            <field name="iva"/>
+                                            <field name="retencion"/>
+                                            <field name="cr_plancontable_id"/>
+                                            <field name="cr_diario_id"/>
+                                            <field name="metodo_pago_id"/>
+                                        </group>
+                                        <group string="Pago Y Cobro">
+                                            <field name="nca_diario_pagos_id"/>
+                                            <field name="nca_diario_cobros_id"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Cotizaciones">
+                                    <group string="Cotizaciones">
+                                        <field name="cot_producto_id"/>
+                                    </group>
+                                    <group string="Avance">
+                                        <field name="cot_envio_avance_pruebas_st"/>
+                                        <field name="cot_envio_avance_pruebas_correo"/>
+                                    </group>
+                                </page>
+                                <page string="Seguro De Carga">
+                                    <group>
+                                        <field name="seguro_cargo_adicional_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                    </group>
+                                </page>
+                                <page string="Descuentos">
+                                    <group>
+                                        <field name="descuento_combustible_externo_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                        <field name="descuento_combustible_interno_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                        <field name="descuento_combustible_proveedor_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                        <field name="descuento_concepto_id" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create':True}"></field>
+                                        <field name="descuento_combustible_pfactor"></field>
+                                        <field name="descuento_combustible_pcomision"></field>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_parametros_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.parametros.tree</field>
+            <field name="model">trafitec.parametros</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Parametros">
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <field name="product"/>
+                    <field name="metodo_pago_id"/>
+                    <field name="payment_term_id"/>
+                    <field name="iva"/>
+                    <field name="retencion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_parametros_action_window" model="ir.actions.act_window">
+            <field name="name">Parametros</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.parametros</field>
+            <field name="view_mode">form,tree</field>
+        </record>
+
+    </data>
+</odoo>

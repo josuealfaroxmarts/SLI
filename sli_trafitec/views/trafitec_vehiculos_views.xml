@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+
+        <record id='fleet.fleet_vehicle_view_tree' model='ir.ui.view'>
+            <field name="name">fleet.vehicle.tree</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Vehicle"
+                      decoration-warning="contract_renewal_due_soon and not contract_renewal_overdue"
+                      decoration-danger="contract_renewal_overdue">
+                    <field name="active" invisible="1"/>
+                    <field name="license_plate"/>
+                    <field name="model_id"/>
+                    <field name="no_economico"/>
+                    <field name="asociado_id"/>
+                    <field name="operador_id"/>
+                    <field name="acquisition_date"/>
+                    <field name="state_id"/>
+                    <field name="odometer"/>
+                    <field name="odometer_unit"/>
+                    <field name="contract_renewal_due_soon" invisible="1"/>
+                    <field name="contract_renewal_overdue" invisible="1"/>
+                    <field name="contract_renewal_total" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_vehiculos_search" model="ir.ui.view">
+            <field name="name">vehiculos.check.printing.search</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='groupby_status']" position="before">
+                    <field name="no_economico"/>
+                    <field name="asociado_id"/>
+                    <field name="operador_id"/>
+                    <filter string="No. economico" domain="[]" name="name" context="{'group_by':'no_economico'}"/>
+                    <separator orientation="vertical"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="new_vehiculo_tab" model="ir.ui.view">
+            <field name="name">vehiculo.add.text.field</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="priority" eval="2000"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//sheet/div[2]/h1/field" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/h1/field" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="required">False</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/h2/field" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="required">False</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/h1/field" position="after">
+                    <field name="vehicle_model" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet/group/group[2]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group[1]/field[@name='location']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group/group[2]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group[1]" position="after">
+                    <hr/>
+                    <group string="Trafitec" col="2" name="sli_trafitec_vehiculo">
+                        <group string="General">
+                            <field name="color_vehicle"/>
+                            <field name="ejes_tracktocamion"/>
+                            <field name="tiposervicio"/>
+                            <field name="es_utilitario" invisible="1"/>
+
+                            <field name="asociado_id" attrs="{'invisible': [('es_utilitario', '=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            <field name="operador_id" attrs="{'invisible': [('es_utilitario', '=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            <field name="es_flotilla"/>
+                        </group>
+
+                        <group string="Flotilla" attrs="{'invisible': [('es_flotilla', '!=', True)]}">
+                            <field name="no_economico" attrs="{'invisible': [('es_flotilla', '!=', True)]}"/>
+
+                            <field name="remolque_1_id" attrs="{'invisible': [('es_flotilla', '!=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            <field name="dolly_id" attrs="{'invisible': [('es_flotilla', '!=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            <field name="remolque_2_id" attrs="{'invisible': [('es_flotilla', '!=', True)]}"
+                                   options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                        </group>
+
+                    </group>
+                    <hr/>
+                </xpath>
+                <xpath expr="//sheet/group[1]/group[1]" position="after">
+                    <group col="2">
+                        <field name="numero_economico"/>
+                        <field name="tipo_vehiculo"/>
+                    </group>
+                </xpath>
+                <xpath expr="//sheet/group[1]" position="after">
+                    <hr/>
+                    <group string="Legal" col="2" name="sli_trafitec_vehiculo_new">
+                        <field name="nombre_circulacion" invisible='1'/>
+                        <field name="ext_circulacion" invisible='1'/>
+                        <field name="nombre_circulacion" invisible='1'/>
+                        <field name="nombre_poliza_seguro" invisible='1'/>
+                        <field name="ext_poliza_seguro" invisible='1'/>
+                        <field name="circulacion" filename="nombre_circulacion"/>
+                        <field name="poliza_seguro" filename="nombre_poliza_seguro"/>
+                        <field name="fecha_poliza" />
+                    </group>
+                </xpath><!-- 
+                <xpath expr="//form/sheet/group[4]/group[1]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">True</attribute>
+                </xpath> -->
+                <!-- <xpath expr="//form/sheet/group[4]/group[2]/label[@for='co2']" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': [('tipo_vehiculo','==', 'dolly')]}</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group[4]/group[2]/div" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': [('tipo_vehiculo','==', 'dolly')]}</attribute>
+                </xpath> -->
+            </field>
+        </record>
+
+    </data>
+</odoo>

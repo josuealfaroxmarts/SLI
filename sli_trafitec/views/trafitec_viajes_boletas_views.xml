@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        
+        <record id="trafitec_viajes_boletas_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.viajes.boletas.tree</field>
+            <field name="model">trafitec.viajes.boletas</field>
+            <field name="arch" type="xml">
+                <tree string="Boletas" create="false" delete="false" default_order="id desc">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="linea_id" string="Folio de viaje"/>
+                    <field name="fecha"/>
+                    <field name="cliente"/>
+                    <field name="origen"/>
+                    <field name="destino"/>
+                    <field name="tipo_viaje"/>
+                    <field name="tipo_boleta"/>
+                    <field name="factura_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_viajes_boletas_search_view" model="ir.ui.view">
+            <field name="name">trafitec.viajes.boletas.search</field>
+            <field name="model">trafitec.viajes.boletas</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="linea_id"/>
+                    <field name="factura_id"/>
+                    <field name="cliente"/>
+                    <field name="origen"/>
+                    <field name="destino"/>
+                    <field name="tipo_viaje"/>
+                    <field name="state"/>
+                    <field name="tipo_boleta"/>
+                    <group string="Agrupar por">
+                        <filter name="agrupar_por_viaje_folio" string="Folio de viaje" context="{'group_by':'linea_id'}"/>
+                        <filter name="agrupar_por_factura_folio" string="Folio de factura" context="{'group_by':'factura_id'}"/>
+                        <filter name="agrupar_por_cliente_nombre" string="Cliente" context="{'group_by':'cliente'}"/>
+                        <filter name="agrupar_por_origen" string="Origen" context="{'group_by':'origen'}"/>
+                        <filter name="agrupar_por_destino" string="Destino" context="{'group_by':'destino'}"/>
+                        <filter name="agrupar_por_tipo_boleta" string="Tipo de boleta" context="{'group_by':'tipo_boleta'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_viajes_boletas_action_window" model="ir.actions.act_window">
+            <field name="name">Boletas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.viajes.boletas</field>
+            <field name="view_mode">tree,search</field>
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

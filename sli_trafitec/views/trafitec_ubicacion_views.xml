@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        
+        <record id="trafitec_ubicacion_form_view" model="ir.ui.view">
+            <field name="name">trafitec.ubicacion.form</field>
+            <field name="model">trafitec.ubicacion</field>
+            <field name="arch" type="xml">
+                <form string="Almacenes Y Puertos">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="calle"/>
+                                <field name="estado"/>
+                                <field name="noexterior"/>
+                                <field name="nointerior"/>
+                                <field name="localidad"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="colonia"/>
+                                <field name="codigo_postal"/>
+                                <field name="ciudad"/>
+                            </group>
+                            <group>
+                                <field name="tipo_ubicacion"/>
+                                <field name="tipo_carga"/>
+                                <field name="comentarios"/>
+                                <field name="cliente_ubicacion"/>
+                            </group>
+                            <!-- INICIO MODIFICACION RECIENTE ALTA UBICACIONES-->
+                            <group>
+                                <field name="cruce" invisible="1"/>
+                                <field name="responsable" invisible="1"/>
+                                <field name="coberturacelular" invisible="1"/>
+                                <field name="bodega_prob" invisible="1"/>
+                            </group>
+                            <notebook colspan="2">
+                                <page name="other_information" string="Otra información">
+                                    <group>
+                                        <group>
+                                            <field name="latitud" digits="[5,4]"/>
+                                            <field name="longitud" digits="[5,4]"/>
+                                        </group>
+                                        <group>
+                                            <field name="cap_carga"/>
+                                            <field name="cap_descarga"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <!-- FIN MODIFICACION RECIENTE ALTA UBICACIONES-->
+                                <page name="contact" string="responsables">
+                                    <field name="responsable_id" widget="one2many_list">
+                                        <tree editable="bottom">
+                                            <field name="nombre_responsable"/>
+                                            <field name="email_responsable"/>
+                                            <field name="telefono_responsable"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_ubicacion_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.ubicacion.tree</field>
+            <field name="model">trafitec.ubicacion</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Almacenes Y Puertos">
+                    <field name="name"/>
+                    <field name="calle"/>
+                    <field name="noexterior"/>
+                    <field name="nointerior"/>
+                    <field name="localidad"/>
+                    <field name="colonia"/>
+                    <field name="estado"/>
+                    <field name="codigo_postal"/>
+                    <field name="ciudad"/>
+                    <field name="cliente_ubicacion"/>
+                    <field name="responsable" invisible="1"/>
+                    <field name="coberturacelular" invisible="1"/>
+                    <field name="bodega_prob" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_ubicacion_search_view" model="ir.ui.view">
+            <field name="name">trafitec.ubicacion.search</field>
+            <field name="model">trafitec.ubicacion</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Tipo de ubicación" icon="terp-partner" name="tipo_ubicacion" domain="[]"
+                                context="{'group_by':'tipo_ubicacion'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_ubicacion_action_window" model="ir.actions.act_window">
+            <field name="name">Almacenes Y Puertos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.ubicacion</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

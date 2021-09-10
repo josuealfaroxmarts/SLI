@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+
+        <record id="trafitec_reportes_generales_wizard_form_view" model="ir.ui.view">
+            <field name="name">trafitec.reportes.generales.wizard.form</field>
+            <field name="model">trafitec.reportes.generales.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="General">
+                                <field name="name"></field>
+                                <field name="tipo"></field>
+                                <!--button name="export_xls" string="Generar" type="object"  class="oe_highlight"/-->
+                            </group>
+                            <group string="Parámetros">
+                                <field name="fecha_inicial"></field>
+                                <field name="fecha_final"></field>
+                                <field name="archivo_nombre" invisible="1"></field>
+                                <field name="archivo_archivo" filename="archivo_nombre" invisible="1"></field>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_reportes_generales_wizard_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.reportes.generales.wizard.tree</field>
+            <field name="model">trafitec.reportes.generales.wizard</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                    <field name="tipo"></field>
+                    <field name="fecha_inicial"></field>
+                    <field name="fecha_final"></field>
+                    <field name="archivo_nombre"></field>
+                    <field name="archivo_archivo" filename="archivo_nombre"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_reportes_generales_wizard_action_window" model="ir.actions.act_window">
+            <field name="name">Trafitec Reportes Generales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.reportes.generales.wizard</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>

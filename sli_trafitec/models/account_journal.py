@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+
 from odoo import fields, models
 
 
 class AccountJournal(models.Model):
-    _inherit = 'account.journal'
+    _inherit = "account.journal"
 
     plazas_ban_id = fields.Many2one(
-        'trafitec.plazas.banxico',
-        string='Plaza:'
+        "trafitec.plazas.banxico",
+        string="Plaza:"
     )
-    no_sucursal = fields.Char(string='No. de sucursal')
+    no_sucursal = fields.Char(string="No. de sucursal")

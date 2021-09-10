@@ -8,18 +8,18 @@ from xml.dom import minidom
 
 
 class AccountPayment(models.Model):
-    _inherit = 'account.payment'
+    _inherit = "account.payment"
 
     def post(self):
         for rec in self:
             try:
-                active_ids = self._context.get('active_ids', []) or []
+                active_ids = self._context.get("active_ids", []) or []
                 for f in active_ids:
                     saldo = rec.partner_id.saldo_facturas - rec.amount
                     saldo_restante = rec.partner_id.limite_credito + saldo
                     rec.partner_id.write({
-                        'saldo_facturas': saldo,
-                        'limite_credito_fletex': saldo_restante
+                        "saldo_facturas": saldo,
+                        "limite_credito_fletex": saldo_restante
                     })
             except:
                 pass

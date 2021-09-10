@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_agregar_quitar_form_view" model="ir.ui.view">
+            <field name="name">trafitec.agregar.quitar.form</field>
+            <field name="model">trafitec.agregar.quitar</field>
+            <field name="arch" type="xml">
+                <form string="Agregar / quitar viajes a facturas manuales">
+                    <header>
+                     <!--
+                        button name="action_available" string="Validar" type="object" states="Nueva" class="btn-primary"/>
+                    -->
+                    <!--
+                        button name="action_cancel" string="Cancelar" type="object" confirm="¿Esta seguro que desea cancelar?" states="Validada"/>
+                    -->
+                        <field name="state" widget="statusbar" statusbar_visible="Nueva,Validada,Cancelada"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Factura" for="factura_id"/>
+                            <h3>
+                                <field name="factura_id" domain="[('move_type','=','out_invoice'),('state','=','open')]" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}" options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                            </h3>
+                        </div>
+                        <group >
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="cliente_id" />
+                                <field name="domicilio_id" />
+                                <field name="placas_id"/>
+                                <field name="operador_id" />
+                                <field name="currency_id" />
+                                <field name="lineanegocio"/>
+                            </group>
+                            <group>
+                                <field name="total" />
+                                <field name="abonado"/>
+                                <field name="saldo"/>
+                                <field name="fecha" />
+                                <field name="contiene" />
+                                <field name="move_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="viajes_id" string="Viajes">
+                                <tree editable="bottom">
+                                    <field name = "viaje_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </tree>
+                                <group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="fletes" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="maniobras" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="subtotal_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="r_iva_g" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label string="Total" for="total_g" />
+                                        </div>
+                                        <field name="total_g" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="facturados_viajes" string="Viajes facturados">
+                                <tree editable="bottom">
+                                    <field name = "viajes_cobrados_id" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </tree>
+                            </page>
+                            <page name="observaciones" string="Observaciones">
+                                <group>
+                                    <field name="observaciones" attrs="{'readonly': [('state', 'in', ('Validada','Cancelada'))]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_agregar_quitar_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.agregar.quitar.tree</field>
+            <field name="model">trafitec.agregar.quitar</field>
+            <field name="arch" type="xml">
+                <tree string="Agregar / Quitar Viajes a Facturas Manuales">
+                    <field name="name"/>
+                    <field name="cliente_id"/>
+                    <field name="fecha" />
+                    <field name="operador_id" />
+                    <field name="subtotal_g"/>
+                    <field name="iva_g"/>
+                    <field name="r_iva_g"/>
+                    <field name="total_g"/>
+                    <field name="currency_id" />
+                    <field name="lineanegocio"/>
+                    <field name="placas_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_agregar_quitar_search_view" model="ir.ui.view">
+            <field name="name">trafitec.agregar.quitar.search</field>
+            <field name="model">trafitec.agregar.quitar</field>
+            <field name="arch" type="xml">
+                <search string="Nombre">
+                    <field name="name"/>
+                    <field name="cliente_id"/>
+                    <field name="fecha" />
+                    <field name="placas_id"/>
+                    <field name="operador_id" />
+                    <field name="currency_id" />
+                    <field name="lineanegocio"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Nombre" icon="terp-partner" name="name" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_agregar_quitar_action_window" model="ir.actions.act_window">
+            <field name="name">Agregar / Quitar Viajes a Facturas Manuales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.agregar.quitar</field>            
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+        <record id="msj_factura_form_view" model="ir.ui.view">
+            <field name="name">msj.factura.form</field>
+            <field name="model">trafitec.agregar.quitar</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <h3>
+                            Se creara una factura por excedente, ya que el monto de los viajes supera a la factura inicial.
+                        </h3>
+                    </group>
+                    <footer>
+                        <!-- TODO: Revisar -->
+                        <!-- <button string="Aceptar" name="confirmation_button" type="object" class="btn-primary"/> -->
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

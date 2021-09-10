@@ -8,13 +8,13 @@ import xlsxwriter
 import base64
 
 
-class trafitec_ubi_responsable(models.Model):
-	_name = 'trafitec.responsable'
-	_description ='Responsable'
+class TrafitecResponsable(models.Model):
+	_name = "trafitec.responsable"
+	_description ="Responsable"
 
 	responsable = fields.Many2one(
-		'trafitec.ubicacion', 
-		string='Responsable'
+		"trafitec.ubicacion", 
+		string="Responsable"
 	)
 	nombre_responsable = fields.Char(
 		string="Nombre", 

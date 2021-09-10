@@ -7,10 +7,10 @@ from datetime import timedelta
 
 class TrafitecCrmTraficoTablero(models.Model):
     _name = "trafitec.crm.trafico.tablero"
-    _description = 'crm trafico tablero'
+    _description = "CRM Trafico Tablero"
 
     name = fields.Char(string="Nombre")
-    color = fields.Integer(string='Color')
+    color = fields.Integer(string="Color")
     cotizaciones_disponibles_n = fields.Integer(
         string="Cotizaciones disponibles",
         compute="_compute_cotizaciones_disponibles_n",
@@ -34,28 +34,28 @@ class TrafitecCrmTraficoTablero(models.Model):
 
     def _compute_cotizaciones_disponibles_n(self):
         for rec in self:
-            n = self.env['trafitec.cotizacion'].search([
-                ('state', '=', 'Disponible')
+            n = self.env["trafitec.cotizacion"].search([
+                ("state", "=", "Disponible")
             ])
             rec.cotizaciones_disponibles_n = len(n)
 
     def _compute_misviajeshoy_n(self):
         for rec in self:
-            n = self.env['trafitec.viajes'].search_count([
-                ('state', '=', 'Nueva'),
-                ('create_uid', '=', self.env.user.id),
-                ('create_date', '>=', str(datetime.datetime.today().date()))
+            n = self.env["trafitec.viajes"].search_count([
+                ("state", "=", "Nueva"),
+                ("create_uid", "=", self.env.user.id),
+                ("create_date", ">=", str(datetime.datetime.today().date()))
             ])
             rec.misviajeshoy_n = n
 
     def _compute_misviajes_n(self):
         for rec in self:
-            n = self.env['trafitec.viajes'].search_count([
-                ('state', '=', 'Nueva'),
-                ('create_uid', '=', rec.env.user.id),
+            n = self.env["trafitec.viajes"].search_count([
+                ("state", "=", "Nueva"),
+                ("create_uid", "=", rec.env.user.id),
                 (
-                    'create_date',
-                    '>=',
+                    "create_date",
+                    ">=",
                     (
                         datetime.date.today()
                         + timedelta(days=-7)
@@ -66,22 +66,22 @@ class TrafitecCrmTraficoTablero(models.Model):
 
     def _compute_misviajesc_n(self):
         for rec in self:
-            n = self.env['trafitec.viajes'].search_count([
-                ('state', '!=', 'Nueva'),
-                ('create_uid', '=', self.env.user.id)
+            n = self.env["trafitec.viajes"].search_count([
+                ("state", "!=", "Nueva"),
+                ("create_uid", "=", self.env.user.id)
             ])
             rec.misviajesc_n = n
 
     def action_abrir_crm_cotizaciones(self):
         return {
-            'name': 'CRM Tráfico',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'res_model': 'trafitec.crm.trafico',
-            'target': 'current',
-            'multi': True,
-            'context': self._context,
+            "name": "CRM Tráfico",
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "trafitec.crm.trafico",
+            "target": "current",
+            "multi": True,
+            "context": self._context,
         }
 
     def action_abrir_crm_viajes(self):
@@ -89,22 +89,22 @@ class TrafitecCrmTraficoTablero(models.Model):
 
     def action_abrir_cotizaciones(self):
         return {
-            'name': 'Mis cotizaciones (' + (self.env.user.name or '') + ')',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'res_model': 'trafitec.cotizacion',
-            'context': {},
-            'domain': [('create_uid', '=', self.env.user.id)]
+            "name": "Mis cotizaciones (" + (self.env.user.name or "") + ")",
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "trafitec.cotizacion",
+            "context": {},
+            "domain": [("create_uid", "=", self.env.user.id)]
         }
 
     def action_abrir_viajes(self):
         return {
-            'name': 'Mis viajes (' + (self.env.user.name or '') + ')',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'res_model': 'trafitec.viajes',
-            'context': {},
-            'domain': [('create_uid', '=', self.env.user.id)]
+            "name": "Mis viajes (" + (self.env.user.name or "") + ")",
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "trafitec.viajes",
+            "context": {},
+            "domain": [("create_uid", "=", self.env.user.id)]
         }

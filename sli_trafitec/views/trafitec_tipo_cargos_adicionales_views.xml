@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_tipo_cargos_adicionales_form_view" model="ir.ui.view">
+            <field name="name">trafitec.tipo.cargos.adicionales.form</field>
+            <field name="model">trafitec.tipo.cargos.adicionales</field>
+            <field name="arch" type="xml">
+                <form string="Tipo De Cargos Adicionales">
+                    <sheet>
+                        <div class="oe_title">
+                            <label string="Nombre" for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="validar_en_cr"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_tipo_cargos_adicionales_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.tipo.cargos.adicionales.tree</field>
+            <field name="model">trafitec.tipo.cargos.adicionales</field>
+            <field name="arch" type="xml">
+                <tree delete="false" string="Tipo De Cargos Adicionales">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="validar_en_cr"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_tipo_cargos_adicionales_search_view" model="ir.ui.view">
+            <field name="name">trafitec.tipo.cargos.adicionales.search</field>
+            <field name="model">trafitec.tipo.cargos.adicionales</field>
+            <field name="arch" type="xml">
+                <search string="Ruta">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ruta" icon="terp-partner" domain="[]" name="name" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_tipo_cargos_adicionales_action_window" model="ir.actions.act_window">
+            <field name="name">Tipo De Cargos Adicionales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.tipo.cargos.adicionales</field>
+            <field name="view_mode">form,tree,search</field>
+        </record>
+
+    </data>
+</odoo>

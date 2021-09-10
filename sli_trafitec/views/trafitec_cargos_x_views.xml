@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+
+        <record id="trafitec_cargos_x_form_view" model="ir.ui.view">
+            <field name="name">trafitec.cargos.x.form</field>
+            <field name="model">trafitec.cargos.x</field>
+            <field name="arch" type="xml">
+                <form string="Cargos">
+                    <sheet>
+                        <group >
+                            <group >
+                                <field name="viaje_id"/>
+                                <field name="asociado_id" />
+                                <field name="proveedor_id" attrs="{'invisible': [('tipo','=','comision')]}"/>
+                                <field name="viaje_id" />
+                                <field name="total" attrs="{'readonly': [('tipo','=','comision')]}"/>
+                                <field name="abonos" />
+                                <field name="saldo" />
+                                <field name="observaciones" />
+                                <field name="tipo" attrs="{'readonly': [('tipo','=','comision')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trafitec_cargos_x_tree_view" model="ir.ui.view">
+            <field name="name">trafitec.cargos.x.tree</field>
+            <field name="model">trafitec.cargos.x</field>
+            <field name="arch" type="xml">
+                <tree string="Descuentos">
+                    <field name="id"/>
+                    <field name="viaje_id"/>
+                    <field name="asociado_id"/>
+                    <field name="proveedor_id"/>
+                    <field name="total" />
+                    <field name="abonos"/>
+                    <field name="saldo" />
+                    <field name="tipo"/>
+                    <field name="observaciones"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="trafitec_cargos_x_search_view" model="ir.ui.view">
+            <field name="name">trafitec.cargos.x.search</field>
+            <field name="model">trafitec.cargos.x</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="id"/>
+                    <field name="asociado_id"/>
+                    <field name="proveedor_id"/>
+                    <field name="asociado_id"/>
+                    <field name="viaje_id"/>
+                    <field name="saldo"/>
+                    <newline/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Asociado" icon="terp-partner" name="" domain="[]" context="{'group_by':'asociado_id'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="trafitec_cargos_x_comisiones_action_window" model="ir.actions.act_window">
+            <field name="name">Comisiones X</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.cargos.x</field>            
+            <field name="view_mode">form,tree,search</field>
+            <field name="domain">[('tipo','=','comision')]</field>
+            <field name="limit">10</field>
+        </record>
+
+
+        <record id="trafitec_cargos_x_descuentos_action_window" model="ir.actions.act_window">
+            <field name="name">Descuentos X</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trafitec.cargos.x</field>            
+            <field name="view_mode">form,tree,search</field>
+            <field name="domain">[('tipo','=','descuento')]</field>
+            <field name="limit">10</field>
+        </record>
+
+    </data>
+</odoo>
