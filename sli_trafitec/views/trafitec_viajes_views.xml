@@ -15,7 +15,7 @@
                         <button string="Restablecer" name="action_nueva" type="object" help="Restablecer a Nueva." states="Cancelado" groups="sli_trafitec.sli_trafitec_viajes_restablecer"  confirm="¿Esta seguro que desea restablecer?"/>
                         <button string="Solicitar vale de combustible" name="action_descuento_combustible" type="object" class="oe_link"  attrs="{'invisible':[('descuento_combustible_id','!=',False)]}" confirm="¿Solicitar vale de combustible?"></button>
 
-                        <field name="state" widget="statusbar" statusbar_visible="Nueva,Siniestrado,Cancelado"/>
+                        <field name="state" widget="statusbar" statusbar_visible="nueva,siniestrado,cancelado"/>
                     </header>
                     <field name="cliente_bloqueado" invisible="1"/>
                     <div attrs="{'invisible':[('cliente_bloqueado','=',False)]}" style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">

@@ -270,16 +270,16 @@ class TrafitecViajes(models.Model):
     )
     estado_viaje = fields.Selection(
         [
-            ("noespecificado", "No especificado"),
-            ("enespera", "En espera"),
-            ("enproceso", "En proceso"),
+            ("no_especificado", "No especificado"),
+            ("en_espera", "En espera"),
+            ("en_proceso", "En proceso"),
             ("finalizado", "Finalizado"),
             ("cancelador", "Cancelado"),
             ("cerrado", "Cerrado"),
             ("siniestrado", "Siniestrado")
         ],
         string="Estado del viaje",
-        default="enespera",
+        default="en_espera",
         tracking=True
     )
     proyecto_referenciado = fields.Char(
@@ -317,6 +317,7 @@ class TrafitecViajes(models.Model):
     router = fields.Char(
         string="Ruta (Google Maps)",
     )
+
 
     @api.onchange("referencia_asociado")
     def gelocalization(self):
@@ -466,7 +467,7 @@ class TrafitecViajes(models.Model):
             errores += (
                 "El viaje ya tiene relacionado un vale de combustible.\n"
             )
-        if viaje.state != "Nueva":
+        if viaje.state != "nueva":
             error = True
             errores += "El viaje debe estar activo.\n"
         if viaje.en_contrarecibo:
