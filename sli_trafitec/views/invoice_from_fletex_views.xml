@@ -7,7 +7,7 @@
 		    <field name="name">invoice.from.fletex.form</field>
 		    <field name="model">invoice.from.fletex</field>
 		    <field name="arch" type="xml">
-		        <form string="Descripcion">
+		        <form string="Facturas Fletex">
 		            <header>
 		            </header>
 		            <sheet>

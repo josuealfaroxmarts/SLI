@@ -3,8 +3,9 @@
 <odoo>
     <data>
 
-        <record id="new_aseguradora_field" model="ir.ui.view">
-            <field name="name">aseguradora.form.add.text.field</field>
+        <!-- ASEGURADORA -->
+        <record id="res_partner_new_aseguradora_tab" model="ir.ui.view">
+            <field name="name">res.partner.new.aseguradora.add.text.field</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
@@ -85,8 +86,198 @@
         </record>
         -->
 
-        <record id="trafitec_crm_trafico_asociados_kanban_view" model="ir.ui.view">
-            <field name="name">trafitec.crm.trafico.asociados.kanban</field>
+        <!-- ASOCIADOS -->
+        <record id="res_partner_new_asociados_tab" model="ir.ui.view">
+            <field name="name">res.partner.new.asociados.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[1]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
+                    <page name="asociado" string="Información asociado"
+                          attrs="{'invisible': [('asociado', '!=', True)]}">
+                        <group>
+                            <group>
+                                <field name="tipoasociado"/>
+                                <field name="notificar_contrarecido"/>
+                                <field name="notificar_pago"/>
+                                <field name="porcentaje_comision"/>
+                                <field name="usar_porcentaje"/>
+
+                            </group>
+                            <group>
+                                <field name="creditocomision"/>
+                                <field name="calificacion"/>
+                                <field name="info_completa"/>
+                                <field name="doc_completa"/>
+                                <field name="validado"/>
+                            </group>
+                            <group string="Combustible" groups="sli_trafitec.sli_trafitec_descuentos_admin">
+                                <field name="combustible_convenio_st"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page name="rutas" string="Rutas a cubrir" attrs="{'invisible': [('asociado', '!=', True)]}">
+                        <field name="trafitec_rutas_id" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="estado"/>
+                                <field name="vigente"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="movil" string="Unidades de asociado" invisible="1">
+                        <field name="trafitec_unidades_id" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="movil"/>
+                                <field name="cantidad"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="operador" string="Información operador"
+                          attrs="{'invisible': [('operador', '!=', True)]}">
+                        <group>
+                            <group>
+                                <field name="asociado_operador"/>
+                                <field name="imei"/>
+                                <field name="celular_enlazado"/>
+                                <field name="name_license_driver" invisible="1"/>
+                                <field name="license_driver" filename="name_license_driver"/>
+                                <field name="license_approved"/>
+                                <field name="healthcare_number"/>
+                                <field name="name_healthcare_number" invisible="1"/>
+                                <field name="adj_healthcare_number" filename="name_healthcare_move_name"/>
+                                <field name="nss_approved" />
+                            </group>
+                            <group>
+                                <field name="activo_slitrack"/>
+                                <field name="noviajes"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- CLIENTES -->
+        <record id="res_partner_new_clientes_tab" model="ir.ui.view">
+            <field name="name">res.partner.new.clientes.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
+                    <page name="cliente" string="Información cliente">
+                        <group>
+                            <group>
+                                <field name="excedente_merma"/>
+                                <field name="facturar_con"/>
+                                <field name="clasificacion"/>
+                                <field name="facturar_ordenes"/>
+                            </group>
+                            <group>
+                                <field name="merma_permitida_por" digits="[5,5]"/>
+                                <field name="merma_permitida_kg"/>
+                                <field name="permitir_diferente"/>
+                                <field name="permitir_ta_mayor_tc"/>
+                                <field name="equipoventa_id"/>
+
+                                <field name="moroso_prorroga_st"/>
+                                <field name="moroso_prorroga_fecha"
+                                       attrs="{'invisible':[('moroso_prorroga_st','=',False)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Bloqueo" name="trafitec_bloqqueo" groups="sli_trafitec.sli_trafitec_bloqueo_ver" attrs="{'invisible': [('operador', '==', True)]}">
+                        <group string="Cliente" groups="sli_trafitec.sli_trafitec_bloqueo_clientes">
+                            <field name="bloqueado_cliente_bloqueado"></field>
+                            <field name="bloqueado_cliente_clasificacion_id"
+                                   domain="[('aplica_clasificacion_bloqueo_cliente','=',True)]"
+                                   options="{'no_open': True, 'no_create': True}"></field>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='user_id']"
+                       position="after">
+                    <field name="prorroga"/>
+                    <field name="fecha_prorroga" attrs="{'invisible': [('prorroga', '!=', True)]}"/>
+                </xpath>
+                <!--xpath expr="//div[@name='button_box']" position="after"-->
+                <xpath expr="//sheet" position="before">
+                    <div attrs="{'invisible':[('bloqueado_cliente_bloqueado','=',False)]}"
+                         style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
+                        <label string="CLIENTE BLOQUEADO" for="bloqueado_cliente_bloqueado"></label>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- PROVEEDORES -->
+        <record id="res_partner_new_proveedores_tab" model="ir.ui.view">
+            <field name="name">res.partner.new.proveedores.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[2]/group/group[1]/field[@name='user_id']"
+                       position="after">
+                    <field name="customer_rank"/>
+                    <field name="plazas_ban_id"/>
+                    <field name="no_sucursal"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- DOCUMENTOS CLIENTES -->
+        <record id="res_partner_new_doc_clientes_tab" model="ir.ui.view">
+            <field name="name">res.partner.new.doc.clientes.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']" position="after">
+                    <page name="documentos_id" string="Documentos requeridos"
+                          attrs="{'invisible': [('customer_rank', '!=', True)]}">
+                        <field name="documentos_id" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="name"
+                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
+                                <field name="tipo_tipo" readonly="1"/>
+                                <field name="tipo_evidencia" readonly="1"/>
+                                <field name="tipo_dmc" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- PERSONAS -->
+        <record id="res_partner_personas_tree_view" model="ir.ui.view">
+            <field name="name">res.partner.personas.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Personas" create="false" edit="false" delete="false" default_order="id desc">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="display_name"/>
+                    <field name="vat"/>
+                    <field name="customer_rank"/>
+                    <field name="asociado"/>
+                    <field name="operador"/>
+                    <field name="supplier_rank"/>
+                    <field name="aseguradora"/>
+                    <!--field name="employee"/-->
+                    <field name="company_type"/>
+                    <field name="company_id"/>
+                    <field name="create_date"/>
+                    <field name="create_uid"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="res_partner_trafitec_crm_trafico_asociados_kanban_view" model="ir.ui.view">
+            <field name="name">res.partner.trafitec.crm.trafico.asociados.kanban</field>
             <field name="model">res.partner</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
@@ -229,224 +420,34 @@
             </field>
         </record>
 
-        <record id="new_asociado_tab" model="ir.ui.view">
-            <field name="name">res.partner.form.add.text.field</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//sheet/notebook/page[1]" position="attributes">
-                    <attribute name="states"></attribute>
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
-                    <page name="asociado" string="Información asociado"
-                          attrs="{'invisible': [('asociado', '!=', True)]}">
-                        <group>
-                            <group>
-                                <field name="tipoasociado"/>
-                                <field name="notificar_contrarecido"/>
-                                <field name="notificar_pago"/>
-                                <field name="porcentaje_comision"/>
-                                <field name="usar_porcentaje"/>
-
-                            </group>
-                            <group>
-                                <field name="creditocomision"/>
-                                <field name="calificacion"/>
-                                <field name="info_completa"/>
-                                <field name="doc_completa"/>
-                                <field name="validado"/>
-                            </group>
-                            <group string="Combustible" groups="sli_trafitec.sli_trafitec_descuentos_admin">
-                                <field name="combustible_convenio_st"/>
-                            </group>
-                        </group>
-                    </page>
-                    <page name="rutas" string="Rutas a cubrir" attrs="{'invisible': [('asociado', '!=', True)]}">
-                        <field name="trafitec_rutas_id" widget="one2many_list">
-                            <tree editable="bottom">
-                                <field name="estado"/>
-                                <field name="vigente"/>
-                            </tree>
-                        </field>
-                    </page>
-                    <page name="movil" string="Unidades de asociado" invisible="1">
-                        <field name="trafitec_unidades_id" widget="one2many_list">
-                            <tree editable="bottom">
-                                <field name="movil"/>
-                                <field name="cantidad"/>
-                            </tree>
-                        </field>
-                    </page>
-                    <page name="operador" string="Información operador"
-                          attrs="{'invisible': [('operador', '!=', True)]}">
-                        <group>
-                            <group>
-                                <field name="asociado_operador"/>
-                                <field name="imei"/>
-                                <field name="celular_enlazado"/>
-                                <field name="name_license_driver" invisible="1"/>
-                                <field name="license_driver" filename="name_license_driver"/>
-                                <field name="license_approved"/>
-                                <field name="healthcare_number"/>
-                                <field name="name_healthcare_number" invisible="1"/>
-                                <field name="adj_healthcare_number" filename="name_healthcare_move_name"/>
-                                <field name="nss_approved" />
-                            </group>
-                            <group>
-                                <field name="activo_slitrack"/>
-                                <field name="noviajes"/>
-                            </group>
-                        </group>
-                    </page>
-                </xpath>
-            </field>
-        </record>
-
-        <!-- Clientes -->
-        <record id="new_clientes_tab" model="ir.ui.view">
-            <field name="name">clientes.add.tab.field</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="after">
-                    <page name="cliente" string="Información cliente">
-                        <group>
-                            <group>
-                                <field name="excedente_merma"/>
-                                <field name="facturar_con"/>
-                                <field name="clasificacion"/>
-                                <field name="facturar_ordenes"/>
-                            </group>
-                            <group>
-                                <field name="merma_permitida_por" digits="[5,5]"/>
-                                <field name="merma_permitida_kg"/>
-                                <field name="permitir_diferente"/>
-                                <field name="permitir_ta_mayor_tc"/>
-                                <field name="equipoventa_id"/>
-
-                                <field name="moroso_prorroga_st"/>
-                                <field name="moroso_prorroga_fecha"
-                                       attrs="{'invisible':[('moroso_prorroga_st','=',False)]}"/>
-
-                            </group>
-
-                        </group>
-                    </page>
-                    <page string="Bloqueo" name="trafitec_bloqqueo" groups="sli_trafitec.sli_trafitec_bloqueo_ver" attrs="{'invisible': [('operador', '==', True)]}">
-                        <group string="Cliente" groups="sli_trafitec.sli_trafitec_bloqueo_clientes">
-                            <field name="bloqueado_cliente_bloqueado"></field>
-                            <field name="bloqueado_cliente_clasificacion_id"
-                                   domain="[('aplica_clasificacion_bloqueo_cliente','=',True)]"
-                                   options="{'no_open': True, 'no_create': True}"></field>
-                        </group>
-                    </page>
-                </xpath>
-                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='user_id']"
-                       position="after">
-                    <field name="prorroga"/>
-                    <field name="fecha_prorroga" attrs="{'invisible': [('prorroga', '!=', True)]}"/>
-                </xpath>
-                <!--xpath expr="//div[@name='button_box']" position="after"-->
-                <xpath expr="//sheet" position="before">
-                    <div attrs="{'invisible':[('bloqueado_cliente_bloqueado','=',False)]}"
-                         style="border-style:solid;border-width:5px;border-color:red;background-color:red;color:white;">
-                        <label string="CLIENTE BLOQUEADO" for="bloqueado_cliente_bloqueado"></label>
-                    </div>
-                </xpath>
-
-
-            </field>
-        </record>
-
-        <record id="new_proveedores_tab" model="ir.ui.view">
-            <field name="name">proveedores.add.text.field</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//sheet/notebook/page[2]/group/group[1]/field[@name='user_id']"
-                       position="after">
-                    <field name="customer_rank"/>
-                    <field name="plazas_ban_id"/>
-                    <field name="no_sucursal"/>
-                </xpath>
-            </field>
-        </record>
-
-        <!-- Documentos clientes -->
-        <record id="new_doc_clientes_tab" model="ir.ui.view">
-            <field name="name">doc_clientes.add.tab.field</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//sheet/notebook/page[@name='sales_purchases']" position="after">
-                    <page name="documentos_id" string="Documentos requeridos"
-                          attrs="{'invisible': [('customer_rank', '!=', True)]}">
-                        <field name="documentos_id" widget="one2many_list">
-                            <tree editable="bottom">
-                                <field name="name"
-                                       options="{'no_create_edit': True,'no_open': True,'no_create':True,'no_quick_create ':True}"/>
-                                <field name="tipo_tipo" readonly="1"/>
-                                <field name="tipo_evidencia" readonly="1"/>
-                                <field name="tipo_dmc" readonly="1"/>
-                            </tree>
-                        </field>
-                    </page>
-                </xpath>
-            </field>
-        </record>
-
-        <record id="action_partner_asociados_form" model="ir.actions.act_window">
+        <record id="res_partner_asociados_action_window" model="ir.actions.act_window">
             <field name="name">Asociados</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="domain">[('asociado','=',True)]</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">form,tree,kanban</field>
             <field name="filter" eval="True"/>
         </record>
-        <record id="action_partner_operadores_form" model="ir.actions.act_window">
+
+        <record id="res_partner_operadores_action_window" model="ir.actions.act_window">
             <field name="name">Operadores</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="domain">[('operador','=',True)]</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">form,tree,kanban</field>
             <field name="filter" eval="True"/>
         </record>
-        <record id="action_partner_clientes_form" model="ir.actions.act_window">
+
+        <record id="res_partner_clientes_action_window" model="ir.actions.act_window">
             <field name="name">Clientes</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="domain">[('customer_rank','=',True)]</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">form,tree,kanban</field>
             <field name="filter" eval="True"/>
         </record>
 
-        <record id="sli_view_personas_tree" model="ir.ui.view">
-            <field name="name">sli.view.personas.tree</field>
-            <field name="model">res.partner</field>
-            <field name="arch" type="xml">
-                <tree string="Personas" create="false" edit="false" delete="false" default_order="id desc">
-                    <field name="id"/>
-                    <field name="name"/>
-                    <field name="display_name"/>
-                    <field name="vat"/>
-                    <field name="customer_rank"/>
-                    <field name="asociado"/>
-                    <field name="operador"/>
-                    <field name="supplier_rank"/>
-                    <field name="aseguradora"/>
-                    <!--field name="employee"/-->
-                    <field name="company_type"/>
-                    <field name="company_id"/>
-
-                    <field name="create_date"/>
-                    <field name="create_uid"/>
-                    <field name="active"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="sli_personas_action_generic" model="ir.actions.act_window">
+        <record id="res_partner_personas_action_window" model="ir.actions.act_window">
             <field name="name">Personas</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
@@ -456,15 +457,13 @@
             <field name="limit">10</field>
         </record>
 
-         <record model="ir.actions.act_window" id="act_misasociados">
-        <field name="name">Mis asociados</field>
-        <field name="res_model">res.partner</field>
-        <field name="auto_refresh" eval="1" />
-        <field name="view_mode">kanban,form</field>
-        <field name="domain">['&amp;',('create_uid','=',uid),('asociado','=',True),('active','=',True)]</field>
+         <record id="res_partner_misasociados_action_window" model="ir.actions.act_window">
+            <field name="name">Mis Asociados</field>
+            <field name="res_model">res.partner</field>
+            <field name="auto_refresh" eval="1" />
+            <field name="view_mode">form,kanban</field>
+            <field name="domain">['&amp;',('create_uid','=',uid),('asociado','=',True),('active','=',True)]</field>
+        </record>
 
-    </record>
-
-    
     </data>
 </odoo>

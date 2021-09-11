@@ -1,4 +1,5 @@
 <odoo>
+    
     <!-- Case Teams Salesteams dashboard view -->
    <record id="crm_team_salesteams_view_kanban" model="ir.ui.view" >
         <field name="name">crm.team.dashboard</field>

@@ -3,8 +3,8 @@
 <odoo>
     <data>
 
-        <record id="sli_proyectos_tareas" model="ir.ui.view">
-            <field name="name">sli.proyectos.tareas</field>
+        <record id="proyect_task_form_view" model="ir.ui.view">
+            <field name="name">proyect.task.form</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
@@ -14,8 +14,8 @@
             </field>
         </record>
 
-        <record id="sli_proyectos_tareas_opciones" model="ir.ui.view">
-            <field name="name">sli.proyectos.tareas.opciones</field>
+        <record id="proyect_task_options_form_view" model="ir.ui.view">
+            <field name="name">proyect.task.options.form</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
